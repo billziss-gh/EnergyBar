@@ -16,13 +16,14 @@
 
 @interface AppController () <NSApplicationDelegate, NSTouchBarProvider, NSTouchBarDelegate>
 @property IBOutlet NSWindow *window;
-@property IBOutlet NSTouchBar *touchBar;
+@property NSTouchBar *touchBar;
 @end
 
 @implementation AppController
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
+    self.touchBar = [[NSTouchBar alloc] init];
     self.touchBar.customizationIdentifier = @"billziss.TouchBarDock";
     self.touchBar.defaultItemIdentifiers = [NSArray arrayWithObjects:
         @"EscKey",

@@ -13,11 +13,26 @@
 
 #import "DockWidget.h"
 
+@interface DockWidget () <NSScrubberDataSource, NSScrubberFlowLayoutDelegate>
+@end
+
 @implementation DockWidget
 - (void)commonInit
 {
     self.customizationLabel = @"Dock";
-    self.view = [NSTextField labelWithString:@"DOCK"];
+
+    NSScrubberFlowLayout *layout = [[[NSScrubberFlowLayout alloc] init] autorelease];
+    layout.itemSize = NSMakeSize(50, 30);
+
+    NSScrubber *scrubber = [[[NSScrubber alloc] initWithFrame:NSMakeRect(0, 0, 200, 30)] autorelease];
+    scrubber.dataSource = self;
+    scrubber.delegate = self;
+    scrubber.mode = NSScrubberModeFixed;
+    scrubber.continuous = NO;
+    scrubber.itemAlignment = NSScrubberAlignmentNone;
+    scrubber.scrubberLayout = layout;
+
+    self.view = scrubber;
 }
 
 - (void)dealloc
@@ -31,5 +46,19 @@
 
 - (void)viewWillDisappear
 {
+}
+
+- (NSInteger)numberOfItemsForScrubber:(NSScrubber *)scrubber
+{
+    return 10;
+}
+
+- (NSScrubberItemView *)scrubber:(NSScrubber *)scrubber viewForItemAtIndex:(NSInteger)index
+{
+    NSSize itemSize = ((NSScrubberFlowLayout *)scrubber.scrubberLayout).itemSize;
+    NSScrubberImageItemView *view = [[[NSScrubberImageItemView alloc]
+        initWithFrame:NSMakeRect(0, 0, itemSize.width, itemSize.height)] autorelease];
+    view.image = [NSImage imageNamed:@"BrightnessDown"];
+    return view;
 }
 @end
