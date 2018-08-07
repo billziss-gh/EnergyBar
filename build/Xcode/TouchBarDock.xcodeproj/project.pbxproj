@@ -1,0 +1,387 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3C102D482119641500FFB2CF /* CustomWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C102D462119641500FFB2CF /* CustomWidget.m */; };
+		3C102D4B21197ED700FFB2CF /* ControlWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C102D4A21197ED700FFB2CF /* ControlWidget.m */; };
+		3C102D4E2119872800FFB2CF /* KeyWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C102D4D2119872800FFB2CF /* KeyWidget.m */; };
+		3C163BBF2118F1A800F015EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C163BBC2118F1A800F015EC /* Assets.xcassets */; };
+		3C163BC62118F1C500F015EC /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C163BC32118F1C500F015EC /* AppController.m */; };
+		3C163BC72118F1C500F015EC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C163BC52118F1C500F015EC /* main.m */; };
+		3C163BCA2118F33C00F015EC /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C163BC82118F33C00F015EC /* MainMenu.xib */; };
+		3C5D0FCE2119210000769A39 /* ClockWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C5D0FCD2119210000769A39 /* ClockWidget.m */; };
+		3C69096B2119113D00041A70 /* DFRFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C69096A2119113D00041A70 /* DFRFoundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		3C102D462119641500FFB2CF /* CustomWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomWidget.m; sourceTree = "<group>"; };
+		3C102D472119641500FFB2CF /* CustomWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomWidget.h; sourceTree = "<group>"; };
+		3C102D4921197ED700FFB2CF /* ControlWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControlWidget.h; sourceTree = "<group>"; };
+		3C102D4A21197ED700FFB2CF /* ControlWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ControlWidget.m; sourceTree = "<group>"; };
+		3C102D4C2119872800FFB2CF /* KeyWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyWidget.h; sourceTree = "<group>"; };
+		3C102D4D2119872800FFB2CF /* KeyWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyWidget.m; sourceTree = "<group>"; };
+		3C163B952118EF2900F015EC /* TouchBarDock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TouchBarDock.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3C163BBC2118F1A800F015EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3C163BBD2118F1A800F015EC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3C163BC32118F1C500F015EC /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
+		3C163BC42118F1C500F015EC /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
+		3C163BC52118F1C500F015EC /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		3C163BC92118F33C00F015EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		3C5D0FCC2119210000769A39 /* ClockWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClockWidget.h; sourceTree = "<group>"; };
+		3C5D0FCD2119210000769A39 /* ClockWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClockWidget.m; sourceTree = "<group>"; };
+		3C69096A2119113D00041A70 /* DFRFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DFRFoundation.framework; path = ../../../../../../System/Library/PrivateFrameworks/DFRFoundation.framework; sourceTree = "<group>"; };
+		3CDE6DD2211909B70063A5EF /* TouchBarPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchBarPrivate.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3C163B922118EF2900F015EC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3C69096B2119113D00041A70 /* DFRFoundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3C163B8C2118EF2900F015EC = {
+			isa = PBXGroup;
+			children = (
+				3C163BB82118F15D00F015EC /* Resource */,
+				3C163BB92118F17700F015EC /* Source */,
+				3C163B962118EF2900F015EC /* Products */,
+				3C6909692119113C00041A70 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		3C163B962118EF2900F015EC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3C163B952118EF2900F015EC /* TouchBarDock.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3C163BB82118F15D00F015EC /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				3C163BBC2118F1A800F015EC /* Assets.xcassets */,
+				3C163BC82118F33C00F015EC /* MainMenu.xib */,
+				3C163BBD2118F1A800F015EC /* Info.plist */,
+			);
+			name = Resource;
+			path = ../../rsc;
+			sourceTree = SOURCE_ROOT;
+		};
+		3C163BB92118F17700F015EC /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				3C5D0FCB211920E500769A39 /* Widgets */,
+				3C163BC42118F1C500F015EC /* AppController.h */,
+				3C163BC32118F1C500F015EC /* AppController.m */,
+				3CDE6DD2211909B70063A5EF /* TouchBarPrivate.h */,
+				3C163BC52118F1C500F015EC /* main.m */,
+			);
+			name = Source;
+			path = ../../src;
+			sourceTree = SOURCE_ROOT;
+		};
+		3C5D0FCB211920E500769A39 /* Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				3C5D0FCC2119210000769A39 /* ClockWidget.h */,
+				3C5D0FCD2119210000769A39 /* ClockWidget.m */,
+				3C102D4921197ED700FFB2CF /* ControlWidget.h */,
+				3C102D4A21197ED700FFB2CF /* ControlWidget.m */,
+				3C102D472119641500FFB2CF /* CustomWidget.h */,
+				3C102D462119641500FFB2CF /* CustomWidget.m */,
+				3C102D4C2119872800FFB2CF /* KeyWidget.h */,
+				3C102D4D2119872800FFB2CF /* KeyWidget.m */,
+			);
+			path = Widgets;
+			sourceTree = "<group>";
+		};
+		3C6909692119113C00041A70 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3C69096A2119113D00041A70 /* DFRFoundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3C163B942118EF2900F015EC /* TouchBarDock */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3C163BA62118EF2A00F015EC /* Build configuration list for PBXNativeTarget "TouchBarDock" */;
+			buildPhases = (
+				3C163B912118EF2900F015EC /* Sources */,
+				3C163B922118EF2900F015EC /* Frameworks */,
+				3C163B932118EF2900F015EC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TouchBarDock;
+			productName = TouchBarDock;
+			productReference = 3C163B952118EF2900F015EC /* TouchBarDock.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3C163B8D2118EF2900F015EC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = "Bill Zissimopoulos";
+				TargetAttributes = {
+					3C163B942118EF2900F015EC = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+				};
+			};
+			buildConfigurationList = 3C163B902118EF2900F015EC /* Build configuration list for PBXProject "TouchBarDock" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 3C163B8C2118EF2900F015EC;
+			productRefGroup = 3C163B962118EF2900F015EC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3C163B942118EF2900F015EC /* TouchBarDock */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3C163B932118EF2900F015EC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3C163BBF2118F1A800F015EC /* Assets.xcassets in Resources */,
+				3C163BCA2118F33C00F015EC /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3C163B912118EF2900F015EC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3C102D482119641500FFB2CF /* CustomWidget.m in Sources */,
+				3C5D0FCE2119210000769A39 /* ClockWidget.m in Sources */,
+				3C163BC72118F1C500F015EC /* main.m in Sources */,
+				3C102D4E2119872800FFB2CF /* KeyWidget.m in Sources */,
+				3C102D4B21197ED700FFB2CF /* ControlWidget.m in Sources */,
+				3C163BC62118F1C500F015EC /* AppController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		3C163BC82118F33C00F015EC /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3C163BC92118F33C00F015EC /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3C163BA42118EF2A00F015EC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		3C163BA52118EF2A00F015EC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		3C163BA72118EF2A00F015EC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/../../rsc/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = billziss.TouchBarDock;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
+				);
+			};
+			name = Debug;
+		};
+		3C163BA82118EF2A00F015EC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/../../rsc/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = billziss.TouchBarDock;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
+				);
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3C163B902118EF2900F015EC /* Build configuration list for PBXProject "TouchBarDock" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3C163BA42118EF2A00F015EC /* Debug */,
+				3C163BA52118EF2A00F015EC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3C163BA62118EF2A00F015EC /* Build configuration list for PBXNativeTarget "TouchBarDock" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3C163BA72118EF2A00F015EC /* Debug */,
+				3C163BA82118EF2A00F015EC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3C163B8D2118EF2900F015EC /* Project object */;
+}
