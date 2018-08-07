@@ -16,6 +16,7 @@
 		3C163BCA2118F33C00F015EC /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C163BC82118F33C00F015EC /* MainMenu.xib */; };
 		3C5D0FCE2119210000769A39 /* ClockWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C5D0FCD2119210000769A39 /* ClockWidget.m */; };
 		3C69096B2119113D00041A70 /* DFRFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C69096A2119113D00041A70 /* DFRFoundation.framework */; };
+		3CDF1EB4211A3B9500739051 /* DockWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CDF1EB2211A3B9400739051 /* DockWidget.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,8 @@
 		3C5D0FCD2119210000769A39 /* ClockWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClockWidget.m; sourceTree = "<group>"; };
 		3C69096A2119113D00041A70 /* DFRFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DFRFoundation.framework; path = ../../../../../../System/Library/PrivateFrameworks/DFRFoundation.framework; sourceTree = "<group>"; };
 		3CDE6DD2211909B70063A5EF /* TouchBarPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchBarPrivate.h; sourceTree = "<group>"; };
+		3CDF1EB2211A3B9400739051 /* DockWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DockWidget.m; sourceTree = "<group>"; };
+		3CDF1EB3211A3B9500739051 /* DockWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DockWidget.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +104,8 @@
 				3C102D4A21197ED700FFB2CF /* ControlWidget.m */,
 				3C102D472119641500FFB2CF /* CustomWidget.h */,
 				3C102D462119641500FFB2CF /* CustomWidget.m */,
+				3CDF1EB3211A3B9500739051 /* DockWidget.h */,
+				3CDF1EB2211A3B9400739051 /* DockWidget.m */,
 				3C102D4C2119872800FFB2CF /* EscKeyWidget.h */,
 				3C102D4D2119872800FFB2CF /* EscKeyWidget.m */,
 			);
@@ -184,6 +189,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3CDF1EB4211A3B9500739051 /* DockWidget.m in Sources */,
 				3C102D482119641500FFB2CF /* CustomWidget.m in Sources */,
 				3C5D0FCE2119210000769A39 /* ClockWidget.m in Sources */,
 				3C163BC72118F1C500F015EC /* main.m in Sources */,
