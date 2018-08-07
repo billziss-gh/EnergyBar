@@ -1,5 +1,5 @@
 /**
- * @file AppDelegate.h
+ * @file AppController.h
  *
  * @copyright 2018 Bill Zissimopoulos
  */

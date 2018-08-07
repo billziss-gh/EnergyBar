@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		3C102D482119641500FFB2CF /* CustomWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C102D462119641500FFB2CF /* CustomWidget.m */; };
 		3C102D4B21197ED700FFB2CF /* ControlWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C102D4A21197ED700FFB2CF /* ControlWidget.m */; };
-		3C102D4E2119872800FFB2CF /* KeyWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C102D4D2119872800FFB2CF /* KeyWidget.m */; };
+		3C102D4E2119872800FFB2CF /* EscKeyWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C102D4D2119872800FFB2CF /* EscKeyWidget.m */; };
 		3C163BBF2118F1A800F015EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C163BBC2118F1A800F015EC /* Assets.xcassets */; };
 		3C163BC62118F1C500F015EC /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C163BC32118F1C500F015EC /* AppController.m */; };
 		3C163BC72118F1C500F015EC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C163BC52118F1C500F015EC /* main.m */; };
@@ -23,8 +23,8 @@
 		3C102D472119641500FFB2CF /* CustomWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomWidget.h; sourceTree = "<group>"; };
 		3C102D4921197ED700FFB2CF /* ControlWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControlWidget.h; sourceTree = "<group>"; };
 		3C102D4A21197ED700FFB2CF /* ControlWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ControlWidget.m; sourceTree = "<group>"; };
-		3C102D4C2119872800FFB2CF /* KeyWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyWidget.h; sourceTree = "<group>"; };
-		3C102D4D2119872800FFB2CF /* KeyWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyWidget.m; sourceTree = "<group>"; };
+		3C102D4C2119872800FFB2CF /* EscKeyWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EscKeyWidget.h; sourceTree = "<group>"; };
+		3C102D4D2119872800FFB2CF /* EscKeyWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EscKeyWidget.m; sourceTree = "<group>"; };
 		3C163B952118EF2900F015EC /* TouchBarDock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TouchBarDock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C163BBC2118F1A800F015EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3C163BBD2118F1A800F015EC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -101,8 +101,8 @@
 				3C102D4A21197ED700FFB2CF /* ControlWidget.m */,
 				3C102D472119641500FFB2CF /* CustomWidget.h */,
 				3C102D462119641500FFB2CF /* CustomWidget.m */,
-				3C102D4C2119872800FFB2CF /* KeyWidget.h */,
-				3C102D4D2119872800FFB2CF /* KeyWidget.m */,
+				3C102D4C2119872800FFB2CF /* EscKeyWidget.h */,
+				3C102D4D2119872800FFB2CF /* EscKeyWidget.m */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -187,7 +187,7 @@
 				3C102D482119641500FFB2CF /* CustomWidget.m in Sources */,
 				3C5D0FCE2119210000769A39 /* ClockWidget.m in Sources */,
 				3C163BC72118F1C500F015EC /* main.m in Sources */,
-				3C102D4E2119872800FFB2CF /* KeyWidget.m in Sources */,
+				3C102D4E2119872800FFB2CF /* EscKeyWidget.m in Sources */,
 				3C102D4B21197ED700FFB2CF /* ControlWidget.m in Sources */,
 				3C163BC62118F1C500F015EC /* AppController.m in Sources */,
 			);

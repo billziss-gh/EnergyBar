@@ -1,5 +1,5 @@
 /**
- * @file KeyWidget.m
+ * @file EscKeyWidget.m
  *
  * @copyright 2018 Bill Zissimopoulos
  */
@@ -11,12 +11,12 @@
  * Foundation.
  */
 
-#import "KeyWidget.h"
+#import "EscKeyWidget.h"
 
-@interface KeyWidget_Button : NSButton
+@interface EscKeyWidget_Button : NSButton
 @end
 
-@implementation KeyWidget_Button
+@implementation EscKeyWidget_Button
 - (NSSize)intrinsicContentSize
 {
     NSSize size = [super intrinsicContentSize];
@@ -25,11 +25,11 @@
 }
 @end
 
-@implementation KeyWidget
+@implementation EscKeyWidget
 - (void)commonInit
 {
-    self.customizationLabel = @"Control";
-    self.view = [KeyWidget_Button buttonWithTitle:@"esc" target:self action:@selector(click:)];
+    self.customizationLabel = @"Esc Key";
+    self.view = [EscKeyWidget_Button buttonWithTitle:@"esc" target:self action:@selector(click:)];
 }
 
 - (void)dealloc

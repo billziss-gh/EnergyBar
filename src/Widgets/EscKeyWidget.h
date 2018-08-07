@@ -1,5 +1,5 @@
 /**
- * @file KeyWidget.h
+ * @file EscKeyWidget.h
  *
  * @copyright 2018 Bill Zissimopoulos
  */
@@ -14,5 +14,5 @@
 #import <Cocoa/Cocoa.h>
 #import "CustomWidget.h"
 
-@interface KeyWidget : CustomWidget
+@interface EscKeyWidget : CustomWidget
 @end

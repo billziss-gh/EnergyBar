@@ -1,5 +1,5 @@
 /**
- * @file AppDelegate.m
+ * @file AppController.m
  *
  * @copyright 2018 Bill Zissimopoulos
  */
@@ -13,9 +13,6 @@
 
 #import "AppController.h"
 #import "TouchBarPrivate.h"
-#import "Widgets/ClockWidget.h"
-#import "Widgets/ControlWidget.h"
-#import "Widgets/KeyWidget.h"
 
 @interface AppController () <NSApplicationDelegate, NSTouchBarProvider, NSTouchBarDelegate>
 @property IBOutlet NSWindow *window;
@@ -28,13 +25,13 @@
 {
     self.touchBar.customizationIdentifier = @"billziss.TouchBarDock";
     self.touchBar.defaultItemIdentifiers = [NSArray arrayWithObjects:
-        @"ESC",
+        @"EscKey",
         NSTouchBarItemIdentifierFlexibleSpace,
         @"Control",
         @"Clock",
         nil];
     self.touchBar.customizationAllowedItemIdentifiers = [NSArray arrayWithObjects:
-        @"ESC",
+        @"EscKey",
         NSTouchBarItemIdentifierFlexibleSpace,
         @"Control",
         @"Clock",
@@ -74,16 +71,15 @@
 - (NSTouchBarItem *)touchBar:(NSTouchBar *)touchBar
     makeItemForIdentifier:(NSTouchBarItemIdentifier)identifier
 {
-    if ([identifier isEqualToString:@"ESC"])
-        return [[[KeyWidget alloc] initWithIdentifier:@"ESC"] autorelease];
-    else if ([identifier isEqualToString:NSTouchBarItemIdentifierFlexibleSpace])
-        return [[[NSTouchBarItem alloc] initWithIdentifier:NSTouchBarItemIdentifierFlexibleSpace] autorelease];
-    else if ([identifier isEqualToString:@"Control"])
-        return [[[ControlWidget alloc] initWithIdentifier:@"Control"] autorelease];
-    else if ([identifier isEqualToString:@"Clock"])
-        return [[[ClockWidget alloc] initWithIdentifier:@"Clock"] autorelease];
+    if ([NSTouchBarItemIdentifierFlexibleSpace isEqualToString:identifier])
+        return [[[NSTouchBarItem alloc] initWithIdentifier:NSTouchBarItemIdentifierFlexibleSpace]
+            autorelease];
     else
-        return nil;
+    {
+        Class widgetClass = NSClassFromString([identifier stringByAppendingString:@"Widget"]);
+        return [[[widgetClass alloc] initWithIdentifier:identifier]
+            autorelease];
+    }
 }
 
 - (IBAction)customizeTouchBar:(id)sender
