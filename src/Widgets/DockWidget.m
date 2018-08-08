@@ -18,6 +18,7 @@
 @property (retain) NSString *path;
 @property (retain) NSImage *icon;
 @property (assign) BOOL running;
+@property (assign) BOOL active;
 @end
 
 @implementation DockWidget_Application
@@ -130,6 +131,7 @@ static NSSize dockSeparatorSize = { 10, 30 };
         for (DockWidget_Application *app in self.defaultApps)
         {
             app.running = NO;
+            app.active = NO;
             [defaultAppsDict setObject:app forKey:app.path];
         }
 
@@ -145,6 +147,7 @@ static NSSize dockSeparatorSize = { 10, 30 };
             if (nil != (app = [defaultAppsDict objectForKey:path]))
             {
                 app.running = YES;
+                app.active = a.active;
                 continue;
             }
 
@@ -153,6 +156,7 @@ static NSSize dockSeparatorSize = { 10, 30 };
             app.path = a.bundleURL.path;
             app.icon = a.icon;
             app.running = YES;
+            app.active = a.active;
             [newRunningApps addObject:app];
         }
         self.runningApps = [newRunningApps copy];
