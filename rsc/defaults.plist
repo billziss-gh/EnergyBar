@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>defaultApps</key>
+	<array>
+		<dict>
+			<key>NSApplicationName</key>
+			<string>Finder</string>
+			<key>NSApplicationPath</key>
+			<string>/Applications/Finder.app</string>
+		</dict>
+		<dict>
+			<key>NSApplicationName</key>
+			<string>Safari</string>
+			<key>NSApplicationPath</key>
+			<string>/Applications/Safari.app</string>
+		</dict>
+		<dict>
+			<key>NSApplicationName</key>
+			<string>System Preferences</string>
+			<key>NSApplicationPath</key>
+			<string>/Applications/System Preferences.app</string>
+		</dict>
+	</array>
+</dict>
+</plist>

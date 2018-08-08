@@ -23,6 +23,12 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
+    NSDictionary *defaults = [NSDictionary
+        dictionaryWithContentsOfFile:[[NSBundle mainBundle]
+        pathForResource:@"defaults"
+        ofType:@"plist"]];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+
     self.touchBar = [[NSTouchBar alloc] init];
     self.touchBar.customizationIdentifier = @"billziss.TouchBarDock";
     self.touchBar.defaultItemIdentifiers = [NSArray arrayWithObjects:
