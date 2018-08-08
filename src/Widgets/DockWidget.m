@@ -13,7 +13,7 @@
 
 #import "DockWidget.h"
 
-@interface DockWidget_Application : NSObject
+@interface DockWidgetApplication : NSObject
 @property (retain) NSString *name;
 @property (retain) NSString *path;
 @property (retain) NSImage *icon;
@@ -21,12 +21,12 @@
 @property (assign) BOOL active;
 @end
 
-@implementation DockWidget_Application
+@implementation DockWidgetApplication
 @end
 
 @interface DockWidget () <NSScrubberDataSource, NSScrubberFlowLayoutDelegate>
 @property (retain) NSShadow *shadow;
-@property (retain) DockWidget_Application *separator;
+@property (retain) DockWidgetApplication *separator;
 @property (retain) NSArray *defaultApps;
 @property (retain) NSArray *runningApps;
 @end
@@ -44,7 +44,7 @@ static NSSize dockIconSize = { 28, 28 };
     self.shadow.shadowOffset = NSMakeSize(0, -1);
     self.shadow.shadowBlurRadius = 5;
     self.shadow.shadowColor = [NSColor systemBlueColor];
-    self.separator = [[[DockWidget_Application alloc] init] autorelease];
+    self.separator = [[[DockWidgetApplication alloc] init] autorelease];
 
     self.customizationLabel = @"Dock";
     NSScrubberFlowLayout *layout = [[[NSScrubberFlowLayout alloc] init] autorelease];
@@ -104,7 +104,7 @@ static NSSize dockIconSize = { 28, 28 };
     NSScrubberImageItemView *view = [scrubber makeItemWithIdentifier:dockItemIdentifier owner:nil];
     view.imageView.imageScaling = NSImageScaleProportionallyDown;
     view.imageView.shadow = nil;
-    DockWidget_Application *app = [self.apps objectAtIndex:index];
+    DockWidgetApplication *app = [self.apps objectAtIndex:index];
     if (nil != app.path)
     {
         view.image = app.icon;
@@ -120,7 +120,7 @@ static NSSize dockIconSize = { 28, 28 };
     layout:(NSScrubberFlowLayout *)layout
     sizeForItemAtIndex:(NSInteger)index
 {
-    DockWidget_Application *app = [self.apps objectAtIndex:index];
+    DockWidgetApplication *app = [self.apps objectAtIndex:index];
     if (nil != app.path)
         return dockItemSize;
     else
@@ -130,7 +130,7 @@ static NSSize dockIconSize = { 28, 28 };
 - (void)scrubber:(NSScrubber *)scrubber
     didSelectItemAtIndex:(NSInteger)index
 {
-    DockWidget_Application *app = [self.apps objectAtIndex:index];
+    DockWidgetApplication *app = [self.apps objectAtIndex:index];
     if (nil != app.path)
         [[NSWorkspace sharedWorkspace] launchApplication:app.path];
 }
@@ -171,7 +171,7 @@ static NSSize dockIconSize = { 28, 28 };
         NSMutableArray *newDefaultApps = [NSMutableArray array];
         for (NSDictionary *a in defaultApps)
         {
-            DockWidget_Application *app = [[[DockWidget_Application alloc] init] autorelease];
+            DockWidgetApplication *app = [[[DockWidgetApplication alloc] init] autorelease];
             app.name = [a objectForKey:@"NSApplicationName"];
             app.path = [a objectForKey:@"NSApplicationPath"];
             app.icon = [[NSWorkspace sharedWorkspace] iconForFile:app.path];
@@ -184,7 +184,7 @@ static NSSize dockIconSize = { 28, 28 };
     if (nil == self.runningApps)
     {
         NSMutableDictionary *defaultAppsDict = [NSMutableDictionary dictionary];
-        for (DockWidget_Application *app in self.defaultApps)
+        for (DockWidgetApplication *app in self.defaultApps)
         {
             app.running = NO;
             app.active = NO;
@@ -198,7 +198,7 @@ static NSSize dockIconSize = { 28, 28 };
             if (NSApplicationActivationPolicyRegular != a.activationPolicy)
                 continue;
 
-            DockWidget_Application *app;
+            DockWidgetApplication *app;
             NSString *path = a.bundleURL.path;
             if (nil != (app = [defaultAppsDict objectForKey:path]))
             {
@@ -207,7 +207,7 @@ static NSSize dockIconSize = { 28, 28 };
                 continue;
             }
 
-            app = [[[DockWidget_Application alloc] init] autorelease];
+            app = [[[DockWidgetApplication alloc] init] autorelease];
             app.name = a.localizedName;
             app.path = a.bundleURL.path;
             app.icon = a.icon;

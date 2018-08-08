@@ -13,10 +13,10 @@
 
 #import "EscKeyWidget.h"
 
-@interface EscKeyWidget_Button : NSButton
+@interface EscKeyWidgetButton : NSButton
 @end
 
-@implementation EscKeyWidget_Button
+@implementation EscKeyWidgetButton
 - (NSSize)intrinsicContentSize
 {
     NSSize size = [super intrinsicContentSize];
@@ -29,7 +29,7 @@
 - (void)commonInit
 {
     self.customizationLabel = @"Esc Key";
-    self.view = [EscKeyWidget_Button buttonWithTitle:@"esc" target:self action:@selector(click:)];
+    self.view = [EscKeyWidgetButton buttonWithTitle:@"esc" target:self action:@selector(click:)];
 }
 
 - (void)dealloc

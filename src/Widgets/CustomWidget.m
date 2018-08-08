@@ -13,11 +13,11 @@
 
 #import "CustomWidget.h"
 
-@interface CustomWidget_ViewController : NSViewController
+@interface CustomWidgetViewController : NSViewController
 @property (assign) CustomWidget *widget;
 @end
 
-@implementation CustomWidget_ViewController
+@implementation CustomWidgetViewController
 - (void)viewWillAppear
 {
     [self.widget viewWillAppear];
@@ -53,7 +53,7 @@
 
 - (void)commonInit_
 {
-    CustomWidget_ViewController *controller = [[[CustomWidget_ViewController alloc] init]
+    CustomWidgetViewController *controller = [[[CustomWidgetViewController alloc] init]
         autorelease];
     controller.widget = self;
     self.viewController = controller;
