@@ -35,12 +35,14 @@ static NSString *dockItemIdentifier = @"dockItem";
 
 static NSSize dockItemSize = { 50, 30 };
 static NSSize dockSeparatorSize = { 10, 30 };
+static NSSize dockIconSize = { 28, 28 };
 
 @implementation DockWidget
 - (void)commonInit
 {
     self.shadow = [[[NSShadow alloc] init] autorelease];
-    self.shadow.shadowBlurRadius = 4;
+    self.shadow.shadowOffset = NSMakeSize(0, -1);
+    self.shadow.shadowBlurRadius = 5;
     self.shadow.shadowColor = [NSColor systemBlueColor];
     self.separator = [[[DockWidget_Application alloc] init] autorelease];
 
@@ -121,6 +123,7 @@ static NSSize dockSeparatorSize = { 10, 30 };
             app.name = [a objectForKey:@"NSApplicationName"];
             app.path = [a objectForKey:@"NSApplicationPath"];
             app.icon = [[NSWorkspace sharedWorkspace] iconForFile:app.path];
+            app.icon = [self resizedImage:app.icon withSize:dockIconSize];
             [newDefaultApps addObject:app];
         }
         self.defaultApps = [newDefaultApps copy];
@@ -156,6 +159,7 @@ static NSSize dockSeparatorSize = { 10, 30 };
             app.name = a.localizedName;
             app.path = a.bundleURL.path;
             app.icon = a.icon;
+            app.icon = [self resizedImage:app.icon withSize:dockIconSize];
             app.running = YES;
             app.active = a.active;
             [newRunningApps addObject:app];
@@ -174,5 +178,20 @@ static NSSize dockSeparatorSize = { 10, 30 };
 #else
     return [self.defaultApps arrayByAddingObjectsFromArray:self.runningApps];
 #endif
+}
+
+- (NSImage *)resizedImage:(NSImage *)image withSize:(NSSize)newSize
+{
+    NSSize size = image.size;
+    NSImage *newImage = [[[NSImage alloc] initWithSize:newSize] autorelease];
+    [newImage lockFocus];
+    [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
+    [image
+        drawInRect:NSMakeRect(0, 0, newSize.width, newSize.height)
+        fromRect:NSMakeRect(0, 0, size.width, size.height)
+        operation:NSCompositingOperationSourceOver
+        fraction:1.0];
+    [newImage unlockFocus];
+    return newImage;
 }
 @end
