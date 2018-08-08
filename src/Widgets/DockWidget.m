@@ -24,8 +24,79 @@
 @implementation DockWidgetApplication
 @end
 
+@interface DockWidgetItemView : NSScrubberItemView
+@property (retain) NSImageView *appIconView;
+@property (retain) NSImageView *appRunningView;
+@property (retain, getter=getAppIcon, setter=setAppIcon:) NSImage *appIcon;
+@property (assign, getter=isAppRunning, setter=setAppRunning:) BOOL appRunning;
+@end
+
+@implementation DockWidgetItemView
+- (id)initWithFrame:(NSRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (nil == self)
+        return nil;
+
+    self.appIconView = [NSImageView imageViewWithImage:[NSImage imageNamed:NSImageNameApplicationIcon]];
+    self.appIconView.imageScaling = NSImageScaleProportionallyDown;
+
+    self.appRunningView = [NSImageView imageViewWithImage:[NSImage imageNamed:@"DockDot"]];
+    self.appRunningView.imageScaling = NSImageScaleProportionallyDown;
+    self.appRunningView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+    self.appRunningView.hidden = YES;
+
+    [self addSubview:self.appIconView];
+    [self addSubview:self.appRunningView];
+
+    return self;
+}
+
+- (void)dealloc
+{
+    self.appIconView = nil;
+    self.appRunningView = nil;
+
+    [super dealloc];
+}
+
+- (NSImage *)getAppIcon
+{
+    return self.appIconView.image;
+}
+
+- (void)setAppIcon:(NSImage *)value
+{
+    if (nil == value)
+        value = [NSImage imageNamed:NSImageNameApplicationIcon];
+    self.appIconView.image = value;
+}
+
+- (BOOL)isAppRunning
+{
+    return !self.appRunningView.hidden;
+}
+
+- (void)setAppRunning:(BOOL)value
+{
+    self.appRunningView.hidden = !value;
+}
+
+- (void)resizeSubviewsWithOldSize:(NSSize)oldSize
+{
+    NSRect iconRect = self.bounds;
+    if (iconRect.size.height >= 4)
+    {
+        iconRect.origin.y += 4;
+        iconRect.size.height -= 4;
+    }
+    self.appIconView.frame = iconRect;
+
+    [super resizeSubviewsWithOldSize:oldSize];
+}
+@end
+
 @interface DockWidget () <NSScrubberDataSource, NSScrubberFlowLayoutDelegate>
-@property (retain) NSShadow *shadow;
 @property (retain) DockWidgetApplication *separator;
 @property (retain) NSArray *defaultApps;
 @property (retain) NSArray *runningApps;
@@ -35,21 +106,16 @@ static NSString *dockItemIdentifier = @"dockItem";
 
 static NSSize dockItemSize = { 50, 30 };
 static NSSize dockSeparatorSize = { 10, 30 };
-static NSSize dockIconSize = { 28, 28 };
 
 @implementation DockWidget
 - (void)commonInit
 {
-    self.shadow = [[[NSShadow alloc] init] autorelease];
-    self.shadow.shadowOffset = NSMakeSize(0, -1);
-    self.shadow.shadowBlurRadius = 5;
-    self.shadow.shadowColor = [NSColor systemBlueColor];
     self.separator = [[[DockWidgetApplication alloc] init] autorelease];
 
     self.customizationLabel = @"Dock";
     NSScrubberFlowLayout *layout = [[[NSScrubberFlowLayout alloc] init] autorelease];
     NSScrubber *scrubber = [[[NSScrubber alloc] initWithFrame:NSMakeRect(0, 0, 200, 30)] autorelease];
-    [scrubber registerClass:[NSScrubberImageItemView class] forItemIdentifier:dockItemIdentifier];
+    [scrubber registerClass:[DockWidgetItemView class] forItemIdentifier:dockItemIdentifier];
     scrubber.dataSource = self;
     scrubber.delegate = self;
     scrubber.mode = NSScrubberModeFixed;
@@ -87,7 +153,6 @@ static NSSize dockIconSize = { 28, 28 };
     [[[NSWorkspace sharedWorkspace] notificationCenter]
         removeObserver:self];
 
-    self.shadow = nil;
     self.separator = nil;
     self.defaultApps = nil;
     self.runningApps = nil;
@@ -101,18 +166,18 @@ static NSSize dockIconSize = { 28, 28 };
 
 - (NSScrubberItemView *)scrubber:(NSScrubber *)scrubber viewForItemAtIndex:(NSInteger)index
 {
-    NSScrubberImageItemView *view = [scrubber makeItemWithIdentifier:dockItemIdentifier owner:nil];
-    view.imageView.imageScaling = NSImageScaleProportionallyDown;
-    view.imageView.shadow = nil;
+    DockWidgetItemView *view = [scrubber makeItemWithIdentifier:dockItemIdentifier owner:nil];
     DockWidgetApplication *app = [self.apps objectAtIndex:index];
     if (nil != app.path)
     {
-        view.image = app.icon;
-        if (app.running)
-            view.imageView.shadow = self.shadow;
+        view.appIcon = app.icon;
+        view.appRunning = app.running;
     }
     else
-        view.image = [NSImage imageNamed:NSImageNameTouchBarPlayheadTemplate];
+    {
+        view.appIcon = [NSImage imageNamed:NSImageNameTouchBarPlayheadTemplate];
+        view.appRunning = NO;
+    }
     return view;
 }
 
@@ -175,7 +240,6 @@ static NSSize dockIconSize = { 28, 28 };
             app.name = [a objectForKey:@"NSApplicationName"];
             app.path = [a objectForKey:@"NSApplicationPath"];
             app.icon = [[NSWorkspace sharedWorkspace] iconForFile:app.path];
-            app.icon = [self resizedImage:app.icon withSize:dockIconSize];
             [newDefaultApps addObject:app];
         }
         self.defaultApps = [newDefaultApps copy];
@@ -211,7 +275,6 @@ static NSSize dockIconSize = { 28, 28 };
             app.name = a.localizedName;
             app.path = a.bundleURL.path;
             app.icon = a.icon;
-            app.icon = [self resizedImage:app.icon withSize:dockIconSize];
             app.running = YES;
             app.active = a.active;
             [newRunningApps addObject:app];
@@ -230,20 +293,5 @@ static NSSize dockIconSize = { 28, 28 };
 #else
     return [self.defaultApps arrayByAddingObjectsFromArray:self.runningApps];
 #endif
-}
-
-- (NSImage *)resizedImage:(NSImage *)image withSize:(NSSize)newSize
-{
-    NSSize size = image.size;
-    NSImage *newImage = [[[NSImage alloc] initWithSize:newSize] autorelease];
-    [newImage lockFocus];
-    [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
-    [image
-        drawInRect:NSMakeRect(0, 0, newSize.width, newSize.height)
-        fromRect:NSMakeRect(0, 0, size.width, size.height)
-        operation:NSCompositingOperationSourceOver
-        fraction:1.0];
-    [newImage unlockFocus];
-    return newImage;
 }
 @end

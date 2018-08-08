@@ -44,7 +44,7 @@
         @"Clock",
         nil];
 
-    //DFRSystemModalShowsCloseBoxWhenFrontMost(FALSE);
+    //DFRSystemModalShowsCloseBoxWhenFrontMost(NO);
 
     if ([NSTouchBar respondsToSelector:
         @selector(presentSystemModalTouchBar:placement:systemTrayItemIdentifier:)])
