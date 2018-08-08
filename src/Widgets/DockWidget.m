@@ -59,6 +59,7 @@ static NSSize dockSeparatorSize = { 10, 30 };
 
 - (void)dealloc
 {
+    self.shadow = nil;
     self.separator = nil;
     self.defaultApps = nil;
     self.runningApps = nil;
@@ -162,6 +163,7 @@ static NSSize dockSeparatorSize = { 10, 30 };
         self.runningApps = [newRunningApps copy];
     }
 
+#if 0
     if (0 < self.defaultApps.count && 0 < self.runningApps.count)
         return [[self.defaultApps arrayByAddingObject:self.separator]
             arrayByAddingObjectsFromArray:self.runningApps];
@@ -169,5 +171,8 @@ static NSSize dockSeparatorSize = { 10, 30 };
         return self.defaultApps;
     else
         return self.runningApps;
+#else
+    return [self.defaultApps arrayByAddingObjectsFromArray:self.runningApps];
+#endif
 }
 @end
