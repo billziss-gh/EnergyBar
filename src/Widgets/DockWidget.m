@@ -70,7 +70,11 @@ static NSSize dockSeparatorSize = { 10, 30 };
 {
     NSScrubberImageItemView *view = [scrubber makeItemWithIdentifier:dockItemIdentifier owner:nil];
     view.imageView.imageScaling = NSImageScaleProportionallyDown;
-    view.image = [[self.apps objectAtIndex:index] icon];
+    DockWidget_Application *app = [self.apps objectAtIndex:index];
+    if (nil != app.path)
+        view.image = app.icon;
+    else
+        view.image = [NSImage imageNamed:NSImageNameTouchBarPlayheadTemplate];
     return view;
 }
 
