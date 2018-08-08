@@ -44,6 +44,17 @@
         @"Clock",
         nil];
 
+    [self performSelector:@selector(presentTouchBar) withObject:nil afterDelay:0];
+}
+
+
+- (void)applicationWillTerminate:(NSNotification *)notification
+{
+    [self.touchBarController dismiss];
+}
+
+- (void)presentTouchBar
+{
     if (![self.touchBarController present])
     {
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
@@ -53,11 +64,5 @@
         [alert runModal];
         [NSApp terminate:nil];
     }
-}
-
-
-- (void)applicationWillTerminate:(NSNotification *)notification
-{
-    [self.touchBarController dismiss];
 }
 @end
