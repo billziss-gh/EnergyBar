@@ -22,6 +22,13 @@
 @end
 
 @implementation DockWidgetApplication
+- (void)dealloc
+{
+    self.name = nil;
+    self.path = nil;
+    self.icon = nil;
+    [super dealloc];
+}
 @end
 
 @interface DockWidgetItemView : NSScrubberItemView
@@ -242,7 +249,7 @@ static NSSize dockSeparatorSize = { 10, 30 };
             app.icon = [[NSWorkspace sharedWorkspace] iconForFile:app.path];
             [newDefaultApps addObject:app];
         }
-        self.defaultApps = [newDefaultApps copy];
+        self.defaultApps = [[newDefaultApps copy] autorelease];
     }
 
     if (nil == self.runningApps)
@@ -279,7 +286,7 @@ static NSSize dockSeparatorSize = { 10, 30 };
             app.active = a.active;
             [newRunningApps addObject:app];
         }
-        self.runningApps = [newRunningApps copy];
+        self.runningApps = [[newRunningApps copy] autorelease];
     }
 
 #if 0
