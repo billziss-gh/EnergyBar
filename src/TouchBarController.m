@@ -46,19 +46,19 @@
 - (BOOL)presentWithPlacement:(NSInteger)placement
 {
     if ([NSTouchBar respondsToSelector:
-        @selector(presentSystemModalTouchBar:placement:systemTrayItemIdentifier:)])
+        @selector(presentSystemModalFunctionBar:placement:systemTrayItemIdentifier:)])
     {
         [NSTouchBar
-            presentSystemModalTouchBar:self.touchBar
+            presentSystemModalFunctionBar:self.touchBar
             placement:placement
             systemTrayItemIdentifier:nil];
         return YES;
     }
     else if ([NSTouchBar respondsToSelector:
-        @selector(presentSystemModalFunctionBar:placement:systemTrayItemIdentifier:)])
+        @selector(presentSystemModalTouchBar:placement:systemTrayItemIdentifier:)])
     {
         [NSTouchBar
-            presentSystemModalFunctionBar:self.touchBar
+            presentSystemModalTouchBar:self.touchBar
             placement:placement
             systemTrayItemIdentifier:nil];
         return YES;
@@ -70,16 +70,16 @@
 - (void)dismiss
 {
     if ([NSTouchBar respondsToSelector:
-        @selector(dismissSystemModalTouchBar:)])
-    {
-        [NSTouchBar
-            dismissSystemModalTouchBar:self.touchBar];
-    }
-    else if ([NSTouchBar respondsToSelector:
         @selector(dismissSystemModalFunctionBar:)])
     {
         [NSTouchBar
             dismissSystemModalFunctionBar:self.touchBar];
+    }
+    else if ([NSTouchBar respondsToSelector:
+        @selector(dismissSystemModalTouchBar:)])
+    {
+        [NSTouchBar
+            dismissSystemModalTouchBar:self.touchBar];
     }
 }
 
