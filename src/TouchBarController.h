@@ -13,10 +13,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface TouchBarController : NSObject
+@interface TouchBarController : NSObject <NSTouchBarDelegate>
 - (BOOL)present;
 - (BOOL)presentWithPlacement:(NSInteger)placement;
 - (void)dismiss;
-- (void)customize;
-@property (retain, getter=getTouchBar, setter=setTouchBar:) NSTouchBar *touchBar;
+- (IBAction)customize:(id)sender;
+@property (retain) IBOutlet NSTouchBar *touchBar;
 @end

@@ -14,12 +14,8 @@
 #import "TouchBarController.h"
 #import "TouchBarPrivate.h"
 
-@interface TouchBarController () <NSTouchBarDelegate>
-@end
-
 @implementation TouchBarController
 {
-    NSTouchBar *_touchBar;
     NSMutableDictionary *_items;
 }
 
@@ -37,7 +33,7 @@
 - (void)dealloc
 {
     [_items release];
-    [_touchBar release];
+    self.touchBar = nil;
 
     [super dealloc];
 }
@@ -53,8 +49,8 @@
         @selector(presentSystemModalTouchBar:placement:systemTrayItemIdentifier:)])
     {
         [NSTouchBar
-            presentSystemModalTouchBar:_touchBar
-            placement:1
+            presentSystemModalTouchBar:self.touchBar
+            placement:placement
             systemTrayItemIdentifier:nil];
         return YES;
     }
@@ -62,8 +58,8 @@
         @selector(presentSystemModalFunctionBar:placement:systemTrayItemIdentifier:)])
     {
         [NSTouchBar
-            presentSystemModalFunctionBar:_touchBar
-            placement:1
+            presentSystemModalFunctionBar:self.touchBar
+            placement:placement
             systemTrayItemIdentifier:nil];
         return YES;
     }
@@ -77,31 +73,19 @@
         @selector(dismissSystemModalTouchBar:)])
     {
         [NSTouchBar
-            dismissSystemModalTouchBar:_touchBar];
+            dismissSystemModalTouchBar:self.touchBar];
     }
     else if ([NSTouchBar respondsToSelector:
         @selector(dismissSystemModalFunctionBar:)])
     {
         [NSTouchBar
-            dismissSystemModalFunctionBar:_touchBar];
+            dismissSystemModalFunctionBar:self.touchBar];
     }
 }
 
-- (void)customize
+- (IBAction)customize:(id)sender
 {
     [NSApp toggleTouchBarCustomizationPalette:self];
-}
-
-- (NSTouchBar *)getTouchBar
-{
-    return _touchBar;
-}
-
-- (void)setTouchBar:(NSTouchBar *)touchBar
-{
-    [_touchBar release];
-    _touchBar = [touchBar retain];
-    _touchBar.delegate = self;
 }
 
 - (NSTouchBarItem *)touchBar:(NSTouchBar *)touchBar

@@ -12,15 +12,14 @@
  */
 
 #import "AppController.h"
-#import "TouchBarPrivate.h"
+#import "TouchBarController.h"
 
-@interface AppController () <NSApplicationDelegate, NSTouchBarProvider, NSTouchBarDelegate>
-@property IBOutlet NSWindow *window;
-@property IBOutlet NSTouchBar *touchBar;
+@interface AppController () <NSApplicationDelegate>
+@property (assign) IBOutlet NSWindow *window;
+@property (assign) IBOutlet TouchBarController *touchBarController;
 @end
 
 @implementation AppController
-
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
     NSDictionary *defaults = [NSDictionary
@@ -29,36 +28,23 @@
         ofType:@"plist"]];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 
-    self.touchBar.defaultItemIdentifiers = [NSArray arrayWithObjects:
+    NSTouchBar *touchBar = self.touchBarController.touchBar;
+    NSApp.touchBar = touchBar;
+
+    touchBar.defaultItemIdentifiers = [NSArray arrayWithObjects:
         @"EscKey",
-        NSTouchBarItemIdentifierFlexibleSpace,
         @"Dock",
         @"Control",
         @"Clock",
         nil];
-    self.touchBar.customizationAllowedItemIdentifiers = [NSArray arrayWithObjects:
+    touchBar.customizationAllowedItemIdentifiers = [NSArray arrayWithObjects:
         @"EscKey",
-        NSTouchBarItemIdentifierFlexibleSpace,
         @"Dock",
         @"Control",
         @"Clock",
         nil];
 
-    //DFRSystemModalShowsCloseBoxWhenFrontMost(NO);
-
-    if ([NSTouchBar respondsToSelector:
-        @selector(presentSystemModalTouchBar:placement:systemTrayItemIdentifier:)])
-        [NSTouchBar
-            presentSystemModalTouchBar:self.touchBar
-            placement:1
-            systemTrayItemIdentifier:nil];
-    else if ([NSTouchBar respondsToSelector:
-        @selector(presentSystemModalFunctionBar:placement:systemTrayItemIdentifier:)])
-        [NSTouchBar
-            presentSystemModalFunctionBar:self.touchBar
-            placement:1
-            systemTrayItemIdentifier:nil];
-    else
+    if (![self.touchBarController present])
     {
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
         alert.alertStyle = NSAlertStyleCritical;
@@ -72,25 +58,6 @@
 
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
+    [self.touchBarController dismiss];
 }
-
-- (NSTouchBarItem *)touchBar:(NSTouchBar *)touchBar
-    makeItemForIdentifier:(NSTouchBarItemIdentifier)identifier
-{
-    if ([NSTouchBarItemIdentifierFlexibleSpace isEqualToString:identifier])
-        return [[[NSTouchBarItem alloc] initWithIdentifier:NSTouchBarItemIdentifierFlexibleSpace]
-            autorelease];
-    else
-    {
-        Class widgetClass = NSClassFromString([identifier stringByAppendingString:@"Widget"]);
-        return [[[widgetClass alloc] initWithIdentifier:identifier]
-            autorelease];
-    }
-}
-
-- (IBAction)customizeTouchBar:(id)sender
-{
-    [NSApp toggleTouchBarCustomizationPalette:self];
-}
-
 @end

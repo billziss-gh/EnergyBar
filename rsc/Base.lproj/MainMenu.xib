@@ -16,8 +16,13 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" userLabel="App Controller" customClass="AppController">
             <connections>
-                <outlet property="touchBar" destination="7g7-Is-eP5" id="Bf2-l8-xwE"/>
+                <outlet property="touchBarController" destination="K6h-9q-8nk" id="7Zg-VL-ES5"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
+            </connections>
+        </customObject>
+        <customObject id="K6h-9q-8nk" customClass="TouchBarController">
+            <connections>
+                <outlet property="touchBar" destination="7g7-Is-eP5" id="Pgw-0B-ekU"/>
             </connections>
         </customObject>
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
@@ -700,7 +705,7 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="customizeTouchBar:" target="Voe-Tx-rLC" id="6LA-Vd-ZPn"/>
+                            <action selector="customize:" target="K6h-9q-8nk" id="3vl-Yx-cxg"/>
                         </connections>
                     </button>
                 </subviews>
@@ -710,7 +715,7 @@
         <touchBar customizationIdentifier="billziss.TouchBarDock" id="7g7-Is-eP5">
             <nil name="touchBarItems"/>
             <connections>
-                <outlet property="delegate" destination="Voe-Tx-rLC" id="gSw-eD-jvV"/>
+                <outlet property="delegate" destination="K6h-9q-8nk" id="eDl-9X-g2f"/>
             </connections>
             <point key="canvasLocation" x="31" y="-1362"/>
         </touchBar>
