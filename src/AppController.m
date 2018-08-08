@@ -16,7 +16,7 @@
 
 @interface AppController () <NSApplicationDelegate, NSTouchBarProvider, NSTouchBarDelegate>
 @property IBOutlet NSWindow *window;
-@property NSTouchBar *touchBar;
+@property IBOutlet NSTouchBar *touchBar;
 @end
 
 @implementation AppController
@@ -29,8 +29,6 @@
         ofType:@"plist"]];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 
-    self.touchBar = [[NSTouchBar alloc] init];
-    self.touchBar.customizationIdentifier = @"billziss.TouchBarDock";
     self.touchBar.defaultItemIdentifiers = [NSArray arrayWithObjects:
         @"EscKey",
         NSTouchBarItemIdentifierFlexibleSpace,
@@ -45,9 +43,8 @@
         @"Control",
         @"Clock",
         nil];
-    self.touchBar.delegate = self;
 
-    DFRSystemModalShowsCloseBoxWhenFrontMost(FALSE);
+    //DFRSystemModalShowsCloseBoxWhenFrontMost(FALSE);
 
     if ([NSTouchBar respondsToSelector:
         @selector(presentSystemModalTouchBar:placement:systemTrayItemIdentifier:)])

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14113" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaDFRPlugin" version="14019"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14113"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <capability name="the Touch Bar" minToolsVersion="8.1" minSystemVersion="10.12.2" requiredIntegratedClassName="NSTouchBar"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -14,6 +16,7 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" userLabel="App Controller" customClass="AppController">
             <connections>
+                <outlet property="touchBar" destination="7g7-Is-eP5" id="Bf2-l8-xwE"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -678,7 +681,7 @@
                     </menu>
                 </menuItem>
             </items>
-            <point key="canvasLocation" x="93" y="-1142"/>
+            <point key="canvasLocation" x="48" y="-1465"/>
         </menu>
         <window title="TouchBarDock" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
@@ -704,5 +707,12 @@
             </view>
             <point key="canvasLocation" x="93" y="-700"/>
         </window>
+        <touchBar customizationIdentifier="billziss.TouchBarDock" id="7g7-Is-eP5">
+            <nil name="touchBarItems"/>
+            <connections>
+                <outlet property="delegate" destination="Voe-Tx-rLC" id="gSw-eD-jvV"/>
+            </connections>
+            <point key="canvasLocation" x="31" y="-1362"/>
+        </touchBar>
     </objects>
 </document>

@@ -8,7 +8,7 @@
 			<key>NSApplicationName</key>
 			<string>Finder</string>
 			<key>NSApplicationPath</key>
-			<string>/Applications/Finder.app</string>
+			<string>/System/Library/CoreServices/Finder.app</string>
 		</dict>
 		<dict>
 			<key>NSApplicationName</key>
