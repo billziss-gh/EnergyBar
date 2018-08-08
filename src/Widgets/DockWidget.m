@@ -30,7 +30,6 @@
 @end
 
 static NSString *dockItemIdentifier = @"dockItem";
-static NSString *dockSeparatorIdentifier = @"dockSeparator";
 
 static NSSize dockItemSize = { 50, 30 };
 static NSSize dockSeparatorSize = { 10, 30 };
@@ -44,7 +43,6 @@ static NSSize dockSeparatorSize = { 10, 30 };
     NSScrubberFlowLayout *layout = [[[NSScrubberFlowLayout alloc] init] autorelease];
     NSScrubber *scrubber = [[[NSScrubber alloc] initWithFrame:NSMakeRect(0, 0, 200, 30)] autorelease];
     [scrubber registerClass:[NSScrubberImageItemView class] forItemIdentifier:dockItemIdentifier];
-    [scrubber registerClass:[NSScrubberImageItemView class] forItemIdentifier:dockSeparatorIdentifier];
     scrubber.dataSource = self;
     scrubber.delegate = self;
     scrubber.mode = NSScrubberModeFixed;
@@ -57,6 +55,7 @@ static NSSize dockSeparatorSize = { 10, 30 };
 
 - (void)dealloc
 {
+    self.separator = nil;
     self.defaultApps = nil;
     self.runningApps = nil;
     [super dealloc];
@@ -70,6 +69,7 @@ static NSSize dockSeparatorSize = { 10, 30 };
 - (NSScrubberItemView *)scrubber:(NSScrubber *)scrubber viewForItemAtIndex:(NSInteger)index
 {
     NSScrubberImageItemView *view = [scrubber makeItemWithIdentifier:dockItemIdentifier owner:nil];
+    view.imageView.imageScaling = NSImageScaleProportionallyDown;
     view.image = [[self.apps objectAtIndex:index] icon];
     return view;
 }
@@ -78,10 +78,19 @@ static NSSize dockSeparatorSize = { 10, 30 };
     layout:(NSScrubberFlowLayout *)layout
     sizeForItemAtIndex:(NSInteger)index
 {
-    if (nil == [[self.apps objectAtIndex:index] path])
-        return dockSeparatorSize;
-    else
+    DockWidget_Application *app = [self.apps objectAtIndex:index];
+    if (nil != app.path)
         return dockItemSize;
+    else
+        return dockSeparatorSize;
+}
+
+- (void)scrubber:(NSScrubber *)scrubber
+    didSelectItemAtIndex:(NSInteger)index
+{
+    DockWidget_Application *app = [self.apps objectAtIndex:index];
+    if (nil != app.path)
+        [[NSWorkspace sharedWorkspace] launchApplication:app.path];
 }
 
 - (NSArray *)apps
