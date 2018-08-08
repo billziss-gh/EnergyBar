@@ -24,6 +24,7 @@
 @end
 
 @interface DockWidget () <NSScrubberDataSource, NSScrubberFlowLayoutDelegate>
+@property (retain) NSShadow *shadow;
 @property (retain) DockWidget_Application *separator;
 @property (retain) NSArray *defaultApps;
 @property (retain) NSArray *runningApps;
@@ -37,9 +38,12 @@ static NSSize dockSeparatorSize = { 10, 30 };
 @implementation DockWidget
 - (void)commonInit
 {
+    self.shadow = [[[NSShadow alloc] init] autorelease];
+    self.shadow.shadowBlurRadius = 4;
+    self.shadow.shadowColor = [NSColor systemBlueColor];
     self.separator = [[[DockWidget_Application alloc] init] autorelease];
-    self.customizationLabel = @"Dock";
 
+    self.customizationLabel = @"Dock";
     NSScrubberFlowLayout *layout = [[[NSScrubberFlowLayout alloc] init] autorelease];
     NSScrubber *scrubber = [[[NSScrubber alloc] initWithFrame:NSMakeRect(0, 0, 200, 30)] autorelease];
     [scrubber registerClass:[NSScrubberImageItemView class] forItemIdentifier:dockItemIdentifier];
@@ -49,7 +53,6 @@ static NSSize dockSeparatorSize = { 10, 30 };
     scrubber.continuous = NO;
     scrubber.itemAlignment = NSScrubberAlignmentNone;
     scrubber.scrubberLayout = layout;
-
     self.view = scrubber;
 }
 
@@ -70,9 +73,14 @@ static NSSize dockSeparatorSize = { 10, 30 };
 {
     NSScrubberImageItemView *view = [scrubber makeItemWithIdentifier:dockItemIdentifier owner:nil];
     view.imageView.imageScaling = NSImageScaleProportionallyDown;
+    view.imageView.shadow = nil;
     DockWidget_Application *app = [self.apps objectAtIndex:index];
     if (nil != app.path)
+    {
         view.image = app.icon;
+        if (app.running)
+            view.imageView.shadow = self.shadow;
+    }
     else
         view.image = [NSImage imageNamed:NSImageNameTouchBarPlayheadTemplate];
     return view;
