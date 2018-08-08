@@ -57,10 +57,36 @@ static NSSize dockIconSize = { 28, 28 };
     scrubber.itemAlignment = NSScrubberAlignmentNone;
     scrubber.scrubberLayout = layout;
     self.view = scrubber;
+
+    [[[NSWorkspace sharedWorkspace] notificationCenter]
+        addObserver:self
+        selector:@selector(didLaunchApplication:)
+        name:NSWorkspaceDidLaunchApplicationNotification
+        object:nil];
+    [[[NSWorkspace sharedWorkspace] notificationCenter]
+        addObserver:self
+        selector:@selector(didTerminateApplication:)
+        name:NSWorkspaceDidTerminateApplicationNotification
+        object:nil];
+#if 0
+    [[[NSWorkspace sharedWorkspace] notificationCenter]
+        addObserver:self
+        selector:@selector(didActivateApplication:)
+        name:NSWorkspaceDidActivateApplicationNotification
+        object:nil];
+    [[[NSWorkspace sharedWorkspace] notificationCenter]
+        addObserver:self
+        selector:@selector(didDeactivateApplication:)
+        name:NSWorkspaceDidDeactivateApplicationNotification
+        object:nil];
+#endif
 }
 
 - (void)dealloc
 {
+    [[[NSWorkspace sharedWorkspace] notificationCenter]
+        removeObserver:self];
+
     self.shadow = nil;
     self.separator = nil;
     self.defaultApps = nil;
@@ -108,6 +134,32 @@ static NSSize dockIconSize = { 28, 28 };
     if (nil != app.path)
         [[NSWorkspace sharedWorkspace] launchApplication:app.path];
 }
+
+- (void)didLaunchApplication:(NSNotification *)notification
+{
+    NSLog(@"didLaunchApplication: %@", notification);
+    self.runningApps = nil;
+    [(NSScrubber *)self.view reloadData];
+}
+
+- (void)didTerminateApplication:(NSNotification *)notification
+{
+    NSLog(@"didTerminateApplication: %@", notification);
+    self.runningApps = nil;
+    [(NSScrubber *)self.view reloadData];
+}
+
+#if 0
+- (void)didActivateApplication:(NSNotification *)notification
+{
+    NSLog(@"didActivateApplication: %@", notification);
+}
+
+- (void)didDeactivateApplication:(NSNotification *)notification
+{
+    NSLog(@"didDeactivateApplication: %@", notification);
+}
+#endif
 
 - (NSArray *)apps
 {
