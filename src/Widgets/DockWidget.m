@@ -203,6 +203,7 @@ static NSSize dockSeparatorSize = { 10, 30 };
     DockWidgetApplication *app = [self.apps objectAtIndex:index];
     if (nil != app.path)
         [[NSWorkspace sharedWorkspace] launchApplication:app.path];
+    scrubber.selectedIndex = -1;
 }
 
 - (void)didLaunchApplication:(NSNotification *)notification
