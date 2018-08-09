@@ -13,12 +13,11 @@
 
 #import "DockWidget.h"
 
-@interface DockWidgetApplication : NSObject
+@interface DockWidgetApplication : NSObject <NSCopying>
 @property (retain) NSString *name;
 @property (retain) NSString *path;
 @property (retain) NSImage *icon;
 @property (assign) BOOL running;
-@property (assign) BOOL active;
 @end
 
 @implementation DockWidgetApplication
@@ -28,6 +27,16 @@
     self.path = nil;
     self.icon = nil;
     [super dealloc];
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    DockWidgetApplication *copy = [[DockWidgetApplication alloc] init];
+    copy.name = self.name;
+    copy.path = self.path;
+    copy.icon = self.icon;
+    copy.running = self.running;
+    return copy;
 }
 @end
 
@@ -198,14 +207,12 @@ static NSSize dockSeparatorSize = { 10, 30 };
 
 - (void)didLaunchApplication:(NSNotification *)notification
 {
-    self.runningApps = nil;
-    [(NSScrubber *)self.view reloadData];
+    [self reset];
 }
 
 - (void)didTerminateApplication:(NSNotification *)notification
 {
-    self.runningApps = nil;
-    [(NSScrubber *)self.view reloadData];
+    [self reset];
 }
 
 - (NSArray *)apps
@@ -233,7 +240,6 @@ static NSSize dockSeparatorSize = { 10, 30 };
         for (DockWidgetApplication *app in self.defaultApps)
         {
             app.running = NO;
-            app.active = NO;
             [defaultAppsDict setObject:app forKey:app.path];
         }
 
@@ -249,7 +255,6 @@ static NSSize dockSeparatorSize = { 10, 30 };
             if (nil != (app = [defaultAppsDict objectForKey:path]))
             {
                 app.running = YES;
-                app.active = a.active;
                 continue;
             }
 
@@ -258,7 +263,6 @@ static NSSize dockSeparatorSize = { 10, 30 };
             app.path = a.bundleURL.path;
             app.icon = a.icon;
             app.running = YES;
-            app.active = a.active;
             [newRunningApps addObject:app];
         }
         self.runningApps = [[newRunningApps copy] autorelease];
@@ -275,5 +279,63 @@ static NSSize dockSeparatorSize = { 10, 30 };
 #else
     return [self.defaultApps arrayByAddingObjectsFromArray:self.runningApps];
 #endif
+}
+
+- (void)reset
+{
+    NSArray *oldApps = [[[NSArray alloc] initWithArray:self.apps copyItems:YES] autorelease];
+    self.runningApps = nil;
+    NSArray *newApps = self.apps;
+
+    NSMutableDictionary *oldAppsDict = [NSMutableDictionary dictionary];
+    for (DockWidgetApplication *oldApp in oldApps)
+        [oldAppsDict setObject:oldApp forKey:oldApp.path];
+
+    NSMutableDictionary *newAppsDict = [NSMutableDictionary dictionary];
+    for (DockWidgetApplication *newApp in newApps)
+        [newAppsDict setObject:newApp forKey:newApp.path];
+
+    NSScrubber *scrubber = self.view;
+    [scrubber performSequentialBatchUpdates:^(void)
+    {
+        NSUInteger count = oldApps.count;
+
+        for (NSUInteger i = oldApps.count - 1; oldApps.count > i; i--)
+        {
+            DockWidgetApplication *oldApp = [oldApps objectAtIndex:i];
+            DockWidgetApplication *newApp = [newAppsDict objectForKey:oldApp.path];
+
+            if (nil == newApp)
+            {
+                [scrubber removeItemsAtIndexes:[NSIndexSet indexSetWithIndex:i]];
+                count--;
+            }
+        }
+
+        for (NSUInteger i = 0; newApps.count > i; i++)
+        {
+            DockWidgetApplication *newApp = [newApps objectAtIndex:i];
+            DockWidgetApplication *oldApp = [oldAppsDict objectForKey:newApp.path];
+
+            if (nil == oldApp)
+            {
+                [scrubber insertItemsAtIndexes:[NSIndexSet indexSetWithIndex:count]];
+                count++;
+            }
+        }
+
+        for (NSUInteger i = 0; oldApps.count > i; i++)
+        {
+            DockWidgetApplication *oldApp = [oldApps objectAtIndex:i];
+            DockWidgetApplication *newApp = [newAppsDict objectForKey:oldApp.path];
+
+            if (nil != newApp && [oldApp.path isEqualToString:newApp.path])
+            {
+                if (![oldApp.name isEqualToString:newApp.name] || oldApp.icon != newApp.icon ||
+                    oldApp.running != newApp.running)
+                    [scrubber reloadItemsAtIndexes:[NSIndexSet indexSetWithIndex:i]];
+            }
+        }
+    }];
 }
 @end
