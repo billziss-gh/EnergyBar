@@ -283,6 +283,18 @@ static NSSize dockSeparatorSize = { 10, 30 };
 
 - (void)reset
 {
+    NSScrubber *scrubber = self.view;
+    __block NSUInteger count = scrubber.numberOfItems;
+    if (count != self.apps.count)
+    {
+        /* Oops! The scrubber and our model got out of sync; reloadData. */
+        NSLog(@"DockWidget: we have %u items and scrubber thinks we have %u. Reloading.",
+            (unsigned)self.apps.count, (unsigned)count);
+        self.runningApps = nil;
+        [scrubber reloadData];
+        return;
+    }
+
     NSArray *oldApps = [[[NSArray alloc] initWithArray:self.apps copyItems:YES] autorelease];
     self.runningApps = nil;
     NSArray *newApps = self.apps;
@@ -295,11 +307,8 @@ static NSSize dockSeparatorSize = { 10, 30 };
     for (DockWidgetApplication *newApp in newApps)
         [newAppsDict setObject:newApp forKey:newApp.path];
 
-    NSScrubber *scrubber = self.view;
     [scrubber performSequentialBatchUpdates:^(void)
     {
-        NSUInteger count = oldApps.count;
-
         for (NSUInteger i = oldApps.count - 1; oldApps.count > i; i--)
         {
             DockWidgetApplication *oldApp = [oldApps objectAtIndex:i];
