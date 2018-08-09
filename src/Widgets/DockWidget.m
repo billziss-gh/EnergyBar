@@ -141,18 +141,6 @@ static NSSize dockSeparatorSize = { 10, 30 };
         selector:@selector(didTerminateApplication:)
         name:NSWorkspaceDidTerminateApplicationNotification
         object:nil];
-#if 0
-    [[[NSWorkspace sharedWorkspace] notificationCenter]
-        addObserver:self
-        selector:@selector(didActivateApplication:)
-        name:NSWorkspaceDidActivateApplicationNotification
-        object:nil];
-    [[[NSWorkspace sharedWorkspace] notificationCenter]
-        addObserver:self
-        selector:@selector(didDeactivateApplication:)
-        name:NSWorkspaceDidDeactivateApplicationNotification
-        object:nil];
-#endif
 }
 
 - (void)dealloc
@@ -209,29 +197,15 @@ static NSSize dockSeparatorSize = { 10, 30 };
 
 - (void)didLaunchApplication:(NSNotification *)notification
 {
-    NSLog(@"didLaunchApplication: %@", notification);
     self.runningApps = nil;
     [(NSScrubber *)self.view reloadData];
 }
 
 - (void)didTerminateApplication:(NSNotification *)notification
 {
-    NSLog(@"didTerminateApplication: %@", notification);
     self.runningApps = nil;
     [(NSScrubber *)self.view reloadData];
 }
-
-#if 0
-- (void)didActivateApplication:(NSNotification *)notification
-{
-    NSLog(@"didActivateApplication: %@", notification);
-}
-
-- (void)didDeactivateApplication:(NSNotification *)notification
-{
-    NSLog(@"didDeactivateApplication: %@", notification);
-}
-#endif
 
 - (NSArray *)apps
 {
