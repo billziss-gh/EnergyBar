@@ -20,7 +20,7 @@
 - (NSSize)intrinsicContentSize
 {
     NSSize size = [super intrinsicContentSize];
-    size.width = MIN(size.width, 80);
+    size.width = MAX(size.width, 80);
     return size;
 }
 @end

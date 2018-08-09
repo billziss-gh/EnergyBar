@@ -13,12 +13,26 @@
 
 #import "ActiveAppWidget.h"
 
+@interface ActiveAppWidgetLabel : NSTextField
+@end
+
+@implementation ActiveAppWidgetLabel
+- (NSSize)intrinsicContentSize
+{
+    NSSize size = [super intrinsicContentSize];
+    size.width = MAX(size.width, 150);
+    return size;
+}
+@end
+
 @implementation ActiveAppWidget
 - (void)commonInit
 {
     self.customizationLabel = @"Active App";
 
-    self.view = [NSTextField labelWithString:@"Active App"];
+    ActiveAppWidgetLabel *label = [ActiveAppWidgetLabel labelWithString:@"Active App"];
+    label.alignment = NSTextAlignmentRight;
+    self.view = label;
 }
 
 - (void)dealloc
