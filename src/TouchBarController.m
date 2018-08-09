@@ -94,8 +94,9 @@
     NSTouchBarItem *item = [_items objectForKey:identifier];
     if (nil == item)
     {
-        Class widgetClass = NSClassFromString([identifier stringByAppendingString:@"Widget"]);
-        item = [[[widgetClass alloc] initWithIdentifier:identifier] autorelease];
+        NSArray *components = [identifier componentsSeparatedByString:@" "];
+        NSString *widgetClass = [[components objectAtIndex:0] stringByAppendingString:@"Widget"];
+        item = [[[NSClassFromString(widgetClass) alloc] initWithIdentifier:identifier] autorelease];
         [_items setObject:item forKey:identifier];
     }
     return item;
