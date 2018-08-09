@@ -27,11 +27,25 @@
 
     _items = [[NSMutableDictionary alloc] init];
 
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+        selector:@selector(willEnterCustomization:)
+        name:@"NSTouchBarWillEnterCustomization"
+        object:nil];
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+        selector:@selector(didExitCustomization:)
+        name:@"NSTouchBarDidExitCustomization"
+        object:nil];
+
     return self;
 }
 
 - (void)dealloc
 {
+    [[[NSWorkspace sharedWorkspace] notificationCenter]
+        removeObserver:self];
+
     [_items release];
     self.touchBar = nil;
 
@@ -86,6 +100,16 @@
 - (IBAction)customize:(id)sender
 {
     [NSApp toggleTouchBarCustomizationPalette:self];
+}
+
+- (void)willEnterCustomization:(NSNotification *)notification
+{
+    [self dismiss];
+}
+
+- (void)didExitCustomization:(NSNotification *)notification
+{
+    [self present];
 }
 
 - (NSTouchBarItem *)touchBar:(NSTouchBar *)touchBar
