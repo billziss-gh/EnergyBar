@@ -31,12 +31,41 @@
     self.customizationLabel = @"Active App";
 
     ActiveAppWidgetLabel *label = [ActiveAppWidgetLabel labelWithString:@"Active App"];
-    label.alignment = NSTextAlignmentRight;
+    label.alignment = NSTextAlignmentCenter;
     self.view = label;
+
+    [[[NSWorkspace sharedWorkspace] notificationCenter]
+        addObserver:self
+        selector:@selector(didActivateApplication:)
+        name:NSWorkspaceDidActivateApplicationNotification
+        object:nil];
 }
 
 - (void)dealloc
 {
+    [[[NSWorkspace sharedWorkspace] notificationCenter]
+        removeObserver:self];
+
     [super dealloc];
+}
+
+- (void)viewWillAppear
+{
+    [self reset];
+}
+
+- (void)didActivateApplication:(NSNotification *)notification
+{
+    [self reset];
+}
+
+- (void)reset
+{
+    NSRunningApplication *app = [[NSWorkspace sharedWorkspace] menuBarOwningApplication];
+    if (nil != app)
+    {
+        ActiveAppWidgetLabel *label = self.view;
+        label.stringValue = app.localizedName;
+    }
 }
 @end
