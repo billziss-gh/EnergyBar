@@ -33,12 +33,12 @@
 - (void)commonInit
 {
     self.customizationLabel = @"Clock";
-    ClockWidgetLabel *label = [ClockWidgetLabel labelWithString:@"12:00 am"];
+    ClockWidgetLabel *label = [ClockWidgetLabel labelWithString:@"9:41 am"];
     label.alignment = NSTextAlignmentCenter;
     self.view = label;
 
     self.formatter = [[[NSDateFormatter alloc] init] autorelease];
-    self.formatter.dateFormat = @"hh:mm a";
+    self.formatter.dateFormat = @"h:mm a";
 }
 
 - (void)dealloc
