@@ -125,6 +125,7 @@ static NSSize dockSeparatorSize = { 10, 30 };
     [scrubber registerClass:[DockWidgetItemView class] forItemIdentifier:dockItemIdentifier];
     scrubber.dataSource = self;
     scrubber.delegate = self;
+    scrubber.showsAdditionalContentIndicators = YES;
     scrubber.mode = NSScrubberModeFree;
     scrubber.continuous = NO;
     scrubber.itemAlignment = NSScrubberAlignmentNone;
