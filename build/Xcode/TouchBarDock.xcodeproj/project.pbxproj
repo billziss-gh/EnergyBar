@@ -14,6 +14,7 @@
 		3C163BC62118F1C500F015EC /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C163BC32118F1C500F015EC /* AppController.m */; };
 		3C163BC72118F1C500F015EC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C163BC52118F1C500F015EC /* main.m */; };
 		3C163BCA2118F33C00F015EC /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C163BC82118F33C00F015EC /* MainMenu.xib */; };
+		3C4013C2211BBC8D00C47B66 /* ActiveAppWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C4013C1211BBC8D00C47B66 /* ActiveAppWidget.m */; };
 		3C5D0FCE2119210000769A39 /* ClockWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C5D0FCD2119210000769A39 /* ClockWidget.m */; };
 		3C69096B2119113D00041A70 /* DFRFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C69096A2119113D00041A70 /* DFRFoundation.framework */; };
 		3C6CCA38211B824000D019F4 /* TouchBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C6CCA37211B824000D019F4 /* TouchBarController.m */; };
@@ -35,6 +36,8 @@
 		3C163BC42118F1C500F015EC /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
 		3C163BC52118F1C500F015EC /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3C163BC92118F33C00F015EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		3C4013C0211BBC8D00C47B66 /* ActiveAppWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActiveAppWidget.h; sourceTree = "<group>"; };
+		3C4013C1211BBC8D00C47B66 /* ActiveAppWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActiveAppWidget.m; sourceTree = "<group>"; };
 		3C5D0FCC2119210000769A39 /* ClockWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClockWidget.h; sourceTree = "<group>"; };
 		3C5D0FCD2119210000769A39 /* ClockWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClockWidget.m; sourceTree = "<group>"; };
 		3C69096A2119113D00041A70 /* DFRFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DFRFoundation.framework; path = ../../../../../../System/Library/PrivateFrameworks/DFRFoundation.framework; sourceTree = "<group>"; };
@@ -106,6 +109,8 @@
 		3C5D0FCB211920E500769A39 /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
+				3C4013C0211BBC8D00C47B66 /* ActiveAppWidget.h */,
+				3C4013C1211BBC8D00C47B66 /* ActiveAppWidget.m */,
 				3C5D0FCC2119210000769A39 /* ClockWidget.h */,
 				3C5D0FCD2119210000769A39 /* ClockWidget.m */,
 				3C102D4921197ED700FFB2CF /* ControlWidget.h */,
@@ -199,6 +204,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3CDF1EB4211A3B9500739051 /* DockWidget.m in Sources */,
+				3C4013C2211BBC8D00C47B66 /* ActiveAppWidget.m in Sources */,
 				3C102D482119641500FFB2CF /* CustomWidget.m in Sources */,
 				3C5D0FCE2119210000769A39 /* ClockWidget.m in Sources */,
 				3C6CCA38211B824000D019F4 /* TouchBarController.m in Sources */,
