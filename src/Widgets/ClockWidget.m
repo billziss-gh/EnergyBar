@@ -13,6 +13,18 @@
 
 #import "ClockWidget.h"
 
+@interface ClockWidgetLabel : NSTextField
+@end
+
+@implementation ClockWidgetLabel
+- (NSSize)intrinsicContentSize
+{
+    NSSize size = [super intrinsicContentSize];
+    size.width = MIN(size.width, 80);
+    return size;
+}
+@end
+
 @interface ClockWidget ()
 @property (retain) NSTimer *timer;
 @end
@@ -21,7 +33,9 @@
 - (void)commonInit
 {
     self.customizationLabel = @"Clock";
-    self.view = [NSTextField labelWithString:@"12:00 am"];
+    ClockWidgetLabel *label = [ClockWidgetLabel labelWithString:@"12:00 am"];
+    label.alignment = NSTextAlignmentCenter;
+    self.view = label;
 
     self.formatter = [[[NSDateFormatter alloc] init] autorelease];
     self.formatter.dateFormat = @"hh:mm a";
