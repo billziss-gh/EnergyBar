@@ -28,23 +28,7 @@
         ofType:@"plist"]];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 
-    NSTouchBar *touchBar = self.touchBarController.touchBar;
-    NSApp.touchBar = touchBar;
-
-    touchBar.defaultItemIdentifiers = [NSArray arrayWithObjects:
-        @"EscKey",
-        @"ActiveApp",
-        @"Dock",
-        @"Control",
-        @"Clock",
-        nil];
-    touchBar.customizationAllowedItemIdentifiers = [NSArray arrayWithObjects:
-        @"Dock",
-        @"ActiveApp",
-        @"EscKey",
-        @"Control",
-        @"Clock",
-        nil];
+    NSApp.touchBar = self.touchBarController.touchBar;
 
     [self performSelector:@selector(presentTouchBar) withObject:nil afterDelay:0];
 }

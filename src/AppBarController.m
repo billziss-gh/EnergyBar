@@ -39,6 +39,26 @@
     [super dealloc];
 }
 
+- (void)awakeFromNib
+{
+    self.touchBar.defaultItemIdentifiers = [NSArray arrayWithObjects:
+        @"EscKey",
+        @"ActiveApp",
+        @"Dock",
+        @"Control",
+        @"Clock",
+        nil];
+    self.touchBar.customizationAllowedItemIdentifiers = [NSArray arrayWithObjects:
+        @"Dock",
+        @"ActiveApp",
+        @"EscKey",
+        @"Control",
+        @"Clock",
+        nil];
+
+    [super awakeFromNib];
+}
+
 - (NSTouchBarItem *)touchBar:(NSTouchBar *)touchBar
     makeItemForIdentifier:(NSTouchBarItemIdentifier)identifier
 {
