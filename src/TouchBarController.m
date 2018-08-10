@@ -15,26 +15,6 @@
 #import "TouchBarPrivate.h"
 
 @implementation TouchBarController
-- (id)init
-{
-    self = [super init];
-    if (nil == self)
-        return nil;
-
-    [[NSNotificationCenter defaultCenter]
-        addObserver:self
-        selector:@selector(willEnterCustomization:)
-        name:@"NSTouchBarWillEnterCustomization"
-        object:nil];
-    [[NSNotificationCenter defaultCenter]
-        addObserver:self
-        selector:@selector(didExitCustomization:)
-        name:@"NSTouchBarDidExitCustomization"
-        object:nil];
-
-    return self;
-}
-
 - (void)dealloc
 {
     [[[NSWorkspace sharedWorkspace] notificationCenter]
@@ -66,6 +46,17 @@
 
 - (IBAction)customize:(id)sender
 {
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+        selector:@selector(willEnterCustomization:)
+        name:@"NSTouchBarWillEnterCustomization"
+        object:nil];
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+        selector:@selector(didExitCustomization:)
+        name:@"NSTouchBarDidExitCustomization"
+        object:nil];
+
     [NSApp toggleTouchBarCustomizationPalette:self];
 }
 
@@ -76,6 +67,15 @@
 
 - (void)didExitCustomization:(NSNotification *)notification
 {
+    [[[NSWorkspace sharedWorkspace] notificationCenter]
+        removeObserver:self
+        name:@"NSTouchBarWillEnterCustomization"
+        object:nil];
+    [[[NSWorkspace sharedWorkspace] notificationCenter]
+        removeObserver:self
+        name:@"NSTouchBarDidExitCustomization"
+        object:nil];
+
     [self present];
 }
 @end
