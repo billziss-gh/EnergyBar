@@ -12,6 +12,7 @@
  */
 
 #import "ControlWidget.h"
+#import "CBBlueLightClient.h"
 #import "KeyEvent.h"
 #import "TouchBarController.h"
 #import "TouchBarPrivate.h"
@@ -39,6 +40,7 @@
 @end
 
 @interface ControlWidgetBrightnessBarController : ControlWidgetPopoverBarController
+@property (retain) CBBlueLightClient *blueLightClient;
 @property (retain) IBOutlet NSButton *nightShiftButton;
 @end
 
@@ -48,11 +50,48 @@
     return [self controllerWithNibNamed:@"BrightnessBar"];
 }
 
+- (id)init
+{
+    self = [super init];
+    if (nil == self)
+        return nil;
+
+    self.blueLightClient = [[[CBBlueLightClient alloc] init] autorelease];
+
+    return self;
+}
+
 - (void)dealloc
 {
+    self.blueLightClient = nil;
     self.nightShiftButton = nil;
 
     [super dealloc];
+}
+
+- (BOOL)presentWithPlacement:(NSInteger)placement
+{
+    CBBlueLightStatus status;
+    if ([self.blueLightClient getBlueLightStatus:&status])
+        self.nightShiftButton.state = status.enabled ? NSControlStateValueOn : NSControlStateValueOff;
+
+    return [super presentWithPlacement:placement];
+}
+
+- (IBAction)nightShiftButtonClick:(id)sender
+{
+    switch ([sender state])
+    {
+    case NSControlStateValueOn:
+        [self.blueLightClient setEnabled:YES];
+        break;
+    case NSControlStateValueOff:
+        [self.blueLightClient setEnabled:NO];
+        break;
+    default:
+        NSLog(@"nightShiftButtonClick: %d", (int)[sender state]);
+        break;
+    }
 }
 @end
 

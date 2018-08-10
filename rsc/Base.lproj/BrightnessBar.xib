@@ -27,6 +27,9 @@
                                 <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
                                 <font key="font" usesAppearanceFont="YES"/>
                             </buttonCell>
+                            <connections>
+                                <action selector="nightShiftButtonClick:" target="-2" id="wRe-S2-fJG"/>
+                            </connections>
                         </button>
                     </viewController>
                     <size key="designTimeSize" width="144" height="30"/>
