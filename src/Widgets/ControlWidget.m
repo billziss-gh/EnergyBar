@@ -16,37 +16,45 @@
 #import "TouchBarController.h"
 #import "TouchBarPrivate.h"
 
-@interface ControlWidgetBrightnessBarController : TouchBarController
+@interface ControlWidgetPopoverBarController : TouchBarController
+@end
+
+@implementation ControlWidgetPopoverBarController
++ (id)controllerWithNibNamed:(NSString *)name
+{
+    id controller = [[[[self class] alloc] init] autorelease];
+    NSArray *objects = nil;
+
+    if (![[NSBundle mainBundle]
+        loadNibNamed:name owner:controller topLevelObjects:&objects])
+        return nil;
+
+    return controller;
+}
+
+- (IBAction)close:(id)sender
+{
+    [self dismiss];
+}
+@end
+
+@interface ControlWidgetBrightnessBarController : ControlWidgetPopoverBarController
 @end
 
 @implementation ControlWidgetBrightnessBarController
 + (id)controller
 {
-    id controller = [[[ControlWidgetBrightnessBarController alloc] init] autorelease];
-    NSArray *objects = nil;
-
-    if (![[NSBundle mainBundle]
-        loadNibNamed:@"BrightnessBar" owner:controller topLevelObjects:&objects])
-        return nil;
-
-    return controller;
+    return [self controllerWithNibNamed:@"BrightnessBar"];
 }
 @end
 
-@interface ControlWidgetVolumeBarController : NSObject
+@interface ControlWidgetVolumeBarController : ControlWidgetPopoverBarController
 @end
 
 @implementation ControlWidgetVolumeBarController
 + (id)controller
 {
-    id controller = [[[ControlWidgetVolumeBarController alloc] init] autorelease];
-    NSArray *objects = nil;
-
-    if (![[NSBundle mainBundle]
-        loadNibNamed:@"VolumeBar" owner:controller topLevelObjects:&objects])
-        return nil;
-
-    return controller;
+    return [self controllerWithNibNamed:@"VolumeBar"];
 }
 @end
 

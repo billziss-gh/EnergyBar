@@ -38,6 +38,9 @@
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" usesAppearanceFont="YES"/>
                             </buttonCell>
+                            <connections>
+                                <action selector="close:" target="-2" id="NpY-ey-JhQ"/>
+                            </connections>
                         </button>
                     </viewController>
                     <size key="designTimeSize" width="72" height="30"/>
