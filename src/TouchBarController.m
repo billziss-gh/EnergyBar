@@ -15,17 +15,11 @@
 #import "TouchBarPrivate.h"
 
 @implementation TouchBarController
-{
-    NSMutableDictionary *_items;
-}
-
 - (id)init
 {
     self = [super init];
     if (nil == self)
         return nil;
-
-    _items = [[NSMutableDictionary alloc] init];
 
     [[NSNotificationCenter defaultCenter]
         addObserver:self
@@ -46,7 +40,6 @@
     [[[NSWorkspace sharedWorkspace] notificationCenter]
         removeObserver:self];
 
-    [_items release];
     self.touchBar = nil;
 
     [super dealloc];
@@ -84,19 +77,5 @@
 - (void)didExitCustomization:(NSNotification *)notification
 {
     [self present];
-}
-
-- (NSTouchBarItem *)touchBar:(NSTouchBar *)touchBar
-    makeItemForIdentifier:(NSTouchBarItemIdentifier)identifier
-{
-    NSTouchBarItem *item = [_items objectForKey:identifier];
-    if (nil == item)
-    {
-        NSArray *components = [identifier componentsSeparatedByString:@" "];
-        NSString *widgetClass = [[components objectAtIndex:0] stringByAppendingString:@"Widget"];
-        item = [[[NSClassFromString(widgetClass) alloc] initWithIdentifier:identifier] autorelease];
-        [_items setObject:item forKey:identifier];
-    }
-    return item;
 }
 @end

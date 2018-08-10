@@ -1,5 +1,5 @@
 /**
- * @file TouchBarController.h
+ * @file AppBarController.h
  *
  * @copyright 2018 Bill Zissimopoulos
  */
@@ -12,11 +12,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import "TouchBarController.h"
 
-@interface TouchBarController : NSObject
-- (BOOL)present;
-- (BOOL)presentWithPlacement:(NSInteger)placement;
-- (void)dismiss;
-- (IBAction)customize:(id)sender;
-@property (retain) IBOutlet NSTouchBar *touchBar;
+@interface AppBarController : TouchBarController
 @end

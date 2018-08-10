@@ -13,12 +13,10 @@
 
 #import "ControlWidget.h"
 #import "KeyEvent.h"
+#import "TouchBarController.h"
 #import "TouchBarPrivate.h"
 
-@interface ControlWidgetBrightnessBarController : NSObject
-- (BOOL)present;
-- (void)dismiss;
-@property (retain) IBOutlet NSTouchBar *touchBar;
+@interface ControlWidgetBrightnessBarController : TouchBarController
 @end
 
 @implementation ControlWidgetBrightnessBarController
@@ -33,26 +31,9 @@
 
     return controller;
 }
-
-- (BOOL)present
-{
-    return [NSTouchBar
-        presentSystemModal:self.touchBar
-        placement:1
-        systemTrayItemIdentifier:nil];
-}
-
-- (void)dismiss
-{
-    return [NSTouchBar
-        dismissSystemModal:self.touchBar];
-}
 @end
 
 @interface ControlWidgetVolumeBarController : NSObject
-- (BOOL)present;
-- (void)dismiss;
-@property (retain) IBOutlet NSTouchBar *touchBar;
 @end
 
 @implementation ControlWidgetVolumeBarController
@@ -66,20 +47,6 @@
         return nil;
 
     return controller;
-}
-
-- (BOOL)present
-{
-    return [NSTouchBar
-        presentSystemModal:self.touchBar
-        placement:1
-        systemTrayItemIdentifier:nil];
-}
-
-- (void)dismiss
-{
-    return [NSTouchBar
-        dismissSystemModal:self.touchBar];
 }
 @end
 

@@ -20,7 +20,7 @@
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
-        <customObject id="K6h-9q-8nk" customClass="TouchBarController">
+        <customObject id="K6h-9q-8nk" customClass="AppBarController">
             <connections>
                 <outlet property="touchBar" destination="7g7-Is-eP5" id="Pgw-0B-ekU"/>
             </connections>
