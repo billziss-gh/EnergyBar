@@ -107,6 +107,9 @@
     [self resetNightShift];
 
     _value = GetDisplayBrightness();
+    if (isnan(_value))
+        _value = 0.5;
+
     NSSliderTouchBarItem *item = [self.touchBar itemForIdentifier:@"BrightnessSlider"];
     item.slider.doubleValue = _value;
 

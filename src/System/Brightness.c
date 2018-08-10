@@ -12,8 +12,32 @@
  */
 
 #include "Brightness.h"
+#include <IOKit/IOKitLib.h>
+#include <IOKit/graphics/IOGraphicsLib.h>
 
 double GetDisplayBrightness(void)
 {
-    return 0.5;
+    mach_port_t master_port;
+    io_service_t serv = 0;
+    float brightness = NAN;
+    kern_return_t ret;
+
+    ret = IOMasterPort(bootstrap_port, &master_port);
+    if (KERN_SUCCESS != ret)
+        goto exit;
+
+    serv = IOServiceGetMatchingService(master_port,
+        IOServiceMatching("IODisplayConnect")/* reference consumed by callee */);
+    if (0 == serv)
+        goto exit;
+
+    ret = IODisplayGetFloatParameter(serv, kNilOptions, CFSTR(kIODisplayBrightnessKey), &brightness);
+    if (KERN_SUCCESS != ret)
+        goto exit;
+
+exit:
+    if (0 != serv)
+        IOObjectRelease(serv);
+
+    return brightness;
 }
