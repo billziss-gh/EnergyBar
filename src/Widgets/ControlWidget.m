@@ -17,6 +17,18 @@
 #import "TouchBarController.h"
 #import "TouchBarPrivate.h"
 
+@interface ControlWidgetPopoverBarSlider : NSSlider
+@end
+
+@implementation ControlWidgetPopoverBarSlider
+- (NSSize)intrinsicContentSize
+{
+    NSSize size = [super intrinsicContentSize];
+    size.width = 360;
+    return size;
+}
+@end
+
 @interface ControlWidgetPopoverBarController : TouchBarController
 @end
 
@@ -58,7 +70,7 @@
 
     self.blueLightClient = [[[CBBlueLightClient alloc] init] autorelease];
     [self.blueLightClient setStatusNotificationBlock:^{
-        [self resetNightShift];
+        [self performSelectorOnMainThread:@selector(resetNightShift) withObject:nil waitUntilDone:NO];
     }];
 
     return self;

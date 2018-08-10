@@ -41,7 +41,7 @@
                     <sliderAccessory key="maximumValueAccessory" image="BrightnessUp" id="TdB-KR-Yh8">
                         <sliderAccessoryBehavior key="behavior" id="onn-Ej-qRH"/>
                     </sliderAccessory>
-                    <slider key="slider" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="d2j-Vf-2Jc">
+                    <slider key="slider" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="d2j-Vf-2Jc" customClass="ControlWidgetPopoverBarSlider">
                         <rect key="frame" x="-6" y="0.0" width="377" height="15"/>
                         <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="v25-Eo-6Bn"/>
                     </slider>
