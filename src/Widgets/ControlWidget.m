@@ -12,6 +12,7 @@
  */
 
 #import "ControlWidget.h"
+#import "KeyEvent.h"
 
 @implementation ControlWidget
 - (void)commonInit
@@ -36,6 +37,18 @@
 
 - (void)click:(id)sender
 {
-    NSLog(@"%@", sender);
+    NSSegmentedControl *control = sender;
+    switch (control.selectedSegment)
+    {
+    case 0:
+        break;
+    case 1:
+        break;
+    case 2:
+        break;
+    case 3:
+        PostAuxKeyPress(NX_KEYTYPE_MUTE);
+        break;
+    }
 }
 @end

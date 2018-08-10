@@ -14,10 +14,9 @@
 #ifndef KEYEVENT_H_INCLUDED
 #define KEYEVENT_H_INCLUDED
 
-#include <stdbool.h>
 #include <stdint.h>
 
-bool PostKeyEvent(uint16_t keyCode, bool keyDown);
 void PostKeyPress(uint16_t keyCode);
+void PostAuxKeyPress(uint16_t auxKeyCode);
 
 #endif
