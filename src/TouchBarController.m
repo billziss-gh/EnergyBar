@@ -59,42 +59,16 @@
 
 - (BOOL)presentWithPlacement:(NSInteger)placement
 {
-    if ([NSTouchBar respondsToSelector:
-        @selector(presentSystemModalFunctionBar:placement:systemTrayItemIdentifier:)])
-    {
-        [NSTouchBar
-            presentSystemModalFunctionBar:self.touchBar
-            placement:placement
-            systemTrayItemIdentifier:nil];
-        return YES;
-    }
-    else if ([NSTouchBar respondsToSelector:
-        @selector(presentSystemModalTouchBar:placement:systemTrayItemIdentifier:)])
-    {
-        [NSTouchBar
-            presentSystemModalTouchBar:self.touchBar
-            placement:placement
-            systemTrayItemIdentifier:nil];
-        return YES;
-    }
-    else
-        return NO;
+    return [NSTouchBar
+        presentSystemModal:self.touchBar
+        placement:placement
+        systemTrayItemIdentifier:nil];
 }
 
 - (void)dismiss
 {
-    if ([NSTouchBar respondsToSelector:
-        @selector(dismissSystemModalFunctionBar:)])
-    {
-        [NSTouchBar
-            dismissSystemModalFunctionBar:self.touchBar];
-    }
-    else if ([NSTouchBar respondsToSelector:
-        @selector(dismissSystemModalTouchBar:)])
-    {
-        [NSTouchBar
-            dismissSystemModalTouchBar:self.touchBar];
-    }
+    return [NSTouchBar
+        dismissSystemModal:self.touchBar];
 }
 
 - (IBAction)customize:(id)sender

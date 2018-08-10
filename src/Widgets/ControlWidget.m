@@ -13,10 +13,51 @@
 
 #import "ControlWidget.h"
 #import "KeyEvent.h"
+#import "TouchBarPrivate.h"
+
+@interface ControlWidgetBrightnessBarController : NSObject
+- (BOOL)present;
+- (void)dismiss;
+@property (retain) IBOutlet NSTouchBar *touchBar;
+@end
+
+@implementation ControlWidgetBrightnessBarController
++ (id)controller
+{
+    id controller = [[[ControlWidgetBrightnessBarController alloc] init] autorelease];
+    NSArray *objects = nil;
+
+    if (![[NSBundle mainBundle]
+        loadNibNamed:@"BrightnessBar" owner:controller topLevelObjects:&objects])
+        return nil;
+
+    return controller;
+}
+
+- (BOOL)present
+{
+    return [NSTouchBar
+        presentSystemModal:self.touchBar
+        placement:1
+        systemTrayItemIdentifier:nil];
+}
+
+- (void)dismiss
+{
+    return [NSTouchBar
+        dismissSystemModal:self.touchBar];
+}
+@end
+
+@interface ControlWidget ()
+@property (retain) ControlWidgetBrightnessBarController *brightnessBarController;
+@end
 
 @implementation ControlWidget
 - (void)commonInit
 {
+    self.brightnessBarController = [ControlWidgetBrightnessBarController controller];
+
     self.customizationLabel = @"Control";
     self.view = [NSSegmentedControl
         segmentedControlWithImages:[NSArray arrayWithObjects:
@@ -32,6 +73,8 @@
 
 - (void)dealloc
 {
+    self.brightnessBarController = nil;
+
     [super dealloc];
 }
 
@@ -43,6 +86,7 @@
     case 0:
         break;
     case 1:
+        [self.brightnessBarController present];
         break;
     case 2:
         break;
