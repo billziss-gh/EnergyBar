@@ -40,6 +40,6 @@
 
 - (void)click:(id)sender
 {
-    PostKeyPress(0x35/*ESC key*/);
+    PostKeyPress(0x35/*kVK_Escape*/);
 }
 @end
