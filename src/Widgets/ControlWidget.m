@@ -150,6 +150,36 @@
 {
     return [self controllerWithNibNamed:@"VolumeBar"];
 }
+
+- (void)awakeFromNib
+{
+    NSSliderTouchBarItem *item = [self.touchBar itemForIdentifier:@"VolumeSlider"];
+    item.slider.minValue = 0;
+    item.slider.maxValue = 1;
+    item.slider.altIncrementValue = 1.0 / 16;
+    item.minimumValueAccessory.behavior = NSSliderAccessoryBehavior.valueStepBehavior;
+    item.maximumValueAccessory.behavior = NSSliderAccessoryBehavior.valueStepBehavior;
+
+    [super awakeFromNib];
+}
+
+- (BOOL)presentWithPlacement:(NSInteger)placement
+{
+    double value = GetAudioVolume();
+    if (isnan(value))
+        value = 0.5;
+
+    NSSliderTouchBarItem *item = [self.touchBar itemForIdentifier:@"VolumeSlider"];
+    item.slider.doubleValue = value;
+
+    return [super presentWithPlacement:placement];
+}
+
+- (IBAction)volumeSliderAction:(id)sender
+{
+    NSSliderTouchBarItem *item = [self.touchBar itemForIdentifier:@"VolumeSlider"];
+    SetAudioVolume(item.slider.doubleValue);
+}
 @end
 
 @interface ControlWidget ()

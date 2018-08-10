@@ -14,6 +14,9 @@
 #ifndef AUDIOVOLUME_H_INCLUDED
 #define AUDIOVOLUME_H_INCLUDED
 
+#include <stdbool.h>
+
 double GetAudioVolume(void);
+bool SetAudioVolume(double volume);
 
 #endif

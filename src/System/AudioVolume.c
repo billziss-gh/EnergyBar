@@ -17,3 +17,8 @@ double GetAudioVolume(void)
 {
     return 0.5;
 }
+
+bool SetAudioVolume(double volume)
+{
+    return true;
+}

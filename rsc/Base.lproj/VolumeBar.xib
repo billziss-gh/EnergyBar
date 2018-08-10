@@ -17,7 +17,7 @@
         <touchBar id="avl-mb-MH7">
             <touchBarItems>
                 <touchBarSpacerItem identifier="NSTouchBarItemIdentifierFlexibleSpace" id="ccv-WB-a1n"/>
-                <sliderTouchBarItem valueAccessoryWidth="64" id="G2t-IK-ZDu">
+                <sliderTouchBarItem identifier="VolumeSlider" valueAccessoryWidth="64" id="G2t-IK-ZDu">
                     <sliderAccessory key="minimumValueAccessory" image="NSTouchBarVolumeDownTemplate" id="xwA-Sf-C6j">
                         <sliderAccessoryBehavior key="behavior" id="jyP-Ga-wK2"/>
                     </sliderAccessory>
@@ -26,8 +26,11 @@
                     </sliderAccessory>
                     <slider key="slider" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9RF-6F-Kbc" customClass="ControlWidgetPopoverBarSlider">
                         <rect key="frame" x="-6" y="0.0" width="473" height="15"/>
-                        <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="vE2-IH-7rT"/>
+                        <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="vE2-IH-7rT"/>
                     </slider>
+                    <connections>
+                        <action selector="volumeSliderAction:" target="-2" id="aa1-o9-Tq5"/>
+                    </connections>
                 </sliderTouchBarItem>
                 <touchBarItem id="9VX-Yh-FVV">
                     <viewController key="viewController" id="oTT-W4-2XR">
