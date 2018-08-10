@@ -29,7 +29,10 @@ double GetDisplayBrightness(void)
     serv = IOServiceGetMatchingService(master_port,
         IOServiceMatching("IODisplayConnect")/* reference consumed by callee */);
     if (0 == serv)
+    {
+        ret = kIOReturnError;
         goto exit;
+    }
 
     ret = IODisplayGetFloatParameter(serv, kNilOptions, CFSTR(kIODisplayBrightnessKey), &brightness);
     if (KERN_SUCCESS != ret)
@@ -40,4 +43,33 @@ exit:
         IOObjectRelease(serv);
 
     return brightness;
+}
+
+bool SetDisplayBrightness(double brightness)
+{
+    mach_port_t master_port;
+    io_service_t serv = 0;
+    kern_return_t ret;
+
+    ret = IOMasterPort(bootstrap_port, &master_port);
+    if (KERN_SUCCESS != ret)
+        goto exit;
+
+    serv = IOServiceGetMatchingService(master_port,
+        IOServiceMatching("IODisplayConnect")/* reference consumed by callee */);
+    if (0 == serv)
+    {
+        ret = kIOReturnError;
+        goto exit;
+    }
+
+    ret = IODisplaySetFloatParameter(serv, kNilOptions, CFSTR(kIODisplayBrightnessKey), brightness);
+    if (KERN_SUCCESS != ret)
+        goto exit;
+
+exit:
+    if (0 != serv)
+        IOObjectRelease(serv);
+
+    return KERN_SUCCESS == ret;
 }

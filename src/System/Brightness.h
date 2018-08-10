@@ -14,6 +14,9 @@
 #ifndef BRIGHTNESS_H_INCLUDED
 #define BRIGHTNESS_H_INCLUDED
 
+#include <stdbool.h>
+
 double GetDisplayBrightness(void);
+bool SetDisplayBrightness(double brightness);
 
 #endif

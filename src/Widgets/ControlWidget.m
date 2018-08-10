@@ -131,19 +131,7 @@
 - (IBAction)brightnessSliderAction:(id)sender
 {
     NSSliderTouchBarItem *item = [self.touchBar itemForIdentifier:@"BrightnessSlider"];
-    double newValue = item.slider.doubleValue;
-    double oldValue = GetDisplayBrightness();
-    double delta = newValue - oldValue;
-
-    if (isnan(oldValue))
-        return;
-
-    for (NSUInteger i = 0, n = fabs(round(16 * delta)); n > i; i++)
-        if (0 > delta)
-            PostAuxKeyPress(NX_KEYTYPE_BRIGHTNESS_DOWN);
-        else
-        if (0 < delta)
-            PostAuxKeyPress(NX_KEYTYPE_BRIGHTNESS_UP);
+    SetDisplayBrightness(item.slider.doubleValue);
 }
 
 - (void)resetNightShift
