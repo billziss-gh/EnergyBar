@@ -49,14 +49,50 @@
 }
 @end
 
+@interface ControlWidgetVolumeBarController : NSObject
+- (BOOL)present;
+- (void)dismiss;
+@property (retain) IBOutlet NSTouchBar *touchBar;
+@end
+
+@implementation ControlWidgetVolumeBarController
++ (id)controller
+{
+    id controller = [[[ControlWidgetVolumeBarController alloc] init] autorelease];
+    NSArray *objects = nil;
+
+    if (![[NSBundle mainBundle]
+        loadNibNamed:@"VolumeBar" owner:controller topLevelObjects:&objects])
+        return nil;
+
+    return controller;
+}
+
+- (BOOL)present
+{
+    return [NSTouchBar
+        presentSystemModal:self.touchBar
+        placement:1
+        systemTrayItemIdentifier:nil];
+}
+
+- (void)dismiss
+{
+    return [NSTouchBar
+        dismissSystemModal:self.touchBar];
+}
+@end
+
 @interface ControlWidget ()
 @property (retain) ControlWidgetBrightnessBarController *brightnessBarController;
+@property (retain) ControlWidgetVolumeBarController *volumeBarController;
 @end
 
 @implementation ControlWidget
 - (void)commonInit
 {
     self.brightnessBarController = [ControlWidgetBrightnessBarController controller];
+    self.volumeBarController = [ControlWidgetVolumeBarController controller];
 
     self.customizationLabel = @"Control";
     self.view = [NSSegmentedControl
@@ -74,6 +110,7 @@
 - (void)dealloc
 {
     self.brightnessBarController = nil;
+    self.volumeBarController = nil;
 
     [super dealloc];
 }
@@ -89,6 +126,7 @@
         [self.brightnessBarController present];
         break;
     case 2:
+        [self.volumeBarController present];
         break;
     case 3:
         PostAuxKeyPress(NX_KEYTYPE_MUTE);

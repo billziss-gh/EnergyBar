@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14113" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaDFRPlugin" version="14019"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14113"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <capability name="the Touch Bar" minToolsVersion="8.1" minSystemVersion="10.12.2" requiredIntegratedClassName="NSTouchBar"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="ControlWidgetVolumeBarController">
+            <connections>
+                <outlet property="touchBar" destination="avl-mb-MH7" id="UHI-Pt-0Bn"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <touchBar id="avl-mb-MH7">
+            <touchBarItems>
+                <touchBarSpacerItem identifier="NSTouchBarItemIdentifierFlexibleSpace" id="ccv-WB-a1n"/>
+                <sliderTouchBarItem id="G2t-IK-ZDu">
+                    <sliderAccessory key="minimumValueAccessory" image="NSTouchBarVolumeDownTemplate" id="xwA-Sf-C6j">
+                        <sliderAccessoryBehavior key="behavior" id="jyP-Ga-wK2"/>
+                    </sliderAccessory>
+                    <sliderAccessory key="maximumValueAccessory" image="NSTouchBarVolumeUpTemplate" id="bNZ-Vu-WVx">
+                        <sliderAccessoryBehavior key="behavior" id="qhB-Ei-ZrX"/>
+                    </sliderAccessory>
+                    <slider key="slider" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9RF-6F-Kbc">
+                        <rect key="frame" x="-6" y="0.0" width="529" height="15"/>
+                        <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="vE2-IH-7rT"/>
+                    </slider>
+                </sliderTouchBarItem>
+                <touchBarItem id="9VX-Yh-FVV">
+                    <viewController key="viewController" id="oTT-W4-2XR">
+                        <button key="view" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5IR-u2-Ny7">
+                            <rect key="frame" x="0.0" y="0.0" width="72" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="Close" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="oME-fB-zQ1">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" usesAppearanceFont="YES"/>
+                            </buttonCell>
+                        </button>
+                    </viewController>
+                    <size key="designTimeSize" width="72" height="30"/>
+                </touchBarItem>
+                <touchBarSpacerItem identifier="NSTouchBarItemIdentifierFlexibleSpace" id="f79-Sa-xcV"/>
+            </touchBarItems>
+            <point key="canvasLocation" x="-353" y="204"/>
+        </touchBar>
+    </objects>
+    <resources>
+        <image name="Close" width="60" height="60"/>
+        <image name="NSTouchBarVolumeDownTemplate" width="15" height="30"/>
+        <image name="NSTouchBarVolumeUpTemplate" width="23" height="30"/>
+    </resources>
+</document>
