@@ -12,6 +12,7 @@
  */
 
 #import "EscKeyWidget.h"
+#import "KeyEvent.h"
 
 @interface EscKeyWidgetButton : NSButton
 @end
@@ -39,6 +40,6 @@
 
 - (void)click:(id)sender
 {
-    NSLog(@"%@", sender);
+    PostKeyPress(0x35/*ESC key*/);
 }
 @end

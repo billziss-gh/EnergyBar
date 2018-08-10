@@ -18,6 +18,7 @@
 		3C5D0FCE2119210000769A39 /* ClockWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C5D0FCD2119210000769A39 /* ClockWidget.m */; };
 		3C69096B2119113D00041A70 /* DFRFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C69096A2119113D00041A70 /* DFRFoundation.framework */; };
 		3C6CCA38211B824000D019F4 /* TouchBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C6CCA37211B824000D019F4 /* TouchBarController.m */; };
+		3CB1CA97211D02A400DE612B /* KeyEvent.c in Sources */ = {isa = PBXBuildFile; fileRef = 3CB1CA95211D02A400DE612B /* KeyEvent.c */; };
 		3CDF1EB4211A3B9500739051 /* DockWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CDF1EB2211A3B9400739051 /* DockWidget.m */; };
 		3CDF1EB6211A650700739051 /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3CDF1EB5211A650700739051 /* defaults.plist */; };
 /* End PBXBuildFile section */
@@ -43,6 +44,8 @@
 		3C69096A2119113D00041A70 /* DFRFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DFRFoundation.framework; path = ../../../../../../System/Library/PrivateFrameworks/DFRFoundation.framework; sourceTree = "<group>"; };
 		3C6CCA36211B824000D019F4 /* TouchBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchBarController.h; sourceTree = "<group>"; };
 		3C6CCA37211B824000D019F4 /* TouchBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchBarController.m; sourceTree = "<group>"; };
+		3CB1CA95211D02A400DE612B /* KeyEvent.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = KeyEvent.c; sourceTree = "<group>"; };
+		3CB1CA96211D02A400DE612B /* KeyEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyEvent.h; sourceTree = "<group>"; };
 		3CDE6DD2211909B70063A5EF /* TouchBarPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchBarPrivate.h; sourceTree = "<group>"; };
 		3CDF1EB2211A3B9400739051 /* DockWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DockWidget.m; sourceTree = "<group>"; };
 		3CDF1EB3211A3B9500739051 /* DockWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DockWidget.h; sourceTree = "<group>"; };
@@ -121,6 +124,8 @@
 				3CDF1EB2211A3B9400739051 /* DockWidget.m */,
 				3C102D4C2119872800FFB2CF /* EscKeyWidget.h */,
 				3C102D4D2119872800FFB2CF /* EscKeyWidget.m */,
+				3CB1CA96211D02A400DE612B /* KeyEvent.h */,
+				3CB1CA95211D02A400DE612B /* KeyEvent.c */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -207,6 +212,7 @@
 				3C4013C2211BBC8D00C47B66 /* ActiveAppWidget.m in Sources */,
 				3C102D482119641500FFB2CF /* CustomWidget.m in Sources */,
 				3C5D0FCE2119210000769A39 /* ClockWidget.m in Sources */,
+				3CB1CA97211D02A400DE612B /* KeyEvent.c in Sources */,
 				3C6CCA38211B824000D019F4 /* TouchBarController.m in Sources */,
 				3C163BC72118F1C500F015EC /* main.m in Sources */,
 				3C102D4E2119872800FFB2CF /* EscKeyWidget.m in Sources */,
