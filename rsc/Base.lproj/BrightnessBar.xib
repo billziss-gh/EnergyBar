@@ -9,6 +9,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="ControlWidgetBrightnessBarController">
             <connections>
+                <outlet property="nightShiftButton" destination="1za-AR-uxo" id="hvj-8t-d4A"/>
                 <outlet property="touchBar" destination="BdE-Y2-oqf" id="5hU-tR-1FG"/>
             </connections>
         </customObject>
@@ -20,15 +21,15 @@
                 <touchBarItem id="nUv-Ta-Hiq">
                     <viewController key="viewController" id="lKQ-CW-6SV">
                         <button key="view" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1za-AR-uxo">
-                            <rect key="frame" x="0.0" y="0.0" width="72" height="30"/>
+                            <rect key="frame" x="0.0" y="0.0" width="144" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="NightShift" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="Heg-q2-Msq">
-                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="NightShift" imagePosition="only" alignment="center" alternateImage="NightShiftEnabled" imageScaling="proportionallyDown" inset="2" id="Heg-q2-Msq">
+                                <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
                                 <font key="font" usesAppearanceFont="YES"/>
                             </buttonCell>
                         </button>
                     </viewController>
-                    <size key="designTimeSize" width="72" height="30"/>
+                    <size key="designTimeSize" width="144" height="30"/>
                 </touchBarItem>
                 <sliderTouchBarItem id="LrQ-8k-jyv">
                     <sliderAccessory key="minimumValueAccessory" image="BrightnessDown" id="bFL-Fu-JKJ">
@@ -38,7 +39,7 @@
                         <sliderAccessoryBehavior key="behavior" id="onn-Ej-qRH"/>
                     </sliderAccessory>
                     <slider key="slider" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="d2j-Vf-2Jc">
-                        <rect key="frame" x="-6" y="0.0" width="449" height="15"/>
+                        <rect key="frame" x="-6" y="0.0" width="377" height="15"/>
                         <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="v25-Eo-6Bn"/>
                     </slider>
                 </sliderTouchBarItem>
@@ -66,6 +67,7 @@
         <image name="BrightnessDown" width="60" height="60"/>
         <image name="BrightnessUp" width="60" height="60"/>
         <image name="Close" width="60" height="60"/>
-        <image name="NightShift" width="44" height="60"/>
+        <image name="NightShift" width="60" height="60"/>
+        <image name="NightShiftEnabled" width="60" height="60"/>
     </resources>
 </document>

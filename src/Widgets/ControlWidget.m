@@ -39,12 +39,20 @@
 @end
 
 @interface ControlWidgetBrightnessBarController : ControlWidgetPopoverBarController
+@property (retain) IBOutlet NSButton *nightShiftButton;
 @end
 
 @implementation ControlWidgetBrightnessBarController
 + (id)controller
 {
     return [self controllerWithNibNamed:@"BrightnessBar"];
+}
+
+- (void)dealloc
+{
+    self.nightShiftButton = nil;
+
+    [super dealloc];
 }
 @end
 
