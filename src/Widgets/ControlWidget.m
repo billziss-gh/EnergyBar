@@ -59,10 +59,6 @@
 @end
 
 @implementation ControlWidgetBrightnessBarController
-{
-    double _value;
-}
-
 + (id)controller
 {
     return [self controllerWithNibNamed:@"BrightnessBar"];
@@ -106,12 +102,12 @@
 {
     [self resetNightShift];
 
-    _value = GetDisplayBrightness();
-    if (isnan(_value))
-        _value = 0.5;
+    double value = GetDisplayBrightness();
+    if (isnan(value))
+        value = 0.5;
 
     NSSliderTouchBarItem *item = [self.touchBar itemForIdentifier:@"BrightnessSlider"];
-    item.slider.doubleValue = _value;
+    item.slider.doubleValue = value;
 
     return [super presentWithPlacement:placement];
 }
@@ -135,9 +131,12 @@
 - (IBAction)brightnessSliderAction:(id)sender
 {
     NSSliderTouchBarItem *item = [self.touchBar itemForIdentifier:@"BrightnessSlider"];
-    double value = item.slider.doubleValue;
-    double delta = value - _value;
-    _value = value;
+    double newValue = item.slider.doubleValue;
+    double oldValue = GetDisplayBrightness();
+    double delta = newValue - oldValue;
+
+    if (isnan(oldValue))
+        return;
 
     for (NSUInteger i = 0, n = fabs(round(16 * delta)); n > i; i++)
         if (0 > delta)
