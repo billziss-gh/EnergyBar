@@ -34,7 +34,7 @@
                     </viewController>
                     <size key="designTimeSize" width="144" height="30"/>
                 </touchBarItem>
-                <sliderTouchBarItem id="LrQ-8k-jyv">
+                <sliderTouchBarItem valueAccessoryWidth="64" id="LrQ-8k-jyv">
                     <sliderAccessory key="minimumValueAccessory" image="BrightnessDown" id="bFL-Fu-JKJ">
                         <sliderAccessoryBehavior key="behavior" id="Fax-sn-2de"/>
                     </sliderAccessory>
@@ -42,7 +42,7 @@
                         <sliderAccessoryBehavior key="behavior" id="onn-Ej-qRH"/>
                     </sliderAccessory>
                     <slider key="slider" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="d2j-Vf-2Jc" customClass="ControlWidgetPopoverBarSlider">
-                        <rect key="frame" x="-6" y="0.0" width="377" height="15"/>
+                        <rect key="frame" x="-6" y="0.0" width="321" height="15"/>
                         <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="v25-Eo-6Bn"/>
                     </slider>
                 </sliderTouchBarItem>

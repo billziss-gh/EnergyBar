@@ -24,7 +24,7 @@
 - (NSSize)intrinsicContentSize
 {
     NSSize size = [super intrinsicContentSize];
-    size.width = 360;
+    size.width = 250;
     return size;
 }
 @end

@@ -17,15 +17,15 @@
         <touchBar id="avl-mb-MH7">
             <touchBarItems>
                 <touchBarSpacerItem identifier="NSTouchBarItemIdentifierFlexibleSpace" id="ccv-WB-a1n"/>
-                <sliderTouchBarItem id="G2t-IK-ZDu">
+                <sliderTouchBarItem valueAccessoryWidth="64" id="G2t-IK-ZDu">
                     <sliderAccessory key="minimumValueAccessory" image="NSTouchBarVolumeDownTemplate" id="xwA-Sf-C6j">
                         <sliderAccessoryBehavior key="behavior" id="jyP-Ga-wK2"/>
                     </sliderAccessory>
                     <sliderAccessory key="maximumValueAccessory" image="NSTouchBarVolumeUpTemplate" id="bNZ-Vu-WVx">
                         <sliderAccessoryBehavior key="behavior" id="qhB-Ei-ZrX"/>
                     </sliderAccessory>
-                    <slider key="slider" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9RF-6F-Kbc">
-                        <rect key="frame" x="-6" y="0.0" width="529" height="15"/>
+                    <slider key="slider" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9RF-6F-Kbc" customClass="ControlWidgetPopoverBarSlider">
+                        <rect key="frame" x="-6" y="0.0" width="473" height="15"/>
                         <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="vE2-IH-7rT"/>
                     </slider>
                 </sliderTouchBarItem>
