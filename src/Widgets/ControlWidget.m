@@ -57,6 +57,9 @@
         return nil;
 
     self.blueLightClient = [[[CBBlueLightClient alloc] init] autorelease];
+    [self.blueLightClient setStatusNotificationBlock:^{
+        [self resetNightShift];
+    }];
 
     return self;
 }
@@ -71,10 +74,7 @@
 
 - (BOOL)presentWithPlacement:(NSInteger)placement
 {
-    CBBlueLightStatus status;
-    if ([self.blueLightClient getBlueLightStatus:&status])
-        self.nightShiftButton.state = status.enabled ? NSControlStateValueOn : NSControlStateValueOff;
-
+    [self resetNightShift];
     return [super presentWithPlacement:placement];
 }
 
@@ -92,6 +92,13 @@
         NSLog(@"nightShiftButtonClick: %d", (int)[sender state]);
         break;
     }
+}
+
+- (void)resetNightShift
+{
+    CBBlueLightStatus status;
+    if ([self.blueLightClient getBlueLightStatus:&status])
+        self.nightShiftButton.state = status.enabled ? NSControlStateValueOn : NSControlStateValueOff;
 }
 @end
 
