@@ -34,7 +34,7 @@
                     </viewController>
                     <size key="designTimeSize" width="144" height="30"/>
                 </touchBarItem>
-                <sliderTouchBarItem valueAccessoryWidth="64" id="LrQ-8k-jyv">
+                <sliderTouchBarItem identifier="BrightnessSlider" valueAccessoryWidth="64" id="LrQ-8k-jyv">
                     <sliderAccessory key="minimumValueAccessory" image="BrightnessDown" id="bFL-Fu-JKJ">
                         <sliderAccessoryBehavior key="behavior" id="Fax-sn-2de"/>
                     </sliderAccessory>
@@ -45,6 +45,9 @@
                         <rect key="frame" x="-6" y="0.0" width="321" height="15"/>
                         <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="v25-Eo-6Bn"/>
                     </slider>
+                    <connections>
+                        <action selector="brightnessSliderAction:" target="-2" id="APe-X9-juJ"/>
+                    </connections>
                 </sliderTouchBarItem>
                 <touchBarItem id="zcA-yb-ta9">
                     <viewController key="viewController" id="EOQ-dh-Y2L">

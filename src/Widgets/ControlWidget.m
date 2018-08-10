@@ -12,6 +12,8 @@
  */
 
 #import "ControlWidget.h"
+#import "AudioVolume.h"
+#import "Brightness.h"
 #import "CBBlueLightClient.h"
 #import "KeyEvent.h"
 #import "TouchBarController.h"
@@ -57,6 +59,10 @@
 @end
 
 @implementation ControlWidgetBrightnessBarController
+{
+    double _value;
+}
+
 + (id)controller
 {
     return [self controllerWithNibNamed:@"BrightnessBar"];
@@ -84,9 +90,26 @@
     [super dealloc];
 }
 
+- (void)awakeFromNib
+{
+    NSSliderTouchBarItem *item = [self.touchBar itemForIdentifier:@"BrightnessSlider"];
+    item.slider.minValue = 0;
+    item.slider.maxValue = 1;
+    item.slider.altIncrementValue = 1.0 / 16;
+    item.minimumValueAccessory.behavior = NSSliderAccessoryBehavior.valueStepBehavior;
+    item.maximumValueAccessory.behavior = NSSliderAccessoryBehavior.valueStepBehavior;
+
+    [super awakeFromNib];
+}
+
 - (BOOL)presentWithPlacement:(NSInteger)placement
 {
     [self resetNightShift];
+
+    _value = GetDisplayBrightness();
+    NSSliderTouchBarItem *item = [self.touchBar itemForIdentifier:@"BrightnessSlider"];
+    item.slider.doubleValue = _value;
+
     return [super presentWithPlacement:placement];
 }
 
@@ -104,6 +127,21 @@
         NSLog(@"nightShiftButtonClick: %d", (int)[sender state]);
         break;
     }
+}
+
+- (IBAction)brightnessSliderAction:(id)sender
+{
+    NSSliderTouchBarItem *item = [self.touchBar itemForIdentifier:@"BrightnessSlider"];
+    double value = item.slider.doubleValue;
+    double delta = value - _value;
+    _value = value;
+
+    for (NSUInteger i = 0, n = fabs(round(16 * delta)); n > i; i++)
+        if (0 > delta)
+            PostAuxKeyPress(NX_KEYTYPE_BRIGHTNESS_DOWN);
+        else
+        if (0 < delta)
+            PostAuxKeyPress(NX_KEYTYPE_BRIGHTNESS_UP);
 }
 
 - (void)resetNightShift
