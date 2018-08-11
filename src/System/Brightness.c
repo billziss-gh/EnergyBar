@@ -16,7 +16,7 @@
 #include <IOKit/graphics/IOGraphicsLib.h>
 #include <pthread.h>
 
-static pthread_once_t disp_once = PTHREAD_ONCE_INIT;
+static pthread_once_t disp_serv_once = PTHREAD_ONCE_INIT;
 static io_connect_t disp_serv = 0;
 
 static void disp_serv_initonce(void)
@@ -37,7 +37,7 @@ double GetDisplayBrightness(void)
     float brightness;
     kern_return_t ret;
 
-    pthread_once(&disp_once, disp_serv_initonce);
+    pthread_once(&disp_serv_once, disp_serv_initonce);
     if (0 == disp_serv)
         return NAN;
 
@@ -53,7 +53,7 @@ bool SetDisplayBrightness(double brightness)
 {
     kern_return_t ret;
 
-    pthread_once(&disp_once, disp_serv_initonce);
+    pthread_once(&disp_serv_once, disp_serv_initonce);
     if (0 == disp_serv)
         return false;
 
