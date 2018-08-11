@@ -227,7 +227,7 @@
     self.customizationLabel = @"Control";
     self.view = [NSSegmentedControl
         segmentedControlWithImages:[NSArray arrayWithObjects:
-            [NSImage imageNamed:NSImageNameTouchBarPlayTemplate],
+            [NSImage imageNamed:NSImageNameTouchBarPlayPauseTemplate],
             [NSImage imageNamed:@"BrightnessUp"],
             [NSImage imageNamed:NSImageNameTouchBarAudioOutputVolumeHighTemplate],
             [NSImage imageNamed:NSImageNameTouchBarAudioOutputMuteTemplate],
@@ -251,6 +251,7 @@
     switch (control.selectedSegment)
     {
     case 0:
+        PostAuxKeyPress(NX_KEYTYPE_PLAY);
         break;
     case 1:
         [self.brightnessBarController present];
