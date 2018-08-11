@@ -14,62 +14,53 @@
 #include "Brightness.h"
 #include <IOKit/IOKitLib.h>
 #include <IOKit/graphics/IOGraphicsLib.h>
+#include <pthread.h>
 
-double GetDisplayBrightness(void)
+static pthread_once_t disp_once = PTHREAD_ONCE_INIT;
+static io_connect_t disp_serv = 0;
+
+static void disp_serv_initonce(void)
 {
     mach_port_t master_port;
-    io_service_t serv = 0;
-    float brightness = NAN;
     kern_return_t ret;
 
     ret = IOMasterPort(bootstrap_port, &master_port);
     if (KERN_SUCCESS != ret)
-        goto exit;
+        return;
 
-    serv = IOServiceGetMatchingService(master_port,
+    disp_serv = IOServiceGetMatchingService(master_port,
         IOServiceMatching("IODisplayConnect")/* reference consumed by callee */);
-    if (0 == serv)
-    {
-        ret = kIOReturnError;
-        goto exit;
-    }
+}
 
-    ret = IODisplayGetFloatParameter(serv, kNilOptions, CFSTR(kIODisplayBrightnessKey), &brightness);
+double GetDisplayBrightness(void)
+{
+    float brightness;
+    kern_return_t ret;
+
+    pthread_once(&disp_once, disp_serv_initonce);
+    if (0 == disp_serv)
+        return NAN;
+
+    ret = IODisplayGetFloatParameter(disp_serv, kNilOptions,
+        CFSTR(kIODisplayBrightnessKey), &brightness);
     if (KERN_SUCCESS != ret)
-        goto exit;
-
-exit:
-    if (0 != serv)
-        IOObjectRelease(serv);
+        return NAN;
 
     return brightness;
 }
 
 bool SetDisplayBrightness(double brightness)
 {
-    mach_port_t master_port;
-    io_service_t serv = 0;
     kern_return_t ret;
 
-    ret = IOMasterPort(bootstrap_port, &master_port);
+    pthread_once(&disp_once, disp_serv_initonce);
+    if (0 == disp_serv)
+        return false;
+
+    ret = IODisplaySetFloatParameter(disp_serv, kNilOptions,
+        CFSTR(kIODisplayBrightnessKey), brightness);
     if (KERN_SUCCESS != ret)
-        goto exit;
+        return false;
 
-    serv = IOServiceGetMatchingService(master_port,
-        IOServiceMatching("IODisplayConnect")/* reference consumed by callee */);
-    if (0 == serv)
-    {
-        ret = kIOReturnError;
-        goto exit;
-    }
-
-    ret = IODisplaySetFloatParameter(serv, kNilOptions, CFSTR(kIODisplayBrightnessKey), brightness);
-    if (KERN_SUCCESS != ret)
-        goto exit;
-
-exit:
-    if (0 != serv)
-        IOObjectRelease(serv);
-
-    return KERN_SUCCESS == ret;
+    return true;
 }
