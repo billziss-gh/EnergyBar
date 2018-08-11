@@ -15,7 +15,7 @@
 		3C163BBF2118F1A800F015EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C163BBC2118F1A800F015EC /* Assets.xcassets */; };
 		3C163BC62118F1C500F015EC /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C163BC32118F1C500F015EC /* AppController.m */; };
 		3C163BC72118F1C500F015EC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C163BC52118F1C500F015EC /* main.m */; };
-		3C163BCA2118F33C00F015EC /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C163BC82118F33C00F015EC /* MainMenu.xib */; };
+		3C163BCA2118F33C00F015EC /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C163BC82118F33C00F015EC /* MainWindow.xib */; };
 		3C1A5678211D6B7D008E1F9F /* AppBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1A5677211D6B7D008E1F9F /* AppBarController.m */; };
 		3C4013C2211BBC8D00C47B66 /* ActiveAppWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C4013C1211BBC8D00C47B66 /* ActiveAppWidget.m */; };
 		3C5D0FCE2119210000769A39 /* ClockWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C5D0FCD2119210000769A39 /* ClockWidget.m */; };
@@ -46,7 +46,7 @@
 		3C163BC32118F1C500F015EC /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
 		3C163BC42118F1C500F015EC /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
 		3C163BC52118F1C500F015EC /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		3C163BC92118F33C00F015EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		3C163BC92118F33C00F015EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		3C1A5676211D6B7D008E1F9F /* AppBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppBarController.h; sourceTree = "<group>"; };
 		3C1A5677211D6B7D008E1F9F /* AppBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppBarController.m; sourceTree = "<group>"; };
 		3C4013C0211BBC8D00C47B66 /* ActiveAppWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActiveAppWidget.h; sourceTree = "<group>"; };
@@ -118,7 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				3C163BBC2118F1A800F015EC /* Assets.xcassets */,
-				3C163BC82118F33C00F015EC /* MainMenu.xib */,
+				3C163BC82118F33C00F015EC /* MainWindow.xib */,
 				3CEE0C2B211D599400CFD6B2 /* BrightnessBar.xib */,
 				3CD1EBC0211D680A001DC22F /* VolumeBar.xib */,
 				3C163BBD2118F1A800F015EC /* Info.plist */,
@@ -233,7 +233,7 @@
 				3CEE0C29211D599400CFD6B2 /* BrightnessBar.xib in Resources */,
 				3C163BBF2118F1A800F015EC /* Assets.xcassets in Resources */,
 				3CDF1EB6211A650700739051 /* defaults.plist in Resources */,
-				3C163BCA2118F33C00F015EC /* MainMenu.xib in Resources */,
+				3C163BCA2118F33C00F015EC /* MainWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,12 +264,12 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		3C163BC82118F33C00F015EC /* MainMenu.xib */ = {
+		3C163BC82118F33C00F015EC /* MainWindow.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				3C163BC92118F33C00F015EC /* Base */,
 			);
-			name = MainMenu.xib;
+			name = MainWindow.xib;
 			sourceTree = "<group>";
 		};
 		3CD1EBC0211D680A001DC22F /* VolumeBar.xib */ = {
