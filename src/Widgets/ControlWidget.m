@@ -97,12 +97,14 @@
     item.minimumValueAccessory.behavior = NSSliderAccessoryBehavior.valueStepBehavior;
     item.maximumValueAccessory.behavior = NSSliderAccessoryBehavior.valueStepBehavior;
 
+#if 0
     item = [self.touchBar itemForIdentifier:@"KeyboardBrightnessSlider"];
     item.slider.minValue = 0;
     item.slider.maxValue = 1;
     item.slider.altIncrementValue = 1.0 / 16;
     item.minimumValueAccessory.behavior = NSSliderAccessoryBehavior.valueStepBehavior;
     item.maximumValueAccessory.behavior = NSSliderAccessoryBehavior.valueStepBehavior;
+#endif
 
     [super awakeFromNib];
 }
@@ -121,12 +123,14 @@
 
     [self resetNightShift];
 
+#if 0
     value = GetKeyboardBrightness();
     if (isnan(value))
         value = 0.5;
 
     item = [self.touchBar itemForIdentifier:@"KeyboardBrightnessSlider"];
     item.slider.doubleValue = value;
+#endif
 
     return [super presentWithPlacement:placement];
 }
@@ -160,11 +164,13 @@
         self.nightShiftButton.state = status.enabled ? NSControlStateValueOn : NSControlStateValueOff;
 }
 
+#if 0
 - (IBAction)keyboardBrightnessSliderAction:(id)sender
 {
     NSSliderTouchBarItem *item = [self.touchBar itemForIdentifier:@"KeyboardBrightnessSlider"];
     SetKeyboardBrightness(item.slider.doubleValue);
 }
+#endif
 @end
 
 @interface ControlWidgetVolumeBarController : ControlWidgetPopoverBarController

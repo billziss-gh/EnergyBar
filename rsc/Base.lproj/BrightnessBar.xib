@@ -18,21 +18,6 @@
         <touchBar id="BdE-Y2-oqf">
             <touchBarItems>
                 <touchBarSpacerItem identifier="NSTouchBarItemIdentifierFlexibleSpace" id="rxs-ne-JLR"/>
-                <sliderTouchBarItem identifier="KeyboardBrightnessSlider" valueAccessoryWidth="64" id="5gH-L1-GB7">
-                    <sliderAccessory key="minimumValueAccessory" image="KeyboardBrightnessDown" id="dbf-i9-Buc">
-                        <sliderAccessoryBehavior key="behavior" id="kwU-Pa-Met"/>
-                    </sliderAccessory>
-                    <sliderAccessory key="maximumValueAccessory" image="KeyboardBrightnessUp" id="bqZ-B0-ThT">
-                        <sliderAccessoryBehavior key="behavior" id="EzY-oL-1rR"/>
-                    </sliderAccessory>
-                    <slider key="slider" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XFt-8L-OzQ" customClass="ControlWidgetPopoverBarSlider">
-                        <rect key="frame" x="-6" y="0.0" width="99" height="15"/>
-                        <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="8N4-Js-zmx"/>
-                    </slider>
-                    <connections>
-                        <action selector="keyboardBrightnessSliderAction:" target="-2" id="mBv-gH-bkh"/>
-                    </connections>
-                </sliderTouchBarItem>
                 <touchBarItem id="nUv-Ta-Hiq">
                     <viewController key="viewController" id="lKQ-CW-6SV">
                         <button key="view" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1za-AR-uxo">
@@ -57,7 +42,7 @@
                         <sliderAccessoryBehavior key="behavior" id="onn-Ej-qRH"/>
                     </sliderAccessory>
                     <slider key="slider" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="d2j-Vf-2Jc" customClass="ControlWidgetPopoverBarSlider">
-                        <rect key="frame" x="-6" y="0.0" width="99" height="15"/>
+                        <rect key="frame" x="-6" y="0.0" width="321" height="15"/>
                         <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="v25-Eo-6Bn"/>
                     </slider>
                     <connections>
@@ -88,8 +73,6 @@
         <image name="BrightnessDown" width="60" height="60"/>
         <image name="BrightnessUp" width="60" height="60"/>
         <image name="Close" width="60" height="60"/>
-        <image name="KeyboardBrightnessDown" width="60" height="60"/>
-        <image name="KeyboardBrightnessUp" width="60" height="60"/>
         <image name="NightShift" width="60" height="60"/>
         <image name="NightShiftEnabled" width="60" height="60"/>
     </resources>
