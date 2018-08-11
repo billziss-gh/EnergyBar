@@ -224,8 +224,10 @@
     self.brightnessBarController = [ControlWidgetBrightnessBarController controller];
     self.volumeBarController = [ControlWidgetVolumeBarController controller];
 
-    self.customizationLabel = @"Control";
-    self.view = [NSSegmentedControl
+    NSPressGestureRecognizer *recognizer = [[[NSPressGestureRecognizer alloc]
+        initWithTarget:self action:@selector(pressAction:)] autorelease];
+    recognizer.allowedTouchTypes = NSTouchTypeMaskDirect;
+    NSSegmentedControl *control = [NSSegmentedControl
         segmentedControlWithImages:[NSArray arrayWithObjects:
             [NSImage imageNamed:NSImageNameTouchBarPlayPauseTemplate],
             [NSImage imageNamed:@"BrightnessUp"],
@@ -235,6 +237,10 @@
         trackingMode:NSSegmentSwitchTrackingMomentary
         target:self
         action:@selector(click:)];
+    [control addGestureRecognizer:recognizer];
+
+    self.customizationLabel = @"Control";
+    self.view = control;
 }
 
 - (void)dealloc
@@ -263,5 +269,60 @@
         PostAuxKeyPress(NX_KEYTYPE_MUTE);
         break;
     }
+}
+
+- (void)pressAction:(NSGestureRecognizer *)recognizer
+{
+    if (NSGestureRecognizerStateRecognized != recognizer.state)
+        return;
+
+    /* HACK:
+     * There does not appear to be a direct way to determine the segment from a point.
+     *
+     * One would think that the -[NSSegmentedControl widthForSegment:] method on the
+     * first segment (which happens to be the Play/Pause button) would do the trick.
+     * Unfortunately this method returns 0 for automatically sized segments. Arrrrr!
+     *
+     * So I am adapting here some code that I wrote a long time for "DarwinKit"...
+     */
+    NSSegmentedControl *control = self.view;
+    NSRect rect = control.bounds;
+    CGFloat widths[16] = { 0 }, totalWidth = 0;
+    NSInteger count = control.segmentCount, zeroWidthCells = 0;
+    for (NSInteger i = 0; count > i; i++)
+    {
+        widths[i] = [control widthForSegment:i];
+        if (0 == widths[i])
+            zeroWidthCells++;
+        else
+            totalWidth += widths[i];
+    }
+
+    if (0 < zeroWidthCells)
+    {
+        totalWidth = rect.size.width - totalWidth;
+        for (NSInteger i = 0; count > i; i++)
+            if (0 == widths[i])
+                widths[i] = totalWidth / zeroWidthCells;
+    }
+    else
+    {
+        if (2 <= count)
+        {
+            CGFloat remWidth = rect.size.width - totalWidth;
+            widths[0] += remWidth / 2;
+            widths[count - 1] += remWidth / 2;
+        }
+        else if (1 <= count)
+        {
+            CGFloat remWidth = rect.size.width - totalWidth;
+            widths[0] += remWidth;
+        }
+    }
+
+    NSPoint point = [recognizer locationInView:control];
+
+    if (0 < point.x && point.x < widths[0])
+        PostAuxKeyPress(NX_KEYTYPE_NEXT);
 }
 @end
