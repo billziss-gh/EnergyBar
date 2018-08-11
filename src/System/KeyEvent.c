@@ -47,7 +47,7 @@ static void hid_conn_initonce(void)
         goto exit;
 
     serv = IOServiceGetMatchingService(master_port,
-        IOServiceMatching(kIOHIDSystemClass)/* reference consumed by callee */);
+        IOServiceMatching(kIOHIDSystemClass)/* ref consumed by IOServiceGetMatchingService */);
     if (0 == serv)
         goto exit;
 

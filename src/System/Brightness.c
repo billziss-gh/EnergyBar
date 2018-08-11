@@ -29,7 +29,7 @@ static void disp_serv_initonce(void)
         return;
 
     disp_serv = IOServiceGetMatchingService(master_port,
-        IOServiceMatching("IODisplayConnect")/* reference consumed by callee */);
+        IOServiceMatching("IODisplayConnect")/* ref consumed by IOServiceGetMatchingService */);
 }
 
 double GetDisplayBrightness(void)
