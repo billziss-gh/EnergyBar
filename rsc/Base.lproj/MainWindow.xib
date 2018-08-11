@@ -498,9 +498,12 @@
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="customize:" target="K6h-9q-8nk" id="6lK-Em-Zpf"/>
+                        </connections>
                     </button>
                     <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="b9N-cs-PX8">
-                        <rect key="frame" x="12" y="119" width="456" height="5"/>
+                        <rect key="frame" x="12" y="119" width="456" height="4"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </box>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oS6-Yw-8uD">
@@ -543,7 +546,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="https://github.com/billziss-gh/TouchBarDock" id="lPo-N0-MDA">
                             <font key="font" metaFont="smallSystem"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="textColor" name="systemBlueColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
