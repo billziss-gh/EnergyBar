@@ -36,7 +36,7 @@ void PostKeyPress(uint16_t keyCode)
 static pthread_once_t hid_once = PTHREAD_ONCE_INIT;
 static io_connect_t hid_conn = 0;
 
-static void OpenHidService(void)
+static void hid_conn_init(void)
 {
     mach_port_t master_port;
     io_service_t serv = 0;
@@ -62,7 +62,7 @@ exit:
 
 static io_connect_t GetHidConnection(void)
 {
-    pthread_once(&hid_once, OpenHidService);
+    pthread_once(&hid_once, hid_conn_init);
     return hid_conn;
 }
 
