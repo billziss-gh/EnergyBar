@@ -88,7 +88,16 @@
 
 - (void)awakeFromNib
 {
-    NSSliderTouchBarItem *item = [self.touchBar itemForIdentifier:@"BrightnessSlider"];
+    NSSliderTouchBarItem *item;
+
+    item = [self.touchBar itemForIdentifier:@"BrightnessSlider"];
+    item.slider.minValue = 0;
+    item.slider.maxValue = 1;
+    item.slider.altIncrementValue = 1.0 / 16;
+    item.minimumValueAccessory.behavior = NSSliderAccessoryBehavior.valueStepBehavior;
+    item.maximumValueAccessory.behavior = NSSliderAccessoryBehavior.valueStepBehavior;
+
+    item = [self.touchBar itemForIdentifier:@"KeyboardBrightnessSlider"];
     item.slider.minValue = 0;
     item.slider.maxValue = 1;
     item.slider.altIncrementValue = 1.0 / 16;
@@ -100,13 +109,23 @@
 
 - (BOOL)presentWithPlacement:(NSInteger)placement
 {
-    [self resetNightShift];
+    NSSliderTouchBarItem *item;
+    double value;
 
-    double value = GetDisplayBrightness();
+    value = GetDisplayBrightness();
     if (isnan(value))
         value = 0.5;
 
-    NSSliderTouchBarItem *item = [self.touchBar itemForIdentifier:@"BrightnessSlider"];
+    item = [self.touchBar itemForIdentifier:@"BrightnessSlider"];
+    item.slider.doubleValue = value;
+
+    [self resetNightShift];
+
+    value = GetKeyboardBrightness();
+    if (isnan(value))
+        value = 0.5;
+
+    item = [self.touchBar itemForIdentifier:@"KeyboardBrightnessSlider"];
     item.slider.doubleValue = value;
 
     return [super presentWithPlacement:placement];
@@ -139,6 +158,12 @@
     CBBlueLightStatus status;
     if ([self.blueLightClient getBlueLightStatus:&status])
         self.nightShiftButton.state = status.enabled ? NSControlStateValueOn : NSControlStateValueOff;
+}
+
+- (IBAction)keyboardBrightnessSliderAction:(id)sender
+{
+    NSSliderTouchBarItem *item = [self.touchBar itemForIdentifier:@"KeyboardBrightnessSlider"];
+    SetKeyboardBrightness(item.slider.doubleValue);
 }
 @end
 

@@ -19,4 +19,7 @@
 double GetDisplayBrightness(void);
 bool SetDisplayBrightness(double brightness);
 
+double GetKeyboardBrightness(void);
+bool SetKeyboardBrightness(double brightness);
+
 #endif

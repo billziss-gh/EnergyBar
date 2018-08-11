@@ -64,3 +64,13 @@ bool SetDisplayBrightness(double brightness)
 
     return true;
 }
+
+double GetKeyboardBrightness(void)
+{
+    return 0.5;
+}
+
+bool SetKeyboardBrightness(double brightness)
+{
+    return true;
+}
