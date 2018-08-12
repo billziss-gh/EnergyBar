@@ -14,6 +14,10 @@
 #import "AppController.h"
 #import "TouchBarController.h"
 
+@interface NSView ()
+- (void)_addKnownSubview:(NSView *)subview;
+@end
+
 @interface AppController () <NSApplicationDelegate>
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet TouchBarController *touchBarController;
@@ -27,6 +31,13 @@
         pathForResource:@"defaults"
         ofType:@"plist"]];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+
+    NSView *contentView = self.window.contentView;
+    NSView *superView = contentView.superview;
+    if ([superView respondsToSelector:@selector(_addKnownSubview:)])
+        [superView _addKnownSubview:contentView];
+    else
+        [superView addSubview:contentView];
 
     NSApp.touchBar = self.touchBarController.touchBar;
 
