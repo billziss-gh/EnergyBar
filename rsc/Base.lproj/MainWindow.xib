@@ -28,9 +28,9 @@
         </customObject>
         <menu title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
             <items>
-                <menuItem title="TouchBarDock" id="1Xt-HY-uBw">
+                <menuItem title="Touch Bar Dock" id="1Xt-HY-uBw">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="TouchBarDock" systemMenu="apple" id="uQy-DD-JDr">
+                    <menu key="submenu" title="Touch Bar Dock" systemMenu="apple" id="uQy-DD-JDr">
                         <items>
                             <menuItem title="About TouchBarDock" id="5kV-Vb-QxS">
                                 <modifierMask key="keyEquivalentModifierMask"/>
