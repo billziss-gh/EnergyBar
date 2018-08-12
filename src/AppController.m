@@ -51,4 +51,9 @@
         [NSApp terminate:nil];
     }
 }
+
+- (IBAction)sourceLinkAction:(id)sender
+{
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/billziss-gh"]];
+}
 @end
