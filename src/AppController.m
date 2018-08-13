@@ -49,8 +49,10 @@
         [superView addSubview:contentView];
 
     NSApp.touchBar = self.touchBarController.touchBar;
-
     [self performSelector:@selector(presentTouchBar) withObject:nil afterDelay:0];
+
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"mainWindowHidden"])
+        [[NSApp.windows objectAtIndex:0] makeKeyAndOrderFront:nil];
 }
 
 
