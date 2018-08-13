@@ -497,6 +497,9 @@
                                 </binding>
                             </connections>
                         </pathCell>
+                        <connections>
+                            <action selector="appsFolderAction:" target="K6h-9q-8nk" id="Ckm-U2-UEB"/>
+                        </connections>
                     </pathControl>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kqJ-3C-JKc">
                         <rect key="frame" x="164" y="217" width="298" height="28"/>
@@ -514,6 +517,9 @@
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="addAppsFromDockAction:" target="Voe-Tx-rLC" id="0VI-If-aez"/>
+                        </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KCu-GU-fg1">
                         <rect key="frame" x="313" y="169" width="153" height="32"/>
@@ -522,6 +528,9 @@
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="showAppsFolderAction:" target="Voe-Tx-rLC" id="zzK-Wu-RmL"/>
+                        </connections>
                     </button>
                     <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="fbN-wM-cps">
                         <rect key="frame" x="12" y="153" width="456" height="5"/>

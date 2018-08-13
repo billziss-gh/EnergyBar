@@ -124,6 +124,10 @@ static NSSize dockItemSize = { 50, 30 };
 static NSSize dockSeparatorSize = { 10, 30 };
 
 @implementation DockWidget
+{
+    NSString *_appsFolder;
+}
+
 - (void)commonInit
 {
     self.separator = [[[DockWidgetApplication alloc] init] autorelease];
@@ -161,6 +165,9 @@ static NSSize dockSeparatorSize = { 10, 30 };
     self.separator = nil;
     self.defaultApps = nil;
     self.runningApps = nil;
+
+    [_appsFolder release];
+
     [super dealloc];
 }
 
@@ -347,5 +354,19 @@ static NSSize dockSeparatorSize = { 10, 30 };
             }
         }
     }];
+}
+
+- (NSString *)appsFolder
+{
+    return _appsFolder;
+}
+
+- (void)setAppsFolder:(NSString *)path
+{
+    if (nil != path && [_appsFolder isEqualToString:path])
+        return;
+
+    [_appsFolder release];
+    _appsFolder = [path copy];
 }
 @end

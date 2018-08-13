@@ -12,6 +12,7 @@
  */
 
 #import "AppBarController.h"
+#import "DockWidget.h"
 
 @interface AppBarController () <NSTouchBarDelegate>
 @end
@@ -59,6 +60,13 @@
     [super awakeFromNib];
 }
 
+- (BOOL)presentWithPlacement:(NSInteger)placement
+{
+    [self appsFolderAction:nil];
+
+    return [super presentWithPlacement:placement];
+}
+
 - (NSTouchBarItem *)touchBar:(NSTouchBar *)touchBar
     makeItemForIdentifier:(NSTouchBarItemIdentifier)identifier
 {
@@ -71,5 +79,11 @@
         [_items setObject:item forKey:identifier];
     }
     return item;
+}
+
+- (IBAction)appsFolderAction:(id)sender
+{
+    [[self.touchBar itemForIdentifier:@"Dock"]
+        setAppsFolder:[[NSUserDefaults standardUserDefaults] objectForKey:@"defaultAppsFolder"]];
 }
 @end

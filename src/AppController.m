@@ -72,6 +72,16 @@
     }
 }
 
+- (IBAction)addAppsFromDockAction:(id)sender
+{
+}
+
+- (IBAction)showAppsFolderAction:(id)sender
+{
+    [[NSWorkspace sharedWorkspace]
+        openFile:[[NSUserDefaults standardUserDefaults] objectForKey:@"defaultAppsFolder"]];
+}
+
 - (IBAction)sourceLinkAction:(id)sender
 {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/billziss-gh"]];
