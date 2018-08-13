@@ -26,11 +26,20 @@
 @implementation AppController
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
-    NSDictionary *defaults = [NSDictionary
+    NSMutableDictionary *defaults = [NSMutableDictionary
         dictionaryWithContentsOfFile:[[NSBundle mainBundle]
         pathForResource:@"defaults"
         ofType:@"plist"]];
+    [defaults
+        setObject:[[defaults objectForKey:@"defaultAppsFolder"] stringByExpandingTildeInPath]
+        forKey:@"defaultAppsFolder"];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+
+    [[NSFileManager defaultManager]
+        createDirectoryAtPath:[defaults objectForKey:@"defaultAppsFolder"]
+        withIntermediateDirectories:YES
+        attributes:nil
+        error:nil];
 
     NSView *contentView = self.window.contentView;
     NSView *superView = contentView.superview;
@@ -66,5 +75,30 @@
 - (IBAction)sourceLinkAction:(id)sender
 {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/billziss-gh"]];
+}
+@end
+
+@interface StringToUrlTransformer : NSValueTransformer
+@end
+
+@implementation StringToUrlTransformer
++ (Class)transformedValueClass
+{
+    return [NSURL class];
+}
+
++ (BOOL)allowsReverseTransformation
+{
+    return YES;
+}
+
+- (id)transformedValue:(id)value
+{
+    return nil != value ? [NSURL fileURLWithPath:[value description]] : nil;
+}
+
+- (id)reverseTransformedValue:(id)value
+{
+    return [value path];
 }
 @end

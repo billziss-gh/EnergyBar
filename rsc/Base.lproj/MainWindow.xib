@@ -487,6 +487,15 @@
                             <allowedTypes>
                                 <string>public.folder</string>
                             </allowedTypes>
+                            <connections>
+                                <binding destination="pJh-SC-QEV" name="value" keyPath="values.defaultAppsFolder" id="PhU-md-Ao2">
+                                    <dictionary key="options">
+                                        <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                        <bool key="NSConditionallySetsEnabled" value="NO"/>
+                                        <string key="NSValueTransformerName">StringToUrlTransformer</string>
+                                    </dictionary>
+                                </binding>
+                            </connections>
                         </pathCell>
                     </pathControl>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kqJ-3C-JKc">
@@ -574,6 +583,7 @@
             </connections>
             <point key="canvasLocation" x="31" y="-1362"/>
         </touchBar>
+        <userDefaultsController representsSharedInstance="YES" id="pJh-SC-QEV"/>
     </objects>
     <resources>
         <image name="AppIcon" width="128" height="128"/>
