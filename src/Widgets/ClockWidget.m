@@ -30,11 +30,20 @@
 @end
 
 @implementation ClockWidget
+{
+    id _target;
+    SEL _action;
+}
+
 - (void)commonInit
 {
     self.customizationLabel = @"Clock";
+    NSPressGestureRecognizer *recognizer = [[[NSPressGestureRecognizer alloc]
+        initWithTarget:self action:@selector(pressAction:)] autorelease];
+    recognizer.allowedTouchTypes = NSTouchTypeMaskDirect;
     ClockWidgetLabel *label = [ClockWidgetLabel labelWithString:@"9:41 am"];
     label.alignment = NSTextAlignmentCenter;
+    [label addGestureRecognizer:recognizer];
     self.view = label;
 
     self.formatter = [[[NSDateFormatter alloc] init] autorelease];
@@ -95,5 +104,19 @@
 {
     NSTextField *view = self.view;
     view.stringValue = [self.formatter stringFromDate:[NSDate date]];
+}
+
+- (void)setPressTarget:(id)target action:(SEL)action
+{
+    _target = target;
+    _action = action;
+}
+
+- (void)pressAction:(NSGestureRecognizer *)recognizer
+{
+    if (NSGestureRecognizerStateRecognized != recognizer.state)
+        return;
+
+    [_target performSelector:_action withObject:self];
 }
 @end

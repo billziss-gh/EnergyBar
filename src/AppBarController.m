@@ -12,6 +12,7 @@
  */
 
 #import "AppBarController.h"
+#import "ClockWidget.h"
 #import "DockWidget.h"
 
 @interface AppBarController () <NSTouchBarDelegate>
@@ -57,6 +58,10 @@
         @"Clock",
         nil];
 
+    [[self.touchBar itemForIdentifier:@"Clock"]
+        setPressTarget:self
+        action:@selector(showMainWindow:)];
+
     [super awakeFromNib];
 }
 
@@ -85,5 +90,10 @@
 {
     [[self.touchBar itemForIdentifier:@"Dock"]
         setAppsFolder:[[NSUserDefaults standardUserDefaults] objectForKey:@"defaultAppsFolder"]];
+}
+
+- (IBAction)showMainWindow:(id)sender
+{
+    [[NSApp.windows objectAtIndex:0] makeKeyAndOrderFront:nil];
 }
 @end
