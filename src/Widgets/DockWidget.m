@@ -124,10 +124,6 @@ static NSSize dockItemSize = { 50, 30 };
 static NSSize dockSeparatorSize = { 10, 30 };
 
 @implementation DockWidget
-{
-    NSString *_appsFolder;
-}
-
 - (void)commonInit
 {
     self.separator = [[[DockWidgetApplication alloc] init] autorelease];
@@ -165,8 +161,6 @@ static NSSize dockSeparatorSize = { 10, 30 };
     self.separator = nil;
     self.defaultApps = nil;
     self.runningApps = nil;
-
-    [_appsFolder release];
 
     [super dealloc];
 }
@@ -215,12 +209,12 @@ static NSSize dockSeparatorSize = { 10, 30 };
 
 - (void)didLaunchApplication:(NSNotification *)notification
 {
-    [self reset];
+    [self resetRunningApps];
 }
 
 - (void)didTerminateApplication:(NSNotification *)notification
 {
-    [self reset];
+    [self resetRunningApps];
 }
 
 - (NSArray *)apps
@@ -229,16 +223,42 @@ static NSSize dockSeparatorSize = { 10, 30 };
     {
         self.runningApps = nil;
 
-        NSArray *defaultApps = [[NSUserDefaults standardUserDefaults] arrayForKey:@"defaultApps"];
         NSMutableArray *newDefaultApps = [NSMutableArray array];
-        for (NSDictionary *a in defaultApps)
+        NSString *defaultAppsFolder = [[NSUserDefaults standardUserDefaults]
+            stringForKey:@"defaultAppsFolder"];
+        if (nil != defaultAppsFolder)
         {
-            DockWidgetApplication *app = [[[DockWidgetApplication alloc] init] autorelease];
-            app.name = [a objectForKey:@"NSApplicationName"];
-            app.path = [a objectForKey:@"NSApplicationPath"];
-            app.icon = [[NSWorkspace sharedWorkspace] iconForFile:app.path];
-            [newDefaultApps addObject:app];
+            NSArray *contents = [[NSFileManager defaultManager]
+                contentsOfDirectoryAtPath:defaultAppsFolder error:0];
+            contents = [contents sortedArrayUsingSelector:@selector(compare:)];
+            for (NSString *c in contents)
+            {
+                NSURL *url = [NSURL
+                    URLByResolvingAliasFileAtURL:[NSURL
+                        fileURLWithPath:[defaultAppsFolder stringByAppendingPathComponent:c]]
+                    options:NSURLBookmarkResolutionWithoutUI|NSURLBookmarkResolutionWithoutMounting
+                    error:0];
+                DockWidgetApplication *app = [[[DockWidgetApplication alloc] init] autorelease];
+                app.name = c;
+                app.path = url.path;
+                app.icon = [[NSWorkspace sharedWorkspace] iconForFile:app.path];
+                [newDefaultApps addObject:app];
+            }
         }
+
+        if (0 == newDefaultApps.count)
+        {
+            NSArray *defaultApps = [[NSUserDefaults standardUserDefaults] arrayForKey:@"defaultApps"];
+            for (NSDictionary *a in defaultApps)
+            {
+                DockWidgetApplication *app = [[[DockWidgetApplication alloc] init] autorelease];
+                app.name = [a objectForKey:@"NSApplicationName"];
+                app.path = [a objectForKey:@"NSApplicationPath"];
+                app.icon = [[NSWorkspace sharedWorkspace] iconForFile:app.path];
+                [newDefaultApps addObject:app];
+            }
+        }
+
         self.defaultApps = [[newDefaultApps copy] autorelease];
     }
 
@@ -251,8 +271,9 @@ static NSSize dockSeparatorSize = { 10, 30 };
             [defaultAppsDict setObject:app forKey:app.path];
         }
 
-        NSArray *runningApps = [[NSWorkspace sharedWorkspace] runningApplications];
         NSMutableArray *newRunningApps = [NSMutableArray array];
+
+        NSArray *runningApps = [[NSWorkspace sharedWorkspace] runningApplications];
         for (NSRunningApplication *a in runningApps)
         {
             if (NSApplicationActivationPolicyRegular != a.activationPolicy)
@@ -273,6 +294,7 @@ static NSSize dockSeparatorSize = { 10, 30 };
             app.running = YES;
             [newRunningApps addObject:app];
         }
+
         self.runningApps = [[newRunningApps copy] autorelease];
     }
 
@@ -289,7 +311,14 @@ static NSSize dockSeparatorSize = { 10, 30 };
 #endif
 }
 
-- (void)reset
+- (void)resetDefaultApps
+{
+    NSScrubber *scrubber = self.view;
+    self.defaultApps = nil;
+    [scrubber reloadData];
+}
+
+- (void)resetRunningApps
 {
     NSScrubber *scrubber = self.view;
     __block NSUInteger count = scrubber.numberOfItems;
@@ -354,19 +383,5 @@ static NSSize dockSeparatorSize = { 10, 30 };
             }
         }
     }];
-}
-
-- (NSString *)appsFolder
-{
-    return _appsFolder;
-}
-
-- (void)setAppsFolder:(NSString *)path
-{
-    if (nil != path && [_appsFolder isEqualToString:path])
-        return;
-
-    [_appsFolder release];
-    _appsFolder = [path copy];
 }
 @end

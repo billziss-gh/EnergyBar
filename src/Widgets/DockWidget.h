@@ -15,6 +15,5 @@
 #import "CustomWidget.h"
 
 @interface DockWidget : CustomWidget
-- (NSString *)appsFolder;
-- (void)setAppsFolder:(NSString *)path;
+- (void)resetDefaultApps;
 @end

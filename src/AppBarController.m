@@ -65,13 +65,6 @@
     [super awakeFromNib];
 }
 
-- (BOOL)presentWithPlacement:(NSInteger)placement
-{
-    [self appsFolderAction:nil];
-
-    return [super presentWithPlacement:placement];
-}
-
 - (NSTouchBarItem *)touchBar:(NSTouchBar *)touchBar
     makeItemForIdentifier:(NSTouchBarItemIdentifier)identifier
 {
@@ -88,8 +81,7 @@
 
 - (IBAction)appsFolderAction:(id)sender
 {
-    [[self.touchBar itemForIdentifier:@"Dock"]
-        setAppsFolder:[[NSUserDefaults standardUserDefaults] objectForKey:@"defaultAppsFolder"]];
+    [[self.touchBar itemForIdentifier:@"Dock"] resetDefaultApps];
 }
 
 - (IBAction)showMainWindow:(id)sender
