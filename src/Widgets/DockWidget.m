@@ -233,6 +233,9 @@ static NSSize dockSeparatorSize = { 10, 30 };
             contents = [contents sortedArrayUsingSelector:@selector(compare:)];
             for (NSString *c in contents)
             {
+                if ([c hasPrefix:@"."])
+                    continue;
+
                 NSURL *url = [NSURL
                     URLByResolvingAliasFileAtURL:[NSURL
                         fileURLWithPath:[defaultAppsFolder stringByAppendingPathComponent:c]]
