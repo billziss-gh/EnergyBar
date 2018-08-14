@@ -532,7 +532,7 @@ In general the folder should contain application aliases. The order of the folde
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="resetAppsFromDockAction:" target="Voe-Tx-rLC" id="mjD-R2-Dhf"/>
+                            <action selector="resetAppsFromDockAction:" target="K6h-9q-8nk" id="VSb-Qe-TDc"/>
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KCu-GU-fg1">
@@ -543,7 +543,7 @@ In general the folder should contain application aliases. The order of the folde
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="showAppsFolderAction:" target="Voe-Tx-rLC" id="zzK-Wu-RmL"/>
+                            <action selector="showAppsFolderAction:" target="K6h-9q-8nk" id="Rhr-1C-O9e"/>
                         </connections>
                     </button>
                     <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="fbN-wM-cps">

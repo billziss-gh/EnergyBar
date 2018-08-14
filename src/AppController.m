@@ -79,38 +79,6 @@
     }
 }
 
-- (IBAction)resetAppsFromDockAction:(id)sender
-{
-    NSString *defaultAppsFolder = [[NSUserDefaults standardUserDefaults]
-        stringForKey:@"defaultAppsFolder"];
-
-    NSArray *contents = nil;
-    if (nil != defaultAppsFolder)
-        contents = [[NSFileManager defaultManager]
-            contentsOfDirectoryAtPath:defaultAppsFolder error:0];
-
-    if (0 != contents.count)
-    {
-        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-        alert.alertStyle = NSAlertStyleWarning;
-        alert.messageText = @"Reset Apps";
-        alert.informativeText = @"This will remove any existing applications in the Touch Bar Dock"
-            " and will replace them with ones from the macOS Dock."
-            " Are you sure you want to proceed?";
-        [alert addButtonWithTitle:@"Yes"];
-        [alert addButtonWithTitle:@"No"];
-        NSModalResponse resp = [alert runModal];
-        if (NSAlertFirstButtonReturn != resp)
-            return;
-    }
-}
-
-- (IBAction)showAppsFolderAction:(id)sender
-{
-    [[NSWorkspace sharedWorkspace]
-        openFile:[[NSUserDefaults standardUserDefaults] objectForKey:@"defaultAppsFolder"]];
-}
-
 - (IBAction)loginItemAction:(id)sender
 {
     SetLoginItem([[NSBundle mainBundle] bundleURL],
