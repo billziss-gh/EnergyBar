@@ -12,6 +12,7 @@
  */
 
 #import "AppController.h"
+#import "LoginItem.h"
 #import "TouchBarController.h"
 
 @interface NSView ()
@@ -19,8 +20,9 @@
 @end
 
 @interface AppController () <NSApplicationDelegate>
-@property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet TouchBarController *touchBarController;
+@property (assign) IBOutlet NSWindow *window;
+@property (assign) IBOutlet NSButton *loginItemButton;
 @end
 
 @implementation AppController
@@ -50,6 +52,9 @@
 
     NSApp.touchBar = self.touchBarController.touchBar;
     [self performSelector:@selector(presentTouchBar) withObject:nil afterDelay:0];
+
+    self.loginItemButton.state = IsLoginItem([[NSBundle mainBundle] bundleURL]) ?
+        NSControlStateValueOn : NSControlStateValueOff;
 
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"mainWindowHidden"])
         [[NSApp.windows objectAtIndex:0] makeKeyAndOrderFront:nil];
@@ -82,6 +87,12 @@
 {
     [[NSWorkspace sharedWorkspace]
         openFile:[[NSUserDefaults standardUserDefaults] objectForKey:@"defaultAppsFolder"]];
+}
+
+- (IBAction)loginItemAction:(id)sender
+{
+    SetLoginItem([[NSBundle mainBundle] bundleURL],
+        NSControlStateValueOff != self.loginItemButton.state);
 }
 
 - (IBAction)sourceLinkAction:(id)sender

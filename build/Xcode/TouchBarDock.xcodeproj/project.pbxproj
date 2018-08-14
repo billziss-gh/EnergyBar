@@ -27,6 +27,7 @@
 		3CDF1EB4211A3B9500739051 /* DockWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CDF1EB2211A3B9400739051 /* DockWidget.m */; };
 		3CDF1EB6211A650700739051 /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3CDF1EB5211A650700739051 /* defaults.plist */; };
 		3CEE0C29211D599400CFD6B2 /* BrightnessBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3CEE0C2B211D599400CFD6B2 /* BrightnessBar.xib */; };
+		3CFECA122122611F00BB58E9 /* LoginItem.c in Sources */ = {isa = PBXBuildFile; fileRef = 3CFECA102122611F00BB58E9 /* LoginItem.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +67,8 @@
 		3CDF1EB3211A3B9500739051 /* DockWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DockWidget.h; sourceTree = "<group>"; };
 		3CDF1EB5211A650700739051 /* defaults.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = defaults.plist; sourceTree = "<group>"; };
 		3CEE0C2A211D599400CFD6B2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/BrightnessBar.xib; sourceTree = "<group>"; };
+		3CFECA102122611F00BB58E9 /* LoginItem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = LoginItem.c; sourceTree = "<group>"; };
+		3CFECA112122611F00BB58E9 /* LoginItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginItem.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +93,8 @@
 				3C83DB45211D7FDB00FC2F53 /* CBBlueLightClient.h */,
 				3C046010211D7C66003EB021 /* KeyEvent.h */,
 				3C04600F211D7C66003EB021 /* KeyEvent.c */,
+				3CFECA112122611F00BB58E9 /* LoginItem.h */,
+				3CFECA102122611F00BB58E9 /* LoginItem.c */,
 				3C046012211D7C66003EB021 /* TouchBarPrivate.h */,
 				3C046011211D7C66003EB021 /* TouchBarPrivate.m */,
 			);
@@ -247,6 +252,7 @@
 				3C9E264A211E2A9F0042C2E8 /* Brightness.c in Sources */,
 				3CDF1EB4211A3B9500739051 /* DockWidget.m in Sources */,
 				3C046013211D7C66003EB021 /* KeyEvent.c in Sources */,
+				3CFECA122122611F00BB58E9 /* LoginItem.c in Sources */,
 				3C4013C2211BBC8D00C47B66 /* ActiveAppWidget.m in Sources */,
 				3C102D482119641500FFB2CF /* CustomWidget.m in Sources */,
 				3C5D0FCE2119210000769A39 /* ClockWidget.m in Sources */,
