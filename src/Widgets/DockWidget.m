@@ -18,6 +18,7 @@
 @property (retain) NSString *path;
 @property (retain) NSImage *icon;
 @property (assign) BOOL running;
+@property (assign) BOOL launching;
 @end
 
 @implementation DockWidgetApplication
@@ -36,6 +37,7 @@
     copy.path = self.path;
     copy.icon = self.icon;
     copy.running = self.running;
+    copy.launching = self.launching;
     return copy;
 }
 @end
@@ -143,12 +145,17 @@ static NSSize dockSeparatorSize = { 10, 30 };
 
     [[[NSWorkspace sharedWorkspace] notificationCenter]
         addObserver:self
-        selector:@selector(didLaunchApplication:)
+        selector:@selector(resetRunningApps)
+        name:NSWorkspaceWillLaunchApplicationNotification
+        object:nil];
+    [[[NSWorkspace sharedWorkspace] notificationCenter]
+        addObserver:self
+        selector:@selector(resetRunningApps)
         name:NSWorkspaceDidLaunchApplicationNotification
         object:nil];
     [[[NSWorkspace sharedWorkspace] notificationCenter]
         addObserver:self
-        selector:@selector(didTerminateApplication:)
+        selector:@selector(resetRunningApps)
         name:NSWorkspaceDidTerminateApplicationNotification
         object:nil];
 }
@@ -207,16 +214,6 @@ static NSSize dockSeparatorSize = { 10, 30 };
     scrubber.selectedIndex = -1;
 }
 
-- (void)didLaunchApplication:(NSNotification *)notification
-{
-    [self resetRunningApps];
-}
-
-- (void)didTerminateApplication:(NSNotification *)notification
-{
-    [self resetRunningApps];
-}
-
 - (NSArray *)apps
 {
     if (nil == self.defaultApps)
@@ -271,6 +268,7 @@ static NSSize dockSeparatorSize = { 10, 30 };
         for (DockWidgetApplication *app in self.defaultApps)
         {
             app.running = NO;
+            app.launching = NO;
             [defaultAppsDict setObject:app forKey:app.path];
         }
 
@@ -287,6 +285,7 @@ static NSSize dockSeparatorSize = { 10, 30 };
             if (nil != (app = [defaultAppsDict objectForKey:path]))
             {
                 app.running = YES;
+                app.launching = !a.finishedLaunching;
                 continue;
             }
 
@@ -295,6 +294,7 @@ static NSSize dockSeparatorSize = { 10, 30 };
             app.path = a.bundleURL.path;
             app.icon = a.icon;
             app.running = YES;
+            app.launching = !a.finishedLaunching;
             [newRunningApps addObject:app];
         }
 
@@ -381,7 +381,8 @@ static NSSize dockSeparatorSize = { 10, 30 };
             if (nil != newApp && [oldApp.path isEqualToString:newApp.path])
             {
                 if (![oldApp.name isEqualToString:newApp.name] || oldApp.icon != newApp.icon ||
-                    oldApp.running != newApp.running)
+                    oldApp.running != newApp.running ||
+                    oldApp.launching != newApp.launching)
                     [scrubber reloadItemsAtIndexes:[NSIndexSet indexSetWithIndex:i]];
             }
         }
