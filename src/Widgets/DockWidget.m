@@ -13,6 +13,11 @@
 
 #import "DockWidget.h"
 
+static NSString *dockItemIdentifier = @"dockItem";
+static NSSize dockItemSize = { 50, 30 };
+static NSSize dockSeparatorSize = { 10, 30 };
+static CGFloat dockItemBounce = 10;
+
 @interface DockWidgetApplication : NSObject <NSCopying>
 @property (retain) NSString *name;
 @property (retain) NSString *path;
@@ -42,11 +47,33 @@
 }
 @end
 
-@interface DockWidgetItemView : NSScrubberItemView
+@interface DockWidgetBounceAnimation : NSAnimation
+@property (assign) NSView *view;
+@end
+
+@implementation DockWidgetBounceAnimation
+- (void)setCurrentProgress:(NSAnimationProgress)progress
+{
+    /* use current time to compute progress for our animations! */
+    progress = 2 * fmod(CFAbsoluteTimeGetCurrent(), 0.5);
+
+    [super setCurrentProgress:progress];
+
+    if (0.5 > progress)
+        [self.view setFrameOrigin:NSMakePoint(0, dockItemBounce * 2 * progress)];
+    else
+        [self.view setFrameOrigin:NSMakePoint(0, dockItemBounce * 2 * (1 - progress))];
+}
+@end
+
+@interface DockWidgetItemView : NSScrubberItemView <NSAnimationDelegate>
+@property (retain) NSView *appIconContainerView;
 @property (retain) NSImageView *appIconView;
 @property (retain) NSImageView *appRunningView;
+@property (retain) DockWidgetBounceAnimation *bounceAnimation;
 @property (retain, getter=getAppIcon, setter=setAppIcon:) NSImage *appIcon;
 @property (assign, getter=isAppRunning, setter=setAppRunning:) BOOL appRunning;
+@property (assign, getter=isAppLaunching, setter=setAppLaunching:) BOOL appLaunching;
 @end
 
 @implementation DockWidgetItemView
@@ -56,6 +83,9 @@
     if (nil == self)
         return nil;
 
+    self.appIconContainerView = [[[NSView alloc] initWithFrame:NSZeroRect] autorelease];
+    self.appIconContainerView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+
     self.appIconView = [NSImageView imageViewWithImage:[NSImage imageNamed:NSImageNameApplicationIcon]];
     self.appIconView.imageScaling = NSImageScaleProportionallyDown;
 
@@ -64,7 +94,8 @@
     self.appRunningView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     self.appRunningView.hidden = YES;
 
-    [self addSubview:self.appIconView];
+    [self.appIconContainerView addSubview:self.appIconView];
+    [self addSubview:self.appIconContainerView];
     [self addSubview:self.appRunningView];
 
     return self;
@@ -72,8 +103,10 @@
 
 - (void)dealloc
 {
+    self.appIconContainerView = nil;
     self.appIconView = nil;
     self.appRunningView = nil;
+    self.bounceAnimation = nil;
 
     [super dealloc];
 }
@@ -100,6 +133,38 @@
     self.appRunningView.hidden = !value;
 }
 
+- (BOOL)isAppLaunching
+{
+    return nil != self.bounceAnimation;
+}
+
+- (void)setAppLaunching:(BOOL)value
+{
+    if (self.isAppLaunching == value)
+        return;
+
+    if (value)
+    {
+        self.bounceAnimation = [[[DockWidgetBounceAnimation alloc]
+            initWithDuration:5.0 animationCurve:NSAnimationLinear] autorelease];
+        self.bounceAnimation.view = self.appIconContainerView;
+        self.bounceAnimation.delegate = self;
+        self.bounceAnimation.animationBlockingMode = NSAnimationNonblocking;
+        [self.bounceAnimation startAnimation];
+    }
+    else
+    {
+        [self.bounceAnimation stopAnimation];
+        self.bounceAnimation = nil;
+        [self.appIconContainerView setFrameOrigin:NSZeroPoint];
+    }
+}
+
+- (void)animationDidEnd:(NSAnimation *)animation
+{
+    [self.bounceAnimation startAnimation];
+}
+
 - (void)resizeSubviewsWithOldSize:(NSSize)oldSize
 {
     NSRect iconRect = self.bounds;
@@ -119,11 +184,6 @@
 @property (retain) NSArray *defaultApps;
 @property (retain) NSArray *runningApps;
 @end
-
-static NSString *dockItemIdentifier = @"dockItem";
-
-static NSSize dockItemSize = { 50, 30 };
-static NSSize dockSeparatorSize = { 10, 30 };
 
 @implementation DockWidget
 - (void)commonInit
@@ -185,11 +245,13 @@ static NSSize dockSeparatorSize = { 10, 30 };
     {
         view.appIcon = app.icon;
         view.appRunning = app.running;
+        view.appLaunching = app.launching;
     }
     else
     {
         view.appIcon = [NSImage imageNamed:NSImageNameTouchBarPlayheadTemplate];
         view.appRunning = NO;
+        view.appLaunching = NO;
     }
     return view;
 }
