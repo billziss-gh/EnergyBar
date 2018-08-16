@@ -105,11 +105,11 @@ static CGFloat dockItemBounce = 10;
 {
     [self.bounceAnimation stopAnimation];
     self.bounceAnimation.view = nil;
+    self.bounceAnimation = nil;
 
     self.appIconContainerView = nil;
     self.appIconView = nil;
     self.appRunningView = nil;
-    self.bounceAnimation = nil;
 
     [super dealloc];
 }
@@ -158,7 +158,9 @@ static CGFloat dockItemBounce = 10;
     else
     {
         [self.bounceAnimation stopAnimation];
+        self.bounceAnimation.view = nil;
         self.bounceAnimation = nil;
+
         [self.appIconContainerView setFrameOrigin:NSZeroPoint];
     }
 }
