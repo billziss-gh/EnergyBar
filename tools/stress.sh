@@ -21,14 +21,15 @@ while true; do
     */Dashboard.app)            continue ;;
     */Launchpad.app)            continue ;;
     */Safari.app)               continue ;;
+    */Siri.app)                 continue ;;
     */Terminal.app)             continue ;;
     */"Touch Bar Dock.app")     continue ;;
     */"Visual Studio Code.app") continue ;;
     */Xcode.app)                continue ;;
     esac
 
-    case $(( $RANDOM & 1 )) in
-    1)                          openApp "$Application" ;;
-    0)                          quitApp "$Application" ;;
+    case $(( $RANDOM % 10 )) in
+    [0-2])                      openApp "$Application" ;;
+    [3-9])                      quitApp "$Application" ;;
     esac
 done
