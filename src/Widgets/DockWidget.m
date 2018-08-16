@@ -149,7 +149,7 @@ static CGFloat dockItemBounce = 10;
     if (value)
     {
         self.bounceAnimation = [[[DockWidgetBounceAnimation alloc]
-            initWithDuration:5.0 animationCurve:NSAnimationLinear] autorelease];
+            initWithDuration:60.0 animationCurve:NSAnimationLinear] autorelease];
         self.bounceAnimation.view = self.appIconContainerView;
         self.bounceAnimation.delegate = self;
         self.bounceAnimation.animationBlockingMode = NSAnimationNonblocking;
