@@ -103,6 +103,9 @@ static CGFloat dockItemBounce = 10;
 
 - (void)dealloc
 {
+    [self.bounceAnimation stopAnimation];
+    self.bounceAnimation.view = nil;
+
     self.appIconContainerView = nil;
     self.appIconView = nil;
     self.appRunningView = nil;
