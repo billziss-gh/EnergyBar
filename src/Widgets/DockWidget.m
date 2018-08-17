@@ -162,6 +162,7 @@ static CGFloat dockItemBounce = 10;
         self.bounceAnimation = nil;
 
         [self.appIconContainerView setFrameOrigin:NSZeroPoint];
+        [self.appIconContainerView setNeedsDisplay:YES];
     }
 }
 
