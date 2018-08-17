@@ -12,7 +12,7 @@
  */
 
 #include "LoginItem.h"
-#include "CoreServices/CoreServices.h"
+#include <CoreServices/CoreServices.h>
 
 #pragma clang diagnostic ignored "-Wdeprecated"
 
