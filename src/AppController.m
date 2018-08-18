@@ -168,8 +168,8 @@ static void AppControllerFSNotify(const char *path, void *data)
          * -[NSAlert runModal] seems to overwrite our Touch Bar.
          * So we dismiss it and then present it again! (Just presenting it does not do it!)
          */
-        [self performSelector:@selector(dismiss) withObject:nil afterDelay:0];
-        [self performSelector:@selector(present) withObject:nil afterDelay:0];
+        [self.touchBarController performSelector:@selector(dismiss) withObject:nil afterDelay:0];
+        [self.touchBarController performSelector:@selector(present) withObject:nil afterDelay:0];
         if (NSAlertFirstButtonReturn != resp)
             return;
     }
