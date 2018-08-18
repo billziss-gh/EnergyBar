@@ -110,20 +110,18 @@ static void AppBarControllerFSNotify(const char *path, void *data)
 {
     NSString *defaultAppsFolder = [[NSUserDefaults standardUserDefaults]
         stringForKey:@"defaultAppsFolder"];
+    if (nil == defaultAppsFolder)
+        return;
 
-    NSArray *contents = nil;
     NSUInteger appCount = 0;
-    if (nil != defaultAppsFolder)
+    NSArray *contents = [[NSFileManager defaultManager]
+        contentsOfDirectoryAtPath:defaultAppsFolder error:0];
+    for (NSString *c in contents)
     {
-        contents = [[NSFileManager defaultManager]
-            contentsOfDirectoryAtPath:defaultAppsFolder error:0];
-        for (NSString *c in contents)
-        {
-            if ([c hasPrefix:@"."])
-                continue;
+        if ([c hasPrefix:@"."])
+            continue;
 
-            appCount++;
-        }
+        appCount++;
     }
 
     if (0 != appCount)
@@ -204,8 +202,12 @@ static void AppBarControllerFSNotify(const char *path, void *data)
 
 - (IBAction)showAppsFolderAction:(id)sender
 {
-    [[NSWorkspace sharedWorkspace]
-        openFile:[[NSUserDefaults standardUserDefaults] objectForKey:@"defaultAppsFolder"]];
+    NSString *defaultAppsFolder = [[NSUserDefaults standardUserDefaults]
+        stringForKey:@"defaultAppsFolder"];
+    if (nil == defaultAppsFolder)
+        return;
+
+    [[NSWorkspace sharedWorkspace] openFile:defaultAppsFolder];
 }
 
 - (IBAction)showMainWindow:(id)sender
