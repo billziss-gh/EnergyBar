@@ -460,7 +460,7 @@
                                         <font key="font" metaFont="miniSystem"/>
                                     </buttonCell>
                                     <connections>
-                                        <action selector="sourceLinkAction:" target="Voe-Tx-rLC" id="d8L-k8-n5V"/>
+                                        <action selector="sourceLinkAction:" target="Voe-Tx-rLC" id="12a-j7-rmh"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -495,7 +495,7 @@
                             </connections>
                         </pathCell>
                         <connections>
-                            <action selector="appsFolderAction:" target="K6h-9q-8nk" id="Ckm-U2-UEB"/>
+                            <action selector="appsFolderAction:" target="Voe-Tx-rLC" id="MfK-rd-eDv"/>
                         </connections>
                     </pathControl>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kqJ-3C-JKc">
@@ -527,7 +527,7 @@ In general the folder should contain application aliases. The order of the folde
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="resetAppsFromDockAction:" target="K6h-9q-8nk" id="VSb-Qe-TDc"/>
+                            <action selector="resetAppsFromDockAction:" target="Voe-Tx-rLC" id="EaI-m9-3ed"/>
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KCu-GU-fg1">
@@ -538,7 +538,7 @@ In general the folder should contain application aliases. The order of the folde
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="showAppsFolderAction:" target="K6h-9q-8nk" id="Rhr-1C-O9e"/>
+                            <action selector="showAppsFolderAction:" target="Voe-Tx-rLC" id="h48-He-raU"/>
                         </connections>
                     </button>
                     <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="fbN-wM-cps">
@@ -562,7 +562,7 @@ In general the folder should contain application aliases. The order of the folde
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="customize:" target="K6h-9q-8nk" id="6lK-Em-Zpf"/>
+                            <action selector="customize:" target="K6h-9q-8nk" id="lfz-SQ-RmC"/>
                         </connections>
                     </button>
                     <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="b9N-cs-PX8">
@@ -577,7 +577,7 @@ In general the folder should contain application aliases. The order of the folde
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="loginItemAction:" target="Voe-Tx-rLC" id="xei-Wt-n8g"/>
+                            <action selector="loginItemAction:" target="Voe-Tx-rLC" id="YMk-2F-Qe3"/>
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KZH-dZ-MG4">
