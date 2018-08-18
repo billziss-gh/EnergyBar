@@ -75,28 +75,3 @@
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/billziss-gh"]];
 }
 @end
-
-@interface StringToUrlTransformer : NSValueTransformer
-@end
-
-@implementation StringToUrlTransformer
-+ (Class)transformedValueClass
-{
-    return [NSURL class];
-}
-
-+ (BOOL)allowsReverseTransformation
-{
-    return YES;
-}
-
-- (id)transformedValue:(id)value
-{
-    return nil != value ? [NSURL fileURLWithPath:[value description]] : nil;
-}
-
-- (id)reverseTransformedValue:(id)value
-{
-    return [value path];
-}
-@end
