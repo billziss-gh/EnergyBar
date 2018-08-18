@@ -14,13 +14,21 @@
 #import "AppBarController.h"
 #import "ClockWidget.h"
 #import "DockWidget.h"
+#import "FSNotify.h"
 
 @interface AppBarController () <NSTouchBarDelegate>
+- (void)fsnotify:(const char *)path;
 @end
+
+static void AppBarControllerFSNotify(const char *path, void *data)
+{
+    [(id)data fsnotify:path];
+}
 
 @implementation AppBarController
 {
     NSMutableDictionary *_items;
+    void *_stream;
 }
 
 - (id)init
@@ -36,6 +44,7 @@
 
 - (void)dealloc
 {
+    FSNotifyStop(_stream);
     [_items release];
 
     [super dealloc];
@@ -62,6 +71,10 @@
         setPressTarget:self
         action:@selector(showMainWindow:)];
 
+    FSNotifyStop(_stream);
+    _stream = FSNotifyStart([[[NSUserDefaults standardUserDefaults]
+        stringForKey:@"defaultAppsFolder"] UTF8String], AppBarControllerFSNotify, self);
+
     [super awakeFromNib];
 }
 
@@ -79,8 +92,17 @@
     return item;
 }
 
+- (void)fsnotify:(const char *)path
+{
+    [[self.touchBar itemForIdentifier:@"Dock"] resetDefaultApps];
+}
+
 - (IBAction)appsFolderAction:(id)sender
 {
+    FSNotifyStop(_stream);
+    _stream = FSNotifyStart([[[NSUserDefaults standardUserDefaults]
+        stringForKey:@"defaultAppsFolder"] UTF8String], AppBarControllerFSNotify, self);
+
     [[self.touchBar itemForIdentifier:@"Dock"] resetDefaultApps];
 }
 
@@ -178,9 +200,6 @@
 
         order += 10;
     }
-
-    [[self.touchBar itemForIdentifier:@"Dock"]
-        resetDefaultApps];
 }
 
 - (IBAction)showAppsFolderAction:(id)sender
