@@ -15,7 +15,6 @@
 
 static NSString *dockItemIdentifier = @"dockItem";
 static NSSize dockItemSize = { 50, 30 };
-static NSSize dockSeparatorSize = { 10, 30 };
 static CGFloat dockItemBounce = 10;
 
 @interface DockWidgetApplication : NSObject <NSCopying>
@@ -186,7 +185,6 @@ static CGFloat dockItemBounce = 10;
 @end
 
 @interface DockWidget () <NSScrubberDataSource, NSScrubberFlowLayoutDelegate>
-@property (retain) DockWidgetApplication *separator;
 @property (retain) NSArray *defaultApps;
 @property (retain) NSArray *runningApps;
 @end
@@ -194,8 +192,6 @@ static CGFloat dockItemBounce = 10;
 @implementation DockWidget
 - (void)commonInit
 {
-    self.separator = [[[DockWidgetApplication alloc] init] autorelease];
-
     self.customizationLabel = @"Dock";
     NSScrubberFlowLayout *layout = [[[NSScrubberFlowLayout alloc] init] autorelease];
     NSScrubber *scrubber = [[[NSScrubber alloc] initWithFrame:NSMakeRect(0, 0, 200, 30)] autorelease];
@@ -231,7 +227,6 @@ static CGFloat dockItemBounce = 10;
     [[[NSWorkspace sharedWorkspace] notificationCenter]
         removeObserver:self];
 
-    self.separator = nil;
     self.defaultApps = nil;
     self.runningApps = nil;
 
@@ -247,18 +242,9 @@ static CGFloat dockItemBounce = 10;
 {
     DockWidgetItemView *view = [scrubber makeItemWithIdentifier:dockItemIdentifier owner:nil];
     DockWidgetApplication *app = [self.apps objectAtIndex:index];
-    if (nil != app.path)
-    {
-        view.appIcon = app.icon;
-        view.appRunning = app.running;
-        view.appLaunching = app.launching;
-    }
-    else
-    {
-        view.appIcon = [NSImage imageNamed:NSImageNameTouchBarPlayheadTemplate];
-        view.appRunning = NO;
-        view.appLaunching = NO;
-    }
+    view.appIcon = app.icon;
+    view.appRunning = app.running;
+    view.appLaunching = app.launching;
     return view;
 }
 
@@ -266,11 +252,7 @@ static CGFloat dockItemBounce = 10;
     layout:(NSScrubberFlowLayout *)layout
     sizeForItemAtIndex:(NSInteger)index
 {
-    DockWidgetApplication *app = [self.apps objectAtIndex:index];
-    if (nil != app.path)
-        return dockItemSize;
-    else
-        return dockSeparatorSize;
+    return dockItemSize;
 }
 
 - (void)scrubber:(NSScrubber *)scrubber
@@ -369,17 +351,7 @@ static CGFloat dockItemBounce = 10;
         self.runningApps = [[newRunningApps copy] autorelease];
     }
 
-#if 0
-    if (0 < self.defaultApps.count && 0 < self.runningApps.count)
-        return [[self.defaultApps arrayByAddingObject:self.separator]
-            arrayByAddingObjectsFromArray:self.runningApps];
-    else if (0 < self.defaultApps.count)
-        return self.defaultApps;
-    else
-        return self.runningApps;
-#else
     return [self.defaultApps arrayByAddingObjectsFromArray:self.runningApps];
-#endif
 }
 
 - (void)resetDefaultApps
