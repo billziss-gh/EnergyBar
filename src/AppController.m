@@ -22,7 +22,7 @@
 - (void)_addKnownSubview:(NSView *)subview;
 @end
 
-@interface AppController () <NSApplicationDelegate>
+@interface AppController () <NSApplicationDelegate, NSWindowDelegate>
 - (void)fsnotify:(const char *)path;
 @property (assign) IBOutlet TouchBarController *touchBarController;
 @property (assign) IBOutlet NSWindow *window;
@@ -110,8 +110,14 @@ static void AppControllerFSNotify(const char *path, void *data)
     }
 }
 
+- (void)windowWillClose:(NSNotification *)notification
+{
+    NSApp.activationPolicy = NSApplicationActivationPolicyProhibited;
+}
+
 - (void)showMainWindow:(id)sender
 {
+    NSApp.activationPolicy = NSApplicationActivationPolicyRegular;
     [[NSApp.windows objectAtIndex:0] makeKeyAndOrderFront:nil];
 }
 

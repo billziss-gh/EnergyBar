@@ -621,6 +621,9 @@ In general the folder should contain application aliases. The order of the folde
                 <allowedToolbarItems/>
                 <defaultToolbarItems/>
             </toolbar>
+            <connections>
+                <outlet property="delegate" destination="Voe-Tx-rLC" id="Yhx-mI-vfG"/>
+            </connections>
             <point key="canvasLocation" x="85" y="-724"/>
         </window>
         <touchBar customizationIdentifier="billziss.TouchBarDock" id="7g7-Is-eP5">
