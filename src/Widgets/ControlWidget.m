@@ -217,9 +217,19 @@
 @interface ControlWidget ()
 @property (retain) ControlWidgetBrightnessBarController *brightnessBarController;
 @property (retain) ControlWidgetVolumeBarController *volumeBarController;
+- (void)resetMute;
 @end
 
+void ControlWidgetMuteListener(void *data)
+{
+    [(id)data performSelectorOnMainThread:@selector(resetMute) withObject:nil waitUntilDone:NO];
+}
+
 @implementation ControlWidget
+{
+    struct AudioPropertyListener _muteListener;
+}
+
 - (void)commonInit
 {
     self.brightnessBarController = [ControlWidgetBrightnessBarController controller];
@@ -242,10 +252,16 @@
 
     self.customizationLabel = @"Control";
     self.view = control;
+
+    _muteListener.code = ControlWidgetMuteListener;
+    _muteListener.data = self;
+    AddAudioMutedListener(&_muteListener);
 }
 
 - (void)dealloc
 {
+    RemoveAudioMutedListener(&_muteListener);
+
     self.brightnessBarController = nil;
     self.volumeBarController = nil;
 
@@ -256,6 +272,12 @@
 {
     bool mute = IsAudioMuted();
     return [NSImage imageNamed:mute ? @"VolumeMuteOn" : @"VolumeMuteOff"];
+}
+
+- (void)resetMute
+{
+    NSSegmentedControl *control = self.view;
+    [control setImage:[self volumeMuteImage] forSegment:3];
 }
 
 - (void)click:(id)sender
@@ -274,7 +296,6 @@
         break;
     case 3:
         SetAudioMuted(!IsAudioMuted());
-        [control setImage:[self volumeMuteImage] forSegment:3];
         break;
     }
 }

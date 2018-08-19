@@ -122,3 +122,66 @@ bool SetAudioMuted(bool mute0)
 
     return true;
 }
+
+static OSStatus AudioMutedListener(
+    AudioObjectID device,
+    UInt32 count,
+    const AudioObjectPropertyAddress* addresses,
+    void *data)
+{
+    struct AudioPropertyListener *listener = data;
+    listener->code(listener->data);
+    return kAudioHardwareNoError;
+}
+
+bool AddAudioMutedListener(struct AudioPropertyListener *listener)
+{
+    pthread_once(&audio_dev_once, audio_dev_initonce);
+    if (kAudioObjectUnknown == audio_dev)
+        return false;
+
+    AudioObjectPropertyAddress address =
+    {
+        .mSelector = kAudioDevicePropertyMute,
+        .mScope = kAudioDevicePropertyScopeOutput,
+        .mElement = kAudioObjectPropertyElementMaster,
+    };
+
+    /* NOTE:
+     * It is not clear if AudioObjectAddPropertyListener / AudioObjectRemovePropertyListener
+     * identify listeners using both the listener proc and its data. If both are used, then
+     * AddAudioMutedListener / RemoveAudioMutedListener may be used multiple times. Otherwise
+     * there can only be one outstanding listener.
+     */
+    if (kAudioHardwareNoError !=
+        AudioObjectAddPropertyListener(audio_dev, &address, AudioMutedListener, listener))
+        return false;
+
+    return true;
+}
+
+bool RemoveAudioMutedListener(struct AudioPropertyListener *listener)
+{
+    pthread_once(&audio_dev_once, audio_dev_initonce);
+    if (kAudioObjectUnknown == audio_dev)
+        return false;
+
+    AudioObjectPropertyAddress address =
+    {
+        .mSelector = kAudioDevicePropertyMute,
+        .mScope = kAudioDevicePropertyScopeOutput,
+        .mElement = kAudioObjectPropertyElementMaster,
+    };
+
+    /* NOTE:
+     * It is not clear if AudioObjectAddPropertyListener / AudioObjectRemovePropertyListener
+     * identify listeners using both the listener proc and its data. If both are used, then
+     * AddAudioMutedListener / RemoveAudioMutedListener may be used multiple times. Otherwise
+     * there can only be one outstanding listener.
+     */
+    if (kAudioHardwareNoError !=
+        AudioObjectRemovePropertyListener(audio_dev, &address, AudioMutedListener, listener))
+        return false;
+
+    return true;
+}

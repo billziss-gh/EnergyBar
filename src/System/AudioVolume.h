@@ -22,4 +22,13 @@ bool SetAudioVolume(double volume);
 bool IsAudioMuted(void);
 bool SetAudioMuted(bool mute);
 
+struct AudioPropertyListener
+{
+    void (*code)(void *data);
+    void *data;
+};
+
+bool AddAudioMutedListener(struct AudioPropertyListener *listener);
+bool RemoveAudioMutedListener(struct AudioPropertyListener *listener);
+
 #endif
