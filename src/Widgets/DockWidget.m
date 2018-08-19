@@ -249,8 +249,7 @@ static CGFloat dockItemBounce = 10;
     return view;
 }
 
-- (void)scrubber:(NSScrubber *)scrubber
-    didSelectItemAtIndex:(NSInteger)index
+- (void)scrubber:(NSScrubber *)scrubber didSelectItemAtIndex:(NSInteger)index
 {
     DockWidgetApplication *app = [self.apps objectAtIndex:index];
     if (nil != app.path)
