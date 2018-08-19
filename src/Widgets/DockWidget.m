@@ -356,32 +356,30 @@ static CGFloat dockItemBounce = 10;
 
 - (void)resetRunningApps
 {
+    __block BOOL reload = NO;
+
     NSScrubber *scrubber = self.view;
-    __block NSUInteger count = scrubber.numberOfItems;
-    if (count != self.apps.count)
-    {
-        /* Oops! The scrubber and our model got out of sync; reloadData. */
-        NSLog(@"DockWidget: we have %u items and scrubber thinks we have %u. Reloading.",
-            (unsigned)self.apps.count, (unsigned)count);
-        self.runningApps = nil;
-        [scrubber reloadData];
-        return;
-    }
-
-    NSArray *oldApps = [[[NSArray alloc] initWithArray:self.apps copyItems:YES] autorelease];
-    self.runningApps = nil;
-    NSArray *newApps = self.apps;
-
-    NSMutableDictionary *oldAppsDict = [NSMutableDictionary dictionary];
-    for (DockWidgetApplication *oldApp in oldApps)
-        [oldAppsDict setObject:oldApp forKey:oldApp.path];
-
-    NSMutableDictionary *newAppsDict = [NSMutableDictionary dictionary];
-    for (DockWidgetApplication *newApp in newApps)
-        [newAppsDict setObject:newApp forKey:newApp.path];
-
     [scrubber performSequentialBatchUpdates:^(void)
     {
+        NSUInteger count = scrubber.numberOfItems;
+        NSArray *oldApps = [[[NSArray alloc] initWithArray:self.apps copyItems:YES] autorelease];
+        if (count != oldApps.count)
+        {
+            reload = YES;
+            return;
+        }
+
+        self.runningApps = nil;
+        NSArray *newApps = self.apps;
+
+        NSMutableDictionary *oldAppsDict = [NSMutableDictionary dictionary];
+        for (DockWidgetApplication *oldApp in oldApps)
+            [oldAppsDict setObject:oldApp forKey:oldApp.path];
+
+        NSMutableDictionary *newAppsDict = [NSMutableDictionary dictionary];
+        for (DockWidgetApplication *newApp in newApps)
+            [newAppsDict setObject:newApp forKey:newApp.path];
+
         for (NSUInteger i = oldApps.count - 1; oldApps.count > i; i--)
         {
             DockWidgetApplication *oldApp = [oldApps objectAtIndex:i];
@@ -413,12 +411,19 @@ static CGFloat dockItemBounce = 10;
 
             if (nil != newApp && [oldApp.path isEqualToString:newApp.path])
             {
-                if (![oldApp.name isEqualToString:newApp.name] || oldApp.icon != newApp.icon ||
+                if (![oldApp.name isEqualToString:newApp.name] ||
                     oldApp.running != newApp.running ||
                     oldApp.launching != newApp.launching)
                     [scrubber reloadItemsAtIndexes:[NSIndexSet indexSetWithIndex:i]];
             }
         }
     }];
+
+    if (reload)
+    {
+        NSLog(@"DockWidget: the scrubber and our model got out of sync. Reloading.");
+        self.runningApps = nil;
+        [scrubber reloadData];
+    }
 }
 @end
