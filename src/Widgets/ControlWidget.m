@@ -233,7 +233,7 @@
             [NSImage imageNamed:NSImageNameTouchBarPlayPauseTemplate],
             [NSImage imageNamed:@"BrightnessUp"],
             [NSImage imageNamed:NSImageNameTouchBarAudioOutputVolumeHighTemplate],
-            [NSImage imageNamed:NSImageNameTouchBarAudioOutputMuteTemplate],
+            [self volumeMuteImage],
             nil]
         trackingMode:NSSegmentSwitchTrackingMomentary
         target:self
@@ -252,6 +252,12 @@
     [super dealloc];
 }
 
+- (NSImage *)volumeMuteImage
+{
+    bool mute = IsAudioMuted();
+    return [NSImage imageNamed:mute ? @"VolumeMuteOn" : @"VolumeMuteOff"];
+}
+
 - (void)click:(id)sender
 {
     NSSegmentedControl *control = sender;
@@ -267,7 +273,8 @@
         [self.volumeBarController present];
         break;
     case 3:
-        PostAuxKeyPress(NX_KEYTYPE_MUTE);
+        SetAudioMuted(!IsAudioMuted());
+        [control setImage:[self volumeMuteImage] forSegment:3];
         break;
     }
 }
