@@ -90,27 +90,16 @@ static void AppControllerFSNotify(const char *path, void *data)
     else
         [superView addSubview:contentView];
 
-    NSApp.touchBar = self.touchBarController.touchBar;
-    [[self.touchBarController.touchBar itemForIdentifier:@"Clock"]
-        setPressTarget:self
-        action:@selector(showMainWindow:)];
-    [self performSelector:@selector(presentTouchBar) withObject:nil afterDelay:0];
-
     self.loginItemButton.state = IsLoginItem([[NSBundle mainBundle] bundleURL]) ?
         NSControlStateValueOn : NSControlStateValueOff;
 
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"mainWindowHidden"])
         [self showMainWindow:nil];
-}
 
+    [[self.touchBarController.touchBar itemForIdentifier:@"Clock"]
+        setPressTarget:self
+        action:@selector(showMainWindow:)];
 
-- (void)applicationWillTerminate:(NSNotification *)notification
-{
-    [self.touchBarController dismiss];
-}
-
-- (void)presentTouchBar
-{
     if (![self.touchBarController present])
     {
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
@@ -120,6 +109,12 @@ static void AppControllerFSNotify(const char *path, void *data)
         [alert runModal];
         [NSApp terminate:nil];
     }
+}
+
+
+- (void)applicationWillTerminate:(NSNotification *)notification
+{
+    [self.touchBarController dismiss];
 }
 
 - (void)windowWillClose:(NSNotification *)notification
@@ -176,12 +171,6 @@ static void AppControllerFSNotify(const char *path, void *data)
         [alert addButtonWithTitle:@"Yes"];
         [alert addButtonWithTitle:@"No"];
         NSModalResponse resp = [alert runModal];
-        /* HACK:
-         * -[NSAlert runModal] seems to overwrite our Touch Bar.
-         * So we dismiss it and then present it again! (Just presenting it does not do it!)
-         */
-        [self.touchBarController performSelector:@selector(dismiss) withObject:nil afterDelay:0];
-        [self.touchBarController performSelector:@selector(present) withObject:nil afterDelay:0];
         if (NSAlertFirstButtonReturn != resp)
             return;
     }

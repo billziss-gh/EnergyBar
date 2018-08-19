@@ -46,6 +46,12 @@
 
 - (IBAction)customize:(id)sender
 {
+    NSApp.touchBar = self.touchBar;
+    [self performSelector:@selector(delayedCustomize) withObject:nil afterDelay:0];
+}
+
+- (IBAction)delayedCustomize
+{
     [[NSNotificationCenter defaultCenter]
         addObserver:self
         selector:@selector(willEnterCustomization:)
@@ -76,6 +82,7 @@
         name:@"NSTouchBarDidExitCustomization"
         object:nil];
 
+    NSApp.touchBar = nil;
     [self present];
 }
 @end
