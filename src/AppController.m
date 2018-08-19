@@ -27,6 +27,7 @@
 @property (assign) IBOutlet TouchBarController *touchBarController;
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet NSButton *loginItemButton;
+@property (assign) IBOutlet NSButton *sourceLinkButton;
 @end
 
 static void AppControllerFSNotify(const char *path, void *data)
@@ -70,6 +71,17 @@ static void AppControllerFSNotify(const char *path, void *data)
 
     FSNotifyStop(_stream);
     _stream = FSNotifyStart([defaultAppsFolder UTF8String], AppControllerFSNotify, self);
+
+    NSMutableParagraphStyle *sourceLinkPara = [[[NSParagraphStyle defaultParagraphStyle]
+        mutableCopy] autorelease];
+    sourceLinkPara.alignment = self.sourceLinkButton.alignment;
+    NSDictionary *sourceLinkAttr = [NSDictionary dictionaryWithObjectsAndKeys:
+        [NSColor blueColor], NSForegroundColorAttributeName,
+        self.sourceLinkButton.font, NSFontAttributeName,
+        sourceLinkPara, NSParagraphStyleAttributeName,
+        nil];
+    self.sourceLinkButton.attributedTitle = [[[NSAttributedString alloc]
+        initWithString:self.sourceLinkButton.title attributes:sourceLinkAttr] autorelease];
 
     NSView *contentView = self.window.contentView;
     NSView *superView = contentView.superview;
