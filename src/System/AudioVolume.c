@@ -79,3 +79,46 @@ bool SetAudioVolume(double volume0)
 
     return true;
 }
+
+bool IsAudioMuted(void)
+{
+    pthread_once(&audio_dev_once, audio_dev_initonce);
+    if (kAudioObjectUnknown == audio_dev)
+        return NAN;
+
+    AudioObjectPropertyAddress address =
+    {
+        .mSelector = kAudioDevicePropertyMute,
+        .mScope = kAudioDevicePropertyScopeOutput,
+        .mElement = kAudioObjectPropertyElementMaster,
+    };
+    UInt32 mute = 0;
+    UInt32 size = sizeof mute;
+
+    if (kAudioHardwareNoError !=
+        AudioObjectGetPropertyData(audio_dev, &address, 0, 0, &size, &mute))
+        return false;
+
+    return !!mute;
+}
+
+bool SetAudioMuted(bool mute0)
+{
+    pthread_once(&audio_dev_once, audio_dev_initonce);
+    if (kAudioObjectUnknown == audio_dev)
+        return false;
+
+    AudioObjectPropertyAddress address =
+    {
+        .mSelector = kAudioDevicePropertyMute,
+        .mScope = kAudioDevicePropertyScopeOutput,
+        .mElement = kAudioObjectPropertyElementMaster,
+    };
+    UInt32 mute = !!mute0;
+
+    if (kAudioHardwareNoError !=
+        AudioObjectSetPropertyData(audio_dev, &address, 0, 0, sizeof mute, &mute))
+        return false;
+
+    return true;
+}

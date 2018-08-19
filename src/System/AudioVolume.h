@@ -19,4 +19,7 @@
 double GetAudioVolume(void);
 bool SetAudioVolume(double volume);
 
+bool IsAudioMuted(void);
+bool SetAudioMuted(bool mute);
+
 #endif

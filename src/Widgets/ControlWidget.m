@@ -210,6 +210,7 @@
 {
     NSSliderTouchBarItem *item = [self.touchBar itemForIdentifier:@"VolumeSlider"];
     SetAudioVolume(item.slider.doubleValue);
+    SetAudioMuted(item.slider.doubleValue < 1.0 / (16 * 4));
 }
 @end
 
