@@ -184,7 +184,7 @@ static CGFloat dockItemBounce = 10;
 }
 @end
 
-@interface DockWidget () <NSScrubberDataSource, NSScrubberFlowLayoutDelegate>
+@interface DockWidget () <NSScrubberDataSource, NSScrubberDelegate>
 @property (retain) NSArray *defaultApps;
 @property (retain) NSArray *runningApps;
 @end
@@ -194,6 +194,7 @@ static CGFloat dockItemBounce = 10;
 {
     self.customizationLabel = @"Dock";
     NSScrubberFlowLayout *layout = [[[NSScrubberFlowLayout alloc] init] autorelease];
+    layout.itemSize = dockItemSize;
     NSScrubber *scrubber = [[[NSScrubber alloc] initWithFrame:NSMakeRect(0, 0, 200, 30)] autorelease];
     [scrubber registerClass:[DockWidgetItemView class] forItemIdentifier:dockItemIdentifier];
     scrubber.dataSource = self;
@@ -246,13 +247,6 @@ static CGFloat dockItemBounce = 10;
     view.appRunning = app.running;
     view.appLaunching = app.launching;
     return view;
-}
-
-- (NSSize)scrubber:(NSScrubber *)scrubber
-    layout:(NSScrubberFlowLayout *)layout
-    sizeForItemAtIndex:(NSInteger)index
-{
-    return dockItemSize;
 }
 
 - (void)scrubber:(NSScrubber *)scrubber
