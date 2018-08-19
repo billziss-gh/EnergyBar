@@ -238,6 +238,7 @@ void ControlWidgetMuteListener(void *data)
     NSPressGestureRecognizer *recognizer = [[[NSPressGestureRecognizer alloc]
         initWithTarget:self action:@selector(pressAction:)] autorelease];
     recognizer.allowedTouchTypes = NSTouchTypeMaskDirect;
+    recognizer.minimumPressDuration = 1.0;
     NSSegmentedControl *control = [NSSegmentedControl
         segmentedControlWithImages:[NSArray arrayWithObjects:
             [NSImage imageNamed:NSImageNameTouchBarPlayPauseTemplate],
@@ -302,7 +303,7 @@ void ControlWidgetMuteListener(void *data)
 
 - (void)pressAction:(NSGestureRecognizer *)recognizer
 {
-    if (NSGestureRecognizerStateRecognized != recognizer.state)
+    if (NSGestureRecognizerStateBegan != recognizer.state)
         return;
 
     /* HACK:

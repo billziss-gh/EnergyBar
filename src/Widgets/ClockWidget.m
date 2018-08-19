@@ -41,6 +41,7 @@
     NSPressGestureRecognizer *recognizer = [[[NSPressGestureRecognizer alloc]
         initWithTarget:self action:@selector(pressAction:)] autorelease];
     recognizer.allowedTouchTypes = NSTouchTypeMaskDirect;
+    recognizer.minimumPressDuration = 1.0;
     ClockWidgetLabel *label = [ClockWidgetLabel labelWithString:@"9:41 am"];
     label.alignment = NSTextAlignmentCenter;
     [label addGestureRecognizer:recognizer];
@@ -114,7 +115,7 @@
 
 - (void)pressAction:(NSGestureRecognizer *)recognizer
 {
-    if (NSGestureRecognizerStateRecognized != recognizer.state)
+    if (NSGestureRecognizerStateBegan != recognizer.state)
         return;
 
     [_target performSelector:_action withObject:self];
