@@ -325,8 +325,9 @@ static CGFloat dockItemBounce = 10;
 
             DockWidgetApplication *app;
             NSString *path = a.bundleURL.path;
-            if (nil != (app = [defaultAppsDict objectForKey:path]))
+            if (nil != (app = [defaultAppsDict objectForKey:path]) && 0 == app.pid)
             {
+                app.icon = a.icon;
                 app.pid = a.processIdentifier;
                 app.launching = !a.finishedLaunching;
                 continue;
