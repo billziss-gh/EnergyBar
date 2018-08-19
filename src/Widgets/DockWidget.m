@@ -356,72 +356,68 @@ static CGFloat dockItemBounce = 10;
 
 - (void)resetRunningApps
 {
-    __block BOOL reload = NO;
-
-    NSScrubber *scrubber = self.view;
-    [scrubber performSequentialBatchUpdates:^(void)
+    @try
     {
-        NSUInteger count = scrubber.numberOfItems;
-        NSArray *oldApps = [[[NSArray alloc] initWithArray:self.apps copyItems:YES] autorelease];
-        if (count != oldApps.count)
+        NSScrubber *scrubber = self.view;
+        [scrubber performSequentialBatchUpdates:^(void)
         {
-            reload = YES;
-            return;
-        }
+            NSUInteger count = scrubber.numberOfItems;
+            NSArray *oldApps = [[[NSArray alloc] initWithArray:self.apps copyItems:YES] autorelease];
+            self.runningApps = nil;
+            NSArray *newApps = self.apps;
 
-        self.runningApps = nil;
-        NSArray *newApps = self.apps;
+            NSMutableDictionary *oldAppsDict = [NSMutableDictionary dictionary];
+            for (DockWidgetApplication *oldApp in oldApps)
+                [oldAppsDict setObject:oldApp forKey:oldApp.path];
 
-        NSMutableDictionary *oldAppsDict = [NSMutableDictionary dictionary];
-        for (DockWidgetApplication *oldApp in oldApps)
-            [oldAppsDict setObject:oldApp forKey:oldApp.path];
+            NSMutableDictionary *newAppsDict = [NSMutableDictionary dictionary];
+            for (DockWidgetApplication *newApp in newApps)
+                [newAppsDict setObject:newApp forKey:newApp.path];
 
-        NSMutableDictionary *newAppsDict = [NSMutableDictionary dictionary];
-        for (DockWidgetApplication *newApp in newApps)
-            [newAppsDict setObject:newApp forKey:newApp.path];
-
-        for (NSUInteger i = oldApps.count - 1; oldApps.count > i; i--)
-        {
-            DockWidgetApplication *oldApp = [oldApps objectAtIndex:i];
-            DockWidgetApplication *newApp = [newAppsDict objectForKey:oldApp.path];
-
-            if (nil == newApp)
+            for (NSUInteger i = oldApps.count - 1; oldApps.count > i; i--)
             {
-                [scrubber removeItemsAtIndexes:[NSIndexSet indexSetWithIndex:i]];
-                count--;
+                DockWidgetApplication *oldApp = [oldApps objectAtIndex:i];
+                DockWidgetApplication *newApp = [newAppsDict objectForKey:oldApp.path];
+
+                if (nil == newApp)
+                {
+                    [scrubber removeItemsAtIndexes:[NSIndexSet indexSetWithIndex:i]];
+                    count--;
+                }
             }
-        }
 
-        for (NSUInteger i = 0; newApps.count > i; i++)
-        {
-            DockWidgetApplication *newApp = [newApps objectAtIndex:i];
-            DockWidgetApplication *oldApp = [oldAppsDict objectForKey:newApp.path];
-
-            if (nil == oldApp)
+            for (NSUInteger i = 0; newApps.count > i; i++)
             {
-                [scrubber insertItemsAtIndexes:[NSIndexSet indexSetWithIndex:count]];
-                count++;
+                DockWidgetApplication *newApp = [newApps objectAtIndex:i];
+                DockWidgetApplication *oldApp = [oldAppsDict objectForKey:newApp.path];
+
+                if (nil == oldApp)
+                {
+                    [scrubber insertItemsAtIndexes:[NSIndexSet indexSetWithIndex:count]];
+                    count++;
+                }
             }
-        }
 
-        for (NSUInteger i = 0; oldApps.count > i; i++)
-        {
-            DockWidgetApplication *oldApp = [oldApps objectAtIndex:i];
-            DockWidgetApplication *newApp = [newAppsDict objectForKey:oldApp.path];
-
-            if (nil != newApp && [oldApp.path isEqualToString:newApp.path])
+            for (NSUInteger i = 0; oldApps.count > i; i++)
             {
-                if (![oldApp.name isEqualToString:newApp.name] ||
-                    oldApp.pid != newApp.pid ||
-                    oldApp.launching != newApp.launching)
-                    [scrubber reloadItemsAtIndexes:[NSIndexSet indexSetWithIndex:i]];
-            }
-        }
-    }];
+                DockWidgetApplication *oldApp = [oldApps objectAtIndex:i];
+                DockWidgetApplication *newApp = [newAppsDict objectForKey:oldApp.path];
 
-    if (reload)
+                if (nil != newApp && [oldApp.path isEqualToString:newApp.path])
+                {
+                    if (![oldApp.name isEqualToString:newApp.name] ||
+                        oldApp.pid != newApp.pid ||
+                        oldApp.launching != newApp.launching)
+                        [scrubber reloadItemsAtIndexes:[NSIndexSet indexSetWithIndex:i]];
+                }
+            }
+        }];
+    }
+    @catch (NSException *ex)
     {
-        NSLog(@"DockWidget: the scrubber and our model got out of sync. Reloading.");
+        NSLog(@"%@", ex);
+
+        NSScrubber *scrubber = self.view;
         self.runningApps = nil;
         [scrubber reloadData];
     }
