@@ -21,7 +21,7 @@ static CGFloat dockItemBounce = 10;
 @property (retain) NSString *name;
 @property (retain) NSString *path;
 @property (retain) NSImage *icon;
-@property (assign) BOOL running;
+@property (assign) pid_t pid;
 @property (assign) BOOL launching;
 @end
 
@@ -40,7 +40,7 @@ static CGFloat dockItemBounce = 10;
     copy.name = self.name;
     copy.path = self.path;
     copy.icon = self.icon;
-    copy.running = self.running;
+    copy.pid = self.pid;
     copy.launching = self.launching;
     return copy;
 }
@@ -244,7 +244,7 @@ static CGFloat dockItemBounce = 10;
     DockWidgetItemView *view = [scrubber makeItemWithIdentifier:dockItemIdentifier owner:nil];
     DockWidgetApplication *app = [self.apps objectAtIndex:index];
     view.appIcon = app.icon;
-    view.appRunning = app.running;
+    view.appRunning = 0 != app.pid;
     view.appLaunching = app.launching;
     return view;
 }
@@ -310,7 +310,7 @@ static CGFloat dockItemBounce = 10;
         NSMutableDictionary *defaultAppsDict = [NSMutableDictionary dictionary];
         for (DockWidgetApplication *app in self.defaultApps)
         {
-            app.running = NO;
+            app.pid = 0;
             app.launching = NO;
             [defaultAppsDict setObject:app forKey:app.path];
         }
@@ -327,7 +327,7 @@ static CGFloat dockItemBounce = 10;
             NSString *path = a.bundleURL.path;
             if (nil != (app = [defaultAppsDict objectForKey:path]))
             {
-                app.running = YES;
+                app.pid = a.processIdentifier;
                 app.launching = !a.finishedLaunching;
                 continue;
             }
@@ -336,7 +336,7 @@ static CGFloat dockItemBounce = 10;
             app.name = a.localizedName;
             app.path = a.bundleURL.path;
             app.icon = a.icon;
-            app.running = YES;
+            app.pid = a.processIdentifier;
             app.launching = !a.finishedLaunching;
             [newRunningApps addObject:app];
         }
@@ -412,7 +412,7 @@ static CGFloat dockItemBounce = 10;
             if (nil != newApp && [oldApp.path isEqualToString:newApp.path])
             {
                 if (![oldApp.name isEqualToString:newApp.name] ||
-                    oldApp.running != newApp.running ||
+                    oldApp.pid != newApp.pid ||
                     oldApp.launching != newApp.launching)
                     [scrubber reloadItemsAtIndexes:[NSIndexSet indexSetWithIndex:i]];
             }
