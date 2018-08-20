@@ -126,6 +126,8 @@ static void AppControllerFSNotify(const char *path, void *data)
 {
     NSApp.activationPolicy = NSApplicationActivationPolicyRegular;
     [[NSApp.windows objectAtIndex:0] makeKeyAndOrderFront:nil];
+    if (nil != sender)
+        [NSApp activateIgnoringOtherApps:YES];
 }
 
 - (void)fsnotify:(const char *)path
