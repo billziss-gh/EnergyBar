@@ -52,36 +52,20 @@ static CGFloat dockItemBounce = 10;
 }
 @end
 
-@interface DockWidgetBounceAnimation : NSAnimation
-@property (assign) NSView *view;
-@end
-
-@implementation DockWidgetBounceAnimation
-- (void)setCurrentProgress:(NSAnimationProgress)progress
-{
-    /* use current time to compute progress for our animations! */
-    progress = 2 * fmod(CFAbsoluteTimeGetCurrent(), 0.5);
-
-    [super setCurrentProgress:progress];
-
-    if (0.5 > progress)
-        [self.view setFrameOrigin:NSMakePoint(0, dockItemBounce * 2 * progress)];
-    else
-        [self.view setFrameOrigin:NSMakePoint(0, dockItemBounce * 2 * (1 - progress))];
-}
-@end
-
 @interface DockWidgetItemView : NSScrubberItemView <NSAnimationDelegate>
 @property (retain) NSView *appIconContainerView;
 @property (retain) NSImageView *appIconView;
 @property (retain) NSImageView *appRunningView;
-@property (retain) DockWidgetBounceAnimation *bounceAnimation;
 @property (retain, getter=getAppIcon, setter=setAppIcon:) NSImage *appIcon;
 @property (assign, getter=isAppRunning, setter=setAppRunning:) BOOL appRunning;
 @property (assign, getter=isAppLaunching, setter=setAppLaunching:) BOOL appLaunching;
 @end
 
 @implementation DockWidgetItemView
+{
+    BOOL _appLaunching;
+}
+
 - (id)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
@@ -108,10 +92,6 @@ static CGFloat dockItemBounce = 10;
 
 - (void)dealloc
 {
-    [self.bounceAnimation stopAnimation];
-    self.bounceAnimation.view = nil;
-    self.bounceAnimation = nil;
-
     self.appIconContainerView = nil;
     self.appIconView = nil;
     self.appRunningView = nil;
@@ -143,37 +123,40 @@ static CGFloat dockItemBounce = 10;
 
 - (BOOL)isAppLaunching
 {
-    return nil != self.bounceAnimation;
+    return _appLaunching;
 }
 
 - (void)setAppLaunching:(BOOL)value
 {
-    if (self.isAppLaunching == value)
+    if (_appLaunching == value)
         return;
 
-    if (value)
-    {
-        self.bounceAnimation = [[[DockWidgetBounceAnimation alloc]
-            initWithDuration:60.0 animationCurve:NSAnimationLinear] autorelease];
-        self.bounceAnimation.view = self.appIconContainerView;
-        self.bounceAnimation.delegate = self;
-        self.bounceAnimation.animationBlockingMode = NSAnimationNonblocking;
-        [self.bounceAnimation startAnimation];
-    }
-    else
-    {
-        [self.bounceAnimation stopAnimation];
-        self.bounceAnimation.view = nil;
-        self.bounceAnimation = nil;
-
-        [self.appIconContainerView setFrameOrigin:NSZeroPoint];
-        [self.appIconContainerView setNeedsDisplay:YES];
-    }
+    _appLaunching = value;
+    [self bounce];
 }
 
-- (void)animationDidEnd:(NSAnimation *)animation
+- (void)bounce
 {
-    [self.bounceAnimation startAnimation];
+    if (!_appLaunching)
+        return;
+
+    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context)
+    {
+        context.duration = 0.25;
+        [self.appIconContainerView.animator setFrameOrigin:NSMakePoint(0, dockItemBounce)];
+    }
+    completionHandler:^
+    {
+        [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context)
+        {
+            context.duration = 0.25;
+            [self.appIconContainerView.animator setFrameOrigin:NSMakePoint(0, 0)];
+        }
+        completionHandler:^
+        {
+            [self bounce];
+        }];
+    }];
 }
 
 - (void)resizeSubviewsWithOldSize:(NSSize)oldSize
