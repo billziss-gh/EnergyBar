@@ -1,13 +1,12 @@
-<h1 align="center">
-    Touch Bar Dock &middot; Makes your Touch Bar suck less
-</h1>
+# Touch Bar Dock &middot; Make your Touch Bar suck less
 
-<p align="center">
-    <img src="doc/Dock.gif"/><br/>
-    <b>Dock</b>
-</p>
+## Dock
+![Dock](doc/Dock.gif)
 
-<p align="center">
-    <img src="doc/Control.gif"/><br/>
-    <b>Control</b>
-</p>
+Manage and launch your favorite applications from a Dock in your Touch Bar.
+
+## Control
+
+![Control](doc/Control.gif)
+
+Common keyboard controls, such as play/pause, brightness, volume, etc.
