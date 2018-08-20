@@ -21,6 +21,7 @@ static CGFloat dockItemBounce = 10;
 @property (retain) NSString *name;
 @property (retain) NSString *path;
 @property (retain) NSImage *icon;
+@property (assign) BOOL isDefault;
 @property (assign) pid_t pid;
 @property (assign) BOOL launching;
 @end
@@ -40,6 +41,7 @@ static CGFloat dockItemBounce = 10;
     copy.name = self.name;
     copy.path = self.path;
     copy.icon = self.icon;
+    copy.isDefault = self.isDefault;
     copy.pid = self.pid;
     copy.launching = self.launching;
     return copy;
@@ -285,6 +287,7 @@ static CGFloat dockItemBounce = 10;
                 app.name = c;
                 app.path = url.path;
                 app.icon = [[NSWorkspace sharedWorkspace] iconForFile:app.path];
+                app.isDefault = YES;
                 [newDefaultApps addObject:app];
             }
         }
@@ -298,6 +301,7 @@ static CGFloat dockItemBounce = 10;
                 app.name = [a objectForKey:@"NSApplicationName"];
                 app.path = [a objectForKey:@"NSApplicationPath"];
                 app.icon = [[NSWorkspace sharedWorkspace] iconForFile:app.path];
+                app.isDefault = YES;
                 [newDefaultApps addObject:app];
             }
         }
@@ -387,6 +391,36 @@ static CGFloat dockItemBounce = 10;
                 else
                     newAppsArray = [newAppsArray arrayByAddingObject:newApp];
                 [newAppsDict setObject:newAppsArray forKey:newApp.path];
+            }
+
+            for (NSUInteger i = 0; oldApps.count > i; i++)
+            {
+                DockWidgetApplication *oldApp = [oldApps objectAtIndex:i];
+                if (!oldApp.isDefault)
+                    break; /* default apps are always first */
+
+                NSArray *newAppsArray = [newAppsDict objectForKey:oldApp.path];
+                if (1 <= newAppsArray.count)
+                {
+                    DockWidgetApplication *newApp = [newAppsArray objectAtIndex:0];
+                    NSArray *oldAppsArray = [oldAppsDict objectForKey:oldApp.path];
+                    for (NSUInteger j = 1; oldAppsArray.count > j; j++)
+                    {
+                        DockWidgetApplication *a = [oldAppsArray objectAtIndex:j];
+                        if (newApp.pid == a.pid)
+                        {
+                            pid_t pid = oldApp.pid;
+                            oldApp.pid = a.pid;
+                            a.pid = pid;
+
+                            BOOL launching = oldApp.launching;
+                            oldApp.launching = a.launching;
+                            a.launching = launching;
+
+                            break;
+                        }
+                    }
+                }
             }
 
             for (NSUInteger i = oldApps.count - 1; oldApps.count > i; i--)
