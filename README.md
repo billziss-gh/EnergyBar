@@ -1,4 +1,4 @@
-# Touch Bar Dock &middot; Make your Touch Bar suck less [![GitHub release](https://img.shields.io/github/release/billziss-gh/TouchBarDock/all.svg?label=download)](https://github.com/billziss-gh/TouchBarDock/releases)
+# Touch Bar Dock &middot; A Dock for your Touch Bar [![GitHub release](https://img.shields.io/github/release/billziss-gh/TouchBarDock/all.svg?label=download)](https://github.com/billziss-gh/TouchBarDock/releases)
 
 ## Dock
 ![Dock](doc/Dock.gif)
