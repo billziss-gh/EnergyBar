@@ -245,7 +245,7 @@ static CGFloat dockItemBounce = 10;
     DockWidgetApplication *app = [self.apps objectAtIndex:index];
     view.appIcon = app.icon;
     view.appRunning = 0 != app.pid;
-    view.appLaunching = app.launching;
+    //view.appLaunching = app.launching;
     return view;
 }
 
@@ -369,18 +369,40 @@ static CGFloat dockItemBounce = 10;
 
             NSMutableDictionary *oldAppsDict = [NSMutableDictionary dictionary];
             for (DockWidgetApplication *oldApp in oldApps)
-                [oldAppsDict setObject:oldApp forKey:oldApp.path];
+            {
+                NSArray *oldAppsArray = [oldAppsDict objectForKey:oldApp.path];
+                if (nil == oldAppsArray)
+                    oldAppsArray = [NSArray arrayWithObject:oldApp];
+                else
+                    oldAppsArray = [oldAppsArray arrayByAddingObject:oldApp];
+                [oldAppsDict setObject:oldAppsArray forKey:oldApp.path];
+            }
 
             NSMutableDictionary *newAppsDict = [NSMutableDictionary dictionary];
             for (DockWidgetApplication *newApp in newApps)
-                [newAppsDict setObject:newApp forKey:newApp.path];
+            {
+                NSArray *newAppsArray = [newAppsDict objectForKey:newApp.path];
+                if (nil == newAppsArray)
+                    newAppsArray = [NSArray arrayWithObject:newApp];
+                else
+                    newAppsArray = [newAppsArray arrayByAddingObject:newApp];
+                [newAppsDict setObject:newAppsArray forKey:newApp.path];
+            }
 
             for (NSUInteger i = oldApps.count - 1; oldApps.count > i; i--)
             {
                 DockWidgetApplication *oldApp = [oldApps objectAtIndex:i];
-                DockWidgetApplication *newApp = [newAppsDict objectForKey:oldApp.path];
+                NSArray *newAppsArray = [newAppsDict objectForKey:oldApp.path];
 
-                if (nil == newApp)
+                BOOL update = YES;
+                for (DockWidgetApplication *newApp in newAppsArray)
+                    if (0 == oldApp.pid || 0 == newApp.pid || oldApp.pid == newApp.pid)
+                    {
+                        update = NO;
+                        break;
+                    }
+
+                if (update)
                 {
                     [scrubber removeItemsAtIndexes:[NSIndexSet indexSetWithIndex:i]];
                     count--;
@@ -390,9 +412,17 @@ static CGFloat dockItemBounce = 10;
             for (NSUInteger i = 0; newApps.count > i; i++)
             {
                 DockWidgetApplication *newApp = [newApps objectAtIndex:i];
-                DockWidgetApplication *oldApp = [oldAppsDict objectForKey:newApp.path];
+                NSArray *oldAppsArray = [oldAppsDict objectForKey:newApp.path];
 
-                if (nil == oldApp)
+                BOOL update = YES;
+                for (DockWidgetApplication *oldApp in oldAppsArray)
+                    if (0 == oldApp.pid || 0 == newApp.pid || oldApp.pid == newApp.pid)
+                    {
+                        update = NO;
+                        break;
+                    }
+
+                if (update)
                 {
                     [scrubber insertItemsAtIndexes:[NSIndexSet indexSetWithIndex:count]];
                     count++;
@@ -402,15 +432,18 @@ static CGFloat dockItemBounce = 10;
             for (NSUInteger i = 0; oldApps.count > i; i++)
             {
                 DockWidgetApplication *oldApp = [oldApps objectAtIndex:i];
-                DockWidgetApplication *newApp = [newAppsDict objectForKey:oldApp.path];
+                NSArray *newAppsArray = [newAppsDict objectForKey:oldApp.path];
 
-                if (nil != newApp && [oldApp.path isEqualToString:newApp.path])
-                {
-                    if (![oldApp.name isEqualToString:newApp.name] ||
-                        oldApp.pid != newApp.pid ||
-                        oldApp.launching != newApp.launching)
-                        [scrubber reloadItemsAtIndexes:[NSIndexSet indexSetWithIndex:i]];
-                }
+                BOOL update = NO;
+                for (DockWidgetApplication *newApp in newAppsArray)
+                    if (oldApp.pid != newApp.pid || oldApp.launching != newApp.launching)
+                    {
+                        update = YES;
+                        break;
+                    }
+
+                if (update)
+                    [scrubber reloadItemsAtIndexes:[NSIndexSet indexSetWithIndex:i]];
             }
         }];
     }
