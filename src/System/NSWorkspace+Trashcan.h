@@ -1,5 +1,5 @@
 /**
- * @file TrashCan.h
+ * @file NSWorkspace+Trashcan.h
  *
  * @copyright 2018 Bill Zissimopoulos
  */
@@ -11,11 +11,8 @@
  * Foundation.
  */
 
-#ifndef TRASHCAN_H_INCLUDED
-#define TRASHCAN_H_INCLUDED
+#import <Cocoa/Cocoa.h>
 
-#include <stdbool.h>
-
-bool OpenTrashCan(void);
-
-#endif
+@interface NSWorkspace (Trashcan)
+- (BOOL)openTrashcan;
+@end

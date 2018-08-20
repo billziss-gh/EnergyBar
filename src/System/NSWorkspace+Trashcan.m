@@ -1,5 +1,5 @@
 /**
- * @file TrashCan.c
+ * @file NSWorkspace+Trashcan.m
  *
  * @copyright 2018 Bill Zissimopoulos
  */
@@ -11,10 +11,10 @@
  * Foundation.
  */
 
-#include "TrashCan.h"
-#include <CoreServices/CoreServices.h>
+#import "NSWorkspace+Trashcan.h"
 
-bool OpenTrashCan(void)
+@implementation NSWorkspace (Trashcan)
+- (BOOL)openTrashcan
 {
     static const char finder[] = "com.apple.finder";
     static FourCharCode trash = kContainerTrashAliasType;
@@ -24,7 +24,7 @@ bool OpenTrashCan(void)
     AEDesc container = { .descriptorType = typeNull };
     AEDesc specifier = { .descriptorType = typeNull };
     OSStatus status;
-    bool res = false;
+    BOOL res = NO;
 
     status = AECreateDesc(
         typeApplicationBundleID,
@@ -57,7 +57,7 @@ bool OpenTrashCan(void)
         &container,
         typeProperty,
         &trashTarget,
-        false,
+        NO,
         &specifier);
     if (noErr != status)
         goto exit;
@@ -70,7 +70,7 @@ bool OpenTrashCan(void)
     if (noErr != status)
         goto exit;
 
-    res = true;
+    res = YES;
 
 exit:
     if (typeNull != specifier.descriptorType)
@@ -87,3 +87,4 @@ exit:
 
     return res;
 }
+@end
