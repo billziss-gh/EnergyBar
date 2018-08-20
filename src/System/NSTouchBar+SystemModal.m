@@ -1,5 +1,5 @@
 /**
- * @file TouchBarPrivate.m
+ * @file NSTouchBar+SystemModal.m
  *
  * @copyright 2018 Bill Zissimopoulos
  */
@@ -11,7 +11,7 @@
  * Foundation.
  */
 
-#import "TouchBarPrivate.h"
+#import "NSTouchBar+SystemModal.h"
 
 @interface NSTouchBar ()
 /* macOS 10.13 */
@@ -38,7 +38,7 @@
 + (void)removeSystemTrayItem:(NSTouchBarItem *)item;
 @end
 
-@implementation NSTouchBar (Private)
+@implementation NSTouchBar (SystemModal)
 + (BOOL)presentSystemModal:(NSTouchBar *)touchBar
     placement:(long long)placement
     systemTrayItemIdentifier:(NSTouchBarItemIdentifier)identifier

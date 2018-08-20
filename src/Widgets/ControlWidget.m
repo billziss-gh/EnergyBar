@@ -16,8 +16,8 @@
 #import "Brightness.h"
 #import "CBBlueLightClient.h"
 #import "KeyEvent.h"
+#import "NSTouchBar+SystemModal.h"
 #import "TouchBarController.h"
-#import "TouchBarPrivate.h"
 
 @interface ControlWidgetPopoverBarSlider : NSSlider
 @end

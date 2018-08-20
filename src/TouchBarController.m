@@ -12,7 +12,7 @@
  */
 
 #import "TouchBarController.h"
-#import "TouchBarPrivate.h"
+#import "NSTouchBar+SystemModal.h"
 
 @implementation TouchBarController
 - (void)dealloc

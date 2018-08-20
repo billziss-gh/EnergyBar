@@ -1,5 +1,5 @@
 /**
- * @file TouchBarPrivate.h
+ * @file NSTouchBar+SystemModal.h
  *
  * @copyright 2018 Bill Zissimopoulos
  */
@@ -13,7 +13,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface NSTouchBar (Private)
+@interface NSTouchBar (SystemModal)
 + (BOOL)presentSystemModal:(NSTouchBar *)touchBar
     placement:(long long)placement
     systemTrayItemIdentifier:(NSTouchBarItemIdentifier)identifier;
