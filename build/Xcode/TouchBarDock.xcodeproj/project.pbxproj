@@ -197,6 +197,7 @@
 				3C163B912118EF2900F015EC /* Sources */,
 				3C163B922118EF2900F015EC /* Frameworks */,
 				3C163B932118EF2900F015EC /* Resources */,
+				3C3545AD212A990500C476AB /* Set Build Number */,
 			);
 			buildRules = (
 			);
@@ -253,6 +254,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3C3545AD212A990500C476AB /* Set Build Number */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Set Build Number";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "plist=\"$TARGET_BUILD_DIR/$INFOPLIST_PATH\"\nversion=$(/usr/libexec/PlistBuddy -c \"Print :CFBundleShortVersionString\" \"$plist\")\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $version.$(date +%y%j)\" \"$plist\"";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3C163B912118EF2900F015EC /* Sources */ = {
