@@ -25,6 +25,7 @@
 		3C9E264A211E2A9F0042C2E8 /* Brightness.c in Sources */ = {isa = PBXBuildFile; fileRef = 3C9E2649211E2A9F0042C2E8 /* Brightness.c */; };
 		3CAA9C6D2127B3E100D5B467 /* StringToUrlTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CAA9C6C2127B3E000D5B467 /* StringToUrlTransformer.m */; };
 		3CACC7632126772700662AB1 /* FSNotify.c in Sources */ = {isa = PBXBuildFile; fileRef = 3CACC7612126772700662AB1 /* FSNotify.c */; };
+		3CD080B0212B6D9D0047F8C0 /* TrashCan.c in Sources */ = {isa = PBXBuildFile; fileRef = 3CD080AE212B6D9C0047F8C0 /* TrashCan.c */; };
 		3CD1EBBE211D680A001DC22F /* VolumeBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3CD1EBC0211D680A001DC22F /* VolumeBar.xib */; };
 		3CDF1EB4211A3B9500739051 /* DockWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CDF1EB2211A3B9400739051 /* DockWidget.m */; };
 		3CDF1EB6211A650700739051 /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3CDF1EB5211A650700739051 /* defaults.plist */; };
@@ -68,6 +69,8 @@
 		3CAA9C6C2127B3E000D5B467 /* StringToUrlTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringToUrlTransformer.m; sourceTree = "<group>"; };
 		3CACC7612126772700662AB1 /* FSNotify.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = FSNotify.c; sourceTree = "<group>"; };
 		3CACC7622126772700662AB1 /* FSNotify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSNotify.h; sourceTree = "<group>"; };
+		3CD080AE212B6D9C0047F8C0 /* TrashCan.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TrashCan.c; sourceTree = "<group>"; };
+		3CD080AF212B6D9C0047F8C0 /* TrashCan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrashCan.h; sourceTree = "<group>"; };
 		3CD1EBBF211D680A001DC22F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/VolumeBar.xib; sourceTree = "<group>"; };
 		3CDF1EB2211A3B9400739051 /* DockWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DockWidget.m; sourceTree = "<group>"; };
 		3CDF1EB3211A3B9500739051 /* DockWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DockWidget.h; sourceTree = "<group>"; };
@@ -105,6 +108,8 @@
 				3CFECA102122611F00BB58E9 /* LoginItem.c */,
 				3C046012211D7C66003EB021 /* TouchBarPrivate.h */,
 				3C046011211D7C66003EB021 /* TouchBarPrivate.m */,
+				3CD080AF212B6D9C0047F8C0 /* TrashCan.h */,
+				3CD080AE212B6D9C0047F8C0 /* TrashCan.c */,
 			);
 			path = System;
 			sourceTree = "<group>";
@@ -291,6 +296,7 @@
 				3CAA9C6D2127B3E100D5B467 /* StringToUrlTransformer.m in Sources */,
 				3C1A5678211D6B7D008E1F9F /* AppBarController.m in Sources */,
 				3C102D4E2119872800FFB2CF /* EscKeyWidget.m in Sources */,
+				3CD080B0212B6D9D0047F8C0 /* TrashCan.c in Sources */,
 				3C9E2647211E28900042C2E8 /* AudioVolume.c in Sources */,
 				3C102D4B21197ED700FFB2CF /* ControlWidget.m in Sources */,
 				3C163BC62118F1C500F015EC /* AppController.m in Sources */,
