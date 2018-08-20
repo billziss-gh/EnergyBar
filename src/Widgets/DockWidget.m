@@ -360,8 +360,13 @@ static CGFloat dockItemBounce = 10;
         NSMutableDictionary *itemViews = _itemViews;
 
         _itemViews = [[NSMutableDictionary alloc] init];
-        for (NSString *key in itemViews)
-            [_itemViews setObject:[itemViews objectForKey:key] forKey:key];
+        for (DockWidgetApplication *app in apps)
+        {
+            id key = app.key;
+            id obj = [itemViews objectForKey:key];
+            if (nil != obj)
+                [_itemViews setObject:obj forKey:key];
+        }
 
         [itemViews release];
     }
