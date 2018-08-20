@@ -188,7 +188,7 @@ static CGFloat dockItemBounce = 10;
 
 @interface DockWidget () <NSScrubberDataSource, NSScrubberDelegate>
 @property (retain) NSArray *defaultApps;
-@property (retain) NSArray *runningApps;
+@property (retain) NSArray *runningApps;    /* running apps other than default */
 @end
 
 @implementation DockWidget
