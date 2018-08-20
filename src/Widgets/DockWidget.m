@@ -13,7 +13,6 @@
 
 #import "DockWidget.h"
 
-static NSString *dockItemIdentifier = @"dockItem";
 static NSSize dockItemSize = { 50, 30 };
 static CGFloat dockItemBounce = 10;
 
@@ -45,6 +44,11 @@ static CGFloat dockItemBounce = 10;
     copy.pid = self.pid;
     copy.launching = self.launching;
     return copy;
+}
+
+- (id)key
+{
+    return [NSString stringWithFormat:@"%d:%@", self.pid, self.path];
 }
 @end
 
@@ -192,13 +196,18 @@ static CGFloat dockItemBounce = 10;
 @end
 
 @implementation DockWidget
+{
+    NSMutableDictionary *_itemViews;
+}
+
 - (void)commonInit
 {
+    _itemViews = [[NSMutableDictionary alloc] init];
+
     self.customizationLabel = @"Dock";
     NSScrubberFlowLayout *layout = [[[NSScrubberFlowLayout alloc] init] autorelease];
     layout.itemSize = dockItemSize;
     NSScrubber *scrubber = [[[NSScrubber alloc] initWithFrame:NSMakeRect(0, 0, 200, 30)] autorelease];
-    [scrubber registerClass:[DockWidgetItemView class] forItemIdentifier:dockItemIdentifier];
     scrubber.dataSource = self;
     scrubber.delegate = self;
     scrubber.showsAdditionalContentIndicators = YES;
@@ -233,6 +242,8 @@ static CGFloat dockItemBounce = 10;
     self.defaultApps = nil;
     self.runningApps = nil;
 
+    [_itemViews release];
+
     [super dealloc];
 }
 
@@ -243,11 +254,18 @@ static CGFloat dockItemBounce = 10;
 
 - (NSScrubberItemView *)scrubber:(NSScrubber *)scrubber viewForItemAtIndex:(NSInteger)index
 {
-    DockWidgetItemView *view = [scrubber makeItemWithIdentifier:dockItemIdentifier owner:nil];
     DockWidgetApplication *app = [self.apps objectAtIndex:index];
+    DockWidgetItemView *view = [_itemViews objectForKey:app.key];
+    if (nil == view)
+    {
+        view = [[[DockWidgetItemView alloc] initWithFrame:NSZeroRect] autorelease];
+        [_itemViews setObject:view forKey:app.key];
+    }
+
     view.appIcon = app.icon;
     view.appRunning = 0 != app.pid;
-    //view.appLaunching = app.launching;
+    view.appLaunching = app.launching;
+
     return view;
 }
 
@@ -309,6 +327,7 @@ static CGFloat dockItemBounce = 10;
         self.defaultApps = [[newDefaultApps copy] autorelease];
     }
 
+    BOOL updateItemViews = NO;
     if (nil == self.runningApps)
     {
         NSMutableDictionary *defaultAppsDict = [NSMutableDictionary dictionary];
@@ -347,9 +366,24 @@ static CGFloat dockItemBounce = 10;
         }
 
         self.runningApps = [[newRunningApps copy] autorelease];
+
+        updateItemViews = YES;
     }
 
-    return [self.defaultApps arrayByAddingObjectsFromArray:self.runningApps];
+    NSArray *apps = [self.defaultApps arrayByAddingObjectsFromArray:self.runningApps];
+
+    if (updateItemViews)
+    {
+        NSMutableDictionary *itemViews = _itemViews;
+
+        _itemViews = [[NSMutableDictionary alloc] init];
+        for (NSString *key in itemViews)
+            [_itemViews setObject:[itemViews objectForKey:key] forKey:key];
+
+        [itemViews release];
+    }
+
+    return apps;
 }
 
 - (void)resetDefaultApps
