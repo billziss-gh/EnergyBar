@@ -19,6 +19,7 @@
 		3C4013C2211BBC8D00C47B66 /* ActiveAppWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C4013C1211BBC8D00C47B66 /* ActiveAppWidget.m */; };
 		3C5D0FCE2119210000769A39 /* ClockWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C5D0FCD2119210000769A39 /* ClockWidget.m */; };
 		3C6CCA38211B824000D019F4 /* TouchBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C6CCA37211B824000D019F4 /* TouchBarController.m */; };
+		3C793FE3212B86B300D7E673 /* TrashcanWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C793FE1212B86B300D7E673 /* TrashcanWidget.m */; };
 		3C83DB48211D851700FC2F53 /* CoreBrightness.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C83DB47211D851700FC2F53 /* CoreBrightness.framework */; };
 		3C9E2647211E28900042C2E8 /* AudioVolume.c in Sources */ = {isa = PBXBuildFile; fileRef = 3C9E2645211E288F0042C2E8 /* AudioVolume.c */; };
 		3C9E264A211E2A9F0042C2E8 /* Brightness.c in Sources */ = {isa = PBXBuildFile; fileRef = 3C9E2649211E2A9F0042C2E8 /* Brightness.c */; };
@@ -57,6 +58,8 @@
 		3C5D0FCD2119210000769A39 /* ClockWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClockWidget.m; sourceTree = "<group>"; };
 		3C6CCA36211B824000D019F4 /* TouchBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchBarController.h; sourceTree = "<group>"; };
 		3C6CCA37211B824000D019F4 /* TouchBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchBarController.m; sourceTree = "<group>"; };
+		3C793FE1212B86B300D7E673 /* TrashcanWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrashcanWidget.m; sourceTree = "<group>"; };
+		3C793FE2212B86B300D7E673 /* TrashcanWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrashcanWidget.h; sourceTree = "<group>"; };
 		3C83DB45211D7FDB00FC2F53 /* CBBlueLightClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBBlueLightClient.h; sourceTree = "<group>"; };
 		3C83DB47211D851700FC2F53 /* CoreBrightness.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBrightness.framework; path = ../../../../../../System/Library/PrivateFrameworks/CoreBrightness.framework; sourceTree = "<group>"; };
 		3C9E2645211E288F0042C2E8 /* AudioVolume.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AudioVolume.c; sourceTree = "<group>"; };
@@ -180,6 +183,8 @@
 				3CDF1EB2211A3B9400739051 /* DockWidget.m */,
 				3C102D4C2119872800FFB2CF /* EscKeyWidget.h */,
 				3C102D4D2119872800FFB2CF /* EscKeyWidget.m */,
+				3C793FE2212B86B300D7E673 /* TrashcanWidget.h */,
+				3C793FE1212B86B300D7E673 /* TrashcanWidget.m */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -284,6 +289,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C9E264A211E2A9F0042C2E8 /* Brightness.c in Sources */,
+				3C793FE3212B86B300D7E673 /* TrashcanWidget.m in Sources */,
 				3CDF1EB4211A3B9500739051 /* DockWidget.m in Sources */,
 				3C046013211D7C66003EB021 /* KeyEvent.c in Sources */,
 				3CFECA122122611F00BB58E9 /* LoginItem.c in Sources */,

@@ -70,7 +70,11 @@
     if (noErr != status)
         goto exit;
 
-    res = YES;
+    res = [self
+        launchAppWithBundleIdentifier:[NSString stringWithUTF8String:finder]
+        options:0
+        additionalEventParamDescriptor:nil
+        launchIdentifier:nil];
 
 exit:
     if (typeNull != specifier.descriptorType)
