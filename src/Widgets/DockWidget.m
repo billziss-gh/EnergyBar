@@ -393,6 +393,7 @@ static CGFloat dockItemBounce = 10;
                 [newAppsDict setObject:newAppsArray forKey:newApp.path];
             }
 
+            /* handle multiple instances for a default app that is terminating */
             for (NSUInteger i = 0; oldApps.count > i; i++)
             {
                 DockWidgetApplication *oldApp = [oldApps objectAtIndex:i];
@@ -423,6 +424,7 @@ static CGFloat dockItemBounce = 10;
                 }
             }
 
+            /* remove items for old apps that are not in the new apps */
             for (NSUInteger i = oldApps.count - 1; oldApps.count > i; i--)
             {
                 DockWidgetApplication *oldApp = [oldApps objectAtIndex:i];
@@ -443,6 +445,7 @@ static CGFloat dockItemBounce = 10;
                 }
             }
 
+            /* insert items for new apps that are not in the old apps */
             for (NSUInteger i = 0; newApps.count > i; i++)
             {
                 DockWidgetApplication *newApp = [newApps objectAtIndex:i];
