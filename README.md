@@ -10,3 +10,15 @@ Manage and launch your favorite applications from a Dock in your Touch Bar.
 ![Control](doc/Control.gif)
 
 Common keyboard controls, such as play/pause, brightness, volume, etc.
+
+## Customize
+
+![Customize](doc/Customize.png)
+
+Customize your Touch Bar Dock.
+
+## Settings
+
+![Settings](doc/Settings.png)
+
+General settings for Touch Bar Dock.
