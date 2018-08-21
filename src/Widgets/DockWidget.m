@@ -12,6 +12,7 @@
  */
 
 #import "DockWidget.h"
+#import "NSWorkspace+Trashcan.h"
 
 static NSSize dockItemSize = { 50, 30 };
 static CGFloat dockItemBounce = 10;
@@ -173,6 +174,38 @@ static CGFloat dockItemBounce = 10;
 }
 @end
 
+@interface DockWidgetScrubber : NSScrubber
+@end
+
+@implementation DockWidgetScrubber
+- (NSInteger)tag
+{
+    return 'dock';
+}
+@end
+
+@interface DockWidgetButton : NSButton
+@end
+
+@implementation DockWidgetButton
+- (NSSize)intrinsicContentSize
+{
+    NSSize size = [super intrinsicContentSize];
+    size.width = MIN(size.width, 64);
+    return size;
+}
+@end
+
+@interface DockWidgetView : NSView
+@end
+
+@implementation DockWidgetView
+- (NSSize)intrinsicContentSize
+{
+    return NSMakeSize(NSViewNoIntrinsicMetric, NSViewNoIntrinsicMetric);
+}
+@end
+
 @interface DockWidget () <NSScrubberDataSource, NSScrubberDelegate>
 @property (retain) NSArray *defaultApps;
 @property (retain) NSArray *runningApps;    /* running apps other than default */
@@ -188,9 +221,12 @@ static CGFloat dockItemBounce = 10;
     _itemViews = [[NSMutableDictionary alloc] init];
 
     self.customizationLabel = @"Dock";
+
     NSScrubberFlowLayout *layout = [[[NSScrubberFlowLayout alloc] init] autorelease];
     layout.itemSize = dockItemSize;
-    NSScrubber *scrubber = [[[NSScrubber alloc] initWithFrame:NSMakeRect(0, 0, 200, 30)] autorelease];
+    NSScrubber *scrubber = [[[DockWidgetScrubber alloc]
+        initWithFrame:NSMakeRect(0, 0, 200, 30)] autorelease];
+    scrubber.translatesAutoresizingMaskIntoConstraints = NO;
     scrubber.dataSource = self;
     scrubber.delegate = self;
     scrubber.showsAdditionalContentIndicators = YES;
@@ -198,7 +234,28 @@ static CGFloat dockItemBounce = 10;
     scrubber.continuous = NO;
     scrubber.itemAlignment = NSScrubberAlignmentNone;
     scrubber.scrubberLayout = layout;
-    self.view = scrubber;
+
+    NSButton *button = [DockWidgetButton
+        buttonWithImage:[self trashcanImage]
+        target:self
+        action:@selector(trashcanClick:)];
+    button.translatesAutoresizingMaskIntoConstraints = NO;
+    button.bordered = NO;
+    button.tag = 'trsh';
+
+    NSView *view = [[[DockWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
+    [view addSubview:scrubber];
+    [view addSubview:button];
+
+    NSDictionary *views = NSDictionaryOfVariableBindings(scrubber, button);
+    NSArray *constraints = [NSLayoutConstraint
+        constraintsWithVisualFormat:@"|[scrubber][button]|"
+        options:0
+        metrics:nil
+        views:views];
+    [view addConstraints:constraints];
+
+    self.view = view;
 
     [[[NSWorkspace sharedWorkspace] notificationCenter]
         addObserver:self
@@ -215,10 +272,17 @@ static CGFloat dockItemBounce = 10;
         selector:@selector(resetRunningApps)
         name:NSWorkspaceDidTerminateApplicationNotification
         object:nil];
+
+    [[NSWorkspace sharedWorkspace]
+        addTrashcanObserver:self
+        selector:@selector(trashcanNotify:)];
 }
 
 - (void)dealloc
 {
+    [[NSWorkspace sharedWorkspace]
+        removeTrashcanObserver:self];
+
     [[[NSWorkspace sharedWorkspace] notificationCenter]
         removeObserver:self];
 
@@ -376,7 +440,7 @@ static CGFloat dockItemBounce = 10;
 
 - (void)resetDefaultApps
 {
-    NSScrubber *scrubber = self.view;
+    NSScrubber *scrubber = [self.view viewWithTag:'dock'];
     self.defaultApps = nil;
     [scrubber reloadData];
 }
@@ -385,7 +449,7 @@ static CGFloat dockItemBounce = 10;
 {
     @try
     {
-        NSScrubber *scrubber = self.view;
+        NSScrubber *scrubber = [self.view viewWithTag:'dock'];
         [scrubber performSequentialBatchUpdates:^(void)
         {
             NSUInteger count = scrubber.numberOfItems;
@@ -510,9 +574,26 @@ static CGFloat dockItemBounce = 10;
     {
         NSLog(@"%@", ex);
 
-        NSScrubber *scrubber = self.view;
+        NSScrubber *scrubber = [self.view viewWithTag:'dock'];
         self.runningApps = nil;
         [scrubber reloadData];
     }
+}
+
+- (NSImage *)trashcanImage
+{
+    BOOL full = [[NSWorkspace sharedWorkspace] isTrashcanFull];
+    return [NSImage imageNamed:full ? @"TrashFullSepLeft" : @"TrashEmptySepLeft"];
+}
+
+- (void)trashcanNotify:(NSNotification *)notification
+{
+    NSButton *button = [self.view viewWithTag:'trsh'];
+    button.image = [self trashcanImage];
+}
+
+- (void)trashcanClick:(id)sender
+{
+    [[NSWorkspace sharedWorkspace] openTrashcan];
 }
 @end
