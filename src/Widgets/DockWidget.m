@@ -190,9 +190,7 @@ static CGFloat dockItemBounce = 10;
 @implementation DockWidgetButton
 - (NSSize)intrinsicContentSize
 {
-    NSSize size = [super intrinsicContentSize];
-    size.width = MIN(size.width, 64);
-    return size;
+    return dockItemSize;
 }
 @end
 
@@ -235,6 +233,9 @@ static CGFloat dockItemBounce = 10;
     scrubber.itemAlignment = NSScrubberAlignmentNone;
     scrubber.scrubberLayout = layout;
 
+    NSImageView *separator = [NSImageView imageViewWithImage:[NSImage imageNamed:@"DockSep"]];
+    separator.translatesAutoresizingMaskIntoConstraints = NO;
+
     NSButton *button = [DockWidgetButton
         buttonWithImage:[self trashcanImage]
         target:self
@@ -245,11 +246,12 @@ static CGFloat dockItemBounce = 10;
 
     NSView *view = [[[DockWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
     [view addSubview:scrubber];
+    [view addSubview:separator];
     [view addSubview:button];
 
-    NSDictionary *views = NSDictionaryOfVariableBindings(scrubber, button);
+    NSDictionary *views = NSDictionaryOfVariableBindings(scrubber, separator, button);
     NSArray *constraints = [NSLayoutConstraint
-        constraintsWithVisualFormat:@"|[scrubber][button]|"
+        constraintsWithVisualFormat:@"|[scrubber][separator][button]|"
         options:0
         metrics:nil
         views:views];
@@ -583,7 +585,7 @@ static CGFloat dockItemBounce = 10;
 - (NSImage *)trashcanImage
 {
     BOOL full = [[NSWorkspace sharedWorkspace] isTrashcanFull];
-    return [NSImage imageNamed:full ? @"TrashFullSepLeft" : @"TrashEmptySepLeft"];
+    return [NSImage imageNamed:full ? @"TrashFull" : @"TrashEmpty"];
 }
 
 - (void)trashcanNotify:(NSNotification *)notification
