@@ -30,10 +30,12 @@
 - (void)commonInit
 {
     self.customizationLabel = @"Trash";
-    self.view = [TrashcanWidgetButton
-        buttonWithImage:[NSImage imageNamed:NSImageNameTrashEmpty]
+    NSButton *button = [TrashcanWidgetButton
+        buttonWithImage:[NSImage imageNamed:@"TrashEmpty"]
         target:self
         action:@selector(click:)];
+    button.bordered = NO;
+    self.view = button;
 }
 
 - (void)dealloc
