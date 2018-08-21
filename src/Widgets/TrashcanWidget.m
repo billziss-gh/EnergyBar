@@ -53,7 +53,7 @@
 - (NSImage *)trashcanImage
 {
     BOOL full = [[NSWorkspace sharedWorkspace] isTrashcanFull];
-    return [NSImage imageNamed:full ? @"TrashFull" : @"TrashEmpty"];
+    return [NSImage imageNamed:full ? @"TrashFullSepLeft" : @"TrashEmptySepLeft"];
 }
 
 - (void)trashcanNotify:(NSNotification *)notification
