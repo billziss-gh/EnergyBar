@@ -49,9 +49,9 @@
         @"Clock",
         nil];
     self.touchBar.customizationAllowedItemIdentifiers = [NSArray arrayWithObjects:
+        @"Dock",
         @"EscKey",
         @"ActiveApp",
-        @"Dock",
         @"Control",
         @"Clock",
         nil];
