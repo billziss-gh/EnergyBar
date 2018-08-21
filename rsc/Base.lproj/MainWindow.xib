@@ -19,6 +19,7 @@
             <connections>
                 <outlet property="loginItemButton" destination="oS6-Yw-8uD" id="3Tv-UX-aph"/>
                 <outlet property="sourceLinkButton" destination="U9g-U1-lEK" id="gYZ-60-89N"/>
+                <outlet property="toggleMacOSDockButton" destination="VQP-lf-wVh" id="hZi-MD-BJb"/>
                 <outlet property="touchBarController" destination="K6h-9q-8nk" id="7Zg-VL-ES5"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
@@ -431,14 +432,14 @@
         </menu>
         <window title="TouchBarDock" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" titleVisibility="hidden" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" fullSizeContentView="YES"/>
-            <rect key="contentRect" x="335" y="390" width="480" height="480"/>
+            <rect key="contentRect" x="335" y="390" width="480" height="580"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                <rect key="frame" x="0.0" y="0.0" width="480" height="580"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <box fixedFrame="YES" boxType="custom" borderType="none" cornerRadius="4" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="mkb-QQ-yI4">
-                        <rect key="frame" x="0.0" y="440" width="480" height="40"/>
+                        <rect key="frame" x="0.0" y="540" width="480" height="40"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <view key="contentView" ambiguous="YES" id="VPv-Yv-ZTu">
                             <rect key="frame" x="0.0" y="0.0" width="480" height="40"/>
@@ -468,7 +469,7 @@
                         </view>
                     </box>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VQx-dE-YjD">
-                        <rect key="frame" x="18" y="401" width="142" height="17"/>
+                        <rect key="frame" x="18" y="501" width="142" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Applications Folder:" id="aEp-C3-0te">
                             <font key="font" metaFont="system"/>
@@ -477,7 +478,7 @@
                         </textFieldCell>
                     </textField>
                     <pathControl verticalHuggingPriority="750" fixedFrame="YES" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="buL-B7-ikD">
-                        <rect key="frame" x="163" y="396" width="300" height="26"/>
+                        <rect key="frame" x="163" y="496" width="300" height="26"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <pathCell key="cell" selectable="YES" editable="YES" alignment="left" pathStyle="popUp" id="AFv-JE-iCg">
                             <font key="font" metaFont="system"/>
@@ -500,7 +501,7 @@
                         </connections>
                     </pathControl>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kqJ-3C-JKc">
-                        <rect key="frame" x="164" y="294" width="298" height="98"/>
+                        <rect key="frame" x="164" y="394" width="298" height="98"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="justified" id="LjN-Ts-LrG">
                             <font key="font" metaFont="smallSystem"/>
@@ -521,9 +522,9 @@ In general the folder should contain application aliases. The order of the folde
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kaa-7C-9IO">
-                        <rect key="frame" x="160" y="258" width="153" height="32"/>
+                        <rect key="frame" x="160" y="358" width="153" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="push" title="Reset from Dock" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="U8M-wp-uPX">
+                        <buttonCell key="cell" type="push" title="From macOS Dock" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="U8M-wp-uPX">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -532,7 +533,7 @@ In general the folder should contain application aliases. The order of the folde
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KCu-GU-fg1">
-                        <rect key="frame" x="313" y="258" width="153" height="32"/>
+                        <rect key="frame" x="313" y="358" width="153" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Show Folder" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="mdc-3H-CF9">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -543,11 +544,11 @@ In general the folder should contain application aliases. The order of the folde
                         </connections>
                     </button>
                     <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="fbN-wM-cps">
-                        <rect key="frame" x="12" y="242" width="456" height="4"/>
+                        <rect key="frame" x="12" y="342" width="456" height="5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     </box>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TXf-f2-X4U">
-                        <rect key="frame" x="18" y="205" width="142" height="17"/>
+                        <rect key="frame" x="18" y="305" width="142" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Customize:" id="y10-xC-z34">
                             <font key="font" metaFont="system"/>
@@ -556,7 +557,7 @@ In general the folder should contain application aliases. The order of the folde
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ds9-nX-zb0">
-                        <rect key="frame" x="160" y="196" width="306" height="32"/>
+                        <rect key="frame" x="160" y="296" width="306" height="32"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Customize Touch Bar" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="UpF-Xb-49U">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -567,7 +568,31 @@ In general the folder should contain application aliases. The order of the folde
                         </connections>
                     </button>
                     <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="b9N-cs-PX8">
-                        <rect key="frame" x="12" y="180" width="456" height="5"/>
+                        <rect key="frame" x="12" y="280" width="456" height="5"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    </box>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VQP-lf-wVh">
+                        <rect key="frame" x="160" y="234" width="306" height="32"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Toggle macOS Dock" alternateTitle="Toggle macOS Dock" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dEb-Hq-Bqt">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="toggleMacOSDockAction:" target="Voe-Tx-rLC" id="Wwh-4w-zMi"/>
+                        </connections>
+                    </button>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3d5-cl-G2A">
+                        <rect key="frame" x="204" y="193" width="258" height="28"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="justified" title="Use caution: this button changes the settings of the system Dock." id="bTB-wX-vMt">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <box hidden="YES" verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="IyK-ip-zTJ">
+                        <rect key="frame" x="8" y="180" width="456" height="5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     </box>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oS6-Yw-8uD">
@@ -616,6 +641,11 @@ In general the folder should contain application aliases. The order of the folde
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yiZ-2a-5wf">
+                        <rect key="frame" x="166" y="191" width="32" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSCaution" id="AVd-79-hyS"/>
+                    </imageView>
                 </subviews>
             </view>
             <toolbar key="toolbar" implicitIdentifier="40712263-09C9-4F53-9674-F3343CC2D1A4" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconOnly" sizeMode="regular" id="ZQG-Zm-WHH">
@@ -625,7 +655,7 @@ In general the folder should contain application aliases. The order of the folde
             <connections>
                 <outlet property="delegate" destination="Voe-Tx-rLC" id="Yhx-mI-vfG"/>
             </connections>
-            <point key="canvasLocation" x="85" y="-724"/>
+            <point key="canvasLocation" x="85" y="-721"/>
         </window>
         <touchBar customizationIdentifier="billziss.TouchBarDock" id="7g7-Is-eP5">
             <nil name="touchBarItems"/>
@@ -635,4 +665,7 @@ In general the folder should contain application aliases. The order of the folde
             <point key="canvasLocation" x="31" y="-1362"/>
         </touchBar>
     </objects>
+    <resources>
+        <image name="NSCaution" width="32" height="32"/>
+    </resources>
 </document>

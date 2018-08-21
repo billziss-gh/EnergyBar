@@ -26,6 +26,7 @@
 - (void)fsnotify:(const char *)path;
 @property (assign) IBOutlet TouchBarController *touchBarController;
 @property (assign) IBOutlet NSWindow *window;
+@property (assign) IBOutlet NSButton *toggleMacOSDockButton;
 @property (assign) IBOutlet NSButton *loginItemButton;
 @property (assign) IBOutlet NSButton *sourceLinkButton;
 @end
@@ -89,6 +90,8 @@ static void AppControllerFSNotify(const char *path, void *data)
         [superView _addKnownSubview:contentView];
     else
         [superView addSubview:contentView];
+
+    [self updateToggleMacOSDockButton];
 
     self.loginItemButton.state = IsLoginItem([[NSBundle mainBundle] bundleURL]) ?
         NSControlStateValueOn : NSControlStateValueOff;
@@ -198,10 +201,10 @@ static void AppControllerFSNotify(const char *path, void *data)
             nil], @"tile-data",
         nil];
 
-    NSUserDefaults *dockDefaults = [[[NSUserDefaults alloc] init] autorelease];
-    NSDictionary *dockDict = [dockDefaults persistentDomainForName:@"com.apple.dock"];
+    NSUserDefaults *dockDefaults = [[[NSUserDefaults alloc]
+        initWithSuiteName:@"com.apple.dock"] autorelease];
     NSArray *dockApps = [[NSArray arrayWithObject:finderDict]
-        arrayByAddingObjectsFromArray:[dockDict objectForKey:@"persistent-apps"]];
+        arrayByAddingObjectsFromArray:[dockDefaults objectForKey:@"persistent-apps"]];
     NSUInteger order = 0;
     for (NSDictionary *a in dockApps)
     {
@@ -240,6 +243,46 @@ static void AppControllerFSNotify(const char *path, void *data)
         return;
 
     [[NSWorkspace sharedWorkspace] openFile:defaultAppsFolder];
+}
+
+- (void)updateToggleMacOSDockButton
+{
+    NSUserDefaults *dockDefaults = [[[NSUserDefaults alloc]
+        initWithSuiteName:@"com.apple.dock"] autorelease];
+    NSString *showhide = 60 <= [dockDefaults integerForKey:@"autohide-delay"] ? @"Show" : @"Hide";
+    self.toggleMacOSDockButton.title = [self.toggleMacOSDockButton.alternateTitle
+        stringByReplacingOccurrencesOfString:@"Toggle" withString:showhide];
+}
+
+- (void)enableToggleMacOSDockButton
+{
+    self.toggleMacOSDockButton.enabled = YES;
+    [self updateToggleMacOSDockButton];
+}
+
+- (IBAction)toggleMacOSDockAction:(id)sender
+{
+    NSUserDefaults *dockDefaults = [[[NSUserDefaults alloc]
+        initWithSuiteName:@"com.apple.dock"] autorelease];
+    if (60 <= [dockDefaults integerForKey:@"autohide-delay"])
+    {
+        [dockDefaults setBool:NO forKey:@"autohide"];
+        [dockDefaults removeObjectForKey:@"autohide-delay"];
+    }
+    else
+    {
+        [dockDefaults setInteger:1000000 forKey:@"autohide-delay"];
+        [dockDefaults setBool:YES forKey:@"autohide"];
+    }
+    [dockDefaults synchronize];
+
+    /* give some visual feedback */
+    self.toggleMacOSDockButton.enabled = NO;
+    [self performSelector:@selector(enableToggleMacOSDockButton) withObject:nil afterDelay:1.0];
+
+    NSRunningApplication *dockApp = [[NSRunningApplication
+        runningApplicationsWithBundleIdentifier:@"com.apple.dock"] firstObject];
+    [dockApp terminate];
 }
 
 - (IBAction)loginItemAction:(id)sender
