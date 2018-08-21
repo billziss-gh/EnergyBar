@@ -15,4 +15,7 @@
 
 @interface NSWorkspace (Trashcan)
 - (BOOL)openTrashcan;
+- (BOOL)isTrashcanFull;
+- (void)addTrashcanObserver:(id)observer selector:(SEL)sel;
+- (void)removeTrashcanObserver:(id)observer;
 @end

@@ -31,16 +31,35 @@
 {
     self.customizationLabel = @"Trash";
     NSButton *button = [TrashcanWidgetButton
-        buttonWithImage:[NSImage imageNamed:@"TrashEmpty"]
+        buttonWithImage:[self trashcanImage]
         target:self
         action:@selector(click:)];
     button.bordered = NO;
     self.view = button;
+
+    [[NSWorkspace sharedWorkspace]
+        addTrashcanObserver:self
+        selector:@selector(trashcanNotify:)];
 }
 
 - (void)dealloc
 {
+    [[NSWorkspace sharedWorkspace]
+        removeTrashcanObserver:self];
+
     [super dealloc];
+}
+
+- (NSImage *)trashcanImage
+{
+    BOOL full = [[NSWorkspace sharedWorkspace] isTrashcanFull];
+    return [NSImage imageNamed:full ? @"TrashFull" : @"TrashEmpty"];
+}
+
+- (void)trashcanNotify:(NSNotification *)notification
+{
+    NSButton *button = self.view;
+    button.image = [self trashcanImage];
 }
 
 - (void)click:(id)sender

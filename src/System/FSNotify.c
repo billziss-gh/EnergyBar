@@ -61,7 +61,7 @@ void *FSNotifyStart(const char *cpath, void (*callback)(const char *, void *), v
     context.release = (void (*)(const void *))(free);
 
     stream = FSEventStreamCreate(0, FSNotifyCallback,
-        &context, paths, kFSEventStreamEventIdSinceNow, 1.0, kFSEventStreamCreateFlagNone);
+        &context, paths, kFSEventStreamEventIdSinceNow, 1.0, kFSEventStreamCreateFlagNoDefer);
     if (0 == stream)
         goto exit;
 

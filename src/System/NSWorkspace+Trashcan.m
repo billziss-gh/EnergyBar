@@ -12,6 +12,24 @@
  */
 
 #import "NSWorkspace+Trashcan.h"
+#import <pthread.h>
+#import "FSNotify.h"
+
+static pthread_once_t NSWorkspaceTrashcanFSNotify_once = PTHREAD_ONCE_INIT;
+static void NSWorkspaceTrashcanFSNotify(const char *path, void *data);
+
+static void NSWorkspaceTrashcanFSNotify_initonce(void)
+{
+    NSString *trash = [NSHomeDirectory() stringByAppendingPathComponent:@".Trash"];
+    FSNotifyStart([trash UTF8String], NSWorkspaceTrashcanFSNotify, 0);
+}
+
+static void NSWorkspaceTrashcanFSNotify(const char *path, void *data)
+{
+    [[NSNotificationCenter defaultCenter]
+        postNotificationName:@"NSWorkspace+Trashcan"
+        object:nil];
+}
 
 @implementation NSWorkspace (Trashcan)
 - (BOOL)openTrashcan
@@ -90,5 +108,31 @@ exit:
         AEDisposeDesc(&finderTarget);
 
     return res;
+}
+
+- (BOOL)isTrashcanFull
+{
+    NSString *trash = [NSHomeDirectory() stringByAppendingPathComponent:@".Trash"];
+    NSDirectoryEnumerator *direnum = [[NSFileManager defaultManager] enumeratorAtPath:trash];
+    return nil != [direnum nextObject];
+}
+
+- (void)addTrashcanObserver:(id)observer selector:(SEL)sel
+{
+    pthread_once(&NSWorkspaceTrashcanFSNotify_once, NSWorkspaceTrashcanFSNotify_initonce);
+
+    [[NSNotificationCenter defaultCenter]
+        addObserver:observer
+        selector:sel
+        name:@"NSWorkspace+Trashcan"
+        object:nil];
+}
+
+- (void)removeTrashcanObserver:(id)observer
+{
+    [[NSNotificationCenter defaultCenter]
+        removeObserver:observer
+        name:@"NSWorkspace+Trashcan"
+        object:nil];
 }
 @end
