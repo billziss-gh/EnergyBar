@@ -21,6 +21,7 @@
 
     FixedSizeLabel *label = [FixedSizeLabel labelWithString:@"Active App"];
     label.alignment = NSTextAlignmentCenter;
+    label.lineBreakMode = NSLineBreakByTruncatingTail;
     self.view = label;
 
     [[[NSWorkspace sharedWorkspace] notificationCenter]

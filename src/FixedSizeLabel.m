@@ -46,7 +46,6 @@
 {
     [super setStringValue:value];
 
-    self.cell.lineBreakMode = NSLineBreakByTruncatingTail;
     NSFont *systemFont = [NSFont systemFontOfSize:0];
     self.font = systemFont;
     NSSize size = [super intrinsicContentSize];
