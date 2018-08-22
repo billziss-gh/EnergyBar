@@ -15,6 +15,7 @@
 
 @interface NowPlaying : NSObject
 + (NowPlaying *)sharedInstance;
+@property (retain) NSString *appBundleIdentifier;
 @property (retain) NSString *appName;
 @property (retain) NSImage *appIcon;
 @property (retain) NSString *album;

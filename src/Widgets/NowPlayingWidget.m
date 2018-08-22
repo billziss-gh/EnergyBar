@@ -51,6 +51,11 @@
 {
     self.customizationLabel = @"Now Playing";
 
+    NSPressGestureRecognizer *recognizer = [[[NSPressGestureRecognizer alloc]
+        initWithTarget:self action:@selector(pressAction:)] autorelease];
+    recognizer.allowedTouchTypes = NSTouchTypeMaskDirect;
+    recognizer.minimumPressDuration = 1.0;
+
     NSImageView *iconView = [[[NowPlayingWidgetIconView alloc]
         initWithFrame:NSZeroRect] autorelease];
     iconView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -68,6 +73,7 @@
     NSView *view = [[[NowPlayingWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
     [view addSubview:iconView];
     [view addSubview:titleView];
+    [view addGestureRecognizer:recognizer];
 
     NSDictionary *views = NSDictionaryOfVariableBindings(iconView, titleView);
     NSArray *constraints;
@@ -119,5 +125,21 @@
 
     [[self.view viewWithTag:'icon'] setImage:appIcon];
     [[self.view viewWithTag:'name'] setStringValue:title];
+}
+
+- (void)pressAction:(NSGestureRecognizer *)recognizer
+{
+    if (NSGestureRecognizerStateBegan != recognizer.state)
+        return;
+
+    NSString *appBundleIdentifier = [NowPlaying sharedInstance].appBundleIdentifier;
+    if (nil != appBundleIdentifier)
+    {
+        [[NSWorkspace sharedWorkspace]
+            launchAppWithBundleIdentifier:appBundleIdentifier
+            options:0
+            additionalEventParamDescriptor:nil
+            launchIdentifier:nil];
+    }
 }
 @end

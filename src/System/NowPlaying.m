@@ -108,19 +108,20 @@ extern NSString *kMRMediaRemoteNowPlayingInfoTitle;
     MRMediaRemoteGetNowPlayingClient(dispatch_get_main_queue(),
         ^(id clientObj)
         {
+            NSString *appBundleIdentifier = nil;
             NSString *appName = nil;
             NSImage *appIcon = nil;
 
             if (nil != clientObj)
             {
-                NSString *ident = MRNowPlayingClientGetBundleIdentifier(clientObj);
-                if (nil == ident)
-                    ident = MRNowPlayingClientGetParentAppBundleIdentifier(clientObj);
+                appBundleIdentifier = MRNowPlayingClientGetBundleIdentifier(clientObj);
+                if (nil == appBundleIdentifier)
+                    appBundleIdentifier = MRNowPlayingClientGetParentAppBundleIdentifier(clientObj);
 
-                if (nil != ident)
+                if (nil != appBundleIdentifier)
                 {
                     NSString *path = [[NSWorkspace sharedWorkspace]
-                        absolutePathForAppBundleWithIdentifier:ident];
+                        absolutePathForAppBundleWithIdentifier:appBundleIdentifier];
                     if (nil != path)
                     {
                         appName = [[NSFileManager defaultManager] displayNameAtPath:path];
@@ -129,8 +130,11 @@ extern NSString *kMRMediaRemoteNowPlayingInfoTitle;
                 }
             }
 
-            if (self.appName != appName || self.appIcon != appIcon)
+            if (self.appBundleIdentifier != appBundleIdentifier ||
+                self.appName != appName ||
+                self.appIcon != appIcon)
             {
+                self.appBundleIdentifier = appBundleIdentifier;
                 self.appName = appName;
                 self.appIcon = appIcon;
 
