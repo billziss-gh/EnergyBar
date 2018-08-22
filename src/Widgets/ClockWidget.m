@@ -12,18 +12,7 @@
  */
 
 #import "ClockWidget.h"
-
-@interface ClockWidgetLabel : NSTextField
-@end
-
-@implementation ClockWidgetLabel
-- (NSSize)intrinsicContentSize
-{
-    NSSize size = [super intrinsicContentSize];
-    size.width = MAX(size.width, 80);
-    return size;
-}
-@end
+#import "FixedSizeLabel.h"
 
 @interface ClockWidget ()
 @property (retain) NSTimer *timer;
@@ -42,7 +31,8 @@
         initWithTarget:self action:@selector(pressAction:)] autorelease];
     recognizer.allowedTouchTypes = NSTouchTypeMaskDirect;
     recognizer.minimumPressDuration = 1.0;
-    ClockWidgetLabel *label = [ClockWidgetLabel labelWithString:@"9:41 am"];
+    FixedSizeLabel *label = [FixedSizeLabel labelWithString:@"9:41 am"];
+    label.fixedSize = NSMakeSize(80, NSViewNoIntrinsicMetric);
     label.alignment = NSTextAlignmentCenter;
     [label addGestureRecognizer:recognizer];
     self.view = label;

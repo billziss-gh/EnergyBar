@@ -16,6 +16,7 @@
 		3C163BC72118F1C500F015EC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C163BC52118F1C500F015EC /* main.m */; };
 		3C163BCA2118F33C00F015EC /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C163BC82118F33C00F015EC /* MainWindow.xib */; };
 		3C1A5678211D6B7D008E1F9F /* AppBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1A5677211D6B7D008E1F9F /* AppBarController.m */; };
+		3C200ECF212DFF390000B04D /* FixedSizeLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C200ECE212DFF390000B04D /* FixedSizeLabel.m */; };
 		3C4013C2211BBC8D00C47B66 /* ActiveAppWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C4013C1211BBC8D00C47B66 /* ActiveAppWidget.m */; };
 		3C5D0FCE2119210000769A39 /* ClockWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C5D0FCD2119210000769A39 /* ClockWidget.m */; };
 		3C6CCA38211B824000D019F4 /* TouchBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C6CCA37211B824000D019F4 /* TouchBarController.m */; };
@@ -54,6 +55,8 @@
 		3C163BC92118F33C00F015EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		3C1A5676211D6B7D008E1F9F /* AppBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppBarController.h; sourceTree = "<group>"; };
 		3C1A5677211D6B7D008E1F9F /* AppBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppBarController.m; sourceTree = "<group>"; };
+		3C200ECD212DFF390000B04D /* FixedSizeLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FixedSizeLabel.h; sourceTree = "<group>"; };
+		3C200ECE212DFF390000B04D /* FixedSizeLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FixedSizeLabel.m; sourceTree = "<group>"; };
 		3C4013C0211BBC8D00C47B66 /* ActiveAppWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActiveAppWidget.h; sourceTree = "<group>"; };
 		3C4013C1211BBC8D00C47B66 /* ActiveAppWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActiveAppWidget.m; sourceTree = "<group>"; };
 		3C5D0FCC2119210000769A39 /* ClockWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClockWidget.h; sourceTree = "<group>"; };
@@ -166,6 +169,8 @@
 				3C1A5677211D6B7D008E1F9F /* AppBarController.m */,
 				3C163BC42118F1C500F015EC /* AppController.h */,
 				3C163BC32118F1C500F015EC /* AppController.m */,
+				3C200ECD212DFF390000B04D /* FixedSizeLabel.h */,
+				3C200ECE212DFF390000B04D /* FixedSizeLabel.m */,
 				3CAA9C6B2127B3E000D5B467 /* StringToUrlTransformer.h */,
 				3CAA9C6C2127B3E000D5B467 /* StringToUrlTransformer.m */,
 				3C6CCA36211B824000D019F4 /* TouchBarController.h */,
@@ -300,6 +305,7 @@
 				3C9E264A211E2A9F0042C2E8 /* Brightness.c in Sources */,
 				3CDF1EB4211A3B9500739051 /* DockWidget.m in Sources */,
 				3C046013211D7C66003EB021 /* KeyEvent.c in Sources */,
+				3C200ECF212DFF390000B04D /* FixedSizeLabel.m in Sources */,
 				3CFECA122122611F00BB58E9 /* LoginItem.c in Sources */,
 				3C4013C2211BBC8D00C47B66 /* ActiveAppWidget.m in Sources */,
 				3CACC7632126772700662AB1 /* FSNotify.c in Sources */,

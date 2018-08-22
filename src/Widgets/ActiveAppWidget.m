@@ -12,25 +12,14 @@
  */
 
 #import "ActiveAppWidget.h"
-
-@interface ActiveAppWidgetLabel : NSTextField
-@end
-
-@implementation ActiveAppWidgetLabel
-- (NSSize)intrinsicContentSize
-{
-    NSSize size = [super intrinsicContentSize];
-    size.width = MAX(size.width, 150);
-    return size;
-}
-@end
+#import "FixedSizeLabel.h"
 
 @implementation ActiveAppWidget
 - (void)commonInit
 {
     self.customizationLabel = @"Active App";
 
-    ActiveAppWidgetLabel *label = [ActiveAppWidgetLabel labelWithString:@"Active App"];
+    FixedSizeLabel *label = [FixedSizeLabel labelWithString:@"Active App"];
     label.alignment = NSTextAlignmentCenter;
     self.view = label;
 
@@ -64,7 +53,7 @@
     NSRunningApplication *app = [[NSWorkspace sharedWorkspace] menuBarOwningApplication];
     if (nil != app)
     {
-        ActiveAppWidgetLabel *label = self.view;
+        FixedSizeLabel *label = self.view;
         label.stringValue = app.localizedName;
     }
 }
