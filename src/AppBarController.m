@@ -45,6 +45,7 @@
         @"EscKey",
         @"ActiveApp",
         @"Dock",
+        @"NowPlaying",
         @"Control",
         @"Clock",
         nil];
@@ -52,6 +53,7 @@
         @"Dock",
         @"EscKey",
         @"ActiveApp",
+        @"NowPlaying",
         @"Control",
         @"Clock",
         nil];

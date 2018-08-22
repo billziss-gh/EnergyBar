@@ -22,6 +22,9 @@
 		3C83DB48211D851700FC2F53 /* CoreBrightness.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C83DB47211D851700FC2F53 /* CoreBrightness.framework */; };
 		3C9E2647211E28900042C2E8 /* AudioVolume.c in Sources */ = {isa = PBXBuildFile; fileRef = 3C9E2645211E288F0042C2E8 /* AudioVolume.c */; };
 		3C9E264A211E2A9F0042C2E8 /* Brightness.c in Sources */ = {isa = PBXBuildFile; fileRef = 3C9E2649211E2A9F0042C2E8 /* Brightness.c */; };
+		3CA1DD86212D3DB200D95DE1 /* NowPlayingWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA1DD85212D3DB200D95DE1 /* NowPlayingWidget.m */; };
+		3CA1DD88212D3F7A00D95DE1 /* MediaRemote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CA1DD87212D3F7A00D95DE1 /* MediaRemote.framework */; };
+		3CA1DD8B212D3FC000D95DE1 /* NowPlaying.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA1DD89212D3FC000D95DE1 /* NowPlaying.m */; };
 		3CA8519D212B832100585D29 /* NSWorkspace+Trashcan.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA8519C212B832100585D29 /* NSWorkspace+Trashcan.m */; };
 		3CA851A0212B84B000585D29 /* NSTouchBar+SystemModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA8519E212B84B000585D29 /* NSTouchBar+SystemModal.m */; };
 		3CAA9C6D2127B3E100D5B467 /* StringToUrlTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CAA9C6C2127B3E000D5B467 /* StringToUrlTransformer.m */; };
@@ -63,6 +66,11 @@
 		3C9E2646211E28900042C2E8 /* AudioVolume.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioVolume.h; sourceTree = "<group>"; };
 		3C9E2648211E2A9F0042C2E8 /* Brightness.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Brightness.h; sourceTree = "<group>"; };
 		3C9E2649211E2A9F0042C2E8 /* Brightness.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Brightness.c; sourceTree = "<group>"; };
+		3CA1DD84212D3DB200D95DE1 /* NowPlayingWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NowPlayingWidget.h; sourceTree = "<group>"; };
+		3CA1DD85212D3DB200D95DE1 /* NowPlayingWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NowPlayingWidget.m; sourceTree = "<group>"; };
+		3CA1DD87212D3F7A00D95DE1 /* MediaRemote.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaRemote.framework; path = ../../../../../../System/Library/PrivateFrameworks/MediaRemote.framework; sourceTree = "<group>"; };
+		3CA1DD89212D3FC000D95DE1 /* NowPlaying.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NowPlaying.m; sourceTree = "<group>"; };
+		3CA1DD8A212D3FC000D95DE1 /* NowPlaying.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NowPlaying.h; sourceTree = "<group>"; };
 		3CA8519B212B832100585D29 /* NSWorkspace+Trashcan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWorkspace+Trashcan.h"; sourceTree = "<group>"; };
 		3CA8519C212B832100585D29 /* NSWorkspace+Trashcan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWorkspace+Trashcan.m"; sourceTree = "<group>"; };
 		3CA8519E212B84B000585D29 /* NSTouchBar+SystemModal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTouchBar+SystemModal.m"; sourceTree = "<group>"; };
@@ -86,6 +94,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C83DB48211D851700FC2F53 /* CoreBrightness.framework in Frameworks */,
+				3CA1DD88212D3F7A00D95DE1 /* MediaRemote.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,6 +119,8 @@
 				3CA8519E212B84B000585D29 /* NSTouchBar+SystemModal.m */,
 				3CA8519B212B832100585D29 /* NSWorkspace+Trashcan.h */,
 				3CA8519C212B832100585D29 /* NSWorkspace+Trashcan.m */,
+				3CA1DD8A212D3FC000D95DE1 /* NowPlaying.h */,
+				3CA1DD89212D3FC000D95DE1 /* NowPlaying.m */,
 			);
 			path = System;
 			sourceTree = "<group>";
@@ -180,6 +191,8 @@
 				3CDF1EB2211A3B9400739051 /* DockWidget.m */,
 				3C102D4C2119872800FFB2CF /* EscKeyWidget.h */,
 				3C102D4D2119872800FFB2CF /* EscKeyWidget.m */,
+				3CA1DD84212D3DB200D95DE1 /* NowPlayingWidget.h */,
+				3CA1DD85212D3DB200D95DE1 /* NowPlayingWidget.m */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -188,6 +201,7 @@
 			isa = PBXGroup;
 			children = (
 				3C83DB47211D851700FC2F53 /* CoreBrightness.framework */,
+				3CA1DD87212D3F7A00D95DE1 /* MediaRemote.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -297,8 +311,10 @@
 				3CAA9C6D2127B3E100D5B467 /* StringToUrlTransformer.m in Sources */,
 				3C1A5678211D6B7D008E1F9F /* AppBarController.m in Sources */,
 				3CA8519D212B832100585D29 /* NSWorkspace+Trashcan.m in Sources */,
+				3CA1DD8B212D3FC000D95DE1 /* NowPlaying.m in Sources */,
 				3C102D4E2119872800FFB2CF /* EscKeyWidget.m in Sources */,
 				3C9E2647211E28900042C2E8 /* AudioVolume.c in Sources */,
+				3CA1DD86212D3DB200D95DE1 /* NowPlayingWidget.m in Sources */,
 				3C102D4B21197ED700FFB2CF /* ControlWidget.m in Sources */,
 				3C163BC62118F1C500F015EC /* AppController.m in Sources */,
 			);
