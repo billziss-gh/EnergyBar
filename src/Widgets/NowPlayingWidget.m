@@ -12,32 +12,36 @@
  */
 
 #import "NowPlayingWidget.h"
+#import "FixedSizeLabel.h"
 #import "NowPlaying.h"
-
-@interface NowPlayingWidgetButton : NSButton
-@end
-
-@implementation NowPlayingWidgetButton
-- (NSSize)intrinsicContentSize
-{
-    NSSize size = [super intrinsicContentSize];
-    size.width = MAX(size.width, 150);
-    return size;
-}
-@end
 
 @implementation NowPlayingWidget
 - (void)commonInit
 {
     self.customizationLabel = @"Now Playing";
 
-    NSButton *button = [NowPlayingWidgetButton
-        buttonWithTitle:@"Now Playing" target:self action:@selector(click:)];
-    button.font = [NSFont systemFontOfSize:[NSFont smallSystemFontSize]];
-    button.imageHugsTitle = YES;
-    button.bordered = YES;
-    button.imagePosition = NSImageLeft;
-    self.view = button;
+    NSImageView *appIconView = [[[NSImageView alloc] initWithFrame:NSZeroRect] autorelease];
+    appIconView.tag = 'icon';
+    appIconView.translatesAutoresizingMaskIntoConstraints = NO;
+
+    FixedSizeLabel *titleLabel = [FixedSizeLabel labelWithString:@""];
+    titleLabel.tag = 'name';
+    titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    titleLabel.alignment = NSTextAlignmentCenter;
+
+    NSView *view = [[[NSView alloc] initWithFrame:NSZeroRect] autorelease];
+    [view addSubview:appIconView];
+    [view addSubview:titleLabel];
+
+    NSDictionary *views = NSDictionaryOfVariableBindings(appIconView, titleLabel);
+    NSArray *constraints = [NSLayoutConstraint
+        constraintsWithVisualFormat:@"|[appIconView][titleLabel]|"
+        options:0
+        metrics:nil
+        views:views];
+    [view addConstraints:constraints];
+
+    self.view = view;
 
     [NowPlaying sharedInstance];
 
@@ -58,9 +62,14 @@
 
 - (void)nowPlayingNotification:(NSNotification *)notification
 {
-    NSButton *button = self.view;
-    button.title = [NowPlaying sharedInstance].title;
-    button.image = [NowPlaying sharedInstance].appIcon;
+    NSImage *appIcon = [NowPlaying sharedInstance].appIcon;
+    NSString *title = [NowPlaying sharedInstance].title;
+
+    if (nil == title)
+        title = @"";
+
+    [[self.view viewWithTag:'icon'] setImage:appIcon];
+    [[self.view viewWithTag:'name'] setStringValue:title];
 }
 
 - (void)click:(id)sender
