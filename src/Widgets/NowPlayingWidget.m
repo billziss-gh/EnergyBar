@@ -12,30 +12,79 @@
  */
 
 #import "NowPlayingWidget.h"
-#import "FixedSizeLabel.h"
 #import "NowPlaying.h"
+
+@interface NowPlayingWidgetIconView : NSImageView
+@end
+
+@implementation NowPlayingWidgetIconView
+- (NSSize)intrinsicContentSize
+{
+    return NSMakeSize(30, NSViewNoIntrinsicMetric);
+}
+@end
+
+@interface NowPlayingWidgetTitleView : NSTextField
+@end
+
+@implementation NowPlayingWidgetTitleView
+- (NSSize)intrinsicContentSize
+{
+    NSSize size = [super intrinsicContentSize];
+    size.width = MIN(size.width, 150);
+    return size;
+}
+@end
+
+@interface NowPlayingWidgetView : NSView
+@end
+
+@implementation NowPlayingWidgetView
+- (NSSize)intrinsicContentSize
+{
+    return NSMakeSize(200, NSViewNoIntrinsicMetric);
+}
+@end
 
 @implementation NowPlayingWidget
 - (void)commonInit
 {
     self.customizationLabel = @"Now Playing";
 
-    NSImageView *appIconView = [[[NSImageView alloc] initWithFrame:NSZeroRect] autorelease];
-    appIconView.tag = 'icon';
-    appIconView.translatesAutoresizingMaskIntoConstraints = NO;
+    NSImageView *iconView = [[[NowPlayingWidgetIconView alloc]
+        initWithFrame:NSZeroRect] autorelease];
+    iconView.translatesAutoresizingMaskIntoConstraints = NO;
+    iconView.imageScaling = NSImageScaleProportionallyDown;
+    iconView.tag = 'icon';
 
-    FixedSizeLabel *titleLabel = [FixedSizeLabel labelWithString:@""];
-    titleLabel.tag = 'name';
-    titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    titleLabel.alignment = NSTextAlignmentCenter;
+    NSTextField *titleView = [NowPlayingWidgetTitleView labelWithString:@""];
+    titleView.translatesAutoresizingMaskIntoConstraints = NO;
+    titleView.font = [NSFont systemFontOfSize:[NSFont
+        systemFontSizeForControlSize:NSControlSizeSmall]];
+    titleView.lineBreakMode = NSLineBreakByTruncatingTail;
+    titleView.alignment = NSTextAlignmentLeft;
+    titleView.tag = 'name';
 
-    NSView *view = [[[NSView alloc] initWithFrame:NSZeroRect] autorelease];
-    [view addSubview:appIconView];
-    [view addSubview:titleLabel];
+    NSView *view = [[[NowPlayingWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
+    [view addSubview:iconView];
+    [view addSubview:titleView];
 
-    NSDictionary *views = NSDictionaryOfVariableBindings(appIconView, titleLabel);
-    NSArray *constraints = [NSLayoutConstraint
-        constraintsWithVisualFormat:@"|[appIconView][titleLabel]|"
+    NSDictionary *views = NSDictionaryOfVariableBindings(iconView, titleView);
+    NSArray *constraints;
+    constraints = [NSLayoutConstraint
+        constraintsWithVisualFormat:@"V:|[iconView]|"
+        options:0
+        metrics:nil
+        views:views];
+    [view addConstraints:constraints];
+    constraints = [NSLayoutConstraint
+        constraintsWithVisualFormat:@"V:|[titleView]|"
+        options:0
+        metrics:nil
+        views:views];
+    [view addConstraints:constraints];
+    constraints = [NSLayoutConstraint
+        constraintsWithVisualFormat:@"|[iconView(==30)][titleView(<=150)]|"
         options:0
         metrics:nil
         views:views];
@@ -70,9 +119,5 @@
 
     [[self.view viewWithTag:'icon'] setImage:appIcon];
     [[self.view viewWithTag:'name'] setStringValue:title];
-}
-
-- (void)click:(id)sender
-{
 }
 @end
