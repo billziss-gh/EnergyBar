@@ -1,4 +1,4 @@
-# Touch Bar Dock [![GitHub release](https://img.shields.io/github/release/billziss-gh/TouchBarDock/all.svg?label=download)](https://github.com/billziss-gh/TouchBarDock/releases)
+# EnergyBar [![GitHub release](https://img.shields.io/github/release/billziss-gh/EnergyBar/all.svg?label=download)](https://github.com/billziss-gh/EnergyBar/releases)
 
 ## Dock
 ![Dock](doc/Dock.gif)
@@ -22,10 +22,10 @@
 
 ![Customize](doc/Customize.png)
 
-- Customize your Touch Bar Dock.
+- Customize your EnergyBar.
 
 ## Settings
 
 ![Settings](doc/Settings.png)
 
-- General settings for Touch Bar Dock.
+- General settings for EnergyBar.
