@@ -40,6 +40,7 @@ static void AppControllerFSNotify(const char *path, void *data)
 @implementation AppController
 {
     void *_stream;
+    BOOL _initialized;
 }
 
 - (void)dealloc
@@ -121,10 +122,15 @@ static void AppControllerFSNotify(const char *path, void *data)
         [alert runModal];
         [NSApp terminate:nil];
     }
+
+    _initialized = YES;
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
 {
+    if (!_initialized)
+        return NSTerminateNow;
+
     NSAlert *alert = [[[NSAlert alloc] init] autorelease];
     alert.alertStyle = NSAlertStyleWarning;
     alert.messageText = @"Terminate EnergyBar?";
