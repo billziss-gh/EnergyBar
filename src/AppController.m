@@ -126,6 +126,12 @@ static void AppControllerFSNotify(const char *path, void *data)
     _initialized = YES;
 }
 
+- (BOOL)applicationShouldHandleReopen:(NSApplication *)sender hasVisibleWindows:(BOOL)flag
+{
+    [self showMainWindow:nil];
+    return NO;
+}
+
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
 {
     if (!_initialized)
