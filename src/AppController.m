@@ -40,7 +40,6 @@ static void AppControllerFSNotify(const char *path, void *data)
 @implementation AppController
 {
     void *_stream;
-    BOOL _initialized;
 }
 
 - (void)dealloc
@@ -122,8 +121,6 @@ static void AppControllerFSNotify(const char *path, void *data)
         [alert runModal];
         [NSApp terminate:nil];
     }
-
-    _initialized = YES;
 }
 
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)sender hasVisibleWindows:(BOOL)flag
@@ -134,7 +131,7 @@ static void AppControllerFSNotify(const char *path, void *data)
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
 {
-    if (!_initialized)
+    if (!self.window.visible)
         return NSTerminateNow;
 
     NSAlert *alert = [[[NSAlert alloc] init] autorelease];
