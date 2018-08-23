@@ -38,3 +38,21 @@
 ![Settings](doc/Settings.png)
 
 - General settings for EnergyBar.
+
+## Developer Notes
+
+The project source code is organized as follows:
+
+* :file_folder: [build/Xcode](build/Xcode): Xcode workspace
+* :file_folder: [rsc](rsc): project resources
+* :file_folder: [src](src): project sources
+    * :file_folder: [src/System](src/System): macOS system sources
+    * :file_folder: [src/Widgets](src/Widgets): widget sources
+
+### How to add a Widget
+
+Adding a widget is fairly simple:
+
+- Create a class named `XxxxWidget` that derives from `NSCustomTouchBarItem` or the convenience class `CustomWidget`. It is important that the class name ends in `Widget`.
+- Add the class name (without the `Widget` part) to `-[AppBarController awakeFromNib]`.
+- Implement your widget.
