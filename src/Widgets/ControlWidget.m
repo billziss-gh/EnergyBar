@@ -258,7 +258,7 @@ void ControlWidgetMuteListener(void *data)
     [[NSNotificationCenter defaultCenter]
         addObserver:self
         selector:@selector(nowPlayingNotification:)
-        name:@"NowPlayingState"
+        name:NowPlayingStateNotification
         object:nil];
     [NowPlaying sharedInstance];
 

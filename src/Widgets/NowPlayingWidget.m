@@ -129,7 +129,7 @@ static CGFloat spacerWidth = 4;
     [[NSNotificationCenter defaultCenter]
         addObserver:self
         selector:@selector(nowPlayingNotification:)
-        name:@"NowPlayingInfo"
+        name:NowPlayingInfoNotification
         object:nil];
 
     [NowPlaying sharedInstance];

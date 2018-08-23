@@ -23,3 +23,6 @@
 @property (retain) NSString *title;
 @property (assign) BOOL playing;
 @end
+
+extern NSString *NowPlayingInfoNotification;
+extern NSString *NowPlayingStateNotification;

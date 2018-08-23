@@ -142,7 +142,7 @@ extern NSString *kMRMediaRemoteNowPlayingInfoTitle;
                 self.appIcon = appIcon;
 
                 [[NSNotificationCenter defaultCenter]
-                    postNotificationName:@"NowPlayingInfo"
+                    postNotificationName:NowPlayingInfoNotification
                     object:self];
             }
         });
@@ -164,7 +164,7 @@ extern NSString *kMRMediaRemoteNowPlayingInfoTitle;
                 self.title = title;
 
                 [[NSNotificationCenter defaultCenter]
-                    postNotificationName:@"NowPlayingInfo"
+                    postNotificationName:NowPlayingInfoNotification
                     object:self];
             }
         });
@@ -180,7 +180,7 @@ extern NSString *kMRMediaRemoteNowPlayingInfoTitle;
                 self.playing = playing;
 
                 [[NSNotificationCenter defaultCenter]
-                    postNotificationName:@"NowPlayingState"
+                    postNotificationName:NowPlayingStateNotification
                     object:self];
             }
         });
@@ -201,3 +201,6 @@ extern NSString *kMRMediaRemoteNowPlayingInfoTitle;
     [self updateState];
 }
 @end
+
+NSString *NowPlayingInfoNotification = @"NowPlayingInfo";
+NSString *NowPlayingStateNotification = @"NowPlayingState";
