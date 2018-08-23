@@ -21,6 +21,7 @@
                 <outlet property="sourceLinkButton" destination="U9g-U1-lEK" id="gYZ-60-89N"/>
                 <outlet property="toggleMacOSDockButton" destination="VQP-lf-wVh" id="hZi-MD-BJb"/>
                 <outlet property="touchBarController" destination="K6h-9q-8nk" id="7Zg-VL-ES5"/>
+                <outlet property="versionLabel" destination="p4z-il-x6U" id="CgA-OX-vmC"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -587,7 +588,7 @@ In general the folder should contain application aliases. The order of the folde
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <box hidden="YES" verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="IyK-ip-zTJ">
+                    <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="IyK-ip-zTJ">
                         <rect key="frame" x="8" y="192" width="456" height="5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     </box>
@@ -633,6 +634,15 @@ In general the folder should contain application aliases. The order of the folde
                         <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="justified" id="9Qk-9q-PrR">
                             <font key="font" metaFont="smallSystem"/>
                             <string key="title">Check this to not show this window when EnergyBar starts. You can still show this window using a long press on the Clock widget on your Touch Bar.</string>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="p4z-il-x6U">
+                        <rect key="frame" x="164" y="32" width="298" height="11"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                        <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="EnergyBar version 0.0" id="761-Wa-rv5">
+                            <font key="font" metaFont="systemBold" size="9"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>

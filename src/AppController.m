@@ -26,6 +26,7 @@
 - (void)fsnotify:(const char *)path;
 @property (assign) IBOutlet TouchBarController *touchBarController;
 @property (assign) IBOutlet NSWindow *window;
+@property (assign) IBOutlet NSTextField *versionLabel;
 @property (assign) IBOutlet NSButton *toggleMacOSDockButton;
 @property (assign) IBOutlet NSButton *loginItemButton;
 @property (assign) IBOutlet NSButton *sourceLinkButton;
@@ -96,6 +97,14 @@ static void AppControllerFSNotify(const char *path, void *data)
     self.loginItemButton.state = IsLoginItem([[NSBundle mainBundle] bundleURL]) ?
         NSControlStateValueOn : NSControlStateValueOff;
 
+    NSString *version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+    if (nil != version)
+        version = [self.versionLabel.stringValue
+            stringByReplacingOccurrencesOfString:@"0.0" withString:version];
+    else
+        version = @"";
+    self.versionLabel.stringValue = version;
+
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"mainWindowHidden"])
         [self showMainWindow:nil];
 
@@ -122,12 +131,12 @@ static void AppControllerFSNotify(const char *path, void *data)
 
 - (void)windowWillClose:(NSNotification *)notification
 {
-    NSApp.activationPolicy = NSApplicationActivationPolicyProhibited;
+    //NSApp.activationPolicy = NSApplicationActivationPolicyProhibited;
 }
 
 - (void)showMainWindow:(id)sender
 {
-    NSApp.activationPolicy = NSApplicationActivationPolicyRegular;
+    //NSApp.activationPolicy = NSApplicationActivationPolicyRegular;
     [[NSApp.windows objectAtIndex:0] makeKeyAndOrderFront:nil];
     if (nil != sender)
         [NSApp activateIgnoringOtherApps:YES];
