@@ -14,7 +14,7 @@
 #import "NowPlayingWidget.h"
 #import "NowPlaying.h"
 
-static NSSize iconSize = { 24, 24 };
+static NSSize iconSize = { 20, 20 };
 static CGFloat spacerWidth = 4;
 
 @interface NowPlayingWidgetView : NSScrubberItemView <NSAnimationDelegate>
@@ -31,7 +31,7 @@ static CGFloat spacerWidth = 4;
 
     self.iconView = [[[NSImageView alloc] initWithFrame:NSZeroRect] autorelease];
     self.iconView.autoresizingMask = 0;
-    self.iconView.imageScaling = NSImageScaleProportionallyUpOrDown;
+    self.iconView.imageScaling = NSImageScaleProportionallyDown;
 
     self.titleView = [NSTextField labelWithString:@""];
     self.titleView.autoresizingMask = 0;
