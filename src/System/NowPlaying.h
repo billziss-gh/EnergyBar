@@ -21,4 +21,5 @@
 @property (retain) NSString *album;
 @property (retain) NSString *artist;
 @property (retain) NSString *title;
+@property (assign) BOOL playing;
 @end

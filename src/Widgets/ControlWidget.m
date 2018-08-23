@@ -17,6 +17,7 @@
 #import "CBBlueLightClient.h"
 #import "KeyEvent.h"
 #import "NSTouchBar+SystemModal.h"
+#import "NowPlaying.h"
 #import "TouchBarController.h"
 
 @interface ControlWidgetPopoverBarSlider : NSSlider
@@ -241,7 +242,7 @@ void ControlWidgetMuteListener(void *data)
     recognizer.minimumPressDuration = 1.0;
     NSSegmentedControl *control = [NSSegmentedControl
         segmentedControlWithImages:[NSArray arrayWithObjects:
-            [NSImage imageNamed:NSImageNameTouchBarPlayPauseTemplate],
+            [self playPauseImage],
             [NSImage imageNamed:@"BrightnessUp"],
             [NSImage imageNamed:NSImageNameTouchBarAudioOutputVolumeHighTemplate],
             [self volumeMuteImage],
@@ -254,6 +255,13 @@ void ControlWidgetMuteListener(void *data)
     self.customizationLabel = @"Control";
     self.view = control;
 
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+        selector:@selector(nowPlayingNotification:)
+        name:@"NowPlayingState"
+        object:nil];
+    [NowPlaying sharedInstance];
+
     _muteListener.code = ControlWidgetMuteListener;
     _muteListener.data = self;
     AddAudioMutedListener(&_muteListener);
@@ -263,10 +271,26 @@ void ControlWidgetMuteListener(void *data)
 {
     RemoveAudioMutedListener(&_muteListener);
 
+    [[NSNotificationCenter defaultCenter]
+        removeObserver:self];
+
     self.brightnessBarController = nil;
     self.volumeBarController = nil;
 
     [super dealloc];
+}
+
+- (NSImage *)playPauseImage
+{
+    BOOL playing = [NowPlaying sharedInstance].playing;
+    return [NSImage imageNamed:playing ?
+        NSImageNameTouchBarPauseTemplate : NSImageNameTouchBarPlayTemplate];
+}
+
+- (void)resetPlayPause
+{
+    NSSegmentedControl *control = self.view;
+    [control setImage:[self playPauseImage] forSegment:0];
 }
 
 - (NSImage *)volumeMuteImage
@@ -279,6 +303,11 @@ void ControlWidgetMuteListener(void *data)
 {
     NSSegmentedControl *control = self.view;
     [control setImage:[self volumeMuteImage] forSegment:3];
+}
+
+- (void)nowPlayingNotification:(NSNotification *)notification
+{
+    [self resetPlayPause];
 }
 
 - (void)click:(id)sender

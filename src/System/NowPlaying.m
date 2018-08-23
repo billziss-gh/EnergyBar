@@ -15,12 +15,15 @@
 
 typedef void (^MRMediaRemoteGetNowPlayingInfoBlock)(NSDictionary *info);
 typedef void (^MRMediaRemoteGetNowPlayingClientBlock)(id clientObj);
+typedef void (^MRMediaRemoteGetNowPlayingApplicationIsPlayingBlock)(BOOL playing);
 
 void MRMediaRemoteRegisterForNowPlayingNotifications(dispatch_queue_t queue);
-void MRMediaRemoteGetNowPlayingInfo(dispatch_queue_t queue,
-    MRMediaRemoteGetNowPlayingInfoBlock block);
 void MRMediaRemoteGetNowPlayingClient(dispatch_queue_t queue,
     MRMediaRemoteGetNowPlayingClientBlock block);
+void MRMediaRemoteGetNowPlayingInfo(dispatch_queue_t queue,
+    MRMediaRemoteGetNowPlayingInfoBlock block);
+void MRMediaRemoteGetNowPlayingApplicationIsPlaying(dispatch_queue_t queue,
+    MRMediaRemoteGetNowPlayingApplicationIsPlayingBlock block);
 NSString *MRNowPlayingClientGetBundleIdentifier(id clientObj);
 NSString *MRNowPlayingClientGetParentAppBundleIdentifier(id clientObj);
 
@@ -75,16 +78,15 @@ extern NSString *kMRMediaRemoteNowPlayingInfoTitle;
         selector:@selector(infoDidChange:)
         name:kMRPlaybackQueueContentItemsChangedNotification
         object:nil];
-#if 0
     [[NSNotificationCenter defaultCenter]
         addObserver:self
         selector:@selector(playingDidChange:)
         name:kMRMediaRemoteNowPlayingApplicationIsPlayingDidChangeNotification
         object:nil];
-#endif
 
     [self updateApp];
     [self updateInfo];
+    [self updateState];
 
     return self;
 }
@@ -140,7 +142,7 @@ extern NSString *kMRMediaRemoteNowPlayingInfoTitle;
                 self.appIcon = appIcon;
 
                 [[NSNotificationCenter defaultCenter]
-                    postNotificationName:@"NowPlaying"
+                    postNotificationName:@"NowPlayingInfo"
                     object:self];
             }
         });
@@ -162,7 +164,23 @@ extern NSString *kMRMediaRemoteNowPlayingInfoTitle;
                 self.title = title;
 
                 [[NSNotificationCenter defaultCenter]
-                    postNotificationName:@"NowPlaying"
+                    postNotificationName:@"NowPlayingInfo"
+                    object:self];
+            }
+        });
+}
+
+- (void)updateState
+{
+    MRMediaRemoteGetNowPlayingApplicationIsPlaying(dispatch_get_main_queue(),
+        ^(BOOL playing)
+        {
+            if (self.playing != playing)
+            {
+                self.playing = playing;
+
+                [[NSNotificationCenter defaultCenter]
+                    postNotificationName:@"NowPlayingState"
                     object:self];
             }
         });
@@ -178,19 +196,8 @@ extern NSString *kMRMediaRemoteNowPlayingInfoTitle;
     [self updateInfo];
 }
 
-#if 0
 - (void)playingDidChange:(NSNotification *)notification
 {
-    BOOL playing = [[notification.userInfo
-        objectForKey:@"kMRMediaRemoteNowPlayingApplicationIsPlayingUserInfoKey"] boolValue];
-    if (self.playing != playing)
-    {
-        self.playing = playing;
-
-        [[NSNotificationCenter defaultCenter]
-            postNotificationName:@"NowPlaying"
-            object:self];
-    }
+    [self updateState];
 }
-#endif
 @end
