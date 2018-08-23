@@ -123,6 +123,21 @@ static void AppControllerFSNotify(const char *path, void *data)
     }
 }
 
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
+{
+    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+    alert.alertStyle = NSAlertStyleWarning;
+    alert.messageText = @"Terminate EnergyBar?";
+    alert.informativeText = @"Are you sure you want to terminate EnergyBar? "
+        "Your Touch Bar will revert to its normal state.";
+    [alert addButtonWithTitle:@"Yes"];
+    [alert addButtonWithTitle:@"No"];
+    [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse resp)
+    {
+        [sender replyToApplicationShouldTerminate:NSAlertFirstButtonReturn == resp];
+    }];
+    return NSTerminateLater;
+}
 
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
