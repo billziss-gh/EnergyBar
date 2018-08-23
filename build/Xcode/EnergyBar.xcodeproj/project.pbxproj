@@ -46,7 +46,7 @@
 		3C102D4A21197ED700FFB2CF /* ControlWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ControlWidget.m; sourceTree = "<group>"; };
 		3C102D4C2119872800FFB2CF /* EscKeyWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EscKeyWidget.h; sourceTree = "<group>"; };
 		3C102D4D2119872800FFB2CF /* EscKeyWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EscKeyWidget.m; sourceTree = "<group>"; };
-		3C163B952118EF2900F015EC /* Touch Bar Dock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Touch Bar Dock.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3C163B952118EF2900F015EC /* EnergyBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EnergyBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C163BBC2118F1A800F015EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3C163BBD2118F1A800F015EC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3C163BC32118F1C500F015EC /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
@@ -141,7 +141,7 @@
 		3C163B962118EF2900F015EC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3C163B952118EF2900F015EC /* Touch Bar Dock.app */,
+				3C163B952118EF2900F015EC /* EnergyBar.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -214,9 +214,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3C163B942118EF2900F015EC /* TouchBarDock */ = {
+		3C163B942118EF2900F015EC /* EnergyBar */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3C163BA62118EF2A00F015EC /* Build configuration list for PBXNativeTarget "TouchBarDock" */;
+			buildConfigurationList = 3C163BA62118EF2A00F015EC /* Build configuration list for PBXNativeTarget "EnergyBar" */;
 			buildPhases = (
 				3C163B912118EF2900F015EC /* Sources */,
 				3C163B922118EF2900F015EC /* Frameworks */,
@@ -227,9 +227,9 @@
 			);
 			dependencies = (
 			);
-			name = TouchBarDock;
-			productName = TouchBarDock;
-			productReference = 3C163B952118EF2900F015EC /* Touch Bar Dock.app */;
+			name = EnergyBar;
+			productName = EnergyBar;
+			productReference = 3C163B952118EF2900F015EC /* EnergyBar.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -246,7 +246,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 3C163B902118EF2900F015EC /* Build configuration list for PBXProject "TouchBarDock" */;
+			buildConfigurationList = 3C163B902118EF2900F015EC /* Build configuration list for PBXProject "EnergyBar" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -259,7 +259,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3C163B942118EF2900F015EC /* TouchBarDock */,
+				3C163B942118EF2900F015EC /* EnergyBar */,
 			);
 		};
 /* End PBXProject section */
@@ -479,8 +479,8 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = billziss.TouchBarDock;
-				PRODUCT_NAME = "Touch Bar Dock";
+				PRODUCT_BUNDLE_IDENTIFIER = billziss.EnergyBar;
+				PRODUCT_NAME = EnergyBar;
 				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
@@ -502,8 +502,8 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = billziss.TouchBarDock;
-				PRODUCT_NAME = "Touch Bar Dock";
+				PRODUCT_BUNDLE_IDENTIFIER = billziss.EnergyBar;
+				PRODUCT_NAME = EnergyBar;
 				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
@@ -514,7 +514,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3C163B902118EF2900F015EC /* Build configuration list for PBXProject "TouchBarDock" */ = {
+		3C163B902118EF2900F015EC /* Build configuration list for PBXProject "EnergyBar" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3C163BA42118EF2A00F015EC /* Debug */,
@@ -523,7 +523,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3C163BA62118EF2A00F015EC /* Build configuration list for PBXNativeTarget "TouchBarDock" */ = {
+		3C163BA62118EF2A00F015EC /* Build configuration list for PBXNativeTarget "EnergyBar" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3C163BA72118EF2A00F015EC /* Debug */,

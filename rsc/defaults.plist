@@ -126,7 +126,7 @@
 		</dict>
 	</array>
 	<key>defaultAppsFolder</key>
-	<string>~/Library/TouchBarDock/Applications</string>
+	<string>~/Library/EnergyBar/Applications</string>
 	<key>mainWindowHidden</key>
 	<false/>
 </dict>

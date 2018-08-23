@@ -19,13 +19,13 @@ while true; do
     case "$Application" in
     */Chess.app)                continue ;;
     */Dashboard.app)            continue ;;
+    */"EnergyBar.app")          continue ;;
     */Launchpad.app)            continue ;;
     */"Mission Control.app")    continue ;;
     */Safari.app)               continue ;;
     */Siri.app)                 continue ;;
     */Terminal.app)             continue ;;
     */"Time Machine.app")       continue ;;
-    */"Touch Bar Dock.app")     continue ;;
     */"Visual Studio Code.app") continue ;;
     */Xcode.app)                continue ;;
     esac

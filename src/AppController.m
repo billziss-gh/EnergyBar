@@ -4,7 +4,7 @@
  * @copyright 2018 Bill Zissimopoulos
  */
 /*
- * This file is part of TouchBarDock.
+ * This file is part of EnergyBar.
  *
  * You can redistribute it and/or modify it under the terms of the GNU
  * General Public License version 3 as published by the Free Software
@@ -108,7 +108,7 @@ static void AppControllerFSNotify(const char *path, void *data)
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
         alert.alertStyle = NSAlertStyleCritical;
         alert.messageText = @"Touch Bar API not found!";
-        alert.informativeText = @"The Touch Bar Dock application will now exit.";
+        alert.informativeText = @"The EnergyBar application will now exit.";
         [alert runModal];
         [NSApp terminate:nil];
     }
@@ -170,7 +170,7 @@ static void AppControllerFSNotify(const char *path, void *data)
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
         alert.alertStyle = NSAlertStyleWarning;
         alert.messageText = @"Reset Apps";
-        alert.informativeText = @"This will remove any existing applications in the Touch Bar Dock"
+        alert.informativeText = @"This will remove any existing applications in the EnergyBar Dock"
             " and will replace them with ones from the macOS Dock."
             " Are you sure you want to proceed?";
         [alert addButtonWithTitle:@"Yes"];
