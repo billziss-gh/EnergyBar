@@ -1,63 +1,57 @@
 {
   "images" : [
     {
-      "size" : "16x16",
       "idiom" : "mac",
-      "filename" : "EnergyBar_16.png",
+      "size" : "16x16",
       "scale" : "1x"
     },
     {
       "size" : "16x16",
       "idiom" : "mac",
-      "filename" : "EnergyBar_16@2x.png",
+      "filename" : "TouchBarDock32.png",
       "scale" : "2x"
     },
     {
-      "size" : "32x32",
       "idiom" : "mac",
-      "filename" : "EnergyBar_32.png",
+      "size" : "32x32",
       "scale" : "1x"
     },
     {
       "size" : "32x32",
       "idiom" : "mac",
-      "filename" : "EnergyBar_32@2x.png",
+      "filename" : "TouchBarDock64.png",
       "scale" : "2x"
     },
     {
+      "idiom" : "mac",
       "size" : "128x128",
-      "idiom" : "mac",
-      "filename" : "EnergyBar_128.png",
       "scale" : "1x"
     },
     {
       "size" : "128x128",
       "idiom" : "mac",
-      "filename" : "EnergyBar_128@2x.png",
+      "filename" : "TouchBarDock256.png",
       "scale" : "2x"
     },
     {
-      "size" : "256x256",
       "idiom" : "mac",
-      "filename" : "EnergyBar_256.png",
+      "size" : "256x256",
       "scale" : "1x"
     },
     {
       "size" : "256x256",
       "idiom" : "mac",
-      "filename" : "EnergyBar_256@2x.png",
+      "filename" : "TouchBarDock512.png",
       "scale" : "2x"
     },
     {
-      "size" : "512x512",
       "idiom" : "mac",
-      "filename" : "EnergyBar_512.png",
+      "size" : "512x512",
       "scale" : "1x"
     },
     {
-      "size" : "512x512",
       "idiom" : "mac",
-      "filename" : "EnergyBar_512@2x.png",
+      "size" : "512x512",
       "scale" : "2x"
     }
   ],
