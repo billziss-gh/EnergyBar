@@ -56,6 +56,7 @@
         @"NowPlaying",
         @"Control",
         @"Clock",
+        NSTouchBarItemIdentifierFlexibleSpace,
         nil];
 
     [super awakeFromNib];
