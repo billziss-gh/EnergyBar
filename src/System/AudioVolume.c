@@ -15,6 +15,7 @@
 #include <CoreAudio/CoreAudio.h>
 #include <AudioToolbox/AudioServices.h>
 #include <pthread.h>
+#include "Log.h"
 
 static pthread_once_t audio_dev_once = PTHREAD_ONCE_INIT;
 static AudioDeviceID audio_dev = kAudioObjectUnknown;
@@ -29,10 +30,14 @@ static void audio_dev_initonce(void)
     };
     AudioDeviceID device = kAudioObjectUnknown;
     UInt32 size = sizeof device;
+    OSStatus status;
 
-    if (kAudioHardwareNoError !=
-        AudioObjectGetPropertyData(kAudioObjectSystemObject, &address, 0, 0, &size, &device))
+    status = AudioObjectGetPropertyData(kAudioObjectSystemObject, &address, 0, 0, &size, &device);
+    if (kAudioHardwareNoError != status)
+    {
+        LOG("AudioObjectGetPropertyData = %d", status);
         return;
+    }
 
     audio_dev = device;
 }
@@ -51,10 +56,14 @@ double GetAudioVolume(void)
     };
     Float32 volume = NAN;
     UInt32 size = sizeof volume;
+    OSStatus status;
 
-    if (kAudioHardwareNoError !=
-        AudioObjectGetPropertyData(audio_dev, &address, 0, 0, &size, &volume))
+    status = AudioObjectGetPropertyData(audio_dev, &address, 0, 0, &size, &volume);
+    if (kAudioHardwareNoError != status)
+    {
+        LOG("AudioObjectGetPropertyData = %d", status);
         return NAN;
+    }
 
     return volume;
 }
@@ -72,10 +81,14 @@ bool SetAudioVolume(double volume0)
         .mElement = kAudioObjectPropertyElementMaster,
     };
     Float32 volume = volume0;
+    OSStatus status;
 
-    if (kAudioHardwareNoError !=
-        AudioObjectSetPropertyData(audio_dev, &address, 0, 0, sizeof volume, &volume))
+    status = AudioObjectSetPropertyData(audio_dev, &address, 0, 0, sizeof volume, &volume);
+    if (kAudioHardwareNoError != status)
+    {
+        LOG("AudioObjectSetPropertyData = %d", status);
         return false;
+    }
 
     return true;
 }
@@ -94,10 +107,14 @@ bool IsAudioMuted(void)
     };
     UInt32 mute = 0;
     UInt32 size = sizeof mute;
+    OSStatus status;
 
-    if (kAudioHardwareNoError !=
-        AudioObjectGetPropertyData(audio_dev, &address, 0, 0, &size, &mute))
+    status = AudioObjectGetPropertyData(audio_dev, &address, 0, 0, &size, &mute);
+    if (kAudioHardwareNoError != status)
+    {
+        LOG("AudioObjectGetPropertyData = %d", status);
         return false;
+    }
 
     return !!mute;
 }
@@ -115,10 +132,14 @@ bool SetAudioMuted(bool mute0)
         .mElement = kAudioObjectPropertyElementMaster,
     };
     UInt32 mute = !!mute0;
+    OSStatus status;
 
-    if (kAudioHardwareNoError !=
-        AudioObjectSetPropertyData(audio_dev, &address, 0, 0, sizeof mute, &mute))
+    status = AudioObjectSetPropertyData(audio_dev, &address, 0, 0, sizeof mute, &mute);
+    if (kAudioHardwareNoError != status)
+    {
+        LOG("AudioObjectSetPropertyData = %d", status);
         return false;
+    }
 
     return true;
 }
@@ -146,6 +167,7 @@ bool AddAudioMutedListener(struct AudioPropertyListener *listener)
         .mScope = kAudioDevicePropertyScopeOutput,
         .mElement = kAudioObjectPropertyElementMaster,
     };
+    OSStatus status;
 
     /* NOTE:
      * It is not clear if AudioObjectAddPropertyListener / AudioObjectRemovePropertyListener
@@ -153,9 +175,12 @@ bool AddAudioMutedListener(struct AudioPropertyListener *listener)
      * AddAudioMutedListener / RemoveAudioMutedListener may be used multiple times. Otherwise
      * there can only be one outstanding listener.
      */
-    if (kAudioHardwareNoError !=
-        AudioObjectAddPropertyListener(audio_dev, &address, AudioMutedListener, listener))
+    status = AudioObjectAddPropertyListener(audio_dev, &address, AudioMutedListener, listener);
+    if (kAudioHardwareNoError != status)
+    {
+        LOG("AudioObjectAddPropertyListener = %d", status);
         return false;
+    }
 
     return true;
 }
@@ -172,6 +197,7 @@ bool RemoveAudioMutedListener(struct AudioPropertyListener *listener)
         .mScope = kAudioDevicePropertyScopeOutput,
         .mElement = kAudioObjectPropertyElementMaster,
     };
+    OSStatus status;
 
     /* NOTE:
      * It is not clear if AudioObjectAddPropertyListener / AudioObjectRemovePropertyListener
@@ -179,9 +205,12 @@ bool RemoveAudioMutedListener(struct AudioPropertyListener *listener)
      * AddAudioMutedListener / RemoveAudioMutedListener may be used multiple times. Otherwise
      * there can only be one outstanding listener.
      */
-    if (kAudioHardwareNoError !=
-        AudioObjectRemovePropertyListener(audio_dev, &address, AudioMutedListener, listener))
+    status = AudioObjectRemovePropertyListener(audio_dev, &address, AudioMutedListener, listener);
+    if (kAudioHardwareNoError != status)
+    {
+        LOG("AudioObjectRemovePropertyListener = %d", status);
         return false;
+    }
 
     return true;
 }

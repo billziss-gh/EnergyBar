@@ -61,6 +61,7 @@
 		3C4013C1211BBC8D00C47B66 /* ActiveAppWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActiveAppWidget.m; sourceTree = "<group>"; };
 		3C5D0FCC2119210000769A39 /* ClockWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClockWidget.h; sourceTree = "<group>"; };
 		3C5D0FCD2119210000769A39 /* ClockWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClockWidget.m; sourceTree = "<group>"; };
+		3C6944CE212E922F0082E3BF /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
 		3C6CCA36211B824000D019F4 /* TouchBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchBarController.h; sourceTree = "<group>"; };
 		3C6CCA37211B824000D019F4 /* TouchBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchBarController.m; sourceTree = "<group>"; };
 		3C83DB45211D7FDB00FC2F53 /* CBBlueLightClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBBlueLightClient.h; sourceTree = "<group>"; };
@@ -116,6 +117,7 @@
 				3CACC7612126772700662AB1 /* FSNotify.c */,
 				3C046010211D7C66003EB021 /* KeyEvent.h */,
 				3C04600F211D7C66003EB021 /* KeyEvent.c */,
+				3C6944CE212E922F0082E3BF /* Log.h */,
 				3CFECA112122611F00BB58E9 /* LoginItem.h */,
 				3CFECA102122611F00BB58E9 /* LoginItem.c */,
 				3CA8519F212B84B000585D29 /* NSTouchBar+SystemModal.h */,
