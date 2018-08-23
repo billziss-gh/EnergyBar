@@ -108,23 +108,31 @@ static CGFloat spacerWidth = 4;
 @end
 
 @implementation NowPlayingWidget
+{
+    BOOL _showsArtist;
+}
+
 - (void)commonInit
 {
     self.customizationLabel = @"Now Playing";
-    NSPressGestureRecognizer *recognizer = [[[NSPressGestureRecognizer alloc]
+    NSClickGestureRecognizer *clickRecognizer = [[[NSClickGestureRecognizer alloc]
+        initWithTarget:self action:@selector(clickAction:)] autorelease];
+    clickRecognizer.allowedTouchTypes = NSTouchTypeMaskDirect;
+    NSPressGestureRecognizer *pressRecognizer = [[[NSPressGestureRecognizer alloc]
         initWithTarget:self action:@selector(pressAction:)] autorelease];
-    recognizer.allowedTouchTypes = NSTouchTypeMaskDirect;
-    recognizer.minimumPressDuration = 1.0;
+    pressRecognizer.allowedTouchTypes = NSTouchTypeMaskDirect;
+    pressRecognizer.minimumPressDuration = 1.0;
     self.view = [[[NowPlayingWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
-    [self.view addGestureRecognizer:recognizer];
-
-    [NowPlaying sharedInstance];
+    [self.view addGestureRecognizer:clickRecognizer];
+    [self.view addGestureRecognizer:pressRecognizer];
 
     [[NSNotificationCenter defaultCenter]
         addObserver:self
         selector:@selector(nowPlayingNotification:)
         name:@"NowPlaying"
         object:nil];
+
+    [NowPlaying sharedInstance];
 }
 
 - (void)dealloc
@@ -135,11 +143,27 @@ static CGFloat spacerWidth = 4;
     [super dealloc];
 }
 
-- (void)nowPlayingNotification:(NSNotification *)notification
+- (void)resetNowPlaying
 {
     NowPlayingWidgetView *view = self.view;
     view.icon = [NowPlaying sharedInstance].appIcon;
-    view.title = [NowPlaying sharedInstance].title;
+    view.title = !_showsArtist ?
+        [NowPlaying sharedInstance].title :
+        [NowPlaying sharedInstance].artist;
+}
+
+- (void)nowPlayingNotification:(NSNotification *)notification
+{
+    [self resetNowPlaying];
+}
+
+- (void)clickAction:(NSGestureRecognizer *)recognizer
+{
+    if (NSGestureRecognizerStateRecognized != recognizer.state)
+        return;
+
+    _showsArtist = !_showsArtist;
+    [self resetNowPlaying];
 }
 
 - (void)pressAction:(NSGestureRecognizer *)recognizer
