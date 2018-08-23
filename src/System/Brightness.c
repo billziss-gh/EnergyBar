@@ -15,6 +15,7 @@
 #include <IOKit/IOKitLib.h>
 #include <IOKit/graphics/IOGraphicsLib.h>
 #include <pthread.h>
+#include "Log.h"
 
 static pthread_once_t disp_serv_once = PTHREAD_ONCE_INIT;
 static io_service_t disp_serv = 0;
@@ -44,7 +45,10 @@ double GetDisplayBrightness(void)
     ret = IODisplayGetFloatParameter(disp_serv, kNilOptions,
         CFSTR(kIODisplayBrightnessKey), &brightness);
     if (KERN_SUCCESS != ret)
+    {
+        LOG("IODisplayGetFloatParameter = %d", ret);
         return NAN;
+    }
 
     return brightness;
 }
@@ -60,7 +64,10 @@ bool SetDisplayBrightness(double brightness)
     ret = IODisplaySetFloatParameter(disp_serv, kNilOptions,
         CFSTR(kIODisplayBrightnessKey), brightness);
     if (KERN_SUCCESS != ret)
+    {
+        LOG("IODisplaySetFloatParameter = %d", ret);
         return false;
+    }
 
     return true;
 }
