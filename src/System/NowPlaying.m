@@ -33,7 +33,6 @@ extern NSString *kMRNowPlayingPlaybackQueueChangedNotification;
 extern NSString *kMRPlaybackQueueContentItemsChangedNotification;
 extern NSString *kMRMediaRemoteNowPlayingApplicationDidChangeNotification;
 
-extern NSString *kMRMediaRemoteNowPlayingApplicationIsPlayingUserInfoKey;
 extern NSString *kMRMediaRemoteNowPlayingInfoAlbum;
 extern NSString *kMRMediaRemoteNowPlayingInfoArtist;
 extern NSString *kMRMediaRemoteNowPlayingInfoTitle;
