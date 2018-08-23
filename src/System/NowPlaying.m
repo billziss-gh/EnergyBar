@@ -94,6 +94,7 @@ extern NSString *kMRMediaRemoteNowPlayingInfoTitle;
     [[NSNotificationCenter defaultCenter]
         removeObserver:self];
 
+    self.appBundleIdentifier = nil;
     self.appName = nil;
     self.appIcon = nil;
     self.album = nil;

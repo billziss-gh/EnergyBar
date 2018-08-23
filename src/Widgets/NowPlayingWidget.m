@@ -14,35 +14,96 @@
 #import "NowPlayingWidget.h"
 #import "NowPlaying.h"
 
-@interface NowPlayingWidgetIconView : NSImageView
-@end
+static NSSize iconSize = { 24, 24 };
+static CGFloat spacerWidth = 4;
 
-@implementation NowPlayingWidgetIconView
-- (NSSize)intrinsicContentSize
-{
-    return NSMakeSize(30, NSViewNoIntrinsicMetric);
-}
-@end
-
-@interface NowPlayingWidgetTitleView : NSTextField
-@end
-
-@implementation NowPlayingWidgetTitleView
-- (NSSize)intrinsicContentSize
-{
-    NSSize size = [super intrinsicContentSize];
-    size.width = MIN(size.width, 150);
-    return size;
-}
-@end
-
-@interface NowPlayingWidgetView : NSView
+@interface NowPlayingWidgetView : NSScrubberItemView <NSAnimationDelegate>
+@property (retain) NSImageView *iconView;
+@property (retain) NSTextField *titleView;
 @end
 
 @implementation NowPlayingWidgetView
+- (id)initWithFrame:(NSRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (nil == self)
+        return nil;
+
+    self.iconView = [[[NSImageView alloc] initWithFrame:NSZeroRect] autorelease];
+    self.iconView.autoresizingMask = 0;
+    self.iconView.imageScaling = NSImageScaleProportionallyUpOrDown;
+
+    self.titleView = [NSTextField labelWithString:@""];
+    self.titleView.autoresizingMask = 0;
+    self.titleView.font = [NSFont systemFontOfSize:[NSFont
+        systemFontSizeForControlSize:NSControlSizeSmall]];
+    self.titleView.lineBreakMode = NSLineBreakByTruncatingTail;
+    self.titleView.alignment = NSTextAlignmentLeft;
+
+    [self addSubview:self.iconView];
+    [self addSubview:self.titleView];
+
+    return self;
+}
+
+- (void)dealloc
+{
+    self.iconView = nil;
+    self.titleView = nil;
+
+    [super dealloc];
+}
+
+- (NSImage *)getIcon
+{
+    return self.iconView.image;
+}
+
+- (void)setIcon:(NSImage *)value
+{
+    self.iconView.image = value;
+}
+
+- (NSString *)getTitle
+{
+    return self.titleView.stringValue;
+}
+
+- (void)setTitle:(NSString *)value
+{
+    if (nil == value)
+        value = @"";
+    self.titleView.stringValue = value;
+    self.needsLayout = YES;
+}
+
+- (void)layout
+{
+    [super layout];
+
+    NSRect bounds = self.bounds;
+    NSSize titleSize = [self.titleView intrinsicContentSize];
+    if (titleSize.width > bounds.size.width - (iconSize.width + spacerWidth))
+        titleSize.width = bounds.size.width - (iconSize.width + spacerWidth);
+    CGFloat totalWidth = iconSize.width + spacerWidth + titleSize.width;
+    NSRect iconRect = NSMakeRect(
+        (bounds.size.width - totalWidth) / 2,
+        (bounds.size.height - iconSize.height) / 2,
+        iconSize.width,
+        iconSize.height);
+    NSRect titleRect = NSMakeRect(
+        iconRect.origin.x + iconSize.width + spacerWidth,
+        (bounds.size.height - titleSize.height) / 2,
+        bounds.size.width - (iconSize.width + spacerWidth),
+        titleSize.height);
+
+    self.iconView.frame = iconRect;
+    self.titleView.frame = titleRect;
+}
+
 - (NSSize)intrinsicContentSize
 {
-    return NSMakeSize(200, NSViewNoIntrinsicMetric);
+    return NSMakeSize(200, 30);
 }
 @end
 
@@ -50,53 +111,12 @@
 - (void)commonInit
 {
     self.customizationLabel = @"Now Playing";
-
     NSPressGestureRecognizer *recognizer = [[[NSPressGestureRecognizer alloc]
         initWithTarget:self action:@selector(pressAction:)] autorelease];
     recognizer.allowedTouchTypes = NSTouchTypeMaskDirect;
     recognizer.minimumPressDuration = 1.0;
-
-    NSImageView *iconView = [[[NowPlayingWidgetIconView alloc]
-        initWithFrame:NSZeroRect] autorelease];
-    iconView.translatesAutoresizingMaskIntoConstraints = NO;
-    iconView.imageScaling = NSImageScaleProportionallyDown;
-    iconView.tag = 'icon';
-
-    NSTextField *titleView = [NowPlayingWidgetTitleView labelWithString:@""];
-    titleView.translatesAutoresizingMaskIntoConstraints = NO;
-    titleView.font = [NSFont systemFontOfSize:[NSFont
-        systemFontSizeForControlSize:NSControlSizeSmall]];
-    titleView.lineBreakMode = NSLineBreakByTruncatingTail;
-    titleView.alignment = NSTextAlignmentLeft;
-    titleView.tag = 'name';
-
-    NSView *view = [[[NowPlayingWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
-    [view addSubview:iconView];
-    [view addSubview:titleView];
-    [view addGestureRecognizer:recognizer];
-
-    NSDictionary *views = NSDictionaryOfVariableBindings(iconView, titleView);
-    NSArray *constraints;
-    constraints = [NSLayoutConstraint
-        constraintsWithVisualFormat:@"V:|[iconView]|"
-        options:0
-        metrics:nil
-        views:views];
-    [view addConstraints:constraints];
-    constraints = [NSLayoutConstraint
-        constraintsWithVisualFormat:@"V:|[titleView]|"
-        options:0
-        metrics:nil
-        views:views];
-    [view addConstraints:constraints];
-    constraints = [NSLayoutConstraint
-        constraintsWithVisualFormat:@"|[iconView(==30)][titleView(<=150)]|"
-        options:0
-        metrics:nil
-        views:views];
-    [view addConstraints:constraints];
-
-    self.view = view;
+    self.view = [[[NowPlayingWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
+    [self.view addGestureRecognizer:recognizer];
 
     [NowPlaying sharedInstance];
 
@@ -117,14 +137,9 @@
 
 - (void)nowPlayingNotification:(NSNotification *)notification
 {
-    NSImage *appIcon = [NowPlaying sharedInstance].appIcon;
-    NSString *title = [NowPlaying sharedInstance].title;
-
-    if (nil == title)
-        title = @"";
-
-    [[self.view viewWithTag:'icon'] setImage:appIcon];
-    [[self.view viewWithTag:'name'] setStringValue:title];
+    NowPlayingWidgetView *view = self.view;
+    view.icon = [NowPlaying sharedInstance].appIcon;
+    view.title = [NowPlaying sharedInstance].title;
 }
 
 - (void)pressAction:(NSGestureRecognizer *)recognizer
