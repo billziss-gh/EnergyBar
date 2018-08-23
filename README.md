@@ -1,4 +1,13 @@
-# EnergyBar [![GitHub release](https://img.shields.io/github/release/billziss-gh/EnergyBar/all.svg?label=download)](https://github.com/billziss-gh/EnergyBar/releases)
+<h1 align="center">
+    EnergyBar &middot; Supercharge your Mac's Touch Bar
+    <a href="https://github.com/billziss-gh/EnergyBar/releases">
+        <img src="https://img.shields.io/github/release/billziss-gh/EnergyBar/all.svg?label=download"/>
+    </a>
+</h1>
+
+<p align="center">
+    <img src="rsc/Assets.xcassets/AppIcon.appiconset/EnergyBar_256.png"/>
+</p>
 
 ## Dock
 ![Dock](doc/Dock.gif)
