@@ -76,7 +76,7 @@ static CGFloat dockItemBounce = 10;
     self.appIconContainerView = [[[NSView alloc] initWithFrame:NSZeroRect] autorelease];
     self.appIconContainerView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 
-    self.appIconView = [NSImageView imageViewWithImage:[NSImage imageNamed:NSImageNameApplicationIcon]];
+    self.appIconView = [[[NSImageView alloc] initWithFrame:NSZeroRect] autorelease];
     self.appIconView.imageScaling = NSImageScaleProportionallyDown;
 
     self.appRunningView = [NSImageView imageViewWithImage:[NSImage imageNamed:@"DockDot"]];
@@ -107,8 +107,6 @@ static CGFloat dockItemBounce = 10;
 
 - (void)setAppIcon:(NSImage *)value
 {
-    if (nil == value)
-        value = [NSImage imageNamed:NSImageNameApplicationIcon];
     self.appIconView.image = value;
 }
 
@@ -438,6 +436,16 @@ static CGFloat dockItemBounce = 10;
             if (nil != obj)
                 [_itemViews setObject:obj forKey:key];
         }
+
+        /* work around a problem in NSScrubber(?) */
+        for (id key in itemViews)
+            if (nil == [_itemViews objectForKey:key])
+            {
+                DockWidgetItemView *view = [itemViews objectForKey:key];
+                view.appIcon = nil;
+                view.appRunning = NO;
+                view.appLaunching = NO;
+            }
 
         [itemViews release];
     }
