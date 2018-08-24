@@ -272,6 +272,11 @@ static CGFloat dockItemBounce = 10;
     [[[NSWorkspace sharedWorkspace] notificationCenter]
         addObserver:self
         selector:@selector(resetRunningApps)
+        name:NSWorkspaceDidActivateApplicationNotification
+        object:nil];
+    [[[NSWorkspace sharedWorkspace] notificationCenter]
+        addObserver:self
+        selector:@selector(resetRunningApps)
         name:NSWorkspaceDidTerminateApplicationNotification
         object:nil];
 
