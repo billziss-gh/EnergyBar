@@ -145,11 +145,25 @@ static CGFloat spacerWidth = 4;
 
 - (void)resetNowPlaying
 {
+    NSImage *icon = [NowPlaying sharedInstance].appIcon;
+
+    NSString *title = nil;
+    if (!_showsArtist)
+    {
+        title = [NowPlaying sharedInstance].title;
+        if (nil != title)
+            title = [@"♫ " stringByAppendingString:title];
+    }
+    else
+    {
+        title = [NowPlaying sharedInstance].artist;
+        if (nil != title)
+            title = [@"☻ " stringByAppendingString:title];
+    }
+
     NowPlayingWidgetView *view = self.view;
-    view.icon = [NowPlaying sharedInstance].appIcon;
-    view.title = !_showsArtist ?
-        [NowPlaying sharedInstance].title :
-        [NowPlaying sharedInstance].artist;
+    view.icon = icon;
+    view.title = title;
 }
 
 - (void)nowPlayingNotification:(NSNotification *)notification
