@@ -261,22 +261,22 @@ static CGFloat dockItemBounce = 10;
 
     [[[NSWorkspace sharedWorkspace] notificationCenter]
         addObserver:self
-        selector:@selector(resetRunningApps)
+        selector:@selector(resetRunningApps:)
         name:NSWorkspaceWillLaunchApplicationNotification
         object:nil];
     [[[NSWorkspace sharedWorkspace] notificationCenter]
         addObserver:self
-        selector:@selector(resetRunningApps)
+        selector:@selector(resetRunningApps:)
         name:NSWorkspaceDidLaunchApplicationNotification
         object:nil];
     [[[NSWorkspace sharedWorkspace] notificationCenter]
         addObserver:self
-        selector:@selector(resetRunningApps)
+        selector:@selector(resetRunningApps:)
         name:NSWorkspaceDidActivateApplicationNotification
         object:nil];
     [[[NSWorkspace sharedWorkspace] notificationCenter]
         addObserver:self
-        selector:@selector(resetRunningApps)
+        selector:@selector(resetRunningApps:)
         name:NSWorkspaceDidTerminateApplicationNotification
         object:nil];
 
@@ -452,8 +452,9 @@ static CGFloat dockItemBounce = 10;
     [scrubber reloadData];
 }
 
-- (void)resetRunningApps
+- (void)resetRunningApps:(NSNotification *)notification
 {
+    //NSLog(@"%s %@", __func__, notification);
     @try
     {
         NSScrubber *scrubber = [self.view viewWithTag:'dock'];
@@ -564,11 +565,11 @@ static CGFloat dockItemBounce = 10;
                 DockWidgetApplication *oldApp = [oldApps objectAtIndex:i];
                 NSArray *newAppsArray = [newAppsDict objectForKey:oldApp.path];
 
-                BOOL update = NO;
+                BOOL update = YES;
                 for (DockWidgetApplication *newApp in newAppsArray)
-                    if (oldApp.pid != newApp.pid || oldApp.launching != newApp.launching)
+                    if (oldApp.pid == newApp.pid && oldApp.launching == newApp.launching)
                     {
-                        update = YES;
+                        update = NO;
                         break;
                     }
 
