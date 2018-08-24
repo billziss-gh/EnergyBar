@@ -17,16 +17,31 @@
 #include "Log.h"
 
 @interface AudioControl ()
-- (void)audioDidChange;
+- (void)systemObjectPropertyDidChange;
+- (void)audioDevicePropertyDidChange;
 @end
 
-static OSStatus AudioDeviceListener(
+static OSStatus SystemObjectPropertyListener(
     AudioObjectID device,
     UInt32 count, const AudioObjectPropertyAddress* addresses,
     void *data)
 {
     [(id)data
-        performSelectorOnMainThread:@selector(audioDidChange) withObject:nil waitUntilDone:NO];
+        performSelectorOnMainThread:@selector(systemObjectPropertyDidChange)
+        withObject:nil
+        waitUntilDone:NO];
+    return kAudioHardwareNoError;
+}
+
+static OSStatus AudioDevicePropertyListener(
+    AudioObjectID device,
+    UInt32 count, const AudioObjectPropertyAddress* addresses,
+    void *data)
+{
+    [(id)data
+        performSelectorOnMainThread:@selector(audioDevicePropertyDidChange)
+        withObject:nil
+        waitUntilDone:NO];
     return kAudioHardwareNoError;
 }
 
@@ -50,6 +65,8 @@ static OSStatus AudioDeviceListener(
         return nil;
 
     _audiodev = kAudioObjectUnknown;
+
+    [self registerSystemObjectListener:YES];
     [self getAudioDevice:YES];
 
     return self;
@@ -58,6 +75,7 @@ static OSStatus AudioDeviceListener(
 - (void)dealloc
 {
     [self resetAudioDevice];
+    [self registerSystemObjectListener:NO];
 
     [super dealloc];
 }
@@ -193,7 +211,7 @@ static OSStatus AudioDeviceListener(
             };
 
             status = AudioObjectAddPropertyListener(
-                device, &address, AudioDeviceListener, self);
+                device, &address, AudioDevicePropertyListener, self);
             if (kAudioHardwareNoError != status)
                 LOG("AudioObjectAddPropertyListener = %d", status);
         }
@@ -215,13 +233,45 @@ static OSStatus AudioDeviceListener(
         OSStatus status;
 
         status = AudioObjectRemovePropertyListener(
-            _audiodev, &address, AudioDeviceListener, self);
+            _audiodev, &address, AudioDevicePropertyListener, self);
         if (kAudioHardwareNoError != status)
             LOG("AudioObjectRemovePropertyListener = %d", status);
     }
 }
 
-- (void)audioDidChange
+- (void)registerSystemObjectListener:(BOOL)add
+{
+    AudioObjectPropertyAddress address =
+    {
+        .mSelector = kAudioHardwarePropertyDefaultOutputDevice,
+        .mScope = kAudioObjectPropertyScopeGlobal,
+        .mElement = kAudioObjectPropertyElementMaster,
+    };
+    OSStatus status;
+
+    if (add)
+    {
+        status = AudioObjectAddPropertyListener(
+            kAudioObjectSystemObject, &address, SystemObjectPropertyListener, self);
+        if (kAudioHardwareNoError != status)
+            LOG("AudioObjectAddPropertyListener = %d", status);
+    }
+    else
+    {
+        status = AudioObjectRemovePropertyListener(
+            kAudioObjectSystemObject, &address, SystemObjectPropertyListener, self);
+        if (kAudioHardwareNoError != status)
+            LOG("AudioObjectRemovePropertyListener = %d", status);
+    }
+}
+
+- (void)systemObjectPropertyDidChange
+{
+    [self resetAudioDevice];
+    [self getAudioDevice:YES];
+}
+
+- (void)audioDevicePropertyDidChange
 {
     [[NSNotificationCenter defaultCenter]
         postNotificationName:AudioControlNotification
