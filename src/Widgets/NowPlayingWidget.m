@@ -126,6 +126,8 @@ static CGFloat spacerWidth = 4;
     [self.view addGestureRecognizer:clickRecognizer];
     [self.view addGestureRecognizer:pressRecognizer];
 
+    [self resetNowPlaying];
+
     [[NSNotificationCenter defaultCenter]
         addObserver:self
         selector:@selector(nowPlayingNotification:)
@@ -160,6 +162,9 @@ static CGFloat spacerWidth = 4;
         if (nil != title)
             title = [@"☻ " stringByAppendingString:title];
     }
+
+    if (nil == icon && nil == title)
+        title = @"♫";
 
     NowPlayingWidgetView *view = self.view;
     view.icon = icon;
