@@ -12,7 +12,7 @@
  */
 
 #import "ControlWidget.h"
-#import "AudioVolume.h"
+#import "AudioControl.h"
 #import "Brightness.h"
 #import "CBBlueLightClient.h"
 #import "KeyEvent.h"
@@ -197,7 +197,7 @@
 
 - (BOOL)presentWithPlacement:(NSInteger)placement
 {
-    double value = GetAudioVolume();
+    double value = [AudioControl sharedInstance].volume;
     if (isnan(value))
         value = 0.5;
 
@@ -210,27 +210,17 @@
 - (IBAction)volumeSliderAction:(id)sender
 {
     NSSliderTouchBarItem *item = [self.touchBar itemForIdentifier:@"VolumeSlider"];
-    SetAudioVolume(item.slider.doubleValue);
-    SetAudioMuted(item.slider.doubleValue < 1.0 / (16 * 4));
+    [AudioControl sharedInstance].volume = item.slider.doubleValue;
+    [AudioControl sharedInstance].mute = item.slider.doubleValue < 1.0 / (16 * 4);
 }
 @end
 
 @interface ControlWidget ()
 @property (retain) ControlWidgetBrightnessBarController *brightnessBarController;
 @property (retain) ControlWidgetVolumeBarController *volumeBarController;
-- (void)resetMute;
 @end
 
-void ControlWidgetMuteListener(void *data)
-{
-    [(id)data performSelectorOnMainThread:@selector(resetMute) withObject:nil waitUntilDone:NO];
-}
-
 @implementation ControlWidget
-{
-    struct AudioPropertyListener _muteListener;
-}
-
 - (void)commonInit
 {
     self.brightnessBarController = [ControlWidgetBrightnessBarController controller];
@@ -262,15 +252,16 @@ void ControlWidgetMuteListener(void *data)
         object:nil];
     [NowPlaying sharedInstance];
 
-    _muteListener.code = ControlWidgetMuteListener;
-    _muteListener.data = self;
-    AddAudioMutedListener(&_muteListener);
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+        selector:@selector(audioControlNotification:)
+        name:AudioControlNotification
+        object:nil];
+    [AudioControl sharedInstance];
 }
 
 - (void)dealloc
 {
-    RemoveAudioMutedListener(&_muteListener);
-
     [[NSNotificationCenter defaultCenter]
         removeObserver:self];
 
@@ -287,27 +278,22 @@ void ControlWidgetMuteListener(void *data)
         NSImageNameTouchBarPauseTemplate : NSImageNameTouchBarPlayTemplate];
 }
 
-- (void)resetPlayPause
+- (NSImage *)volumeMuteImage
+{
+    BOOL mute = [AudioControl sharedInstance].mute;
+    return [NSImage imageNamed:mute ? @"VolumeMuteOn" : @"VolumeMuteOff"];
+}
+
+- (void)nowPlayingNotification:(NSNotification *)notification
 {
     NSSegmentedControl *control = self.view;
     [control setImage:[self playPauseImage] forSegment:0];
 }
 
-- (NSImage *)volumeMuteImage
-{
-    bool mute = IsAudioMuted();
-    return [NSImage imageNamed:mute ? @"VolumeMuteOn" : @"VolumeMuteOff"];
-}
-
-- (void)resetMute
+- (void)audioControlNotification:(NSNotification *)notification
 {
     NSSegmentedControl *control = self.view;
     [control setImage:[self volumeMuteImage] forSegment:3];
-}
-
-- (void)nowPlayingNotification:(NSNotification *)notification
-{
-    [self resetPlayPause];
 }
 
 - (void)click:(id)sender
@@ -325,7 +311,7 @@ void ControlWidgetMuteListener(void *data)
         [self.volumeBarController present];
         break;
     case 3:
-        SetAudioMuted(!IsAudioMuted());
+        [AudioControl sharedInstance].mute = ![AudioControl sharedInstance].mute;
         break;
     }
 }
