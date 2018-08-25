@@ -25,14 +25,14 @@ The default placement of EnergyBar widgets allows for consistency and memorizati
 - Access your Mac's trash can.
 - Hide the system Dock to regain valuable screen real estate.
 
-### ActiveApp
+### Active App
 
 ![ActiveApp](doc/ActiveApp.png)
 
 - Shows the currently active app on your Mac.
 - This is a display widget that is also used to occupy space that is often tapped inadvertently.
 
-### NowPlaying
+### Now Playing
 
 ![NowPlaying](doc/NowPlaying.png)
 
