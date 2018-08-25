@@ -52,7 +52,7 @@ The default placement of EnergyBar widgets allows for consistency and memorizati
 ![Clock](doc/Clock.png)
 
 - Shows the current time.
-- Long press to launch the EnergyBar settings.
+- Long press to launch the EnergyBar Settings.
 - This is a display widget that is also used to occupy space that is often tapped inadvertently.
 
 ## Touch Bar Customization
