@@ -6,38 +6,60 @@
 </h1>
 
 <p align="center">
-    <img src="rsc/Assets.xcassets/AppIcon.appiconset/EnergyBar_256.png"/>
+    <img src="rsc/Assets.xcassets/AppIcon.appiconset/EnergyBar_128.png"/>
 </p>
 
-## Dock
-![Dock](doc/Dock.gif)
+EnergyBar replaces your Mac's Touch Bar with a collection of widgets, such as a Dock or a "Now Playing" widget. The goal of EnergyBar is to maximize the Touch Bar's usability, while minimizing some of its flaws such as inadvertent tapping.
+
+![Dock](doc/EnergyBarAnimation.gif)
+
+The default placement of EnergyBar widgets allows for consistency and memorization of your Touch Bar use. The areas around the Esc key and above the Delete key have been kept non-functional to alleviate the problem of inadvertent tapping. At the same time EnergyBar allows for customization so that you only have your favorite widgets visible.
+
+## Widgets
+
+### Dock
+
+![Dock](doc/Dock.png)
 
 - Manage and launch your favorite applications from a Dock in your Touch Bar.
+- Access your Mac's trash can.
 - Hide the system Dock to regain valuable screen real estate.
 
-## Trash
+### ActiveApp
 
-![Trash](doc/Trash.gif)
+![ActiveApp](doc/ActiveApp.png)
 
-- Access your Mac's trash can.
+- Shows the currently active app on your Mac.
+- This is a display widget that is also used to occupy space that is often tapped inadvertently.
 
-## Control
+### NowPlaying
 
-![Control](doc/Control.gif)
+![NowPlaying](doc/NowPlaying.png)
 
-- Common keyboard controls: play/pause, brightness, volume, mute.
+- Shows the currently playing track and artist.
+- Tap to change the display between track and artist.
+- Long press to launch the current media player.
 
-## Customize
+### Control
 
-![Customize](doc/Customize.png)
+![Control](doc/Control.png)
 
-- Customize your EnergyBar.
+- Shows common keyboard controls: play/pause, brightness, volume, mute.
+- Long press the play/pause button to skip to the next song.
 
-## Settings
+### Clock
 
-![Settings](doc/Settings.png)
+![Clock](doc/Clock.png)
 
-- General settings for EnergyBar.
+- Shows the current time.
+- Long press to launch the EnergyBar settings.
+- This is a display widget that is also used to occupy space that is often tapped inadvertently.
+
+## Touch Bar Customization
+
+![Customization](doc/Customization.png)
+
+To customize your touch bar press the "Customize Touch Bar" button in the Energy Bar Settings. To open the Settings window simply double-click on the EnergyBar application in the Finder or long press on the Clock widget.
 
 ## Developer Notes
 

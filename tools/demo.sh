@@ -14,7 +14,7 @@ for app in Pages Numbers Keynote; do
     openApp /Applications/$app.app
 done
 
-sleep 3
+sleep 2
 
 for app in Pages Numbers Keynote; do
     quitApp $app
