@@ -1,7 +1,7 @@
 <h1 align="center">
-    EnergyBar &middot; Supercharge your Mac's Touch Bar
+    EnergyBar &middot; Supercharge your Mac's Touch Bar<br/>
     <a href="https://github.com/billziss-gh/EnergyBar/releases">
-        <img src="https://img.shields.io/github/release/billziss-gh/EnergyBar/all.svg?label=download"/>
+        <img src="https://img.shields.io/github/release/billziss-gh/EnergyBar/all.svg?label=download&style=for-the-badge"/>
     </a>
 </h1>
 
