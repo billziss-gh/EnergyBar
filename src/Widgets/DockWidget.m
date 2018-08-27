@@ -331,6 +331,8 @@ static CGFloat dockItemBounce = 10;
 
 - (NSArray *)apps
 {
+    BOOL updateItemViews = NO;
+
     if (nil == self.defaultApps)
     {
         self.runningApps = nil;
@@ -377,9 +379,10 @@ static CGFloat dockItemBounce = 10;
         }
 
         self.defaultApps = [[newDefaultApps copy] autorelease];
+
+        updateItemViews = YES;
     }
 
-    BOOL updateItemViews = NO;
     if (nil == self.runningApps)
     {
         NSMutableDictionary *defaultAppsDict = [NSMutableDictionary dictionary];
@@ -422,7 +425,10 @@ static CGFloat dockItemBounce = 10;
         updateItemViews = YES;
     }
 
-    NSArray *apps = [self.defaultApps arrayByAddingObjectsFromArray:self.runningApps];
+    BOOL showsRunningApps = [[NSUserDefaults standardUserDefaults] boolForKey:@"showsRunningApps"];
+    NSArray *apps = showsRunningApps ?
+        [self.defaultApps arrayByAddingObjectsFromArray:self.runningApps] :
+        self.defaultApps;
 
     if (updateItemViews)
     {

@@ -129,5 +129,7 @@
 	<string>~/Library/EnergyBar/Applications</string>
 	<key>mainWindowHidden</key>
 	<false/>
+	<key>showsRunningApps</key>
+	<true/>
 </dict>
 </plist>

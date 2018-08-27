@@ -278,6 +278,11 @@ static void AppControllerFSNotify(const char *path, void *data)
     [[NSWorkspace sharedWorkspace] openFile:defaultAppsFolder];
 }
 
+- (IBAction)showsRunningAppsAction:(id)sender
+{
+    [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] resetDefaultApps];
+}
+
 - (void)updateToggleMacOSDockButton
 {
     NSUserDefaults *dockDefaults = [[[NSUserDefaults alloc]
