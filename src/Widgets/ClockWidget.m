@@ -27,11 +27,16 @@
 - (void)commonInit
 {
     self.customizationLabel = @"Clock";
+
     NSPressGestureRecognizer *recognizer = [[[NSPressGestureRecognizer alloc]
         initWithTarget:self action:@selector(pressAction:)] autorelease];
     recognizer.allowedTouchTypes = NSTouchTypeMaskDirect;
     recognizer.minimumPressDuration = 1.0;
+
     FixedSizeLabel *label = [FixedSizeLabel labelWithString:@"9:41 am"];
+    label.wantsLayer = YES;
+    label.layer.cornerRadius = 8.0;
+    label.layer.backgroundColor = [[NSColor colorWithWhite:0.0 alpha:0.5] CGColor];
     label.fixedSize = NSMakeSize(80, NSViewNoIntrinsicMetric);
     label.alignment = NSTextAlignmentCenter;
     [label addGestureRecognizer:recognizer];
