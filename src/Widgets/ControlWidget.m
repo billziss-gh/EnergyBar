@@ -321,6 +321,16 @@
     if (NSGestureRecognizerStateBegan != recognizer.state)
         return;
 
+    NSSegmentedControl *control = self.view;
+    NSPoint point = [recognizer locationInView:control];
+    NSInteger i = [self segmentForX:point.x];
+
+    if (0 == i)
+        PostAuxKeyPress(NX_KEYTYPE_NEXT);
+}
+
+- (NSInteger)segmentForX:(CGFloat)x
+{
     /* HACK:
      * There does not appear to be a direct way to determine the segment from a point.
      *
@@ -342,7 +352,6 @@
         else
             totalWidth += widths[i];
     }
-
     if (0 < zeroWidthCells)
     {
         totalWidth = rect.size.width - totalWidth;
@@ -365,9 +374,16 @@
         }
     }
 
-    NSPoint point = [recognizer locationInView:control];
+    /* now that we have the widths go ahead and figure out which segment has X */
+    totalWidth = 0;
+    for (NSInteger i = 0; count > i; i++)
+    {
+        if (totalWidth <= x && x < totalWidth + widths[i])
+            return i;
 
-    if (0 < point.x && point.x < widths[0])
-        PostAuxKeyPress(NX_KEYTYPE_NEXT);
+        totalWidth += widths[i];
+    }
+
+    return -1;
 }
 @end
