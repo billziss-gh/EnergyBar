@@ -85,7 +85,7 @@ static CGFloat spacerWidth = 4;
     [super layout];
 
     NSRect bounds = self.bounds;
-    NSSize titleSize = [self.titleView intrinsicContentSize];
+    NSSize titleSize = [self.titleView.cell cellSizeForBounds:bounds];
     if (titleSize.width > bounds.size.width - (iconSize.width + spacerWidth))
         titleSize.width = bounds.size.width - (iconSize.width + spacerWidth);
     CGFloat totalWidth = iconSize.width + spacerWidth + titleSize.width;
@@ -97,7 +97,7 @@ static CGFloat spacerWidth = 4;
     NSRect titleRect = NSMakeRect(
         iconRect.origin.x + iconSize.width + spacerWidth,
         (bounds.size.height - titleSize.height) / 2,
-        bounds.size.width - (iconSize.width + spacerWidth),
+        titleSize.width,
         titleSize.height);
 
     self.iconView.frame = iconRect;
