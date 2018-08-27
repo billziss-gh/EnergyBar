@@ -13,7 +13,26 @@
 
 #import "FixedSizeLabel.h"
 
+@interface FixedSizeLabelCell : NSTextFieldCell
+@end
+
+@implementation FixedSizeLabelCell
+- (NSRect)drawingRectForBounds:(NSRect)rect
+{
+    NSRect drawingRect = [super drawingRectForBounds:rect];
+    NSSize size = [super cellSizeForBounds:rect];
+    if (drawingRect.size.height > size.height)
+        drawingRect.origin.y = (drawingRect.size.height - size.height) / 2;
+    return drawingRect;
+}
+@end
+
 @implementation FixedSizeLabel
++ (void)load
+{
+    [FixedSizeLabel setCellClass:[FixedSizeLabelCell class]];
+}
+
 - (id)initWithFrame:(NSRect)rect
 {
     self = [super initWithFrame:rect];
@@ -38,8 +57,7 @@
 
 - (NSSize)intrinsicContentSize
 {
-    NSSize size = [super intrinsicContentSize];
-    return NSMakeSize(self.fixedSize.width, size.height);
+    return self.fixedSize;
 }
 
 - (void)setStringValue:(NSString *)value
