@@ -34,6 +34,9 @@ static CGFloat spacerWidth = 4;
     self.iconView.imageScaling = NSImageScaleProportionallyDown;
 
     self.titleView = [NSTextField labelWithString:@""];
+    self.titleView.wantsLayer = YES;
+    self.titleView.layer.cornerRadius = 4.0;
+    self.titleView.layer.backgroundColor = [[NSColor colorWithWhite:0.0 alpha:0.5] CGColor];
     self.titleView.autoresizingMask = 0;
     self.titleView.font = [NSFont systemFontOfSize:[NSFont
         systemFontSizeForControlSize:NSControlSizeSmall]];
