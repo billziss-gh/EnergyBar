@@ -21,6 +21,7 @@
 #import "TouchBarController.h"
 
 #define MaxPanDistance                  100.0
+#define IndicatorWidth                  50.0
 
 @interface ControlWidgetPopoverBarSlider : NSSlider
 @end
@@ -219,6 +220,7 @@
 
 @interface ControlWidgetLevelView : NSView
 @property (getter=level, setter=setLevel:) CGFloat level;
+@property (getter=indicatorWidth, setter=setIndicatorWidth:) CGFloat indicatorWidth;
 @property (assign) CGFloat inset;
 @property (retain) NSColor *backgroundColor;
 @property (retain) NSColor *foregroundColor;
@@ -227,6 +229,7 @@
 @implementation ControlWidgetLevelView
 {
     CGFloat _level;
+    CGFloat _indicatorWidth;
     NSInteger _tag;
 }
 
@@ -256,9 +259,21 @@
     CGFloat inset = self.inset;
     rect = NSInsetRect(rect, inset, inset);
 
+    CGFloat indicatorWidth = self.indicatorWidth;
+    if (0 > indicatorWidth)
+    {
+        CGFloat maxX = NSMaxX(rect);
+        indicatorWidth = -indicatorWidth;
+        rect.size.width = MIN(indicatorWidth, rect.size.width);
+        rect.origin.x = maxX - rect.size.width;
+    }
+    else if (0 < indicatorWidth)
+        rect.size.width = MIN(indicatorWidth, rect.size.width);
+
     [foregroundColor set];
-    CGFloat x = rect.origin.x + self.level * rect.size.width;
-    CGFloat y = rect.origin.y + self.level * rect.size.height;
+    CGFloat level = self.level;
+    CGFloat x = rect.origin.x + level * rect.size.width;
+    CGFloat y = rect.origin.y + level * rect.size.height;
     NSBezierPath *path = [NSBezierPath bezierPath];
     [path moveToPoint:rect.origin];
     [path lineToPoint:NSMakePoint(x, NSMinY(rect))];
@@ -278,6 +293,20 @@
         return;
 
     _level = value;
+    [self setNeedsDisplay:YES];
+}
+
+- (CGFloat)indicatorWidth
+{
+    return _indicatorWidth;
+}
+
+- (void)setIndicatorWidth:(CGFloat)value
+{
+    if (_indicatorWidth == value)
+        return;
+
+    _indicatorWidth = value;
     [self setNeedsDisplay:YES];
 }
 
@@ -399,7 +428,7 @@
     [super dealloc];
 }
 
-- (void)showLevel:(BOOL)show anchorPoint:(NSPoint)point
+- (void)showLevel:(BOOL)show withWidth:(CGFloat)width anchorPoint:(NSPoint)point
 {
     NSSegmentedControl *control = [self.view viewWithTag:'ctrl'];
     ControlWidgetLevelView *level = [self.view viewWithTag:'levl'];
@@ -408,6 +437,7 @@
     {
         control.hidden = YES;
         level.hidden = NO;
+        level.indicatorWidth = width;
         _level = level.level;
         _xmin = point.x - MaxPanDistance * _level;
         _xmax = _xmin + MaxPanDistance;
@@ -514,11 +544,13 @@
     case 1:
         [self
             showLevel:NSGestureRecognizerStateBegan == recognizer.state
+            withWidth:+IndicatorWidth
             anchorPoint:point];
         break;
     case 2:
         [self
             showLevel:NSGestureRecognizerStateBegan == recognizer.state
+            withWidth:+IndicatorWidth
             anchorPoint:point];
         break;
     default:
@@ -545,7 +577,7 @@
         break;
     case NSGestureRecognizerStateEnded:
     case NSGestureRecognizerStateCancelled:
-        [self showLevel:NO anchorPoint:NSZeroPoint];
+        [self showLevel:NO withWidth:0 anchorPoint:NSZeroPoint];
         break;
     default:
         return;
