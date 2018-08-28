@@ -283,6 +283,11 @@ static void AppControllerFSNotify(const char *path, void *data)
     [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] resetDefaultApps];
 }
 
+- (IBAction)showsTrashAction:(id)sender
+{
+    [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] resetDefaultApps];
+}
+
 - (void)updateToggleMacOSDockButton
 {
     NSUserDefaults *dockDefaults = [[[NSUserDefaults alloc]

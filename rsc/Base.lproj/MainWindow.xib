@@ -532,6 +532,10 @@ In general the folder should contain application aliases. The order of the folde
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="showsTrashAction:" target="Voe-Tx-rLC" id="AwS-SG-VK7"/>
+                            <binding destination="pJh-SC-QEV" name="value" keyPath="values.showsTrash" id="bpM-Vh-hZx"/>
+                        </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kaa-7C-9IO">
                         <rect key="frame" x="160" y="378" width="153" height="32"/>

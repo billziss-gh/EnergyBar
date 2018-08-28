@@ -192,7 +192,7 @@ static CGFloat dockItemBounce = 10;
 }
 @end
 
-@interface DockWidgetView : NSView
+@interface DockWidgetView : NSStackView
 @end
 
 @implementation DockWidgetView
@@ -233,6 +233,7 @@ static CGFloat dockItemBounce = 10;
 
     NSImageView *separator = [NSImageView imageViewWithImage:[NSImage imageNamed:@"DockSep"]];
     separator.translatesAutoresizingMaskIntoConstraints = NO;
+    separator.tag = 'sep ';
 
     NSButton *button = [DockWidgetButton
         buttonWithImage:[self trashcanImage]
@@ -242,19 +243,13 @@ static CGFloat dockItemBounce = 10;
     button.bordered = NO;
     button.tag = 'trsh';
 
-    NSView *view = [[[DockWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
-    [view addSubview:scrubber];
-    [view addSubview:separator];
-    [view addSubview:button];
-
-    NSDictionary *views = NSDictionaryOfVariableBindings(scrubber, separator, button);
-    NSArray *constraints = [NSLayoutConstraint
-        constraintsWithVisualFormat:@"|[scrubber][separator][button]|"
-        options:0
-        metrics:nil
-        views:views];
-    [view addConstraints:constraints];
-
+    DockWidgetView *view = [DockWidgetView stackViewWithViews:[NSArray arrayWithObjects:
+        scrubber,
+        separator,
+        button,
+        nil]];
+    view.userInterfaceLayoutDirection = NSUserInterfaceLayoutDirectionLeftToRight;
+    view.orientation = NSUserInterfaceLayoutOrientationHorizontal;
     self.view = view;
 
     [[[NSWorkspace sharedWorkspace] notificationCenter]
@@ -461,6 +456,10 @@ static CGFloat dockItemBounce = 10;
 
 - (void)resetDefaultApps
 {
+    BOOL showsTrash = [[NSUserDefaults standardUserDefaults] boolForKey:@"showsTrash"];
+    [self.view viewWithTag:'sep '].hidden = !showsTrash;
+    [self.view viewWithTag:'trsh'].hidden = !showsTrash;
+
     NSScrubber *scrubber = [self.view viewWithTag:'dock'];
     self.defaultApps = nil;
     [scrubber reloadData];
