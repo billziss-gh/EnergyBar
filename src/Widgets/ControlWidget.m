@@ -20,8 +20,7 @@
 #import "NowPlaying.h"
 #import "TouchBarController.h"
 
-#define MaxPanDistance                  100.0
-#define IndicatorWidth                  50.0
+#define MaxPanDistance                  50.0
 
 @interface ControlWidgetPopoverBarSlider : NSSlider
 @end
@@ -382,12 +381,12 @@
     control.tag = 'ctrl';
 
     ControlWidgetLevelView *level = [[[ControlWidgetLevelView alloc]
-        initWithFrame:NSZeroRect] autorelease];
+        initWithFrame:NSMakeRect(0, 0, MaxPanDistance, 0)] autorelease];
     level.wantsLayer = YES;
     level.layer.cornerRadius = 4.0;
     level.layer.borderWidth = 1.0;
     level.layer.borderColor = [[NSColor systemGrayColor] CGColor];
-    level.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+    level.autoresizingMask = NSViewHeightSizable;
     level.level = 0.5;
     level.inset = 4;
     level.tag = 'levl';
@@ -429,7 +428,7 @@
     [super dealloc];
 }
 
-- (void)showLevel:(BOOL)show value:(CGFloat)value width:(CGFloat)width anchorPoint:(NSPoint)point
+- (void)showLevel:(BOOL)show value:(CGFloat)value anchorPoint:(NSPoint)point
 {
     NSSegmentedControl *control = [self.view viewWithTag:'ctrl'];
     ControlWidgetLevelView *level = [self.view viewWithTag:'levl'];
@@ -439,7 +438,6 @@
         control.hidden = YES;
         level.hidden = NO;
         level.level = isnan(value) ? 0.5 : value;
-        level.indicatorWidth = width;
         _level = level.level;
         _xmin = point.x - MaxPanDistance * _level;
         _xmax = _xmin + MaxPanDistance;
@@ -554,7 +552,6 @@
         [self
             showLevel:NSGestureRecognizerStateBegan == recognizer.state
             value:GetDisplayBrightness()
-            width:+IndicatorWidth
             anchorPoint:point];
         _levelKind = 'brgt';
         break;
@@ -562,7 +559,6 @@
         [self
             showLevel:NSGestureRecognizerStateBegan == recognizer.state
             value:[AudioControl sharedInstance].volume
-            width:+IndicatorWidth
             anchorPoint:point];
         _levelKind = 'audi';
         break;
@@ -597,7 +593,7 @@
         break;
     case NSGestureRecognizerStateEnded:
     case NSGestureRecognizerStateCancelled:
-        [self showLevel:NO value:0 width:0 anchorPoint:NSZeroPoint];
+        [self showLevel:NO value:0 anchorPoint:NSZeroPoint];
         break;
     default:
         return;
