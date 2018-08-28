@@ -187,7 +187,7 @@ static void AppControllerFSNotify(const char *path, void *data)
     if (nil == defaultAppsFolder)
         return;
 
-    NSUInteger appCount = 0;
+    NSUInteger itemCount = 0;
     NSArray *contents = [[NSFileManager defaultManager]
         contentsOfDirectoryAtPath:defaultAppsFolder error:0];
     for (NSString *c in contents)
@@ -195,10 +195,10 @@ static void AppControllerFSNotify(const char *path, void *data)
         if ([c hasPrefix:@"."])
             continue;
 
-        appCount++;
+        itemCount++;
     }
 
-    if (0 != appCount)
+    if (0 != itemCount)
     {
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
         alert.alertStyle = NSAlertStyleWarning;
@@ -236,17 +236,17 @@ static void AppControllerFSNotify(const char *path, void *data)
 
     NSUserDefaults *dockDefaults = [[[NSUserDefaults alloc]
         initWithSuiteName:@"com.apple.dock"] autorelease];
-    NSArray *dockApps = [NSArray arrayWithObject:finderDict];
-    dockApps = [dockApps
+    NSArray *dockItems = [NSArray arrayWithObject:finderDict];
+    dockItems = [dockItems
         arrayByAddingObjectsFromArray:[dockDefaults objectForKey:@"persistent-apps"]];
-    dockApps = [dockApps
+    dockItems = [dockItems
         arrayByAddingObjectsFromArray:[dockDefaults objectForKey:@"persistent-others"]];
     NSUInteger order = 0;
-    for (NSDictionary *a in dockApps)
+    for (NSDictionary *item in dockItems)
     {
-        a = [a objectForKey:@"tile-data"];
-        NSString *name = [a objectForKey:@"file-label"];
-        NSString *urlstr = [[a objectForKey:@"file-data"] objectForKey:@"_CFURLString"];
+        item = [item objectForKey:@"tile-data"];
+        NSString *name = [item objectForKey:@"file-label"];
+        NSString *urlstr = [[item objectForKey:@"file-data"] objectForKey:@"_CFURLString"];
         if (nil == name || nil == urlstr)
             continue;
 
