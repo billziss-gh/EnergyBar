@@ -215,7 +215,7 @@
 }
 @end
 
-@interface ControlWidget ()
+@interface ControlWidget () <NSGestureRecognizerDelegate>
 @property (retain) ControlWidgetBrightnessBarController *brightnessBarController;
 @property (retain) ControlWidgetVolumeBarController *volumeBarController;
 @end
@@ -226,10 +226,18 @@
     self.brightnessBarController = [ControlWidgetBrightnessBarController controller];
     self.volumeBarController = [ControlWidgetVolumeBarController controller];
 
-    NSPressGestureRecognizer *recognizer = [[[NSPressGestureRecognizer alloc]
+    NSPressGestureRecognizer *longPress = [[[NSPressGestureRecognizer alloc]
         initWithTarget:self action:@selector(pressAction:)] autorelease];
-    recognizer.allowedTouchTypes = NSTouchTypeMaskDirect;
-    recognizer.minimumPressDuration = LongPressDuration;
+    longPress.delegate = self;
+    longPress.allowedTouchTypes = NSTouchTypeMaskDirect;
+    longPress.minimumPressDuration = LongPressDuration;
+
+    NSPressGestureRecognizer *shortPress = [[[NSPressGestureRecognizer alloc]
+        initWithTarget:self action:@selector(pressAction:)] autorelease];
+    shortPress.delegate = self;
+    shortPress.allowedTouchTypes = NSTouchTypeMaskDirect;
+    shortPress.minimumPressDuration = ShortPressDuration;
+
     NSSegmentedControl *control = [NSSegmentedControl
         segmentedControlWithImages:[NSArray arrayWithObjects:
             [self playPauseImage],
@@ -240,7 +248,8 @@
         trackingMode:NSSegmentSwitchTrackingMomentary
         target:self
         action:@selector(click:)];
-    [control addGestureRecognizer:recognizer];
+    [control addGestureRecognizer:longPress];
+    [control addGestureRecognizer:shortPress];
 
     self.customizationLabel = @"Control";
     self.view = control;
@@ -316,6 +325,15 @@
     }
 }
 
+- (BOOL)gestureRecognizer:(NSGestureRecognizer *)recognizer
+    shouldRecognizeSimultaneouslyWithGestureRecognizer:(NSGestureRecognizer *)otherRecognizer
+{
+    if ([self.view.gestureRecognizers containsObject:recognizer] &&
+        [self.view.gestureRecognizers containsObject:otherRecognizer])
+        return YES;
+    return NO;
+}
+
 - (void)pressAction:(NSGestureRecognizer *)recognizer
 {
     if (NSGestureRecognizerStateBegan != recognizer.state)
@@ -323,10 +341,27 @@
 
     NSSegmentedControl *control = self.view;
     NSPoint point = [recognizer locationInView:control];
-    NSInteger i = [self segmentForX:point.x];
+    NSInteger segment = [self segmentForX:point.x];
 
-    if (0 == i)
-        PostAuxKeyPress(NX_KEYTYPE_NEXT);
+    switch (segment)
+    {
+    case 0:
+        if (LongPressDuration == [(NSPressGestureRecognizer *)recognizer minimumPressDuration])
+            PostAuxKeyPress(NX_KEYTYPE_NEXT);
+        break;
+    case 1:
+        if (ShortPressDuration == [(NSPressGestureRecognizer *)recognizer minimumPressDuration])
+        {
+        }
+        break;
+    case 2:
+        if (ShortPressDuration == [(NSPressGestureRecognizer *)recognizer minimumPressDuration])
+        {
+        }
+        break;
+    default:
+        break;
+    }
 }
 
 - (NSInteger)segmentForX:(CGFloat)x
