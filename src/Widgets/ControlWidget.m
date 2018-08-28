@@ -20,6 +20,8 @@
 #import "NowPlaying.h"
 #import "TouchBarController.h"
 
+#define MaxPanDistance                  100.0
+
 @interface ControlWidgetPopoverBarSlider : NSSlider
 @end
 
@@ -216,13 +218,18 @@
 @end
 
 @interface ControlWidgetLevelView : NSView
-@property (assign) CGFloat level;
+@property (getter=level, setter=setLevel:) CGFloat level;
 @property (assign) CGFloat inset;
 @property (retain) NSColor *backgroundColor;
 @property (retain) NSColor *foregroundColor;
 @end
 
 @implementation ControlWidgetLevelView
+{
+    CGFloat _level;
+    NSInteger _tag;
+}
+
 - (void)dealloc
 {
     self.backgroundColor = nil;
@@ -251,12 +258,37 @@
 
     [foregroundColor set];
     CGFloat x = rect.origin.x + self.level * rect.size.width;
+    CGFloat y = rect.origin.y + self.level * rect.size.height;
     NSBezierPath *path = [NSBezierPath bezierPath];
     [path moveToPoint:rect.origin];
     [path lineToPoint:NSMakePoint(x, NSMinY(rect))];
-    [path lineToPoint:NSMakePoint(x, NSMidY(rect))];
+    [path lineToPoint:NSMakePoint(x, y)];
     [path closePath];
     [path fill];
+}
+
+- (CGFloat)level
+{
+    return _level;
+}
+
+- (void)setLevel:(CGFloat)value
+{
+    if (_level == value)
+        return;
+
+    _level = value;
+    [self setNeedsDisplay:YES];
+}
+
+- (NSInteger)tag
+{
+    return _tag;
+}
+
+- (void)setTag:(NSInteger)value
+{
+    _tag = value;
 }
 @end
 
@@ -276,22 +308,34 @@
 @end
 
 @implementation ControlWidget
+{
+    CGFloat _level;
+    CGFloat _xmin, _xmax;
+}
+
 - (void)commonInit
 {
     self.brightnessBarController = [ControlWidgetBrightnessBarController controller];
     self.volumeBarController = [ControlWidgetVolumeBarController controller];
 
+    _level = NAN;
+
     NSPressGestureRecognizer *longPress = [[[NSPressGestureRecognizer alloc]
-        initWithTarget:self action:@selector(pressAction:)] autorelease];
+        initWithTarget:self action:@selector(longPressAction:)] autorelease];
     longPress.delegate = self;
     longPress.allowedTouchTypes = NSTouchTypeMaskDirect;
     longPress.minimumPressDuration = LongPressDuration;
 
     NSPressGestureRecognizer *shortPress = [[[NSPressGestureRecognizer alloc]
-        initWithTarget:self action:@selector(pressAction:)] autorelease];
+        initWithTarget:self action:@selector(shortPressAction:)] autorelease];
     shortPress.delegate = self;
     shortPress.allowedTouchTypes = NSTouchTypeMaskDirect;
     shortPress.minimumPressDuration = ShortPressDuration;
+
+    NSPanGestureRecognizer *pan = [[[NSPanGestureRecognizer alloc]
+        initWithTarget:self action:@selector(panAction:)] autorelease];
+    pan.delegate = self;
+    pan.allowedTouchTypes = NSTouchTypeMaskDirect;
 
     NSSegmentedControl *control = [NSSegmentedControl
         segmentedControlWithImages:[NSArray arrayWithObjects:
@@ -316,11 +360,13 @@
     level.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     level.level = 0.5;
     level.inset = 4;
+    level.tag = 'levl';
     level.hidden = YES;
 
     NSView *view = [[[ControlWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
     [view addGestureRecognizer:longPress];
     [view addGestureRecognizer:shortPress];
+    [view addGestureRecognizer:pan];
     [view addSubview:control];
     [view addSubview:level];
 
@@ -351,6 +397,27 @@
     self.volumeBarController = nil;
 
     [super dealloc];
+}
+
+- (void)showLevel:(BOOL)show anchorPoint:(NSPoint)point
+{
+    NSSegmentedControl *control = [self.view viewWithTag:'ctrl'];
+    ControlWidgetLevelView *level = [self.view viewWithTag:'levl'];
+
+    if (show)
+    {
+        control.hidden = YES;
+        level.hidden = NO;
+        _level = level.level;
+        _xmin = point.x - MaxPanDistance * _level;
+        _xmax = _xmin + MaxPanDistance;
+    }
+    else
+    {
+        control.hidden = NO;
+        level.hidden = YES;
+        _level = NAN;
+    }
 }
 
 - (NSImage *)playPauseImage
@@ -407,7 +474,7 @@
     return NO;
 }
 
-- (void)pressAction:(NSGestureRecognizer *)recognizer
+- (void)longPressAction:(NSGestureRecognizer *)recognizer
 {
     if (NSGestureRecognizerStateBegan != recognizer.state)
         return;
@@ -419,21 +486,69 @@
     switch (segment)
     {
     case 0:
-        if (LongPressDuration == [(NSPressGestureRecognizer *)recognizer minimumPressDuration])
-            PostAuxKeyPress(NX_KEYTYPE_NEXT);
-        break;
-    case 1:
-        if (ShortPressDuration == [(NSPressGestureRecognizer *)recognizer minimumPressDuration])
-        {
-        }
-        break;
-    case 2:
-        if (ShortPressDuration == [(NSPressGestureRecognizer *)recognizer minimumPressDuration])
-        {
-        }
+        PostAuxKeyPress(NX_KEYTYPE_NEXT);
         break;
     default:
         break;
+    }
+}
+
+- (void)shortPressAction:(NSGestureRecognizer *)recognizer
+{
+    switch (recognizer.state)
+    {
+    case NSGestureRecognizerStateBegan:
+    case NSGestureRecognizerStateEnded:
+    case NSGestureRecognizerStateCancelled:
+        break;
+    default:
+        return;
+    }
+
+    NSSegmentedControl *control = [self.view viewWithTag:'ctrl'];
+    NSPoint point = [recognizer locationInView:control];
+    NSInteger segment = [self segmentForX:point.x];
+
+    switch (segment)
+    {
+    case 1:
+        [self
+            showLevel:NSGestureRecognizerStateBegan == recognizer.state
+            anchorPoint:point];
+        break;
+    case 2:
+        [self
+            showLevel:NSGestureRecognizerStateBegan == recognizer.state
+            anchorPoint:point];
+        break;
+    default:
+        break;
+    }
+}
+
+- (void)panAction:(NSGestureRecognizer *)recognizer
+{
+    ControlWidgetLevelView *level;
+    NSPoint point;
+
+    switch (recognizer.state)
+    {
+    case NSGestureRecognizerStateBegan:
+    case NSGestureRecognizerStateChanged:
+        if (isnan(_level))
+            return;
+        point = [recognizer locationInView:self.view];
+        point.x = MAX(point.x, _xmin);
+        point.x = MIN(point.x, _xmax);
+        level = [self.view viewWithTag:'levl'];
+        level.level = (point.x - _xmin) / MaxPanDistance;
+        break;
+    case NSGestureRecognizerStateEnded:
+    case NSGestureRecognizerStateCancelled:
+        [self showLevel:NO anchorPoint:NSZeroPoint];
+        break;
+    default:
+        return;
     }
 }
 
