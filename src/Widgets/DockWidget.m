@@ -251,6 +251,7 @@ static CGFloat dockItemBounce = 10;
     view.userInterfaceLayoutDirection = NSUserInterfaceLayoutDirectionLeftToRight;
     view.orientation = NSUserInterfaceLayoutOrientationHorizontal;
     self.view = view;
+    [self resetPersistentItems];
 
     [[[NSWorkspace sharedWorkspace] notificationCenter]
         addObserver:self
@@ -456,13 +457,18 @@ static CGFloat dockItemBounce = 10;
 
 - (void)resetDefaultApps
 {
-    BOOL showsTrash = [[NSUserDefaults standardUserDefaults] boolForKey:@"showsTrash"];
-    [self.view viewWithTag:'sep '].hidden = !showsTrash;
-    [self.view viewWithTag:'trsh'].hidden = !showsTrash;
+    [self resetPersistentItems];
 
     NSScrubber *scrubber = [self.view viewWithTag:'dock'];
     self.defaultApps = nil;
     [scrubber reloadData];
+}
+
+- (void)resetPersistentItems
+{
+    BOOL showsTrash = [[NSUserDefaults standardUserDefaults] boolForKey:@"showsTrash"];
+    [self.view viewWithTag:'sep '].hidden = !showsTrash;
+    [self.view viewWithTag:'trsh'].hidden = !showsTrash;
 }
 
 - (void)resetRunningApps:(NSNotification *)notification
