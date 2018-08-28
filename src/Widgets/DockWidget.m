@@ -482,9 +482,9 @@ static const NSUInteger maxPersistentItemCount = 8;
 
             NSStackViewGravity gravity;
             NSNumber *value;
-            if ([c hasPrefix:@"L-"])
+            if ([c hasSuffix:@".lpinned"])
                 gravity = NSStackViewGravityLeading;
-            else if ([c hasPrefix:@"R-"])
+            else if ([c hasSuffix:@".pinned"])
                 gravity = NSStackViewGravityTrailing;
             else if ([url getResourceValue:&value forKey:NSURLIsApplicationKey error:0] &&
                 [value boolValue])
