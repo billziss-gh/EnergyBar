@@ -215,6 +215,61 @@
 }
 @end
 
+@interface ControlWidgetLevelView : NSView
+@property (assign) CGFloat level;
+@property (assign) CGFloat inset;
+@property (retain) NSColor *backgroundColor;
+@property (retain) NSColor *foregroundColor;
+@end
+
+@implementation ControlWidgetLevelView
+- (void)dealloc
+{
+    self.backgroundColor = nil;
+    self.foregroundColor = nil;
+
+    [super dealloc];
+}
+
+- (void)drawRect:(NSRect)rect
+{
+    NSColor *backgroundColor = self.backgroundColor;
+    NSColor *foregroundColor = self.foregroundColor;
+
+    if (nil == backgroundColor)
+        backgroundColor = [NSColor clearColor];
+    if (nil == foregroundColor)
+        foregroundColor = [NSColor systemBlueColor];
+
+    rect = self.bounds;
+
+    [backgroundColor setFill];
+    NSRectFillUsingOperation(rect, NSCompositingOperationSourceOver);
+
+    CGFloat inset = self.inset;
+    rect = NSInsetRect(rect, inset, inset);
+
+    [foregroundColor set];
+    CGFloat x = rect.origin.x + self.level * rect.size.width;
+    NSBezierPath *path = [NSBezierPath bezierPath];
+    [path moveToPoint:rect.origin];
+    [path lineToPoint:NSMakePoint(x, NSMinY(rect))];
+    [path lineToPoint:NSMakePoint(x, NSMidY(rect))];
+    [path closePath];
+    [path fill];
+}
+@end
+
+@interface ControlWidgetView : NSView
+@end
+
+@implementation ControlWidgetView
+- (NSSize)intrinsicContentSize
+{
+    return [[self.subviews firstObject] intrinsicContentSize];
+}
+@end
+
 @interface ControlWidget () <NSGestureRecognizerDelegate>
 @property (retain) ControlWidgetBrightnessBarController *brightnessBarController;
 @property (retain) ControlWidgetVolumeBarController *volumeBarController;
@@ -248,11 +303,29 @@
         trackingMode:NSSegmentSwitchTrackingMomentary
         target:self
         action:@selector(click:)];
-    [control addGestureRecognizer:longPress];
-    [control addGestureRecognizer:shortPress];
+    control.translatesAutoresizingMaskIntoConstraints = NO;
+    control.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+    control.tag = 'ctrl';
+
+    ControlWidgetLevelView *level = [[[ControlWidgetLevelView alloc]
+        initWithFrame:NSZeroRect] autorelease];
+    level.wantsLayer = YES;
+    level.layer.cornerRadius = 4.0;
+    level.layer.borderWidth = 1.0;
+    level.layer.borderColor = [[NSColor systemGrayColor] CGColor];
+    level.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+    level.level = 0.5;
+    level.inset = 4;
+    level.hidden = YES;
+
+    NSView *view = [[[ControlWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
+    [view addGestureRecognizer:longPress];
+    [view addGestureRecognizer:shortPress];
+    [view addSubview:control];
+    [view addSubview:level];
 
     self.customizationLabel = @"Control";
-    self.view = control;
+    self.view = view;
 
     [[NSNotificationCenter defaultCenter]
         addObserver:self
@@ -295,13 +368,13 @@
 
 - (void)nowPlayingNotification:(NSNotification *)notification
 {
-    NSSegmentedControl *control = self.view;
+    NSSegmentedControl *control = [self.view viewWithTag:'ctrl'];
     [control setImage:[self playPauseImage] forSegment:0];
 }
 
 - (void)audioControlNotification:(NSNotification *)notification
 {
-    NSSegmentedControl *control = self.view;
+    NSSegmentedControl *control = [self.view viewWithTag:'ctrl'];
     [control setImage:[self volumeMuteImage] forSegment:3];
 }
 
@@ -339,7 +412,7 @@
     if (NSGestureRecognizerStateBegan != recognizer.state)
         return;
 
-    NSSegmentedControl *control = self.view;
+    NSSegmentedControl *control = [self.view viewWithTag:'ctrl'];
     NSPoint point = [recognizer locationInView:control];
     NSInteger segment = [self segmentForX:point.x];
 
@@ -375,7 +448,7 @@
      *
      * So I am adapting here some code that I wrote a long time for "DarwinKit"...
      */
-    NSSegmentedControl *control = self.view;
+    NSSegmentedControl *control = [self.view viewWithTag:'ctrl'];
     NSRect rect = control.bounds;
     CGFloat widths[16] = { 0 }, totalWidth = 0;
     NSInteger count = control.segmentCount, zeroWidthCells = 0;
