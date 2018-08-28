@@ -545,7 +545,7 @@ In general the folder should contain application aliases. The order of the folde
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="resetAppsFromDockAction:" target="Voe-Tx-rLC" id="EaI-m9-3ed"/>
+                            <action selector="resetFromDockAction:" target="Voe-Tx-rLC" id="9rI-Xq-W3U"/>
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KCu-GU-fg1">

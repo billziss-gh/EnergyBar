@@ -180,7 +180,7 @@ static void AppControllerFSNotify(const char *path, void *data)
     [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] reset];
 }
 
-- (IBAction)resetAppsFromDockAction:(id)sender
+- (IBAction)resetFromDockAction:(id)sender
 {
     NSString *defaultAppsFolder = [[NSUserDefaults standardUserDefaults]
         stringForKey:@"defaultAppsFolder"];
@@ -236,8 +236,11 @@ static void AppControllerFSNotify(const char *path, void *data)
 
     NSUserDefaults *dockDefaults = [[[NSUserDefaults alloc]
         initWithSuiteName:@"com.apple.dock"] autorelease];
-    NSArray *dockApps = [[NSArray arrayWithObject:finderDict]
+    NSArray *dockApps = [NSArray arrayWithObject:finderDict];
+    dockApps = [dockApps
         arrayByAddingObjectsFromArray:[dockDefaults objectForKey:@"persistent-apps"]];
+    dockApps = [dockApps
+        arrayByAddingObjectsFromArray:[dockDefaults objectForKey:@"persistent-others"]];
     NSUInteger order = 0;
     for (NSDictionary *a in dockApps)
     {
