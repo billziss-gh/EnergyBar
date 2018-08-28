@@ -237,10 +237,12 @@ static const NSUInteger maxPersistentItemCount = 8;
     NSStackView *leftItemView = [NSStackView stackViewWithViews:[NSArray array]];
     leftItemView.userInterfaceLayoutDirection = NSUserInterfaceLayoutDirectionLeftToRight;
     leftItemView.orientation = NSUserInterfaceLayoutOrientationHorizontal;
+    leftItemView.spacing = 0;
 
     NSStackView *rightItemView = [NSStackView stackViewWithViews:[NSArray array]];
     rightItemView.userInterfaceLayoutDirection = NSUserInterfaceLayoutDirectionLeftToRight;
     rightItemView.orientation = NSUserInterfaceLayoutOrientationHorizontal;
+    rightItemView.spacing = 0;
 
     NSImageView *separator = [NSImageView imageViewWithImage:[NSImage imageNamed:@"DockSep"]];
     separator.translatesAutoresizingMaskIntoConstraints = NO;
@@ -263,6 +265,7 @@ static const NSUInteger maxPersistentItemCount = 8;
         nil]];
     view.userInterfaceLayoutDirection = NSUserInterfaceLayoutDirectionLeftToRight;
     view.orientation = NSUserInterfaceLayoutOrientationHorizontal;
+    view.spacing = 0;
     self.view = view;
     [self resetPersistentItems];
 
