@@ -16,6 +16,7 @@
 #import "NSWorkspace+Trashcan.h"
 
 static NSSize dockItemSize = { 50, 30 };
+static CGFloat dockDotHeight = 4;
 static CGFloat dockItemBounce = 10;
 static const NSUInteger maxPersistentItemCount = 8;
 
@@ -163,10 +164,10 @@ static const NSUInteger maxPersistentItemCount = 8;
 - (void)resizeSubviewsWithOldSize:(NSSize)oldSize
 {
     NSRect iconRect = self.bounds;
-    if (iconRect.size.height >= 4)
+    if (iconRect.size.height >= dockDotHeight)
     {
-        iconRect.origin.y += 4;
-        iconRect.size.height -= 4;
+        iconRect.origin.y += dockDotHeight;
+        iconRect.size.height -= dockDotHeight;
     }
     self.appIconView.frame = iconRect;
 
@@ -525,8 +526,15 @@ static const NSUInteger maxPersistentItemCount = 8;
             return;
         }
 
+        NSSize iconSize = NSMakeSize(dockItemSize.height, dockItemSize.height); // square!
+        NSRect iconRect = NSMakeRect(dockDotHeight / 2, dockDotHeight,
+            iconSize.height - dockDotHeight, iconSize.height - dockDotHeight);  // square!
+        NSImage *image = [self
+            makeImageWithSize:iconSize
+            drawImage:[[NSWorkspace sharedWorkspace] iconForFile:url.path]
+            inRect:iconRect];
         NSButton *button = [DockWidgetButton
-            buttonWithImage:[[NSWorkspace sharedWorkspace] iconForFile:url.path]
+            buttonWithImage:image
             target:self
             action:@selector(persistentItemClick:)];
         button.translatesAutoresizingMaskIntoConstraints = NO;
@@ -716,5 +724,21 @@ static const NSUInteger maxPersistentItemCount = 8;
 - (void)trashcanClick:(id)sender
 {
     [[NSWorkspace sharedWorkspace] openTrashcan];
+}
+
+- (NSImage *)makeImageWithSize:(NSSize)newSize
+    drawImage:(NSImage *)oldImage inRect:(NSRect)newRect
+{
+    NSSize oldSize = oldImage.size;
+    NSImage *newImage = [[[NSImage alloc] initWithSize:newSize] autorelease];
+    [newImage lockFocus];
+    [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
+    [oldImage
+        drawInRect:newRect
+        fromRect:NSMakeRect(0, 0, oldSize.width, oldSize.height)
+        operation:NSCompositingOperationCopy
+        fraction:1.0];
+    [newImage unlockFocus];
+    return newImage;
 }
 @end
