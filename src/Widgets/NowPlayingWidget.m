@@ -124,7 +124,7 @@ static CGFloat spacerWidth = 4;
     NSPressGestureRecognizer *pressRecognizer = [[[NSPressGestureRecognizer alloc]
         initWithTarget:self action:@selector(pressAction:)] autorelease];
     pressRecognizer.allowedTouchTypes = NSTouchTypeMaskDirect;
-    pressRecognizer.minimumPressDuration = 1.0;
+    pressRecognizer.minimumPressDuration = LongPressDuration;
     self.view = [[[NowPlayingWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
     [self.view addGestureRecognizer:clickRecognizer];
     [self.view addGestureRecognizer:pressRecognizer];

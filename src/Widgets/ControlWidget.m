@@ -229,7 +229,7 @@
     NSPressGestureRecognizer *recognizer = [[[NSPressGestureRecognizer alloc]
         initWithTarget:self action:@selector(pressAction:)] autorelease];
     recognizer.allowedTouchTypes = NSTouchTypeMaskDirect;
-    recognizer.minimumPressDuration = 1.0;
+    recognizer.minimumPressDuration = LongPressDuration;
     NSSegmentedControl *control = [NSSegmentedControl
         segmentedControlWithImages:[NSArray arrayWithObjects:
             [self playPauseImage],

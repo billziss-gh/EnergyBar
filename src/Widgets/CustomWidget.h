@@ -13,6 +13,9 @@
 
 #import <Cocoa/Cocoa.h>
 
+#define ShortPressDuration              0.25
+#define LongPressDuration               1.0
+
 @interface CustomWidget : NSCustomTouchBarItem
 - (void)commonInit;
 - (void)viewWillAppear;

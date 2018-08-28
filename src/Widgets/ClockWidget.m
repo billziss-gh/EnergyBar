@@ -31,7 +31,7 @@
     NSPressGestureRecognizer *recognizer = [[[NSPressGestureRecognizer alloc]
         initWithTarget:self action:@selector(pressAction:)] autorelease];
     recognizer.allowedTouchTypes = NSTouchTypeMaskDirect;
-    recognizer.minimumPressDuration = 1.0;
+    recognizer.minimumPressDuration = LongPressDuration;
 
     FixedSizeLabel *label = [FixedSizeLabel labelWithString:@"9:41 am"];
     label.wantsLayer = YES;
