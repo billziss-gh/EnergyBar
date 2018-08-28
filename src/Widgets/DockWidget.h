@@ -15,5 +15,5 @@
 #import "CustomWidget.h"
 
 @interface DockWidget : CustomWidget
-- (void)resetDefaultApps;
+- (void)reset;
 @end

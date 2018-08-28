@@ -168,7 +168,7 @@ static void AppControllerFSNotify(const char *path, void *data)
 
 - (void)fsnotify:(const char *)path
 {
-    [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] resetDefaultApps];
+    [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] reset];
 }
 
 - (IBAction)appsFolderAction:(id)sender
@@ -177,7 +177,7 @@ static void AppControllerFSNotify(const char *path, void *data)
     _stream = FSNotifyStart([[[NSUserDefaults standardUserDefaults]
         stringForKey:@"defaultAppsFolder"] UTF8String], AppControllerFSNotify, self);
 
-    [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] resetDefaultApps];
+    [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] reset];
 }
 
 - (IBAction)resetAppsFromDockAction:(id)sender
@@ -280,12 +280,12 @@ static void AppControllerFSNotify(const char *path, void *data)
 
 - (IBAction)showsRunningAppsAction:(id)sender
 {
-    [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] resetDefaultApps];
+    [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] reset];
 }
 
 - (IBAction)showsTrashAction:(id)sender
 {
-    [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] resetDefaultApps];
+    [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] reset];
 }
 
 - (void)updateToggleMacOSDockButton

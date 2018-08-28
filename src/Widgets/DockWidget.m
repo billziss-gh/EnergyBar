@@ -12,10 +12,12 @@
  */
 
 #import "DockWidget.h"
+#import <objc/runtime.h>
 #import "NSWorkspace+Trashcan.h"
 
 static NSSize dockItemSize = { 50, 30 };
 static CGFloat dockItemBounce = 10;
+static const NSUInteger maxPersistentItemCount = 8;
 
 @interface DockWidgetApplication : NSObject <NSCopying>
 @property (retain) NSString *name;
@@ -231,6 +233,14 @@ static CGFloat dockItemBounce = 10;
     scrubber.itemAlignment = NSScrubberAlignmentNone;
     scrubber.scrubberLayout = layout;
 
+    NSStackView *leftItemView = [NSStackView stackViewWithViews:[NSArray array]];
+    leftItemView.userInterfaceLayoutDirection = NSUserInterfaceLayoutDirectionLeftToRight;
+    leftItemView.orientation = NSUserInterfaceLayoutOrientationHorizontal;
+
+    NSStackView *rightItemView = [NSStackView stackViewWithViews:[NSArray array]];
+    rightItemView.userInterfaceLayoutDirection = NSUserInterfaceLayoutDirectionLeftToRight;
+    rightItemView.orientation = NSUserInterfaceLayoutOrientationHorizontal;
+
     NSImageView *separator = [NSImageView imageViewWithImage:[NSImage imageNamed:@"DockSep"]];
     separator.translatesAutoresizingMaskIntoConstraints = NO;
     separator.tag = 'sep ';
@@ -244,8 +254,10 @@ static CGFloat dockItemBounce = 10;
     button.tag = 'trsh';
 
     DockWidgetView *view = [DockWidgetView stackViewWithViews:[NSArray arrayWithObjects:
+        leftItemView,
         scrubber,
         separator,
+        rightItemView,
         button,
         nil]];
     view.userInterfaceLayoutDirection = NSUserInterfaceLayoutDirectionLeftToRight;
@@ -334,31 +346,18 @@ static CGFloat dockItemBounce = 10;
         self.runningApps = nil;
 
         NSMutableArray *newDefaultApps = [NSMutableArray array];
-        NSString *defaultAppsFolder = [[NSUserDefaults standardUserDefaults]
-            stringForKey:@"defaultAppsFolder"];
-        if (nil != defaultAppsFolder)
+        [self enumerateDefaultAppsFolder:^(NSURL *url, NSStackViewGravity gravity)
         {
-            NSArray *contents = [[NSFileManager defaultManager]
-                contentsOfDirectoryAtPath:defaultAppsFolder error:0];
-            contents = [contents sortedArrayUsingSelector:@selector(compare:)];
-            for (NSString *c in contents)
-            {
-                if ([c hasPrefix:@"."])
-                    continue;
+            if (NSStackViewGravityCenter != gravity)
+                return;
 
-                NSURL *url = [NSURL
-                    URLByResolvingAliasFileAtURL:[NSURL
-                        fileURLWithPath:[defaultAppsFolder stringByAppendingPathComponent:c]]
-                    options:NSURLBookmarkResolutionWithoutUI|NSURLBookmarkResolutionWithoutMounting
-                    error:0];
-                DockWidgetApplication *app = [[[DockWidgetApplication alloc] init] autorelease];
-                app.name = c;
-                app.path = url.path;
-                app.icon = [[NSWorkspace sharedWorkspace] iconForFile:app.path];
-                app.isDefault = YES;
-                [newDefaultApps addObject:app];
-            }
-        }
+            DockWidgetApplication *app = [[[DockWidgetApplication alloc] init] autorelease];
+            app.name = [url.path lastPathComponent];
+            app.path = url.path;
+            app.icon = [[NSWorkspace sharedWorkspace] iconForFile:app.path];
+            app.isDefault = YES;
+            [newDefaultApps addObject:app];
+        }];
 
         if (0 == newDefaultApps.count)
         {
@@ -455,10 +454,52 @@ static CGFloat dockItemBounce = 10;
     return apps;
 }
 
-- (void)resetDefaultApps
+- (void)enumerateDefaultAppsFolder:(void (^)(NSURL *url, NSStackViewGravity gravity))block
+{
+    NSString *defaultAppsFolder = [[NSUserDefaults standardUserDefaults]
+        stringForKey:@"defaultAppsFolder"];
+    if (nil != defaultAppsFolder)
+    {
+        NSArray *contents = [[NSFileManager defaultManager]
+            contentsOfDirectoryAtPath:defaultAppsFolder error:0];
+        contents = [contents sortedArrayUsingSelector:@selector(localizedStandardCompare:)];
+        for (NSString *c in contents)
+        {
+            if ([c hasPrefix:@"."])
+                continue;
+
+            NSURL *url = [NSURL
+                URLByResolvingAliasFileAtURL:[NSURL
+                    fileURLWithPath:[defaultAppsFolder stringByAppendingPathComponent:c]]
+                options:NSURLBookmarkResolutionWithoutUI|NSURLBookmarkResolutionWithoutMounting
+                error:0];
+            if (nil == url)
+                continue;
+
+            NSStackViewGravity gravity;
+            NSNumber *value;
+            if ([c hasPrefix:@"L-"])
+                gravity = NSStackViewGravityLeading;
+            else if ([c hasPrefix:@"R-"])
+                gravity = NSStackViewGravityTrailing;
+            else if ([url getResourceValue:&value forKey:NSURLIsApplicationKey error:0] &&
+                [value boolValue])
+                gravity = NSStackViewGravityCenter;
+            else
+                gravity = NSStackViewGravityTrailing;
+            block(url, gravity);
+        }
+    }
+}
+
+- (void)reset
 {
     [self resetPersistentItems];
+    [self resetDefaultApps];
+}
 
+- (void)resetDefaultApps
+{
     NSScrubber *scrubber = [self.view viewWithTag:'dock'];
     self.defaultApps = nil;
     [scrubber reloadData];
@@ -466,9 +507,55 @@ static CGFloat dockItemBounce = 10;
 
 - (void)resetPersistentItems
 {
+    NSMutableArray *leftViews = [NSMutableArray array];
+    NSMutableArray *rightViews = [NSMutableArray array];
+    [self enumerateDefaultAppsFolder:^(NSURL *url, NSStackViewGravity gravity)
+    {
+        switch (gravity)
+        {
+        case NSStackViewGravityLeading:
+            if (maxPersistentItemCount < leftViews.count)
+                return;
+            break;
+        case NSStackViewGravityTrailing:
+            if (maxPersistentItemCount < rightViews.count)
+                return;
+            break;
+        default:
+            return;
+        }
+
+        NSButton *button = [DockWidgetButton
+            buttonWithImage:[[NSWorkspace sharedWorkspace] iconForFile:url.path]
+            target:self
+            action:@selector(persistentItemClick:)];
+        button.translatesAutoresizingMaskIntoConstraints = NO;
+        button.bordered = NO;
+        objc_setAssociatedObject(button, [DockWidget class], url, OBJC_ASSOCIATION_RETAIN);
+
+        switch (gravity)
+        {
+        case NSStackViewGravityLeading:
+            [leftViews addObject:button];
+            break;
+        case NSStackViewGravityTrailing:
+            [rightViews addObject:button];
+            break;
+        default:
+            break;
+        }
+    }];
+
     BOOL showsTrash = [[NSUserDefaults standardUserDefaults] boolForKey:@"showsTrash"];
-    [self.view viewWithTag:'sep '].hidden = !showsTrash;
+    [self.view viewWithTag:'sep '].hidden = !(showsTrash || 0 < rightViews.count);
     [self.view viewWithTag:'trsh'].hidden = !showsTrash;
+
+    DockWidgetView *view = self.view;
+    NSStackView *leftItemView = [view.views objectAtIndex:0];
+    NSStackView *rightItemView = [view.views objectAtIndex:3];
+
+    [leftItemView setViews:leftViews inGravity:NSStackViewGravityTrailing];
+    [rightItemView setViews:rightViews inGravity:NSStackViewGravityTrailing];
 }
 
 - (void)resetRunningApps:(NSNotification *)notification
@@ -605,6 +692,13 @@ static CGFloat dockItemBounce = 10;
         self.runningApps = nil;
         [scrubber reloadData];
     }
+}
+
+- (void)persistentItemClick:(id)sender
+{
+    NSURL *url = objc_getAssociatedObject(sender, [DockWidget class]);
+    if (nil != url)
+        [[NSWorkspace sharedWorkspace] openURL:url];
 }
 
 - (NSImage *)trashcanImage
