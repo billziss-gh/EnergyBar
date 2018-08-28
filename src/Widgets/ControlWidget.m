@@ -340,6 +340,7 @@
 {
     CGFloat _level;
     CGFloat _xmin, _xmax;
+    NSInteger _levelKind;
 }
 
 - (void)commonInit
@@ -428,7 +429,7 @@
     [super dealloc];
 }
 
-- (void)showLevel:(BOOL)show withWidth:(CGFloat)width anchorPoint:(NSPoint)point
+- (void)showLevel:(BOOL)show value:(CGFloat)value width:(CGFloat)width anchorPoint:(NSPoint)point
 {
     NSSegmentedControl *control = [self.view viewWithTag:'ctrl'];
     ControlWidgetLevelView *level = [self.view viewWithTag:'levl'];
@@ -437,6 +438,7 @@
     {
         control.hidden = YES;
         level.hidden = NO;
+        level.level = isnan(value) ? 0.5 : value;
         level.indicatorWidth = width;
         _level = level.level;
         _xmin = point.x - MaxPanDistance * _level;
@@ -448,6 +450,13 @@
         level.hidden = YES;
         _level = NAN;
     }
+}
+
+- (void)updateLevelValue:(CGFloat)value
+{
+    ControlWidgetLevelView *level = [self.view viewWithTag:'levl'];
+
+    level.level = isnan(value) ? 0.5 : value;
 }
 
 - (NSImage *)playPauseImage
@@ -544,14 +553,18 @@
     case 1:
         [self
             showLevel:NSGestureRecognizerStateBegan == recognizer.state
-            withWidth:+IndicatorWidth
+            value:GetDisplayBrightness()
+            width:+IndicatorWidth
             anchorPoint:point];
+        _levelKind = 'brgt';
         break;
     case 2:
         [self
             showLevel:NSGestureRecognizerStateBegan == recognizer.state
-            withWidth:+IndicatorWidth
+            value:[AudioControl sharedInstance].volume
+            width:+IndicatorWidth
             anchorPoint:point];
+        _levelKind = 'audi';
         break;
     default:
         break;
@@ -560,24 +573,31 @@
 
 - (void)panAction:(NSGestureRecognizer *)recognizer
 {
-    ControlWidgetLevelView *level;
-    NSPoint point;
-
     switch (recognizer.state)
     {
     case NSGestureRecognizerStateBegan:
     case NSGestureRecognizerStateChanged:
         if (isnan(_level))
             return;
-        point = [recognizer locationInView:self.view];
+        NSPoint point = [recognizer locationInView:self.view];
         point.x = MAX(point.x, _xmin);
         point.x = MIN(point.x, _xmax);
-        level = [self.view viewWithTag:'levl'];
-        level.level = (point.x - _xmin) / MaxPanDistance;
+        CGFloat level = (point.x - _xmin) / MaxPanDistance;
+        [self updateLevelValue:level];
+        switch (_levelKind)
+        {
+        case 'brgt':
+            SetDisplayBrightness(level);
+            break;
+        case 'audi':
+            [AudioControl sharedInstance].volume = level;
+            [AudioControl sharedInstance].mute = level < 1.0 / (16 * 4);
+            break;
+        }
         break;
     case NSGestureRecognizerStateEnded:
     case NSGestureRecognizerStateCancelled:
-        [self showLevel:NO withWidth:0 anchorPoint:NSZeroPoint];
+        [self showLevel:NO value:0 width:0 anchorPoint:NSZeroPoint];
         break;
     default:
         return;
