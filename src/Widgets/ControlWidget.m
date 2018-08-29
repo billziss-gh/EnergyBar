@@ -218,7 +218,7 @@
 @end
 
 @interface ControlWidgetLevelView : NSView
-@property (getter=level, setter=setLevel:) CGFloat level;
+@property (getter=value, setter=setValue:) double value;
 @property (getter=indicatorWidth, setter=setIndicatorWidth:) CGFloat indicatorWidth;
 @property (assign) CGFloat inset;
 @property (retain) NSColor *backgroundColor;
@@ -227,7 +227,7 @@
 
 @implementation ControlWidgetLevelView
 {
-    CGFloat _level;
+    double _value;
     CGFloat _indicatorWidth;
     NSInteger _tag;
 }
@@ -270,7 +270,7 @@
         rect.size.width = MIN(indicatorWidth, rect.size.width);
 
     [foregroundColor set];
-    CGFloat level = self.level;
+    CGFloat level = self.value;
     CGFloat x = rect.origin.x + level * rect.size.width;
     CGFloat y = rect.origin.y + level * rect.size.height;
     NSBezierPath *path = [NSBezierPath bezierPath];
@@ -281,17 +281,17 @@
     [path fill];
 }
 
-- (CGFloat)level
+- (double)value
 {
-    return _level;
+    return _value;
 }
 
-- (void)setLevel:(CGFloat)value
+- (void)setValue:(double)value
 {
-    if (_level == value)
+    if (_value == value)
         return;
 
-    _level = value;
+    _value = value;
     [self setNeedsDisplay:YES];
 }
 
@@ -345,17 +345,14 @@
 
 @implementation ControlWidget
 {
-    CGFloat _level;
-    CGFloat _xmin, _xmax;
     NSInteger _levelKind;
+    CGFloat _xmin, _xmax;
 }
 
 - (void)commonInit
 {
     self.brightnessBarController = [ControlWidgetBrightnessBarController controller];
     self.volumeBarController = [ControlWidgetVolumeBarController controller];
-
-    _level = NAN;
 
     NSPressGestureRecognizer *longPress = [[[NSPressGestureRecognizer alloc]
         initWithTarget:self action:@selector(longPressAction:)] autorelease];
@@ -368,11 +365,6 @@
     shortPress.delegate = self;
     shortPress.allowedTouchTypes = NSTouchTypeMaskDirect;
     shortPress.minimumPressDuration = ShortPressDuration;
-
-    NSPanGestureRecognizer *pan = [[[NSPanGestureRecognizer alloc]
-        initWithTarget:self action:@selector(panAction:)] autorelease];
-    pan.delegate = self;
-    pan.allowedTouchTypes = NSTouchTypeMaskDirect;
 
     NSSegmentedControl *control = [NSSegmentedControl
         segmentedControlWithImages:[NSArray arrayWithObjects:
@@ -396,7 +388,7 @@
     level.layer.borderColor = [[NSColor systemGrayColor] CGColor];
     level.translatesAutoresizingMaskIntoConstraints = NO;
     level.autoresizingMask = NSViewNotSizable;
-    level.level = 0.5;
+    level.value = 0.5;
     level.inset = 4;
     level.tag = 'levl';
     level.hidden = YES;
@@ -404,7 +396,6 @@
     NSView *view = [[[ControlWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
     [view addGestureRecognizer:longPress];
     [view addGestureRecognizer:shortPress];
-    [view addGestureRecognizer:pan];
     [view addSubview:control];
     [view addSubview:level];
 
@@ -435,35 +426,6 @@
     self.volumeBarController = nil;
 
     [super dealloc];
-}
-
-- (void)showLevel:(BOOL)show value:(CGFloat)value anchorPoint:(NSPoint)point
-{
-    NSSegmentedControl *control = [self.view viewWithTag:'ctrl'];
-    ControlWidgetLevelView *level = [self.view viewWithTag:'levl'];
-
-    if (show)
-    {
-        control.hidden = YES;
-        level.hidden = NO;
-        level.level = isnan(value) ? 0.5 : value;
-        _level = level.level;
-        _xmin = point.x - MaxPanDistance * _level;
-        _xmax = _xmin + MaxPanDistance;
-    }
-    else
-    {
-        control.hidden = NO;
-        level.hidden = YES;
-        _level = NAN;
-    }
-}
-
-- (void)updateLevelValue:(CGFloat)value
-{
-    ControlWidgetLevelView *level = [self.view viewWithTag:'levl'];
-
-    level.level = isnan(value) ? 0.5 : value;
 }
 
 - (NSImage *)playPauseImage
@@ -544,71 +506,89 @@
     switch (recognizer.state)
     {
     case NSGestureRecognizerStateBegan:
+        [self shortPressBegan:recognizer];
+        break;
+    case NSGestureRecognizerStateChanged:
+        [self shortPressChanged:recognizer];
+        break;
     case NSGestureRecognizerStateEnded:
     case NSGestureRecognizerStateCancelled:
+        [self shortPressEnded:recognizer];
+        break;
+    default:
+        return;
+    }
+}
+
+- (void)shortPressBegan:(NSGestureRecognizer *)recognizer
+{
+    if (0 != _levelKind)
+        return;
+
+    NSSegmentedControl *control = [self.view viewWithTag:'ctrl'];
+    ControlWidgetLevelView *level = [self.view viewWithTag:'levl'];
+    NSPoint point = [recognizer locationInView:control];
+    NSInteger segment = [self segmentForX:point.x];
+
+    double value;
+    switch (segment)
+    {
+    case 1:
+        _levelKind = 'brgt';
+        value = GetDisplayBrightness();
+        break;
+    case 2:
+        _levelKind = 'audi';
+        value = [AudioControl sharedInstance].volume;
         break;
     default:
         return;
     }
 
-    NSSegmentedControl *control = [self.view viewWithTag:'ctrl'];
-    NSPoint point = [recognizer locationInView:control];
-    NSInteger segment = [self segmentForX:point.x];
+    if (isnan(value))
+        value = 0.5;
+    _xmin = point.x - MaxPanDistance * value;
+    _xmax = _xmin + MaxPanDistance;
 
-    switch (segment)
+    control.hidden = YES;
+    level.hidden = NO;
+    level.value = value;
+}
+
+- (void)shortPressChanged:(NSGestureRecognizer *)recognizer
+{
+    if (0 == _levelKind)
+        return;
+
+    ControlWidgetLevelView *level = [self.view viewWithTag:'levl'];
+    NSPoint point = [recognizer locationInView:self.view];
+    point.x = MAX(point.x, _xmin);
+    point.x = MIN(point.x, _xmax);
+    CGFloat value = (point.x - _xmin) / MaxPanDistance;
+    level.value = isnan(value) ? 0.5 : value;
+    switch (_levelKind)
     {
-    case 1:
-        [self
-            showLevel:NSGestureRecognizerStateBegan == recognizer.state
-            value:GetDisplayBrightness()
-            anchorPoint:point];
-        _levelKind = 'brgt';
+    case 'brgt':
+        SetDisplayBrightness(value);
         break;
-    case 2:
-        [self
-            showLevel:NSGestureRecognizerStateBegan == recognizer.state
-            value:[AudioControl sharedInstance].volume
-            anchorPoint:point];
-        _levelKind = 'audi';
-        break;
-    default:
+    case 'audi':
+        [AudioControl sharedInstance].volume = value;
+        [AudioControl sharedInstance].mute = value < 1.0 / (16 * 4);
         break;
     }
 }
 
-- (void)panAction:(NSGestureRecognizer *)recognizer
+- (void)shortPressEnded:(NSGestureRecognizer *)recognizer
 {
-    if (isnan(_level))
+    if (0 == _levelKind)
         return;
 
-    NSPoint point;
-    switch (recognizer.state)
-    {
-    case NSGestureRecognizerStateBegan:
-    case NSGestureRecognizerStateChanged:
-        point = [recognizer locationInView:self.view];
-        point.x = MAX(point.x, _xmin);
-        point.x = MIN(point.x, _xmax);
-        CGFloat level = (point.x - _xmin) / MaxPanDistance;
-        [self updateLevelValue:level];
-        switch (_levelKind)
-        {
-        case 'brgt':
-            SetDisplayBrightness(level);
-            break;
-        case 'audi':
-            [AudioControl sharedInstance].volume = level;
-            [AudioControl sharedInstance].mute = level < 1.0 / (16 * 4);
-            break;
-        }
-        break;
-    case NSGestureRecognizerStateEnded:
-    case NSGestureRecognizerStateCancelled:
-        [self showLevel:NO value:0 anchorPoint:NSZeroPoint];
-        break;
-    default:
-        return;
-    }
+    NSSegmentedControl *control = [self.view viewWithTag:'ctrl'];
+    ControlWidgetLevelView *level = [self.view viewWithTag:'levl'];
+    control.hidden = NO;
+    level.hidden = YES;
+
+    _levelKind = 0;
 }
 
 - (NSInteger)segmentForX:(CGFloat)x
