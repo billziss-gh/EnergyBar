@@ -569,13 +569,15 @@
 
 - (void)panAction:(NSGestureRecognizer *)recognizer
 {
+    if (isnan(_level))
+        return;
+
+    NSPoint point;
     switch (recognizer.state)
     {
     case NSGestureRecognizerStateBegan:
     case NSGestureRecognizerStateChanged:
-        if (isnan(_level))
-            return;
-        NSPoint point = [recognizer locationInView:self.view];
+        point = [recognizer locationInView:self.view];
         point.x = MAX(point.x, _xmin);
         point.x = MIN(point.x, _xmax);
         CGFloat level = (point.x - _xmin) / MaxPanDistance;
