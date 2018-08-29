@@ -328,6 +328,14 @@
 {
     return [[self.subviews firstObject] intrinsicContentSize];
 }
+
+- (void)resizeSubviewsWithOldSize:(NSSize)size
+{
+    NSView *view = [self.subviews lastObject];
+    NSRect rect = view.frame;
+    rect.origin.y = (self.bounds.size.height - rect.size.height) / 2;
+    view.frame = rect;
+}
 @end
 
 @interface ControlWidget () <NSGestureRecognizerDelegate>
@@ -381,12 +389,13 @@
     control.tag = 'ctrl';
 
     ControlWidgetLevelView *level = [[[ControlWidgetLevelView alloc]
-        initWithFrame:NSMakeRect(0, 0, MaxPanDistance, 0)] autorelease];
+        initWithFrame:NSMakeRect(0, 0, MaxPanDistance, 20)] autorelease];
     level.wantsLayer = YES;
     level.layer.cornerRadius = 4.0;
     level.layer.borderWidth = 1.0;
     level.layer.borderColor = [[NSColor systemGrayColor] CGColor];
-    level.autoresizingMask = NSViewHeightSizable;
+    level.translatesAutoresizingMaskIntoConstraints = NO;
+    level.autoresizingMask = NSViewNotSizable;
     level.level = 0.5;
     level.inset = 4;
     level.tag = 'levl';
