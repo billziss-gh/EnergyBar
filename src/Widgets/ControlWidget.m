@@ -338,14 +338,14 @@
 }
 @end
 
-@interface ControlWidget () <NSGestureRecognizerDelegate>
+@interface ControlWidget ()
 @property (retain) ControlWidgetBrightnessBarController *brightnessBarController;
 @property (retain) ControlWidgetVolumeBarController *volumeBarController;
 @end
 
 @implementation ControlWidget
 {
-    NSInteger _levelKind;
+    NSInteger _pressKind;
     CGFloat _xmin, _xmax;
 }
 
@@ -354,15 +354,8 @@
     self.brightnessBarController = [ControlWidgetBrightnessBarController controller];
     self.volumeBarController = [ControlWidgetVolumeBarController controller];
 
-    NSPressGestureRecognizer *longPress = [[[NSPressGestureRecognizer alloc]
-        initWithTarget:self action:@selector(longPressAction:)] autorelease];
-    longPress.delegate = self;
-    longPress.allowedTouchTypes = NSTouchTypeMaskDirect;
-    longPress.minimumPressDuration = LongPressDuration;
-
     NSPressGestureRecognizer *shortPress = [[[NSPressGestureRecognizer alloc]
         initWithTarget:self action:@selector(shortPressAction:)] autorelease];
-    shortPress.delegate = self;
     shortPress.allowedTouchTypes = NSTouchTypeMaskDirect;
     shortPress.minimumPressDuration = ShortPressDuration;
 
@@ -394,7 +387,6 @@
     level.hidden = YES;
 
     NSView *view = [[[ControlWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
-    [view addGestureRecognizer:longPress];
     [view addGestureRecognizer:shortPress];
     [view addSubview:control];
     [view addSubview:level];
@@ -473,34 +465,6 @@
     }
 }
 
-- (BOOL)gestureRecognizer:(NSGestureRecognizer *)recognizer
-    shouldRecognizeSimultaneouslyWithGestureRecognizer:(NSGestureRecognizer *)otherRecognizer
-{
-    if ([self.view.gestureRecognizers containsObject:recognizer] &&
-        [self.view.gestureRecognizers containsObject:otherRecognizer])
-        return YES;
-    return NO;
-}
-
-- (void)longPressAction:(NSGestureRecognizer *)recognizer
-{
-    if (NSGestureRecognizerStateBegan != recognizer.state)
-        return;
-
-    NSSegmentedControl *control = [self.view viewWithTag:'ctrl'];
-    NSPoint point = [recognizer locationInView:control];
-    NSInteger segment = [self segmentForX:point.x];
-
-    switch (segment)
-    {
-    case 0:
-        PostAuxKeyPress(NX_KEYTYPE_NEXT);
-        break;
-    default:
-        break;
-    }
-}
-
 - (void)shortPressAction:(NSGestureRecognizer *)recognizer
 {
     switch (recognizer.state)
@@ -522,23 +486,27 @@
 
 - (void)shortPressBegan:(NSGestureRecognizer *)recognizer
 {
-    if (0 != _levelKind)
+    if (0 != _pressKind)
         return;
 
     NSSegmentedControl *control = [self.view viewWithTag:'ctrl'];
     ControlWidgetLevelView *level = [self.view viewWithTag:'levl'];
     NSPoint point = [recognizer locationInView:control];
     NSInteger segment = [self segmentForX:point.x];
-
     double value;
+
     switch (segment)
     {
+    case 0:
+        _pressKind = 'play';
+        value = 0.5;
+        break;
     case 1:
-        _levelKind = 'brgt';
+        _pressKind = 'brgt';
         value = GetDisplayBrightness();
         break;
     case 2:
-        _levelKind = 'audi';
+        _pressKind = 'audi';
         value = [AudioControl sharedInstance].volume;
         break;
     default:
@@ -550,6 +518,9 @@
     _xmin = point.x - MaxPanDistance * value;
     _xmax = _xmin + MaxPanDistance;
 
+    if ('play' == _pressKind)
+        return;
+
     control.hidden = YES;
     level.hidden = NO;
     level.value = value;
@@ -557,21 +528,32 @@
 
 - (void)shortPressChanged:(NSGestureRecognizer *)recognizer
 {
-    if (0 == _levelKind)
+    if (0 == _pressKind)
         return;
 
+    NSSegmentedControl *control = [self.view viewWithTag:'ctrl'];
     ControlWidgetLevelView *level = [self.view viewWithTag:'levl'];
     NSPoint point = [recognizer locationInView:self.view];
     point.x = MAX(point.x, _xmin);
     point.x = MIN(point.x, _xmax);
-    CGFloat value = (point.x - _xmin) / MaxPanDistance;
-    level.value = isnan(value) ? 0.5 : value;
-    switch (_levelKind)
+    double value = (point.x - _xmin) / MaxPanDistance;
+
+    switch (_pressKind)
     {
+    case 'play':
+        if (0.25 > value)
+            [control setImage:[NSImage imageNamed:NSImageNameTouchBarSkipBackTemplate] forSegment:0];
+        else if (0.25 <= value && value <= 0.75)
+            [control setImage:[self playPauseImage] forSegment:0];
+        else
+            [control setImage:[NSImage imageNamed:NSImageNameTouchBarSkipAheadTemplate] forSegment:0];
+        break;
     case 'brgt':
+        level.value = isnan(value) ? 0.5 : value;
         SetDisplayBrightness(value);
         break;
     case 'audi':
+        level.value = isnan(value) ? 0.5 : value;
         [AudioControl sharedInstance].volume = value;
         [AudioControl sharedInstance].mute = value < 1.0 / (16 * 4);
         break;
@@ -580,15 +562,34 @@
 
 - (void)shortPressEnded:(NSGestureRecognizer *)recognizer
 {
-    if (0 == _levelKind)
+    if (0 == _pressKind)
         return;
 
     NSSegmentedControl *control = [self.view viewWithTag:'ctrl'];
     ControlWidgetLevelView *level = [self.view viewWithTag:'levl'];
-    control.hidden = NO;
-    level.hidden = YES;
+    NSPoint point = [recognizer locationInView:self.view];
+    point.x = MAX(point.x, _xmin);
+    point.x = MIN(point.x, _xmax);
+    double value = (point.x - _xmin) / MaxPanDistance;
 
-    _levelKind = 0;
+    switch (_pressKind)
+    {
+    case 'play':
+        if (0.25 > value)
+            PostAuxKeyPress(NX_KEYTYPE_PREVIOUS);
+        else if (0.25 <= value && value <= 0.75)
+            ;
+        else
+            PostAuxKeyPress(NX_KEYTYPE_NEXT);
+        [control setImage:[self playPauseImage] forSegment:0];
+        break;
+    default:
+        control.hidden = NO;
+        level.hidden = YES;
+        break;
+    }
+
+    _pressKind = 0;
 }
 
 - (NSInteger)segmentForX:(CGFloat)x
