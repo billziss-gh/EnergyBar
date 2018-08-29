@@ -16,7 +16,7 @@
 
 #include <stdint.h>
 
-void PostKeyPress(uint16_t keyCode);
+void PostKeyPress(uint16_t keyCode, uint32_t flags);
 void PostAuxKeyPress(uint16_t auxKeyCode);
 
 #endif

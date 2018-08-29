@@ -12,26 +12,8 @@
  */
 
 #include "KeyEvent.h"
-#include <CoreGraphics/CoreGraphics.h>
+#include <IOKit/hidsystem/IOHIDLib.h>
 #include <pthread.h>
-
-static bool PostKeyEvent(uint16_t keyCode, bool keyDown)
-{
-    CGEventRef event = CGEventCreateKeyboardEvent(0, keyCode, keyDown);
-    if (0 != event)
-    {
-        CGEventPost(kCGHIDEventTap, event);
-        CFRelease(event);
-        return true;
-    }
-    return false;
-}
-
-void PostKeyPress(uint16_t keyCode)
-{
-    PostKeyEvent(keyCode, true);
-    PostKeyEvent(keyCode, false);
-}
 
 static pthread_once_t hid_conn_once = PTHREAD_ONCE_INIT;
 static io_connect_t hid_conn = 0;
@@ -58,6 +40,32 @@ static void hid_conn_initonce(void)
 exit:
     if (0 != serv)
         IOObjectRelease(serv);
+}
+
+void PostKeyPress(uint16_t keyCode, uint32_t flags)
+{
+    NXEventData event = { 0 };
+    IOGPoint point = { 0 };
+    kern_return_t ret;
+
+    pthread_once(&hid_conn_once, hid_conn_initonce);
+    if (0 == hid_conn)
+        return;
+
+    event.key.repeat = 0;
+    event.key.keyCode = keyCode;
+    event.key.charSet = NX_ASCIISET;
+    event.key.charCode = 0;
+    event.key.origCharSet = event.key.charSet;
+    event.key.origCharCode = event.key.charCode;
+
+    ret = IOHIDPostEvent(hid_conn, NX_KEYDOWN, point, &event, kNXEventDataVersion, flags, 0);
+    if (KERN_SUCCESS != ret)
+        return;
+
+    ret = IOHIDPostEvent(hid_conn, NX_KEYUP, point, &event, kNXEventDataVersion, flags, 0);
+    if (KERN_SUCCESS != ret)
+        return;
 }
 
 void PostAuxKeyPress(uint16_t auxKeyCode)
