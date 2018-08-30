@@ -304,6 +304,12 @@ static void AppControllerFSNotify(const char *path, void *data)
     [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] reset];
 }
 
+- (IBAction)shows24HourClockAction:(id)sender
+{
+    [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] reset];
+    [(ClockWidget*)[self.touchBarController.touchBar itemForIdentifier:@"Clock"] dateFormatChanged];
+}
+
 - (void)updateToggleMacOSDockButton
 {
     NSUserDefaults *dockDefaults = [[[NSUserDefaults alloc]

@@ -27,13 +27,13 @@
 - (void)commonInit
 {
     self.customizationLabel = @"Clock";
-
+    
     NSPressGestureRecognizer *recognizer = [[[NSPressGestureRecognizer alloc]
         initWithTarget:self action:@selector(pressAction:)] autorelease];
     recognizer.allowedTouchTypes = NSTouchTypeMaskDirect;
     recognizer.minimumPressDuration = LongPressDuration;
 
-    FixedSizeLabel *label = [FixedSizeLabel labelWithString:@"9:41 am"];
+    FixedSizeLabel *label = [FixedSizeLabel labelWithString:@"–:–"];
     label.wantsLayer = YES;
     label.layer.cornerRadius = 8.0;
     label.layer.backgroundColor = [[NSColor colorWithWhite:0.0 alpha:0.5] CGColor];
@@ -43,7 +43,7 @@
     self.view = label;
 
     self.formatter = [[[NSDateFormatter alloc] init] autorelease];
-    self.formatter.dateFormat = @"h:mm a";
+    [self updateDateFormat];
 }
 
 - (void)dealloc
@@ -96,6 +96,12 @@
     self.timer = nil;
 }
 
+- (void)dateFormatChanged
+{
+    [self updateDateFormat];
+    [self tick:nil];
+}
+
 - (void)tick:(NSTimer *)sender
 {
     NSTextField *view = self.view;
@@ -114,5 +120,17 @@
         return;
 
     [_target performSelector:_action withObject:self];
+}
+
+- (void)updateDateFormat
+{
+    NSString *dateFormat;
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shows24HourClock"]) {
+        dateFormat = @"HH:mm";
+    } else {
+        dateFormat = @"h:mm a";
+    }
+    
+    self.formatter.dateFormat = dateFormat;
 }
 @end

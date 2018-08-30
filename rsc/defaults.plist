@@ -133,5 +133,7 @@
 	<true/>
 	<key>showsTrash</key>
 	<true/>
+	<key>shows24HourClock</key>
+	<false/>
 </dict>
 </plist>
