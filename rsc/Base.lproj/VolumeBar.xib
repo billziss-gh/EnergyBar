@@ -42,7 +42,7 @@
                                 <font key="font" usesAppearanceFont="YES"/>
                             </buttonCell>
                             <connections>
-                                <action selector="close:" target="-2" id="NpY-ey-JhQ"/>
+                                <action selector="close:" target="-2" id="4tl-gi-FEv"/>
                             </connections>
                         </button>
                     </viewController>

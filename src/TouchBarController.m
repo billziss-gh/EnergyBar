@@ -15,6 +15,18 @@
 #import "NSTouchBar+SystemModal.h"
 
 @implementation TouchBarController
++ (id)controllerWithNibNamed:(NSString *)name
+{
+    id controller = [[[[self class] alloc] init] autorelease];
+    NSArray *objects = nil;
+
+    if (![[NSBundle mainBundle]
+        loadNibNamed:name owner:controller topLevelObjects:&objects])
+        return nil;
+
+    return controller;
+}
+
 - (void)dealloc
 {
     [[[NSWorkspace sharedWorkspace] notificationCenter]
@@ -44,13 +56,18 @@
         dismissSystemModal:self.touchBar];
 }
 
+- (IBAction)close:(id)sender
+{
+    [self dismiss];
+}
+
 - (IBAction)customize:(id)sender
 {
     NSApp.touchBar = self.touchBar;
     [self performSelector:@selector(delayedCustomize) withObject:nil afterDelay:0];
 }
 
-- (IBAction)delayedCustomize
+- (void)delayedCustomize
 {
     [[NSNotificationCenter defaultCenter]
         addObserver:self

@@ -14,9 +14,11 @@
 #import <Cocoa/Cocoa.h>
 
 @interface TouchBarController : NSObject
++ (id)controllerWithNibNamed:(NSString *)name;
 - (BOOL)present;
 - (BOOL)presentWithPlacement:(NSInteger)placement;
 - (void)dismiss;
+- (IBAction)close:(id)sender;
 - (IBAction)customize:(id)sender;
 @property (retain) IBOutlet NSTouchBar *touchBar;
 @end

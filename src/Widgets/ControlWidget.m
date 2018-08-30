@@ -34,29 +34,7 @@
 }
 @end
 
-@interface ControlWidgetPopoverBarController : TouchBarController
-@end
-
-@implementation ControlWidgetPopoverBarController
-+ (id)controllerWithNibNamed:(NSString *)name
-{
-    id controller = [[[[self class] alloc] init] autorelease];
-    NSArray *objects = nil;
-
-    if (![[NSBundle mainBundle]
-        loadNibNamed:name owner:controller topLevelObjects:&objects])
-        return nil;
-
-    return controller;
-}
-
-- (IBAction)close:(id)sender
-{
-    [self dismiss];
-}
-@end
-
-@interface ControlWidgetBrightnessBarController : ControlWidgetPopoverBarController
+@interface ControlWidgetBrightnessBarController : TouchBarController
 @property (retain) CBBlueLightClient *blueLightClient;
 @property (retain) IBOutlet NSButton *nightShiftButton;
 @end
@@ -176,7 +154,7 @@
 #endif
 @end
 
-@interface ControlWidgetVolumeBarController : ControlWidgetPopoverBarController
+@interface ControlWidgetVolumeBarController : TouchBarController
 @end
 
 @implementation ControlWidgetVolumeBarController
