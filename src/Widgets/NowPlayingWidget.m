@@ -17,7 +17,7 @@
 static NSSize iconSize = { 20, 20 };
 static CGFloat spacerWidth = 4;
 
-@interface NowPlayingWidgetView : NSScrubberItemView <NSAnimationDelegate>
+@interface NowPlayingWidgetView : NSView
 @property (retain) NSImageView *iconView;
 @property (retain) NSTextField *titleView;
 @end
