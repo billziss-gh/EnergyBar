@@ -24,9 +24,11 @@
 
 @interface AppController () <NSApplicationDelegate, NSWindowDelegate>
 - (void)fsnotify:(const char *)path;
+@property (retain) NSString *origDefaultAppsFolder;
 @property (assign) IBOutlet TouchBarController *touchBarController;
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet NSTextField *versionLabel;
+@property (assign) IBOutlet NSButton *resetFromDockButton;
 @property (assign) IBOutlet NSButton *toggleMacOSDockButton;
 @property (assign) IBOutlet NSButton *loginItemButton;
 @property (assign) IBOutlet NSButton *sourceLinkButton;
@@ -46,6 +48,8 @@ static void AppControllerFSNotify(const char *path, void *data)
 {
     FSNotifyStop(_stream);
 
+    self.origDefaultAppsFolder = nil;
+
     [super dealloc];
 }
 
@@ -55,9 +59,9 @@ static void AppControllerFSNotify(const char *path, void *data)
         dictionaryWithContentsOfFile:[[NSBundle mainBundle]
         pathForResource:@"defaults"
         ofType:@"plist"]];
-    [defaults
-        setObject:[[defaults objectForKey:@"defaultAppsFolder"] stringByExpandingTildeInPath]
-        forKey:@"defaultAppsFolder"];
+    self.origDefaultAppsFolder = [[defaults objectForKey:@"defaultAppsFolder"]
+        stringByExpandingTildeInPath];
+    [defaults setObject:self.origDefaultAppsFolder forKey:@"defaultAppsFolder"];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 
     NSString *defaultAppsFolder = [[NSUserDefaults standardUserDefaults]
@@ -73,6 +77,7 @@ static void AppControllerFSNotify(const char *path, void *data)
 
     FSNotifyStop(_stream);
     _stream = FSNotifyStart([defaultAppsFolder UTF8String], AppControllerFSNotify, self);
+    [self enableResetFromDockAction];
 
     NSMutableParagraphStyle *sourceLinkPara = [[[NSParagraphStyle defaultParagraphStyle]
         mutableCopy] autorelease];
@@ -176,8 +181,16 @@ static void AppControllerFSNotify(const char *path, void *data)
     FSNotifyStop(_stream);
     _stream = FSNotifyStart([[[NSUserDefaults standardUserDefaults]
         stringForKey:@"defaultAppsFolder"] UTF8String], AppControllerFSNotify, self);
+    [self enableResetFromDockAction];
 
     [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] reset];
+}
+
+- (void)enableResetFromDockAction
+{
+    NSString *defaultAppsFolder = [[NSUserDefaults standardUserDefaults]
+        stringForKey:@"defaultAppsFolder"];
+    self.resetFromDockButton.enabled = [defaultAppsFolder isEqualToString:self.origDefaultAppsFolder];
 }
 
 - (IBAction)resetFromDockAction:(id)sender
