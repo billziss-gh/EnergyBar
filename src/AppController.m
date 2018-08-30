@@ -77,7 +77,7 @@ static void AppControllerFSNotify(const char *path, void *data)
 
     FSNotifyStop(_stream);
     _stream = FSNotifyStart([defaultAppsFolder UTF8String], AppControllerFSNotify, self);
-    [self enableResetFromDockAction];
+    [self enableResetFromDockButton];
 
     NSMutableParagraphStyle *sourceLinkPara = [[[NSParagraphStyle defaultParagraphStyle]
         mutableCopy] autorelease];
@@ -181,12 +181,12 @@ static void AppControllerFSNotify(const char *path, void *data)
     FSNotifyStop(_stream);
     _stream = FSNotifyStart([[[NSUserDefaults standardUserDefaults]
         stringForKey:@"defaultAppsFolder"] UTF8String], AppControllerFSNotify, self);
-    [self enableResetFromDockAction];
+    [self enableResetFromDockButton];
 
     [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] reset];
 }
 
-- (void)enableResetFromDockAction
+- (void)enableResetFromDockButton
 {
     NSString *defaultAppsFolder = [[NSUserDefaults standardUserDefaults]
         stringForKey:@"defaultAppsFolder"];
