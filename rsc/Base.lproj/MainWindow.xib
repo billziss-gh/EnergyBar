@@ -18,7 +18,6 @@
         <customObject id="Voe-Tx-rLC" userLabel="App Controller" customClass="AppController">
             <connections>
                 <outlet property="loginItemButton" destination="oS6-Yw-8uD" id="3Tv-UX-aph"/>
-                <outlet property="resetFromDockButton" destination="Kaa-7C-9IO" id="Zki-EB-MXd"/>
                 <outlet property="sourceLinkButton" destination="U9g-U1-lEK" id="gYZ-60-89N"/>
                 <outlet property="toggleMacOSDockButton" destination="VQP-lf-wVh" id="hZi-MD-BJb"/>
                 <outlet property="touchBarController" destination="K6h-9q-8nk" id="7Zg-VL-ES5"/>

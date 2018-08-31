@@ -24,11 +24,10 @@
 
 @interface AppController () <NSApplicationDelegate, NSWindowDelegate>
 - (void)fsnotify:(const char *)path;
-@property (retain) NSString *origDefaultAppsFolder;
+@property (retain) NSString *standardDefaultAppsFolder;
 @property (assign) IBOutlet TouchBarController *touchBarController;
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet NSTextField *versionLabel;
-@property (assign) IBOutlet NSButton *resetFromDockButton;
 @property (assign) IBOutlet NSButton *toggleMacOSDockButton;
 @property (assign) IBOutlet NSButton *loginItemButton;
 @property (assign) IBOutlet NSButton *sourceLinkButton;
@@ -48,7 +47,7 @@ static void AppControllerFSNotify(const char *path, void *data)
 {
     FSNotifyStop(_stream);
 
-    self.origDefaultAppsFolder = nil;
+    self.standardDefaultAppsFolder = nil;
 
     [super dealloc];
 }
@@ -59,9 +58,9 @@ static void AppControllerFSNotify(const char *path, void *data)
         dictionaryWithContentsOfFile:[[NSBundle mainBundle]
         pathForResource:@"defaults"
         ofType:@"plist"]];
-    self.origDefaultAppsFolder = [[defaults objectForKey:@"defaultAppsFolder"]
+    self.standardDefaultAppsFolder = [[defaults objectForKey:@"defaultAppsFolder"]
         stringByExpandingTildeInPath];
-    [defaults setObject:self.origDefaultAppsFolder forKey:@"defaultAppsFolder"];
+    [defaults setObject:self.standardDefaultAppsFolder forKey:@"defaultAppsFolder"];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 
     NSString *defaultAppsFolder = [[NSUserDefaults standardUserDefaults]
@@ -187,14 +186,14 @@ static void AppControllerFSNotify(const char *path, void *data)
 - (IBAction)resetFromDockAction:(id)sender
 {
     [[NSFileManager defaultManager]
-        createDirectoryAtPath:self.origDefaultAppsFolder
+        createDirectoryAtPath:self.standardDefaultAppsFolder
         withIntermediateDirectories:YES
         attributes:nil
         error:nil];
 
     NSUInteger itemCount = 0;
     NSArray *contents = [[NSFileManager defaultManager]
-        contentsOfDirectoryAtPath:self.origDefaultAppsFolder error:0];
+        contentsOfDirectoryAtPath:self.standardDefaultAppsFolder error:0];
     for (NSString *c in contents)
     {
         if ([c hasPrefix:@"."])
@@ -224,7 +223,7 @@ static void AppControllerFSNotify(const char *path, void *data)
             continue;
 
         [[NSFileManager defaultManager]
-            removeItemAtPath:[self.origDefaultAppsFolder stringByAppendingPathComponent:c]
+            removeItemAtPath:[self.standardDefaultAppsFolder stringByAppendingPathComponent:c]
             error:0];
     }
 
@@ -268,7 +267,7 @@ static void AppControllerFSNotify(const char *path, void *data)
             error:0];
         [NSURL
             writeBookmarkData:data
-            toURL:[NSURL fileURLWithPath:[self.origDefaultAppsFolder stringByAppendingPathComponent:name]]
+            toURL:[NSURL fileURLWithPath:[self.standardDefaultAppsFolder stringByAppendingPathComponent:name]]
             options:NSURLBookmarkCreationSuitableForBookmarkFile
             error:0];
 
@@ -276,7 +275,7 @@ static void AppControllerFSNotify(const char *path, void *data)
     }
 
     [[NSUserDefaults standardUserDefaults]
-        setObject:self.origDefaultAppsFolder forKey:@"defaultAppsFolder"];
+        setObject:self.standardDefaultAppsFolder forKey:@"defaultAppsFolder"];
 }
 
 - (IBAction)showAppsFolderAction:(id)sender
