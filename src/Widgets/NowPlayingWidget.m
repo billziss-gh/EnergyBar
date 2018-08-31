@@ -12,14 +12,10 @@
  */
 
 #import "NowPlayingWidget.h"
+#import "ImageTitleView.h"
 #import "NowPlaying.h"
 
-static NSSize iconSize = { 20, 20 };
-static CGFloat spacerWidth = 4;
-
-@interface NowPlayingWidgetView : NSView
-@property (retain) NSImageView *iconView;
-@property (retain) NSTextField *titleView;
+@interface NowPlayingWidgetView : ImageTitleView
 @end
 
 @implementation NowPlayingWidgetView
@@ -29,79 +25,18 @@ static CGFloat spacerWidth = 4;
     if (nil == self)
         return nil;
 
-    self.iconView = [[[NSImageView alloc] initWithFrame:NSZeroRect] autorelease];
-    self.iconView.autoresizingMask = 0;
-    self.iconView.imageScaling = NSImageScaleProportionallyDown;
+    self.wantsLayer = YES;
+    self.layer.cornerRadius = 8.0;
+    self.layer.backgroundColor = [[NSColor colorWithWhite:0.0 alpha:0.5] CGColor];
 
-    self.titleView = [NSTextField labelWithString:@""];
-    self.titleView.wantsLayer = YES;
-    self.titleView.layer.cornerRadius = 4.0;
-    self.titleView.layer.backgroundColor = [[NSColor colorWithWhite:0.0 alpha:0.5] CGColor];
-    self.titleView.autoresizingMask = 0;
-    self.titleView.font = [NSFont systemFontOfSize:[NSFont
-        systemFontSizeForControlSize:NSControlSizeSmall]];
-    self.titleView.lineBreakMode = NSLineBreakByTruncatingTail;
-    self.titleView.alignment = NSTextAlignmentLeft;
+    self.imageSize = NSMakeSize(20, 20);
+    self.imagePosition = NSImageLeft;
 
-    [self addSubview:self.iconView];
-    [self addSubview:self.titleView];
+    self.titleFont = [NSFont
+        systemFontOfSize:[NSFont systemFontSizeForControlSize:NSControlSizeSmall]];
+    self.titleLineBreakMode = NSLineBreakByTruncatingTail;
 
     return self;
-}
-
-- (void)dealloc
-{
-    self.iconView = nil;
-    self.titleView = nil;
-
-    [super dealloc];
-}
-
-- (NSImage *)getIcon
-{
-    return self.iconView.image;
-}
-
-- (void)setIcon:(NSImage *)value
-{
-    self.iconView.image = value;
-}
-
-- (NSString *)getTitle
-{
-    return self.titleView.stringValue;
-}
-
-- (void)setTitle:(NSString *)value
-{
-    if (nil == value)
-        value = @"";
-    self.titleView.stringValue = value;
-    self.needsLayout = YES;
-}
-
-- (void)layout
-{
-    [super layout];
-
-    NSRect bounds = self.bounds;
-    NSSize titleSize = [self.titleView.cell cellSizeForBounds:bounds];
-    if (titleSize.width > bounds.size.width - (iconSize.width + spacerWidth))
-        titleSize.width = bounds.size.width - (iconSize.width + spacerWidth);
-    CGFloat totalWidth = iconSize.width + spacerWidth + titleSize.width;
-    NSRect iconRect = NSMakeRect(
-        (bounds.size.width - totalWidth) / 2,
-        (bounds.size.height - iconSize.height) / 2,
-        iconSize.width,
-        iconSize.height);
-    NSRect titleRect = NSMakeRect(
-        iconRect.origin.x + iconSize.width + spacerWidth,
-        (bounds.size.height - titleSize.height) / 2,
-        titleSize.width,
-        titleSize.height);
-
-    self.iconView.frame = iconRect;
-    self.titleView.frame = titleRect;
 }
 
 - (NSSize)intrinsicContentSize
@@ -170,7 +105,7 @@ static CGFloat spacerWidth = 4;
         title = @"♫";
 
     NowPlayingWidgetView *view = self.view;
-    view.icon = icon;
+    view.image = icon;
     view.title = title;
 }
 
