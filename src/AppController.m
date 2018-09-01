@@ -109,6 +109,7 @@ static void AppControllerFSNotify(const char *path, void *data)
     [[self.touchBarController.touchBar itemForIdentifier:@"Clock"]
         setPressTarget:self
         action:@selector(showMainWindow:)];
+    [self updateDateFormat];
 
     if (![self.touchBarController present])
     {
@@ -327,6 +328,24 @@ static void AppControllerFSNotify(const char *path, void *data)
 - (IBAction)showsTrashAction:(id)sender
 {
     [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] reset];
+}
+
+- (IBAction)shows24HourClockAction:(id)sender
+{
+    [self updateDateFormat];
+}
+
+- (void)updateDateFormat
+{
+    ClockWidget *clock = [self.touchBarController.touchBar itemForIdentifier:@"Clock"];
+    clock.formatter.dateFormat =
+        [[NSUserDefaults standardUserDefaults] boolForKey:@"shows24HourClock"] ?
+            @"HH:mm" :
+            @"h:mm a";
+    
+    // stop and start the clock to have it redraw itself
+    [clock stop];
+    [clock start];
 }
 
 - (void)updateToggleMacOSDockButton

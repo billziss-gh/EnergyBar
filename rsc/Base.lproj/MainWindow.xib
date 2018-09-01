@@ -762,10 +762,14 @@ In general the folder should contain application aliases. The order of the folde
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EM9-gH-EDe">
                     <rect key="frame" x="164" y="62" width="145" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="check" title="Show 24-hour clock" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="TM0-X1-Jg3">
+                    <buttonCell key="cell" type="check" title="Show 24-hour clock" bezelStyle="regularSquare" imagePosition="left" inset="2" id="TM0-X1-Jg3">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
+                    <connections>
+                        <action selector="shows24HourClockAction:" target="Voe-Tx-rLC" id="ySG-F7-jKt"/>
+                        <binding destination="pJh-SC-QEV" name="value" keyPath="values.shows24HourClock" id="VmF-Xd-RlH"/>
+                    </connections>
                 </button>
             </subviews>
             <point key="canvasLocation" x="85" y="490"/>
