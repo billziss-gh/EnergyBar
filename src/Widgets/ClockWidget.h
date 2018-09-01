@@ -17,7 +17,6 @@
 @interface ClockWidget : CustomWidget
 - (void)start;
 - (void)stop;
-- (void)dateFormatChanged;
 - (void)setPressTarget:(id)target action:(SEL)action;
 @property (retain) IBOutlet NSDateFormatter *formatter;
 @end

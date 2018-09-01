@@ -98,6 +98,7 @@ static void AppControllerFSNotify(const char *path, void *data)
         [superView addSubview:contentView];
 
     [self updateToggleMacOSDockButton];
+    [self updateDateFormat];
 
     self.loginItemButton.state = IsLoginItem([[NSBundle mainBundle] bundleURL]) ?
         NSControlStateValueOn : NSControlStateValueOff;
@@ -307,7 +308,20 @@ static void AppControllerFSNotify(const char *path, void *data)
 - (IBAction)shows24HourClockAction:(id)sender
 {
     [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] reset];
-    [(ClockWidget*)[self.touchBarController.touchBar itemForIdentifier:@"Clock"] dateFormatChanged];
+    [self updateDateFormat];
+}
+
+- (void)updateDateFormat
+{
+    ClockWidget *clock = [self.touchBarController.touchBar itemForIdentifier:@"Clock"];
+    clock.formatter.dateFormat =
+        [[NSUserDefaults standardUserDefaults] boolForKey:@"shows24HourClock"] ?
+            @"HH:mm" :
+            @"h:mm a";
+    
+    // stop and start the clock to have it redraw itself
+    [clock stop];
+    [clock start];
 }
 
 - (void)updateToggleMacOSDockButton

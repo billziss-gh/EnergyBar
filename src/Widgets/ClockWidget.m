@@ -43,7 +43,6 @@
     self.view = label;
 
     self.formatter = [[[NSDateFormatter alloc] init] autorelease];
-    [self updateDateFormat];
 }
 
 - (void)dealloc
@@ -96,11 +95,6 @@
     self.timer = nil;
 }
 
-- (void)dateFormatChanged
-{
-    [self updateDateFormat];
-    [self tick:nil];
-}
 
 - (void)tick:(NSTimer *)sender
 {
@@ -122,15 +116,4 @@
     [_target performSelector:_action withObject:self];
 }
 
-- (void)updateDateFormat
-{
-    NSString *dateFormat;
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shows24HourClock"]) {
-        dateFormat = @"HH:mm";
-    } else {
-        dateFormat = @"h:mm a";
-    }
-    
-    self.formatter.dateFormat = dateFormat;
-}
 @end
