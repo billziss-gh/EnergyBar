@@ -333,9 +333,10 @@ static const NSUInteger maxPersistentItemCount = 8;
         [_itemViews setObject:view forKey:app.key];
     }
 
+    BOOL showsRunningApps = [[NSUserDefaults standardUserDefaults] boolForKey:@"showsRunningApps"];
     view.appIcon = app.icon;
-    view.appRunning = 0 != app.pid;
-    view.appLaunching = app.launching;
+    view.appRunning = showsRunningApps ? 0 != app.pid : NO;
+    view.appLaunching = showsRunningApps ? app.launching : NO;
 
     return view;
 }
@@ -351,8 +352,10 @@ static const NSUInteger maxPersistentItemCount = 8;
 - (void)folderController:(FolderController *)controller didSelectURL:(NSURL *)url
 {
     if (![url.path hasPrefix:[[NSWorkspace sharedWorkspace] trashcanPath]])
+    {
         [[NSWorkspace sharedWorkspace] openURL:url];
-    [controller dismiss];
+        [controller dismiss];
+    }
 }
 
 - (void)folderController:(FolderController *)controller didClick:(NSString *)identifier
