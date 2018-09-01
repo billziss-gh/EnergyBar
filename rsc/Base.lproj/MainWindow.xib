@@ -440,20 +440,20 @@
                 <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
                 <autoresizingMask key="autoresizingMask"/>
             </view>
-            <toolbar key="toolbar" implicitIdentifier="40712263-09C9-4F53-9674-F3343CC2D1A4" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconOnly" sizeMode="regular" id="ZQG-Zm-WHH">
+            <toolbar key="toolbar" implicitIdentifier="40712263-09C9-4F53-9674-F3343CC2D1A4" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconAndLabel" sizeMode="regular" id="ZQG-Zm-WHH">
                 <allowedToolbarItems>
-                    <toolbarItem implicitItemIdentifier="ED4DB4F7-EDB5-4289-9DBD-A05DC62872A5" label="General" paletteLabel="General" image="NSPreferencesGeneral" autovalidates="NO" id="k0U-oH-tgo">
+                    <toolbarItem implicitItemIdentifier="ED4DB4F7-EDB5-4289-9DBD-A05DC62872A5" explicitItemIdentifier="General" label="General" paletteLabel="General" image="NSPreferencesGeneral" autovalidates="NO" selectable="YES" id="k0U-oH-tgo">
                         <connections>
                             <action selector="toolbarItemAction:" target="Voe-Tx-rLC" id="oVD-6Z-DMF"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="A5F1C022-DED2-4D92-B871-F40DC10C2833" label="Advanced" paletteLabel="Advanced" tag="1" image="NSAdvanced" autovalidates="NO" id="Aue-HY-u60">
+                    <toolbarItem implicitItemIdentifier="A5F1C022-DED2-4D92-B871-F40DC10C2833" explicitItemIdentifier="Advanced" label="Advanced" paletteLabel="Advanced" tag="1" image="NSAdvanced" autovalidates="NO" selectable="YES" id="Aue-HY-u60">
                         <connections>
                             <action selector="toolbarItemAction:" target="Voe-Tx-rLC" id="9p6-kK-LKO"/>
                         </connections>
                     </toolbarItem>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="SwY-rr-Cj9"/>
-                    <toolbarItem implicitItemIdentifier="9C19E899-99FD-4F5F-B77B-E01FE4D47B55" label="Custom View" paletteLabel="Custom View" tag="-1" id="gEB-TW-tfq">
+                    <toolbarItem implicitItemIdentifier="9C19E899-99FD-4F5F-B77B-E01FE4D47B55" label="" paletteLabel="" tag="-1" id="gEB-TW-tfq">
                         <nil key="toolTip"/>
                         <size key="minSize" width="80" height="20"/>
                         <size key="maxSize" width="80" height="20"/>

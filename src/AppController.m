@@ -75,7 +75,8 @@ static void AppControllerFSNotify(const char *path, void *data)
     FSNotifyStop(_stream);
     _stream = FSNotifyStart([defaultAppsFolder UTF8String], AppControllerFSNotify, self);
 
-   NSMutableParagraphStyle *sourceLinkPara = [[[NSParagraphStyle defaultParagraphStyle]
+    self.window.toolbar.selectedItemIdentifier = @"General";
+    NSMutableParagraphStyle *sourceLinkPara = [[[NSParagraphStyle defaultParagraphStyle]
         mutableCopy] autorelease];
     sourceLinkPara.alignment = self.sourceLinkButton.alignment;
     NSDictionary *sourceLinkAttr = [NSDictionary dictionaryWithObjectsAndKeys:
