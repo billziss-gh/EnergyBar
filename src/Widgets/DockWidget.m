@@ -13,6 +13,7 @@
 
 #import "DockWidget.h"
 #import <objc/runtime.h>
+#import "FolderController.h"
 #import "NSWorkspace+Trashcan.h"
 
 static NSSize dockItemSize = { 50, 30 };
@@ -205,7 +206,8 @@ static const NSUInteger maxPersistentItemCount = 8;
 }
 @end
 
-@interface DockWidget () <NSScrubberDataSource, NSScrubberDelegate>
+@interface DockWidget () <NSScrubberDataSource, NSScrubberDelegate, FolderControllerDelegate>
+@property (retain) FolderController *folderController;
 @property (retain) NSArray *defaultApps;
 @property (retain) NSArray *runningApps;    /* running apps other than default */
 @end
@@ -218,6 +220,9 @@ static const NSUInteger maxPersistentItemCount = 8;
 - (void)commonInit
 {
     _itemViews = [[NSMutableDictionary alloc] init];
+
+    self.folderController = [FolderController controller];
+    self.folderController.delegate = self;
 
     self.customizationLabel = @"Dock";
 
@@ -306,6 +311,8 @@ static const NSUInteger maxPersistentItemCount = 8;
     self.defaultApps = nil;
     self.runningApps = nil;
 
+    self.folderController = nil;
+
     [_itemViews release];
 
     [super dealloc];
@@ -339,6 +346,28 @@ static const NSUInteger maxPersistentItemCount = 8;
     if (nil != app.path)
         [[NSWorkspace sharedWorkspace] openFile:app.path withApplication:nil andDeactivate:YES];
     scrubber.selectedIndex = -1;
+}
+
+- (void)folderController:(FolderController *)controller didSelectURL:(NSURL *)url
+{
+    if (![url.path hasPrefix:[[NSWorkspace sharedWorkspace] trashcanPath]])
+        [[NSWorkspace sharedWorkspace] openURL:url];
+    [controller dismiss];
+}
+
+- (void)folderController:(FolderController *)controller didClick:(NSString *)identifier
+{
+    if ([identifier isEqualToString:@"openButton"])
+    {
+        if (![controller.url.path hasPrefix:[[NSWorkspace sharedWorkspace] trashcanPath]])
+            [[NSWorkspace sharedWorkspace] openURL:controller.url];
+        else
+            [[NSWorkspace sharedWorkspace] openTrashcan];
+    }
+    else
+    if ([identifier isEqualToString:@"emptyButton"])
+        [[NSWorkspace sharedWorkspace] emptyTrashcan];
+    [controller dismiss];
 }
 
 - (NSArray *)apps
@@ -709,7 +738,32 @@ static const NSUInteger maxPersistentItemCount = 8;
 {
     NSURL *url = objc_getAssociatedObject(sender, [DockWidget class]);
     if (nil != url)
-        [[NSWorkspace sharedWorkspace] openURL:url];
+    {
+        NSNumber *value;
+        BOOL isDir = [url getResourceValue:&value forKey:NSURLIsDirectoryKey error:0] &&
+            [value boolValue];
+        BOOL isPkg = [url getResourceValue:&value forKey:NSURLIsPackageKey error:0] &&
+            [value boolValue];
+        BOOL isApp = [url getResourceValue:&value forKey:NSURLIsApplicationKey error:0] &&
+            [value boolValue];
+        BOOL open = [[NSUserDefaults standardUserDefaults] boolForKey:@"openFoldersImmediately"];
+        if (!isDir || isPkg || isApp)
+            [[NSWorkspace sharedWorkspace] openURL:url];
+        else if (open)
+            [[NSWorkspace sharedWorkspace] openURL:url];
+        else
+        {
+            BOOL isApplications = [url.path isEqualToString:@"/Applications"];
+            BOOL isDownloads = [url.path
+                isEqualToString:[NSHomeDirectory() stringByAppendingPathComponent:@"Downloads"]];
+            self.folderController.url = url;
+            self.folderController.includeDescendants = NO; //isApplications;
+            self.folderController.sortKey = isDownloads ? NSURLAddedToDirectoryDateKey : nil;
+            self.folderController.imagePosition = isApplications ? NSImageOnly : NSImageLeft;
+            self.folderController.showsEmptyButton = NO;
+            [self.folderController present];
+        }
+    }
 }
 
 - (NSImage *)trashcanImage
@@ -726,7 +780,20 @@ static const NSUInteger maxPersistentItemCount = 8;
 
 - (void)trashcanClick:(id)sender
 {
-    [[NSWorkspace sharedWorkspace] openTrashcan];
+    BOOL open = [[NSUserDefaults standardUserDefaults] boolForKey:@"openFoldersImmediately"];
+    if (open)
+        [[NSWorkspace sharedWorkspace] openTrashcan];
+    else
+    {
+        self.folderController.url = [NSURL
+            fileURLWithPath:[[NSWorkspace sharedWorkspace] trashcanPath]];
+        self.folderController.includeDescendants = NO;
+        self.folderController.sortKey = nil;
+        self.folderController.imagePosition = NSImageLeft;
+        self.folderController.showsEmptyButton = YES;
+        self.folderController.emptyButtonEnabled = [[NSWorkspace sharedWorkspace] isTrashcanFull];
+        [self.folderController present];
+    }
 }
 
 - (NSImage *)makeImageWithSize:(NSSize)newSize

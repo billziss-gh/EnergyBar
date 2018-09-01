@@ -32,6 +32,9 @@ static const CGFloat DefaultSpacerWidth = 4;
     if (nil == self)
         return nil;
 
+    _imageSize = NSMakeSize(30, 30);
+    _imagePosition = NSImageLeft;
+
     self.imageView = [[[NSImageView alloc] initWithFrame:NSZeroRect] autorelease];
     self.imageView.autoresizingMask = 0;
     self.imageView.imageScaling = NSImageScaleProportionallyDown;

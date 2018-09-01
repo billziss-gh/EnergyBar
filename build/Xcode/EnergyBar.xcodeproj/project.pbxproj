@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3C046013211D7C66003EB021 /* KeyEvent.c in Sources */ = {isa = PBXBuildFile; fileRef = 3C04600F211D7C66003EB021 /* KeyEvent.c */; };
+		3C080A4B2139EB0E00EED01D /* FolderController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C080A4A2139EB0D00EED01D /* FolderController.m */; };
 		3C102D482119641500FFB2CF /* CustomWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C102D462119641500FFB2CF /* CustomWidget.m */; };
 		3C102D4B21197ED700FFB2CF /* ControlWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C102D4A21197ED700FFB2CF /* ControlWidget.m */; };
 		3C102D4E2119872800FFB2CF /* EscKeyWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C102D4D2119872800FFB2CF /* EscKeyWidget.m */; };
@@ -35,12 +36,15 @@
 		3CDF1EB4211A3B9500739051 /* DockWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CDF1EB2211A3B9400739051 /* DockWidget.m */; };
 		3CDF1EB6211A650700739051 /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3CDF1EB5211A650700739051 /* defaults.plist */; };
 		3CEE0C29211D599400CFD6B2 /* BrightnessBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3CEE0C2B211D599400CFD6B2 /* BrightnessBar.xib */; };
+		3CF113942138769D005B1350 /* FolderBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3CF113962138769D005B1350 /* FolderBar.xib */; };
 		3CFECA122122611F00BB58E9 /* LoginItem.c in Sources */ = {isa = PBXBuildFile; fileRef = 3CFECA102122611F00BB58E9 /* LoginItem.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3C04600F211D7C66003EB021 /* KeyEvent.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = KeyEvent.c; sourceTree = "<group>"; };
 		3C046010211D7C66003EB021 /* KeyEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyEvent.h; sourceTree = "<group>"; };
+		3C080A492139EB0D00EED01D /* FolderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderController.h; sourceTree = "<group>"; };
+		3C080A4A2139EB0D00EED01D /* FolderController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderController.m; sourceTree = "<group>"; };
 		3C102D462119641500FFB2CF /* CustomWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomWidget.m; sourceTree = "<group>"; };
 		3C102D472119641500FFB2CF /* CustomWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomWidget.h; sourceTree = "<group>"; };
 		3C102D4921197ED700FFB2CF /* ControlWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControlWidget.h; sourceTree = "<group>"; };
@@ -91,6 +95,7 @@
 		3CDF1EB3211A3B9500739051 /* DockWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DockWidget.h; sourceTree = "<group>"; };
 		3CDF1EB5211A650700739051 /* defaults.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = defaults.plist; sourceTree = "<group>"; };
 		3CEE0C2A211D599400CFD6B2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/BrightnessBar.xib; sourceTree = "<group>"; };
+		3CF113952138769D005B1350 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/FolderBar.xib; sourceTree = "<group>"; };
 		3CFECA102122611F00BB58E9 /* LoginItem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = LoginItem.c; sourceTree = "<group>"; };
 		3CFECA112122611F00BB58E9 /* LoginItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginItem.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -157,6 +162,7 @@
 				3C163BBC2118F1A800F015EC /* Assets.xcassets */,
 				3C163BC82118F33C00F015EC /* MainWindow.xib */,
 				3CEE0C2B211D599400CFD6B2 /* BrightnessBar.xib */,
+				3CF113962138769D005B1350 /* FolderBar.xib */,
 				3CD1EBC0211D680A001DC22F /* VolumeBar.xib */,
 				3C163BBD2118F1A800F015EC /* Info.plist */,
 				3CDF1EB5211A650700739051 /* defaults.plist */,
@@ -176,6 +182,8 @@
 				3C163BC32118F1C500F015EC /* AppController.m */,
 				3C200ECD212DFF390000B04D /* FixedSizeLabel.h */,
 				3C200ECE212DFF390000B04D /* FixedSizeLabel.m */,
+				3C080A492139EB0D00EED01D /* FolderController.h */,
+				3C080A4A2139EB0D00EED01D /* FolderController.m */,
 				3C5032E22139C8E900305593 /* ImageTitleView.h */,
 				3C5032E12139C8E900305593 /* ImageTitleView.m */,
 				3CAA9C6B2127B3E000D5B467 /* StringToUrlTransformer.h */,
@@ -278,6 +286,7 @@
 			files = (
 				3CD1EBBE211D680A001DC22F /* VolumeBar.xib in Resources */,
 				3CEE0C29211D599400CFD6B2 /* BrightnessBar.xib in Resources */,
+				3CF113942138769D005B1350 /* FolderBar.xib in Resources */,
 				3C163BBF2118F1A800F015EC /* Assets.xcassets in Resources */,
 				3CDF1EB6211A650700739051 /* defaults.plist in Resources */,
 				3C163BCA2118F33C00F015EC /* MainWindow.xib in Resources */,
@@ -322,6 +331,7 @@
 				3C6CCA38211B824000D019F4 /* TouchBarController.m in Sources */,
 				3C5032E32139C8E900305593 /* ImageTitleView.m in Sources */,
 				3C163BC72118F1C500F015EC /* main.m in Sources */,
+				3C080A4B2139EB0E00EED01D /* FolderController.m in Sources */,
 				3CAA9C6D2127B3E100D5B467 /* StringToUrlTransformer.m in Sources */,
 				3C1A5678211D6B7D008E1F9F /* AppBarController.m in Sources */,
 				3CA8519D212B832100585D29 /* NSWorkspace+Trashcan.m in Sources */,
@@ -359,6 +369,14 @@
 				3CEE0C2A211D599400CFD6B2 /* Base */,
 			);
 			name = BrightnessBar.xib;
+			sourceTree = "<group>";
+		};
+		3CF113962138769D005B1350 /* FolderBar.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3CF113952138769D005B1350 /* Base */,
+			);
+			name = FolderBar.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

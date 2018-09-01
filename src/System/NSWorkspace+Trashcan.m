@@ -32,6 +32,11 @@ static void NSWorkspaceTrashcanFSNotify(const char *path, void *data)
 }
 
 @implementation NSWorkspace (Trashcan)
+- (NSString *)trashcanPath
+{
+    return [NSHomeDirectory() stringByAppendingPathComponent:@".Trash"];
+}
+
 - (BOOL)openTrashcan
 {
     static const char finder[] = "com.apple.finder";
@@ -110,10 +115,17 @@ exit:
     return res;
 }
 
+- (BOOL)emptyTrashcan
+{
+    NSAppleScript *script = [[[NSAppleScript alloc]
+        initWithSource:@"tell application \"Finder\"\nempty the trash\nend tell"] autorelease];
+    return nil != [script executeAndReturnError:0];
+}
+
 - (BOOL)isTrashcanFull
 {
-    NSString *trash = [NSHomeDirectory() stringByAppendingPathComponent:@".Trash"];
-    NSDirectoryEnumerator *direnum = [[NSFileManager defaultManager] enumeratorAtPath:trash];
+    NSDirectoryEnumerator *direnum = [[NSFileManager defaultManager]
+        enumeratorAtPath:[self trashcanPath]];
     return nil != [direnum nextObject];
 }
 

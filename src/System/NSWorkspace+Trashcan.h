@@ -14,7 +14,9 @@
 #import <Cocoa/Cocoa.h>
 
 @interface NSWorkspace (Trashcan)
+- (NSString *)trashcanPath;
 - (BOOL)openTrashcan;
+- (BOOL)emptyTrashcan;
 - (BOOL)isTrashcanFull;
 - (void)addTrashcanObserver:(id)observer selector:(SEL)sel;
 - (void)removeTrashcanObserver:(id)observer;
