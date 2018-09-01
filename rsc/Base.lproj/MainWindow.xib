@@ -469,7 +469,7 @@
                                         <font key="font" metaFont="smallSystem"/>
                                     </buttonCell>
                                     <connections>
-                                        <action selector="sourceLinkAction:" target="Voe-Tx-rLC" id="F2R-QY-6bU"/>
+                                        <action selector="sourceItemAction:" target="Voe-Tx-rLC" id="Vyc-8y-ubr"/>
                                     </connections>
                                 </button>
                             </subviews>

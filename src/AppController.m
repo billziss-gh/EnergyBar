@@ -146,11 +146,6 @@ static void AppControllerFSNotify(const char *path, void *data)
     [self.touchBarController dismiss];
 }
 
-- (void)windowWillClose:(NSNotification *)notification
-{
-    //NSApp.activationPolicy = NSApplicationActivationPolicyProhibited;
-}
-
 - (void)setContentView:(NSView *)view
 {
     NSWindow *window = self.window;
@@ -168,7 +163,6 @@ static void AppControllerFSNotify(const char *path, void *data)
 
 - (void)showMainWindow:(id)sender
 {
-    //NSApp.activationPolicy = NSApplicationActivationPolicyRegular;
     [[NSApp.windows objectAtIndex:0] makeKeyAndOrderFront:nil];
     if (nil != sender)
         [NSApp activateIgnoringOtherApps:YES];
@@ -190,6 +184,11 @@ static void AppControllerFSNotify(const char *path, void *data)
         [self setContentView:self.advancedView];
         break;
     }
+}
+
+- (IBAction)sourceItemAction:(id)sender
+{
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/billziss-gh"]];
 }
 
 - (IBAction)appsFolderAction:(id)sender
@@ -383,10 +382,5 @@ static void AppControllerFSNotify(const char *path, void *data)
 {
     SetLoginItem([[NSBundle mainBundle] bundleURL],
         NSControlStateValueOff != self.loginItemButton.state);
-}
-
-- (IBAction)sourceLinkAction:(id)sender
-{
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/billziss-gh"]];
 }
 @end
