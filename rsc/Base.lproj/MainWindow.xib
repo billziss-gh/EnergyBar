@@ -16,11 +16,9 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" userLabel="App Controller" customClass="AppController">
             <connections>
-                <outlet property="dockView" destination="LNX-xt-gFC" id="glR-PL-94R"/>
-                <outlet property="generalView" destination="oZG-ix-yVe" id="XZl-sb-5gW"/>
+                <outlet property="advancedView" destination="oZG-ix-yVe" id="3z9-fm-EUd"/>
+                <outlet property="generalView" destination="LNX-xt-gFC" id="b0m-l1-kLf"/>
                 <outlet property="loginItemButton" destination="RWM-KH-Fhd" id="Oo9-Kl-2aa"/>
-                <outlet property="otherView" destination="yF3-2P-9fI" id="xS9-3p-Jw3"/>
-                <outlet property="paneControl" destination="b1B-WL-Jt0" id="A1t-WF-jDB"/>
                 <outlet property="sourceLinkButton" destination="nK8-ls-cQK" id="g3a-cL-3hj"/>
                 <outlet property="toggleMacOSDockButton" destination="z4v-MZ-bcj" id="c73-ft-KUz"/>
                 <outlet property="touchBarController" destination="K6h-9q-8nk" id="7Zg-VL-ES5"/>
@@ -434,37 +432,25 @@
             </items>
             <point key="canvasLocation" x="33" y="-908"/>
         </menu>
-        <window title="EnergyBar" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" titleVisibility="hidden" id="QvC-M9-y7g">
+        <window title="EnergyBar" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
-            <rect key="contentRect" x="335" y="390" width="480" height="380"/>
+            <rect key="contentRect" x="335" y="390" width="480" height="320"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="380"/>
+                <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
                 <autoresizingMask key="autoresizingMask"/>
             </view>
             <toolbar key="toolbar" implicitIdentifier="40712263-09C9-4F53-9674-F3343CC2D1A4" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconOnly" sizeMode="regular" id="ZQG-Zm-WHH">
                 <allowedToolbarItems>
-                    <toolbarItem implicitItemIdentifier="FA5368A5-A86F-4C13-9282-49374C95C612" label="Custom View" paletteLabel="Custom View" autovalidates="NO" id="KMC-uJ-1nG">
-                        <nil key="toolTip"/>
-                        <size key="minSize" width="103" height="22"/>
-                        <size key="maxSize" width="108" height="27"/>
-                        <segmentedControl key="view" verticalHuggingPriority="750" id="b1B-WL-Jt0">
-                            <rect key="frame" x="0.0" y="14" width="104" height="24"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="texturedSquare" trackingMode="selectOne" id="WZC-YC-epf">
-                                <font key="font" metaFont="system"/>
-                                <segments>
-                                    <segment image="PaneHome" width="32" selected="YES"/>
-                                    <segment image="PaneDock" width="32" tag="1"/>
-                                    <segment image="PaneAdvanced" width="32">
-                                        <nil key="label"/>
-                                    </segment>
-                                </segments>
-                            </segmentedCell>
-                            <connections>
-                                <action selector="paneControlAction:" target="Voe-Tx-rLC" id="Dil-zR-IVG"/>
-                            </connections>
-                        </segmentedControl>
+                    <toolbarItem implicitItemIdentifier="ED4DB4F7-EDB5-4289-9DBD-A05DC62872A5" label="General" paletteLabel="General" image="NSPreferencesGeneral" autovalidates="NO" id="k0U-oH-tgo">
+                        <connections>
+                            <action selector="toolbarItemAction:" target="Voe-Tx-rLC" id="oVD-6Z-DMF"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="A5F1C022-DED2-4D92-B871-F40DC10C2833" label="Advanced" paletteLabel="Advanced" tag="1" image="NSAdvanced" autovalidates="NO" id="Aue-HY-u60">
+                        <connections>
+                            <action selector="toolbarItemAction:" target="Voe-Tx-rLC" id="9p6-kK-LKO"/>
+                        </connections>
                     </toolbarItem>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="SwY-rr-Cj9"/>
                     <toolbarItem implicitItemIdentifier="9C19E899-99FD-4F5F-B77B-E01FE4D47B55" label="Custom View" paletteLabel="Custom View" tag="-1" id="gEB-TW-tfq">
@@ -491,7 +477,8 @@
                     </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
-                    <toolbarItem reference="KMC-uJ-1nG"/>
+                    <toolbarItem reference="k0U-oH-tgo"/>
+                    <toolbarItem reference="Aue-HY-u60"/>
                     <toolbarItem reference="SwY-rr-Cj9"/>
                     <toolbarItem reference="gEB-TW-tfq"/>
                 </defaultToolbarItems>
@@ -508,21 +495,143 @@
             </connections>
             <point key="canvasLocation" x="31" y="-1362"/>
         </touchBar>
-        <customView id="oZG-ix-yVe">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="380"/>
+        <customView id="LNX-xt-gFC">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="351"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v4y-OQ-XHw">
-                    <rect key="frame" x="18" y="341" width="142" height="17"/>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RI6-LC-Dn0">
+                    <rect key="frame" x="18" y="312" width="142" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Customize:" id="v4y-ge-8D6">
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Applications Folder:" id="we4-MN-ZoZ">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <pathControl verticalHuggingPriority="750" fixedFrame="YES" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nd5-hn-yED">
+                    <rect key="frame" x="163" y="307" width="300" height="26"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <pathCell key="cell" selectable="YES" editable="YES" alignment="left" pathStyle="popUp" id="iGa-4q-LTE">
+                        <font key="font" metaFont="system"/>
+                        <url key="url" string="file://localhost/Applications/"/>
+                        <allowedTypes>
+                            <string>public.folder</string>
+                        </allowedTypes>
+                        <connections>
+                            <binding destination="pJh-SC-QEV" name="value" keyPath="values.defaultAppsFolder" id="Lud-Fv-Ndc">
+                                <dictionary key="options">
+                                    <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                    <bool key="NSConditionallySetsEnabled" value="NO"/>
+                                    <string key="NSValueTransformerName">StringToUrlTransformer</string>
+                                </dictionary>
+                            </binding>
+                        </connections>
+                    </pathCell>
+                    <connections>
+                        <action selector="appsFolderAction:" target="Voe-Tx-rLC" id="Eib-v8-fEF"/>
+                    </connections>
+                </pathControl>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CXO-38-BKx">
+                    <rect key="frame" x="164" y="219" width="298" height="84"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="justified" id="1ol-1B-y4l">
+                        <font key="font" metaFont="smallSystem"/>
+                        <string key="title">EnergyBar populates itself with the applications in this folder.
+
+In general the folder should contain application aliases. The order of the folder contents is significant and determines the order that EnergyBar displays its items.</string>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a2a-cX-kjk">
+                    <rect key="frame" x="164" y="195" width="182" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Show running applications" bezelStyle="regularSquare" imagePosition="left" inset="2" id="F3l-pF-4z4">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="showsRunningAppsAction:" target="Voe-Tx-rLC" id="nL1-lU-cyI"/>
+                        <binding destination="pJh-SC-QEV" name="value" keyPath="values.showsRunningApps" id="Grg-py-OEW"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aqA-xy-O2O">
+                    <rect key="frame" x="164" y="175" width="179" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Open folders in Touch Bar" bezelStyle="regularSquare" imagePosition="left" inset="2" id="MUe-xM-LBQ">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="showsFoldersInTouchBarAction:" target="Voe-Tx-rLC" id="Roe-8f-YlL"/>
+                        <binding destination="pJh-SC-QEV" name="value" keyPath="values.showsFoldersInTouchBar" id="N9v-AC-XvI"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uDG-IA-Ui4">
+                    <rect key="frame" x="164" y="155" width="90" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Show trash" bezelStyle="regularSquare" imagePosition="left" inset="2" id="JrQ-QJ-ade">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="showsTrashAction:" target="Voe-Tx-rLC" id="xkX-3x-8Ue"/>
+                        <binding destination="pJh-SC-QEV" name="value" keyPath="values.showsTrash" id="SJ7-MZ-0S1"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FlB-cq-KEg">
+                    <rect key="frame" x="160" y="109" width="153" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="push" title="From macOS Dock" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="PfM-cZ-x9j">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="resetFromDockAction:" target="Voe-Tx-rLC" id="FUK-Us-rt6"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rgY-4i-8rq">
+                    <rect key="frame" x="313" y="109" width="153" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="push" title="Show Folder" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="YqK-L0-qea">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="showAppsFolderAction:" target="Voe-Tx-rLC" id="Vwx-ie-R14"/>
+                    </connections>
+                </button>
+                <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="JPj-0t-fwx">
+                    <rect key="frame" x="12" y="93" width="456" height="5"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                </box>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JVQ-1d-WE0">
+                    <rect key="frame" x="18" y="70" width="142" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Clock:" id="ZQy-OV-XiW">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EM9-gH-EDe">
+                    <rect key="frame" x="164" y="69" width="145" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Show 24-hour clock" bezelStyle="regularSquare" imagePosition="left" inset="2" id="TM0-X1-Jg3">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="shows24HourClockAction:" target="Voe-Tx-rLC" id="ySG-F7-jKt"/>
+                        <binding destination="pJh-SC-QEV" name="value" keyPath="values.shows24HourClock" id="VmF-Xd-RlH"/>
+                    </connections>
+                </button>
+                <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="Odg-GT-X9V">
+                    <rect key="frame" x="12" y="59" width="456" height="5"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                </box>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CDM-Fi-GkF">
-                    <rect key="frame" x="160" y="332" width="306" height="32"/>
+                    <rect key="frame" x="160" y="13" width="306" height="32"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="push" title="Customize Touch Bar" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="kCs-6v-5Jg">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -532,12 +641,24 @@
                         <action selector="customize:" target="K6h-9q-8nk" id="wVT-CF-wb2"/>
                     </connections>
                 </button>
-                <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="SLM-yz-Qpf">
-                    <rect key="frame" x="12" y="316" width="456" height="5"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                </box>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v4y-OQ-XHw">
+                    <rect key="frame" x="18" y="23" width="142" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Customize:" id="v4y-ge-8D6">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <point key="canvasLocation" x="85" y="-174"/>
+        </customView>
+        <customView id="oZG-ix-yVe">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z4v-MZ-bcj">
-                    <rect key="frame" x="160" y="270" width="306" height="32"/>
+                    <rect key="frame" x="160" y="272" width="306" height="32"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="push" title="Toggle macOS Dock" alternateTitle="Toggle macOS Dock" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="HTT-Mw-QoA">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -548,12 +669,12 @@
                     </connections>
                 </button>
                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PT3-jw-AJM">
-                    <rect key="frame" x="166" y="227" width="32" height="32"/>
+                    <rect key="frame" x="166" y="229" width="32" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSCaution" id="jd5-RS-k20"/>
                 </imageView>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EVt-dN-oSr">
-                    <rect key="frame" x="204" y="229" width="258" height="28"/>
+                    <rect key="frame" x="204" y="231" width="258" height="28"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="justified" title="Use caution: this button changes the settings of the system Dock." id="aMG-8G-l05">
                         <font key="font" metaFont="smallSystem"/>
@@ -562,7 +683,7 @@
                     </textFieldCell>
                 </textField>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RWM-KH-Fhd">
-                    <rect key="frame" x="164" y="194" width="202" height="18"/>
+                    <rect key="frame" x="164" y="196" width="202" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Automatically start EnergyBar" bezelStyle="regularSquare" imagePosition="left" inset="2" id="E2Y-bL-lmT">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -573,7 +694,7 @@
                     </connections>
                 </button>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SVK-92-qZr">
-                    <rect key="frame" x="164" y="160" width="298" height="28"/>
+                    <rect key="frame" x="164" y="162" width="298" height="28"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="justified" title="Check this to have macOS start EnergyBar whenever it starts." id="aHi-13-fuN">
                         <font key="font" metaFont="smallSystem"/>
@@ -582,7 +703,7 @@
                     </textFieldCell>
                 </textField>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ton-qJ-Jsd">
-                    <rect key="frame" x="164" y="136" width="236" height="18"/>
+                    <rect key="frame" x="164" y="138" width="236" height="18"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Do not show this window at startup" bezelStyle="regularSquare" imagePosition="left" inset="2" id="vKO-FB-GjM">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -598,7 +719,7 @@
                     </connections>
                 </button>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fqD-hK-5lQ">
-                    <rect key="frame" x="160" y="88" width="302" height="42"/>
+                    <rect key="frame" x="160" y="90" width="302" height="42"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="justified" id="yKM-2M-71m">
                         <font key="font" metaFont="smallSystem"/>
@@ -631,155 +752,17 @@
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="AppIcon" id="sDu-Fb-pcQ"/>
                 </imageView>
                 <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="nrm-6P-0e2">
-                    <rect key="frame" x="12" y="216" width="456" height="5"/>
+                    <rect key="frame" x="12" y="218" width="456" height="5"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                 </box>
             </subviews>
-            <point key="canvasLocation" x="85" y="-134"/>
-        </customView>
-        <customView id="LNX-xt-gFC">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="255"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-            <subviews>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RI6-LC-Dn0">
-                    <rect key="frame" x="18" y="216" width="142" height="17"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Applications Folder:" id="we4-MN-ZoZ">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-                <pathControl verticalHuggingPriority="750" fixedFrame="YES" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nd5-hn-yED">
-                    <rect key="frame" x="163" y="211" width="300" height="26"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <pathCell key="cell" selectable="YES" editable="YES" alignment="left" pathStyle="popUp" id="iGa-4q-LTE">
-                        <font key="font" metaFont="system"/>
-                        <url key="url" string="file://localhost/Applications/"/>
-                        <allowedTypes>
-                            <string>public.folder</string>
-                        </allowedTypes>
-                        <connections>
-                            <binding destination="pJh-SC-QEV" name="value" keyPath="values.defaultAppsFolder" id="Lud-Fv-Ndc">
-                                <dictionary key="options">
-                                    <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
-                                    <bool key="NSConditionallySetsEnabled" value="NO"/>
-                                    <string key="NSValueTransformerName">StringToUrlTransformer</string>
-                                </dictionary>
-                            </binding>
-                        </connections>
-                    </pathCell>
-                    <connections>
-                        <action selector="appsFolderAction:" target="Voe-Tx-rLC" id="Eib-v8-fEF"/>
-                    </connections>
-                </pathControl>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CXO-38-BKx">
-                    <rect key="frame" x="164" y="123" width="298" height="84"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="justified" id="1ol-1B-y4l">
-                        <font key="font" metaFont="smallSystem"/>
-                        <string key="title">EnergyBar populates itself with the applications in this folder.
-
-In general the folder should contain application aliases. The order of the folder contents is significant and determines the order that EnergyBar displays its items.</string>
-                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a2a-cX-kjk">
-                    <rect key="frame" x="164" y="99" width="182" height="18"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="check" title="Show running applications" bezelStyle="regularSquare" imagePosition="left" inset="2" id="F3l-pF-4z4">
-                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="showsRunningAppsAction:" target="Voe-Tx-rLC" id="nL1-lU-cyI"/>
-                        <binding destination="pJh-SC-QEV" name="value" keyPath="values.showsRunningApps" id="Grg-py-OEW"/>
-                    </connections>
-                </button>
-                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aqA-xy-O2O">
-                    <rect key="frame" x="164" y="79" width="179" height="18"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="check" title="Open folders in Touch Bar" bezelStyle="regularSquare" imagePosition="left" inset="2" id="MUe-xM-LBQ">
-                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="showsFoldersInTouchBarAction:" target="Voe-Tx-rLC" id="Roe-8f-YlL"/>
-                        <binding destination="pJh-SC-QEV" name="value" keyPath="values.showsFoldersInTouchBar" id="N9v-AC-XvI"/>
-                    </connections>
-                </button>
-                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uDG-IA-Ui4">
-                    <rect key="frame" x="164" y="59" width="90" height="18"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="check" title="Show trash" bezelStyle="regularSquare" imagePosition="left" inset="2" id="JrQ-QJ-ade">
-                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="showsTrashAction:" target="Voe-Tx-rLC" id="xkX-3x-8Ue"/>
-                        <binding destination="pJh-SC-QEV" name="value" keyPath="values.showsTrash" id="SJ7-MZ-0S1"/>
-                    </connections>
-                </button>
-                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FlB-cq-KEg">
-                    <rect key="frame" x="160" y="13" width="153" height="32"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="push" title="From macOS Dock" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="PfM-cZ-x9j">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="resetFromDockAction:" target="Voe-Tx-rLC" id="FUK-Us-rt6"/>
-                    </connections>
-                </button>
-                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rgY-4i-8rq">
-                    <rect key="frame" x="313" y="13" width="153" height="32"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="push" title="Show Folder" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="YqK-L0-qea">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="showAppsFolderAction:" target="Voe-Tx-rLC" id="Vwx-ie-R14"/>
-                    </connections>
-                </button>
-            </subviews>
-            <point key="canvasLocation" x="85" y="247.5"/>
-        </customView>
-        <customView id="yF3-2P-9fI">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="100"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-            <subviews>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JVQ-1d-WE0">
-                    <rect key="frame" x="18" y="63" width="142" height="17"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Clock:" id="ZQy-OV-XiW">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EM9-gH-EDe">
-                    <rect key="frame" x="164" y="62" width="145" height="18"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="check" title="Show 24-hour clock" bezelStyle="regularSquare" imagePosition="left" inset="2" id="TM0-X1-Jg3">
-                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="shows24HourClockAction:" target="Voe-Tx-rLC" id="ySG-F7-jKt"/>
-                        <binding destination="pJh-SC-QEV" name="value" keyPath="values.shows24HourClock" id="VmF-Xd-RlH"/>
-                    </connections>
-                </button>
-            </subviews>
-            <point key="canvasLocation" x="85" y="490"/>
+            <point key="canvasLocation" x="85" y="243"/>
         </customView>
     </objects>
     <resources>
         <image name="AppIcon" width="128" height="128"/>
+        <image name="NSAdvanced" width="32" height="32"/>
         <image name="NSCaution" width="32" height="32"/>
-        <image name="PaneAdvanced" width="24" height="24"/>
-        <image name="PaneDock" width="24" height="24"/>
-        <image name="PaneHome" width="24" height="24"/>
+        <image name="NSPreferencesGeneral" width="32" height="32"/>
     </resources>
 </document>

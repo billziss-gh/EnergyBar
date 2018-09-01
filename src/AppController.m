@@ -18,19 +18,13 @@
 #import "LoginItem.h"
 #import "TouchBarController.h"
 
-@interface NSView ()
-- (void)_addKnownSubview:(NSView *)subview;
-@end
-
 @interface AppController () <NSApplicationDelegate, NSWindowDelegate>
 - (void)fsnotify:(const char *)path;
 @property (retain) NSString *standardDefaultAppsFolder;
 @property (assign) IBOutlet TouchBarController *touchBarController;
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet NSView *generalView;
-@property (assign) IBOutlet NSView *dockView;
-@property (assign) IBOutlet NSView *otherView;
-@property (assign) IBOutlet NSSegmentedControl *paneControl;
+@property (assign) IBOutlet NSView *advancedView;
 @property (assign) IBOutlet NSTextField *versionLabel;
 @property (assign) IBOutlet NSButton *toggleMacOSDockButton;
 @property (assign) IBOutlet NSButton *loginItemButton;
@@ -185,18 +179,15 @@ static void AppControllerFSNotify(const char *path, void *data)
     [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] reset];
 }
 
-- (IBAction)paneControlAction:(id)sender
+- (IBAction)toolbarItemAction:(id)sender
 {
-    switch (self.paneControl.selectedSegment)
+    switch ([sender tag])
     {
     case 0:
         [self setContentView:self.generalView];
         break;
     case 1:
-        [self setContentView:self.dockView];
-        break;
-    case 2:
-        [self setContentView:self.otherView];
+        [self setContentView:self.advancedView];
         break;
     }
 }
