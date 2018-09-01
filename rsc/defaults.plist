@@ -129,8 +129,8 @@
 	<string>~/Library/EnergyBar/Applications</string>
 	<key>mainWindowHidden</key>
 	<false/>
-	<key>opensFoldersImmediately</key>
-	<false/>
+	<key>showsFoldersInTouchBar</key>
+	<true/>
 	<key>showsRunningApps</key>
 	<true/>
 	<key>showsTrash</key>

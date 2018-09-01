@@ -27,6 +27,10 @@
 @property (retain) NSString *standardDefaultAppsFolder;
 @property (assign) IBOutlet TouchBarController *touchBarController;
 @property (assign) IBOutlet NSWindow *window;
+@property (assign) IBOutlet NSView *generalView;
+@property (assign) IBOutlet NSView *dockView;
+@property (assign) IBOutlet NSView *otherView;
+@property (assign) IBOutlet NSSegmentedControl *paneControl;
 @property (assign) IBOutlet NSTextField *versionLabel;
 @property (assign) IBOutlet NSButton *toggleMacOSDockButton;
 @property (assign) IBOutlet NSButton *loginItemButton;
@@ -77,7 +81,7 @@ static void AppControllerFSNotify(const char *path, void *data)
     FSNotifyStop(_stream);
     _stream = FSNotifyStart([defaultAppsFolder UTF8String], AppControllerFSNotify, self);
 
-    NSMutableParagraphStyle *sourceLinkPara = [[[NSParagraphStyle defaultParagraphStyle]
+   NSMutableParagraphStyle *sourceLinkPara = [[[NSParagraphStyle defaultParagraphStyle]
         mutableCopy] autorelease];
     sourceLinkPara.alignment = self.sourceLinkButton.alignment;
     NSDictionary *sourceLinkAttr = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -87,19 +91,9 @@ static void AppControllerFSNotify(const char *path, void *data)
         nil];
     self.sourceLinkButton.attributedTitle = [[[NSAttributedString alloc]
         initWithString:self.sourceLinkButton.title attributes:sourceLinkAttr] autorelease];
-
-    NSView *contentView = self.window.contentView;
-    NSView *superView = contentView.superview;
-    if ([superView respondsToSelector:@selector(_addKnownSubview:)])
-        [superView _addKnownSubview:contentView];
-    else
-        [superView addSubview:contentView];
-
     [self updateToggleMacOSDockButton];
-
     self.loginItemButton.state = IsLoginItem([[NSBundle mainBundle] bundleURL]) ?
         NSControlStateValueOn : NSControlStateValueOff;
-
     NSString *version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
     if (nil != version)
         version = [self.versionLabel.stringValue
@@ -108,6 +102,7 @@ static void AppControllerFSNotify(const char *path, void *data)
         version = @"";
     self.versionLabel.stringValue = version;
 
+    [self setContentView:self.generalView];
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"mainWindowHidden"])
         [self showMainWindow:nil];
 
@@ -161,6 +156,21 @@ static void AppControllerFSNotify(const char *path, void *data)
     //NSApp.activationPolicy = NSApplicationActivationPolicyProhibited;
 }
 
+- (void)setContentView:(NSView *)view
+{
+    NSWindow *window = self.window;
+    CGRect frameRect = window.frame;
+    CGSize frameSize = nil != view ?
+        [window frameRectForContentRect:view.bounds].size :
+        frameRect.size;
+    frameRect.origin = CGPointMake(
+        frameRect.origin.x, frameRect.origin.y + frameRect.size.height - frameSize.height);
+    frameRect.size = frameSize;
+    window.contentView = nil;
+    [window setFrame:frameRect display:YES animate:window.isVisible];
+    window.contentView = view;
+}
+
 - (void)showMainWindow:(id)sender
 {
     //NSApp.activationPolicy = NSApplicationActivationPolicyRegular;
@@ -172,6 +182,22 @@ static void AppControllerFSNotify(const char *path, void *data)
 - (void)fsnotify:(const char *)path
 {
     [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] reset];
+}
+
+- (IBAction)paneControlAction:(id)sender
+{
+    switch (self.paneControl.selectedSegment)
+    {
+    case 0:
+        [self setContentView:self.generalView];
+        break;
+    case 1:
+        [self setContentView:self.dockView];
+        break;
+    case 2:
+        [self setContentView:self.otherView];
+        break;
+    }
 }
 
 - (IBAction)appsFolderAction:(id)sender
@@ -289,6 +315,11 @@ static void AppControllerFSNotify(const char *path, void *data)
 }
 
 - (IBAction)showsRunningAppsAction:(id)sender
+{
+    [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] reset];
+}
+
+- (IBAction)showsFoldersInTouchBarAction:(id)sender
 {
     [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] reset];
 }

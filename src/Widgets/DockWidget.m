@@ -746,7 +746,7 @@ static const NSUInteger maxPersistentItemCount = 8;
             [value boolValue];
         BOOL isApp = [url getResourceValue:&value forKey:NSURLIsApplicationKey error:0] &&
             [value boolValue];
-        BOOL open = [[NSUserDefaults standardUserDefaults] boolForKey:@"opensFoldersImmediately"];
+        BOOL open = ![[NSUserDefaults standardUserDefaults] boolForKey:@"showsFoldersInTouchBar"];
         if (!isDir || isPkg || isApp)
             [[NSWorkspace sharedWorkspace] openURL:url];
         else if (open)
@@ -780,7 +780,7 @@ static const NSUInteger maxPersistentItemCount = 8;
 
 - (void)trashcanClick:(id)sender
 {
-    BOOL open = [[NSUserDefaults standardUserDefaults] boolForKey:@"opensFoldersImmediately"];
+    BOOL open = ![[NSUserDefaults standardUserDefaults] boolForKey:@"showsFoldersInTouchBar"];
     if (open)
         [[NSWorkspace sharedWorkspace] openTrashcan];
     else
