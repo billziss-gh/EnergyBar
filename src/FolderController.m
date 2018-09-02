@@ -65,8 +65,7 @@ static const NSUInteger maxFileCount = 100;
 - (void)removeFromSuperview
 {
     /* work around a problem in NSScrubber(?) */
-    self.imageTitleView.image = nil;
-    self.imageTitleView.title = @"";
+    self.hidden = YES;
     [super removeFromSuperview];
 }
 @end
@@ -287,6 +286,7 @@ static const NSUInteger maxFileCount = 100;
 {
     FolderItem *item = [self.contents objectAtIndex:index];
     FolderItemView *view = [self.scrubber makeItemWithIdentifier:@"item" owner:nil];
+    view.hidden = NO;
     view.imageTitleView.image = item.icon;
     view.imageTitleView.title = NSImageOnly != self.imagePosition ?
         [item.url lastPathComponent] : @"";
