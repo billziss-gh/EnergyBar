@@ -61,6 +61,14 @@ static const NSUInteger maxFileCount = 100;
 
     [super dealloc];
 }
+
+- (void)removeFromSuperview
+{
+    /* work around a problem in NSScrubber(?) */
+    self.imageTitleView.image = nil;
+    self.imageTitleView.title = @"";
+    [super removeFromSuperview];
+}
 @end
 
 @interface FolderController ()
