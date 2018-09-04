@@ -13,6 +13,7 @@
 
 #import "DockWidget.h"
 #import <objc/runtime.h>
+#import "DragWindowController.h"
 #import "FolderController.h"
 #import "NSWorkspace+Trashcan.h"
 
@@ -206,7 +207,14 @@ static const NSUInteger maxPersistentItemCount = 8;
 }
 @end
 
-@interface DockWidget () <NSScrubberDataSource, NSScrubberDelegate, FolderControllerDelegate>
+@interface DockWidget ()
+<
+    NSScrubberDataSource,
+    NSScrubberDelegate,
+    DragWindowControllerDelegate,
+    FolderControllerDelegate
+>
+@property (retain) DragWindowController *windowController;
 @property (retain) FolderController *folderController;
 @property (retain) NSArray *defaultApps;
 @property (retain) NSArray *runningApps;    /* running apps other than default */
@@ -221,6 +229,8 @@ static const NSUInteger maxPersistentItemCount = 8;
 {
     _itemViews = [[NSMutableDictionary alloc] init];
 
+    self.windowController = [DragWindowController controller];
+    self.windowController.delegate = self;
     self.folderController = [FolderController controller];
     self.folderController.delegate = self;
 
@@ -312,6 +322,7 @@ static const NSUInteger maxPersistentItemCount = 8;
     self.runningApps = nil;
 
     self.folderController = nil;
+    self.windowController = nil;
 
     [_itemViews release];
 
@@ -347,6 +358,26 @@ static const NSUInteger maxPersistentItemCount = 8;
     if (nil != app.path)
         [[NSWorkspace sharedWorkspace] openFile:app.path withApplication:nil andDeactivate:YES];
     scrubber.selectedIndex = -1;
+}
+
+- (BOOL)dragWindowController:(DragWindowController *)controller
+    hoverURLs:(NSArray *)urls atPoint:(NSPoint)point
+{
+    point = [self.view convertPoint:point fromView:nil];
+
+    NSLog(@"%s: point=%@ urls=%@", __FUNCTION__, NSStringFromPoint(point), urls);
+
+    return YES;
+}
+
+- (BOOL)dragWindowController:(DragWindowController *)controller
+    acceptURLs:(NSArray *)urls atPoint:(NSPoint)point
+{
+    point = [self.view convertPoint:point fromView:nil];
+
+    NSLog(@"%s: point=%@ urls=%@", __FUNCTION__, NSStringFromPoint(point), urls);
+
+    return YES;
 }
 
 - (void)folderController:(FolderController *)controller didSelectURL:(NSURL *)url
