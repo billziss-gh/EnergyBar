@@ -52,7 +52,6 @@
 
 @implementation NowPlayingWidget
 {
-    BOOL _showsArtist;
     NowPlayingWidgetDisplayOptions _displayOptions;
 }
 
@@ -132,8 +131,6 @@
 {
     if (NSGestureRecognizerStateRecognized != recognizer.state)
         return;
-
-    _showsArtist = !_showsArtist;
     
     // Cycle the display options
     if (_displayOptions & NowPlayingWidgetDisplayOptionArtist && _displayOptions & NowPlayingWidgetDisplayOptionTitle) {
