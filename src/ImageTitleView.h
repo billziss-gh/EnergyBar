@@ -13,12 +13,24 @@
 
 #import <Cocoa/Cocoa.h>
 
+typedef NS_OPTIONS(NSInteger, ImageTitleViewLayoutOptions) {
+    ImageTitleViewLayoutOptionImage     = 1 << 1,
+    ImageTitleViewLayoutOptionTitle     = 1 << 2,
+    ImageTitleViewLayoutOptionSubtitle  = 1 << 3
+};
+
 @interface ImageTitleView : NSView
 @property (retain, getter=image, setter=setImage:) NSImage *image;
 @property (assign, getter=imageSize, setter=setImageSize:) NSSize imageSize;
-@property (assign, getter=imagePosition, setter=setImagePosition:) NSCellImagePosition imagePosition;
-    // supported: NSNoImage, NSImageOnly, NSImageLeft
+
 @property (retain, getter=title, setter=setTitle:) NSString *title;
 @property (retain, getter=titleFont, setter=setTitleFont:) NSFont *titleFont;
 @property (assign, getter=titleLineBreakMode, setter=setTitleLineBreakMode:) NSLineBreakMode titleLineBreakMode;
+
+@property(assign, getter=layoutOptions, setter=setLayoutOptions:) ImageTitleViewLayoutOptions layoutOptions;
+
+@property (retain, getter=subtitle, setter=setSubtitle:) NSString *subtitle;
+@property (retain, getter=subtitleFont, setter=setSubtitleFont:) NSFont *subtitleFont;
+@property (assign, getter=subtitleLineBreakMode, setter=setSubtitleLineBreakMode:) NSLineBreakMode subtitleLineBreakMode;
+
 @end

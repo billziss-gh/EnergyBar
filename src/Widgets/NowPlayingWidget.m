@@ -30,12 +30,17 @@
     self.layer.backgroundColor = [[NSColor colorWithWhite:0.0 alpha:0.5] CGColor];
 
     self.imageSize = NSMakeSize(20, 20);
-    self.imagePosition = NSImageLeft;
 
     self.titleFont = [NSFont
         systemFontOfSize:[NSFont systemFontSizeForControlSize:NSControlSizeSmall]];
     self.titleLineBreakMode = NSLineBreakByTruncatingTail;
+    
+    self.subtitleFont = [NSFont systemFontOfSize:
+                         [NSFont systemFontSizeForControlSize:NSControlSizeSmall]];
+    self.subtitleLineBreakMode = NSLineBreakByTruncatingTail;
 
+    self.layoutOptions = ImageTitleViewLayoutOptionImage | ImageTitleViewLayoutOptionTitle;
+    
     return self;
 }
 
@@ -48,6 +53,7 @@
 @implementation NowPlayingWidget
 {
     BOOL _showsArtist;
+    NowPlayingWidgetDisplayOptions _displayOptions;
 }
 
 - (void)commonInit
@@ -63,6 +69,8 @@
     self.view = [[[NowPlayingWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
     [self.view addGestureRecognizer:clickRecognizer];
     [self.view addGestureRecognizer:pressRecognizer];
+    
+    _displayOptions = NowPlayingWidgetDisplayOptionTitle;
 
     [self resetNowPlaying];
 
@@ -86,27 +94,33 @@
 - (void)resetNowPlaying
 {
     NSImage *icon = [NowPlaying sharedInstance].appIcon;
-
-    NSString *title = nil;
-    if (!_showsArtist)
-    {
-        title = [NowPlaying sharedInstance].title;
-        if (nil != title)
-            title = [@"♫ " stringByAppendingString:title];
-    }
-    else
-    {
-        title = [NowPlaying sharedInstance].artist;
-        if (nil != title)
-            title = [@"☻ " stringByAppendingString:title];
-    }
-
+    NSString *title = [NowPlaying sharedInstance].title;
+    NSString *subtitle = [NowPlaying sharedInstance].artist;
+    
+    if (nil != title)
+        title = [@"♫ " stringByAppendingString:title];
+    
     if (nil == icon && nil == title)
         title = @"♫";
+    
+    if (nil != subtitle)
+        subtitle = [@"☻ " stringByAppendingString:subtitle];
+    
+    ImageTitleViewLayoutOptions layoutOptions = ImageTitleViewLayoutOptionImage;
+    
+    if (_displayOptions & NowPlayingWidgetDisplayOptionArtist) {
+        layoutOptions = layoutOptions | ImageTitleViewLayoutOptionTitle;
+    }
+    
+    if (_displayOptions & NowPlayingWidgetDisplayOptionTitle) {
+        layoutOptions = layoutOptions | ImageTitleViewLayoutOptionSubtitle;
+    }
 
     NowPlayingWidgetView *view = self.view;
     view.image = icon;
     view.title = title;
+    view.subtitle = subtitle;
+    view.layoutOptions = layoutOptions;
 }
 
 - (void)nowPlayingNotification:(NSNotification *)notification
@@ -120,6 +134,16 @@
         return;
 
     _showsArtist = !_showsArtist;
+    
+    // Cycle the display options
+    if (_displayOptions & NowPlayingWidgetDisplayOptionArtist && _displayOptions & NowPlayingWidgetDisplayOptionTitle) {
+        _displayOptions = NowPlayingWidgetDisplayOptionArtist;
+    } else if (_displayOptions & NowPlayingWidgetDisplayOptionArtist) {
+        _displayOptions = NowPlayingWidgetDisplayOptionTitle;
+    } else {
+        _displayOptions = NowPlayingWidgetDisplayOptionArtist | NowPlayingWidgetDisplayOptionTitle;
+    }
+    
     [self resetNowPlaying];
 }
 

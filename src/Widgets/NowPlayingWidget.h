@@ -14,5 +14,10 @@
 #import <Cocoa/Cocoa.h>
 #import "CustomWidget.h"
 
+typedef NS_OPTIONS(NSInteger, NowPlayingWidgetDisplayOptions) {
+    NowPlayingWidgetDisplayOptionArtist = 1 << 1,
+    NowPlayingWidgetDisplayOptionTitle  = 1 << 2
+};
+
 @interface NowPlayingWidget : CustomWidget
 @end
