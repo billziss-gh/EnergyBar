@@ -29,17 +29,18 @@
     self.layer.cornerRadius = 8.0;
     self.layer.backgroundColor = [[NSColor colorWithWhite:0.0 alpha:0.5] CGColor];
 
-    self.imageSize = NSMakeSize(20, 20);
+    self.imageSize = NSMakeSize(30, 30);
 
     self.titleFont = [NSFont
-        systemFontOfSize:[NSFont systemFontSizeForControlSize:NSControlSizeSmall]];
+        boldSystemFontOfSize:[NSFont systemFontSizeForControlSize:NSControlSizeSmall]];
     self.titleLineBreakMode = NSLineBreakByTruncatingTail;
     
     self.subtitleFont = [NSFont systemFontOfSize:
                          [NSFont systemFontSizeForControlSize:NSControlSizeSmall]];
+    
     self.subtitleLineBreakMode = NSLineBreakByTruncatingTail;
 
-    self.layoutOptions = ImageTitleViewLayoutOptionImage | ImageTitleViewLayoutOptionTitle;
+    self.layoutOptions = ImageTitleViewLayoutOptionImage | ImageTitleViewLayoutOptionTitle | ImageTitleViewLayoutOptionSubtitle;
     
     return self;
 }
@@ -52,7 +53,6 @@
 
 @implementation NowPlayingWidget
 {
-    NowPlayingWidgetDisplayOptions _displayOptions;
 }
 
 - (void)commonInit
@@ -68,8 +68,6 @@
     self.view = [[[NowPlayingWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
     [self.view addGestureRecognizer:clickRecognizer];
     [self.view addGestureRecognizer:pressRecognizer];
-    
-    _displayOptions = NowPlayingWidgetDisplayOptionTitle;
 
     [self resetNowPlaying];
 
@@ -95,24 +93,27 @@
     NSImage *icon = [NowPlaying sharedInstance].appIcon;
     NSString *title = [NowPlaying sharedInstance].title;
     NSString *subtitle = [NowPlaying sharedInstance].artist;
+    ImageTitleViewLayoutOptions layoutOptions = 0;
     
-    if (nil != title)
-        title = [@"♫ " stringByAppendingString:title];
+    if (nil != icon) {
+        layoutOptions = layoutOptions | ImageTitleViewLayoutOptionImage;
+    }
     
-    if (nil == icon && nil == title)
-        title = @"♫";
-    
-    if (nil != subtitle)
-        subtitle = [@"☻ " stringByAppendingString:subtitle];
-    
-    ImageTitleViewLayoutOptions layoutOptions = ImageTitleViewLayoutOptionImage;
-    
-    if (_displayOptions & NowPlayingWidgetDisplayOptionArtist) {
+    if (nil != title) {
         layoutOptions = layoutOptions | ImageTitleViewLayoutOptionTitle;
     }
     
-    if (_displayOptions & NowPlayingWidgetDisplayOptionTitle) {
+    if (nil != subtitle) {
         layoutOptions = layoutOptions | ImageTitleViewLayoutOptionSubtitle;
+    }
+    
+    if (nil == title && nil == subtitle) {
+        layoutOptions = layoutOptions | ImageTitleViewLayoutOptionTitle;
+        title = @"Not playing";
+        
+        if (nil == icon) {
+            title = [@"♫ " stringByAppendingString: title];
+        }
     }
 
     NowPlayingWidgetView *view = self.view;
@@ -131,17 +132,6 @@
 {
     if (NSGestureRecognizerStateRecognized != recognizer.state)
         return;
-    
-    // Cycle the display options
-    if (_displayOptions & NowPlayingWidgetDisplayOptionArtist && _displayOptions & NowPlayingWidgetDisplayOptionTitle) {
-        _displayOptions = NowPlayingWidgetDisplayOptionArtist;
-    } else if (_displayOptions & NowPlayingWidgetDisplayOptionArtist) {
-        _displayOptions = NowPlayingWidgetDisplayOptionTitle;
-    } else {
-        _displayOptions = NowPlayingWidgetDisplayOptionArtist | NowPlayingWidgetDisplayOptionTitle;
-    }
-    
-    [self resetNowPlaying];
 }
 
 - (void)pressAction:(NSGestureRecognizer *)recognizer
