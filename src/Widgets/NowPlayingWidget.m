@@ -29,12 +29,13 @@
     self.layer.cornerRadius = 8.0;
     self.layer.backgroundColor = [[NSColor colorWithWhite:0.0 alpha:0.5] CGColor];
 
-    self.imageSize = NSMakeSize(20, 20);
-    self.imagePosition = NSImageLeft;
-
-    self.titleFont = [NSFont
-        systemFontOfSize:[NSFont systemFontSizeForControlSize:NSControlSizeSmall]];
+    self.imageSize = NSMakeSize(26, 26);
+    self.titleFont = [NSFont boldSystemFontOfSize:[NSFont
+        systemFontSizeForControlSize:NSControlSizeSmall]];
     self.titleLineBreakMode = NSLineBreakByTruncatingTail;
+    self.subtitleFont = [NSFont systemFontOfSize:[NSFont
+        systemFontSizeForControlSize:NSControlSizeSmall]];
+    self.subtitleLineBreakMode = NSLineBreakByTruncatingTail;
 
     return self;
 }
@@ -46,22 +47,22 @@
 @end
 
 @implementation NowPlayingWidget
-{
-    BOOL _showsArtist;
-}
-
 - (void)commonInit
 {
     self.customizationLabel = @"Now Playing";
+#if 0
     NSClickGestureRecognizer *clickRecognizer = [[[NSClickGestureRecognizer alloc]
         initWithTarget:self action:@selector(clickAction:)] autorelease];
     clickRecognizer.allowedTouchTypes = NSTouchTypeMaskDirect;
+#endif
     NSPressGestureRecognizer *pressRecognizer = [[[NSPressGestureRecognizer alloc]
         initWithTarget:self action:@selector(pressAction:)] autorelease];
     pressRecognizer.allowedTouchTypes = NSTouchTypeMaskDirect;
     pressRecognizer.minimumPressDuration = LongPressDuration;
     self.view = [[[NowPlayingWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
+#if 0
     [self.view addGestureRecognizer:clickRecognizer];
+#endif
     [self.view addGestureRecognizer:pressRecognizer];
 
     [self resetNowPlaying];
@@ -71,8 +72,6 @@
         selector:@selector(nowPlayingNotification:)
         name:NowPlayingInfoNotification
         object:nil];
-
-    [NowPlaying sharedInstance];
 }
 
 - (void)dealloc
@@ -86,27 +85,25 @@
 - (void)resetNowPlaying
 {
     NSImage *icon = [NowPlaying sharedInstance].appIcon;
+    NSString *title = [NowPlaying sharedInstance].title;
+    NSString *subtitle = [NowPlaying sharedInstance].artist;
 
-    NSString *title = nil;
-    if (!_showsArtist)
-    {
-        title = [NowPlaying sharedInstance].title;
-        if (nil != title)
-            title = [@"♫ " stringByAppendingString:title];
-    }
-    else
-    {
-        title = [NowPlaying sharedInstance].artist;
-        if (nil != title)
-            title = [@"☻ " stringByAppendingString:title];
-    }
-
-    if (nil == icon && nil == title)
+    if (nil == icon && nil == title && nil == subtitle)
         title = @"♫";
+
+    ImageTitleViewLayoutOptions layoutOptions = 0;
+    if (nil != icon)
+        layoutOptions = layoutOptions | ImageTitleViewLayoutOptionImage;
+    if (nil != title)
+        layoutOptions = layoutOptions | ImageTitleViewLayoutOptionTitle;
+    if (nil != subtitle)
+        layoutOptions = layoutOptions | ImageTitleViewLayoutOptionSubtitle;
 
     NowPlayingWidgetView *view = self.view;
     view.image = icon;
     view.title = title;
+    view.subtitle = subtitle;
+    view.layoutOptions = layoutOptions;
 }
 
 - (void)nowPlayingNotification:(NSNotification *)notification
@@ -114,14 +111,13 @@
     [self resetNowPlaying];
 }
 
+#if 0
 - (void)clickAction:(NSGestureRecognizer *)recognizer
 {
     if (NSGestureRecognizerStateRecognized != recognizer.state)
         return;
-
-    _showsArtist = !_showsArtist;
-    [self resetNowPlaying];
 }
+#endif
 
 - (void)pressAction:(NSGestureRecognizer *)recognizer
 {

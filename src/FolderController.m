@@ -47,9 +47,12 @@ static const NSUInteger maxFileCount = 100;
     self.imageTitleView = [[[ImageTitleView alloc] initWithFrame:NSZeroRect] autorelease];
     self.imageTitleView.translatesAutoresizingMaskIntoConstraints = NO;
     self.imageTitleView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-    self.imageTitleView.titleFont = [NSFont
-        systemFontOfSize:[NSFont systemFontSizeForControlSize:NSControlSizeSmall]];
+    self.imageTitleView.titleFont = [NSFont systemFontOfSize:[NSFont
+        systemFontSizeForControlSize:NSControlSizeSmall]];
     self.imageTitleView.titleLineBreakMode = NSLineBreakByTruncatingTail;
+    self.imageTitleView.layoutOptions =
+        ImageTitleViewLayoutOptionImage |
+        ImageTitleViewLayoutOptionTitle;
     [self addSubview:self.imageTitleView];
 
     return self;

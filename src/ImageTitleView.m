@@ -18,12 +18,13 @@ static const CGFloat DefaultSpacerWidth = 4;
 @interface ImageTitleView ()
 @property (retain) NSImageView *imageView;
 @property (retain) NSTextField *titleView;
+@property (retain) NSTextField *subtitleView;
 @end
 
 @implementation ImageTitleView
 {
     NSSize _imageSize;
-    NSCellImagePosition _imagePosition;
+    ImageTitleViewLayoutOptions _layoutOptions;
 }
 
 - (id)initWithFrame:(NSRect)rect
@@ -33,7 +34,7 @@ static const CGFloat DefaultSpacerWidth = 4;
         return nil;
 
     _imageSize = NSMakeSize(30, 30);
-    _imagePosition = NSImageLeft;
+    _layoutOptions = 0;
 
     self.imageView = [[[NSImageView alloc] initWithFrame:NSZeroRect] autorelease];
     self.imageView.autoresizingMask = 0;
@@ -42,9 +43,14 @@ static const CGFloat DefaultSpacerWidth = 4;
     self.titleView = [NSTextField labelWithString:@""];
     self.titleView.autoresizingMask = 0;
     self.titleView.alignment = NSTextAlignmentLeft;
+    
+    self.subtitleView = [NSTextField labelWithString:@""];
+    self.subtitleView.autoresizingMask = 0;
+    self.subtitleView.alignment = NSTextAlignmentLeft;
 
     [self addSubview:self.imageView];
     [self addSubview:self.titleView];
+    [self addSubview:self.subtitleView];
 
     return self;
 }
@@ -53,6 +59,7 @@ static const CGFloat DefaultSpacerWidth = 4;
 {
     self.imageView = nil;
     self.titleView = nil;
+    self.subtitleView = nil;
 
     [super dealloc];
 }
@@ -65,7 +72,7 @@ static const CGFloat DefaultSpacerWidth = 4;
 - (void)setImage:(NSImage *)value
 {
     self.imageView.image = value;
-    //[self setNeedsLayout:YES];
+    [self setNeedsLayout:YES];
 }
 
 - (NSSize)imageSize
@@ -79,20 +86,6 @@ static const CGFloat DefaultSpacerWidth = 4;
         return;
 
     _imageSize = value;
-    [self setNeedsLayout:YES];
-}
-
-- (NSCellImagePosition)imagePosition
-{
-    return _imagePosition;
-}
-
-- (void)setImagePosition:(NSCellImagePosition)value
-{
-    if (_imagePosition == value)
-        return;
-
-    _imagePosition = value;
     [self setNeedsLayout:YES];
 }
 
@@ -131,31 +124,90 @@ static const CGFloat DefaultSpacerWidth = 4;
     [self setNeedsLayout:YES];
 }
 
+- (NSString *)subtitle
+{
+    return self.subtitleView.stringValue;
+}
+
+- (void)setSubtitle:(NSString *)value
+{
+    if (nil == value)
+        value = @"";
+    self.subtitleView.stringValue = value;
+    [self setNeedsLayout:YES];
+}
+
+- (NSFont *)subtitleFont
+{
+    return self.subtitleView.font;
+}
+
+- (void)setSubtitleFont:(NSFont *)value
+{
+    self.subtitleView.font = value;
+    [self setNeedsLayout:YES];
+}
+
+- (NSLineBreakMode)subtitleLineBreakMode
+{
+    return self.subtitleView.lineBreakMode;
+}
+
+- (void)setSubtitleLineBreakMode:(NSLineBreakMode)value
+{
+    self.subtitleView.lineBreakMode = value;
+    [self setNeedsLayout:YES];
+}
+
+- (ImageTitleViewLayoutOptions)layoutOptions
+{
+    return _layoutOptions;
+}
+
+- (void)setLayoutOptions:(ImageTitleViewLayoutOptions)layoutOptions
+{
+    _layoutOptions = layoutOptions;
+    [self setNeedsLayout:YES];
+}
+
 - (void)layout
 {
     [super layout];
 
     NSRect bounds = self.bounds;
-    BOOL showsImage = NSNoImage != _imagePosition;
-    BOOL showsTitle = NSImageOnly != _imagePosition;
+    BOOL showsImage = !!(_layoutOptions & ImageTitleViewLayoutOptionImage);
+    BOOL showsTitle = !!(_layoutOptions & ImageTitleViewLayoutOptionTitle);
+    BOOL showsSubtitle = !!(_layoutOptions & ImageTitleViewLayoutOptionSubtitle);
     NSSize imageSize = showsImage && nil != self.image ? _imageSize : NSZeroSize;
     NSSize titleSize = showsTitle ? [self.titleView.cell cellSizeForBounds:bounds] : NSZeroSize;
-    CGFloat spacerWidth = 0 != imageSize.width && 0 != titleSize.width ? DefaultSpacerWidth : 0;
-    if (titleSize.width > bounds.size.width - (imageSize.width + spacerWidth))
-        titleSize.width = bounds.size.width - (imageSize.width + spacerWidth);
-    CGFloat totalWidth = imageSize.width + spacerWidth + titleSize.width;
+    NSSize subtitleSize = showsSubtitle ? [self.subtitleView.cell cellSizeForBounds:bounds] : NSZeroSize;
+    CGFloat spacerWidth = 0 != imageSize.width && (0 != titleSize.width || 0 != subtitleSize.width) ?
+        DefaultSpacerWidth : 0;
+    CGFloat imageSpacerWidth = imageSize.width + spacerWidth;
+    
+    /* stop the labels from going out of bounds */
+    titleSize.width = MIN(titleSize.width, bounds.size.width - imageSpacerWidth);
+    subtitleSize.width = MIN(subtitleSize.width, bounds.size.width - imageSpacerWidth);
+
+    CGFloat totalWidth = imageSpacerWidth + MAX(titleSize.width, subtitleSize.width);
     NSRect imageRect = NSMakeRect(
-        (bounds.size.width - totalWidth) / 2,
-        (bounds.size.height - imageSize.height) / 2,
+        round((bounds.size.width - totalWidth) / 2),
+        round((bounds.size.height - imageSize.height) / 2),
         imageSize.width,
         imageSize.height);
     NSRect titleRect = NSMakeRect(
-        imageRect.origin.x + imageSize.width + spacerWidth,
-        (bounds.size.height - titleSize.height) / 2,
+        round(imageRect.origin.x + imageSpacerWidth),
+        round((bounds.size.height - titleSize.height + subtitleSize.height) / 2),
         titleSize.width,
         titleSize.height);
+    NSRect subtitleRect = NSMakeRect(
+        round(imageRect.origin.x + imageSpacerWidth),
+        round((bounds.size.height - titleSize.height - subtitleSize.height) / 2),
+        subtitleSize.width,
+        subtitleSize.height);
 
     self.imageView.frame = imageRect;
     self.titleView.frame = titleRect;
+    self.subtitleView.frame = subtitleRect;
 }
 @end
