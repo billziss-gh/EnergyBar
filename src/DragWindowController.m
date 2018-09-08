@@ -14,6 +14,7 @@
 #import "DragWindowController.h"
 
 static const CGFloat ScreenWidthInTouchBarUnits = 1252;     /* don't ask! */
+static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
 
 @interface DragWindowController () <NSWindowDelegate>
 @end
@@ -89,10 +90,9 @@ static const CGFloat ScreenWidthInTouchBarUnits = 1252;     /* don't ask! */
 {
     NSRect frame = [[NSScreen screens] objectAtIndex:0].frame;
     NSRect rect = [self.window convertRectToScreen:NSMakeRect(point.x, point.y, 0, 0)];
-    point = rect.origin;
-
-    /* convert to touchbar units */
-    point.x *= ScreenWidthInTouchBarUnits / frame.size.width;
+    point.x = rect.origin.x * ScreenWidthInTouchBarUnits / frame.size.width;
+    point.x -= (ScreenWidthInTouchBarUnits - TouchBarWidthInTouchBarUnits) / 2;
+    point.y = 30.0 / 2;
 
     return point;
 }
@@ -104,7 +104,7 @@ static const CGFloat ScreenWidthInTouchBarUnits = 1252;     /* don't ask! */
 
 - (BOOL)wantsPeriodicDraggingUpdates
 {
-    return NO;
+    return YES;
 }
 
 - (NSDragOperation)draggingEntered:(id<NSDraggingInfo>)sender

@@ -12,7 +12,6 @@
  */
 
 #import "DockWidget.h"
-#import <objc/runtime.h>
 #import "DragWindowController.h"
 #import "FolderController.h"
 #import "NSWorkspace+Trashcan.h"
@@ -62,6 +61,7 @@ static const NSUInteger maxPersistentItemCount = 8;
 @property (retain) NSView *appIconContainerView;
 @property (retain) NSImageView *appIconView;
 @property (retain) NSImageView *appRunningView;
+@property (retain) NSString *appPath;
 @property (retain, getter=getAppIcon, setter=setAppIcon:) NSImage *appIcon;
 @property (assign, getter=isAppRunning, setter=setAppRunning:) BOOL appRunning;
 @property (assign, getter=isAppLaunching, setter=setAppLaunching:) BOOL appLaunching;
@@ -101,6 +101,7 @@ static const NSUInteger maxPersistentItemCount = 8;
     self.appIconContainerView = nil;
     self.appIconView = nil;
     self.appRunningView = nil;
+    self.appPath = nil;
 
     [super dealloc];
 }
@@ -188,9 +189,17 @@ static const NSUInteger maxPersistentItemCount = 8;
 @end
 
 @interface DockWidgetButton : NSButton
+@property (retain) NSURL *url;
 @end
 
 @implementation DockWidgetButton
+- (void)dealloc
+{
+    self.url = nil;
+
+    [super dealloc];
+}
+
 - (NSSize)intrinsicContentSize
 {
     return dockItemSize;
@@ -198,12 +207,68 @@ static const NSUInteger maxPersistentItemCount = 8;
 @end
 
 @interface DockWidgetView : NSStackView
+@property (retain) NSView *dragTargetView;
 @end
 
 @implementation DockWidgetView
+- (id)initWithFrame:(NSRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (nil == self)
+        return nil;
+
+    self.dragTargetView = [[NSView alloc] initWithFrame:NSZeroRect];
+    self.dragTargetView.wantsLayer = YES;
+    self.dragTargetView.layer.backgroundColor = [[NSColor colorWithWhite:1.0 alpha:0.5] CGColor];
+    self.dragTargetView.layer.cornerRadius = 4;
+    self.dragTargetView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.dragTargetView.autoresizingMask = 0;
+    self.dragTargetView.hidden = YES;
+    [self addSubview:self.dragTargetView];
+
+    return self;
+}
+
+- (void)dealloc
+{
+    self.dragTargetView = nil;
+
+    [super dealloc];
+}
+
 - (NSSize)intrinsicContentSize
 {
     return NSMakeSize(NSViewNoIntrinsicMetric, NSViewNoIntrinsicMetric);
+}
+
+- (NSView *)viewAtPoint:(NSPoint)point
+{
+    NSView *view;
+    point = [self convertPoint:point fromView:nil];
+    for (view = [self hitTest:point]; nil != view; view = view.superview)
+        if ([view isKindOfClass:[DockWidgetItemView class]] ||
+            [view isKindOfClass:[DockWidgetButton class]])
+            return view;
+    return nil;
+}
+
+- (BOOL)hoverURLs:(NSArray *)urls atPoint:(NSPoint)point
+{
+    BOOL res = NO;
+
+    if (nil != urls)
+    {
+        NSView *view = [self viewAtPoint:point];
+        if (nil != view)
+        {
+            self.dragTargetView.frame = [self convertRect:view.visibleRect fromView:view];
+            res = YES;
+        }
+    }
+
+    self.dragTargetView.hidden = !res;
+
+    return res;
 }
 @end
 
@@ -345,6 +410,7 @@ static const NSUInteger maxPersistentItemCount = 8;
     }
 
     BOOL showsRunningApps = [[NSUserDefaults standardUserDefaults] boolForKey:@"showsRunningApps"];
+    view.appPath = app.path;
     view.appIcon = app.icon;
     view.appRunning = showsRunningApps ? 0 != app.pid : NO;
     view.appLaunching = showsRunningApps ? app.launching : NO;
@@ -363,21 +429,42 @@ static const NSUInteger maxPersistentItemCount = 8;
 - (BOOL)dragWindowController:(DragWindowController *)controller
     hoverURLs:(NSArray *)urls atPoint:(NSPoint)point
 {
-    point = [self.view convertPoint:point fromView:nil];
-
-    NSLog(@"%s: point=%@ urls=%@", __FUNCTION__, NSStringFromPoint(point), urls);
-
-    return YES;
+    return [self.view hoverURLs:urls atPoint:point];
 }
 
 - (BOOL)dragWindowController:(DragWindowController *)controller
     acceptURLs:(NSArray *)urls atPoint:(NSPoint)point
 {
-    point = [self.view convertPoint:point fromView:nil];
+    BOOL res = NO;
 
-    NSLog(@"%s: point=%@ urls=%@", __FUNCTION__, NSStringFromPoint(point), urls);
+    NSView *view = [self.view viewAtPoint:point];
+    if ([view isKindOfClass:[DockWidgetItemView class]])
+    {
+        NSString *appPath = [(DockWidgetItemView *)view appPath];
+        if (nil != appPath)
+            [[NSWorkspace sharedWorkspace]
+                openURLs:urls
+                withApplicationAtURL:[NSURL fileURLWithPath:appPath]
+                options:NSWorkspaceLaunchAsync
+                configuration:[NSDictionary dictionary]
+                error:0];
 
-    return YES;
+        res = YES;
+    }
+    else
+    if ([view isKindOfClass:[DockWidgetButton class]])
+    {
+        NSURL *url = [(DockWidgetButton *)view url];
+        if (nil != url)
+        {
+        }
+        else
+            [[NSWorkspace sharedWorkspace] recycleURLs:urls completionHandler:nil];
+
+        res = YES;
+    }
+
+    return res;
 }
 
 - (void)folderController:(FolderController *)controller didSelectURL:(NSURL *)url
@@ -510,6 +597,7 @@ static const NSUInteger maxPersistentItemCount = 8;
             if (nil == [_itemViews objectForKey:key])
             {
                 DockWidgetItemView *view = [itemViews objectForKey:key];
+                view.appPath = nil;
                 view.appIcon = nil;
                 view.appRunning = NO;
                 view.appLaunching = NO;
@@ -599,13 +687,13 @@ static const NSUInteger maxPersistentItemCount = 8;
             makeImageWithSize:iconSize
             drawImage:[[NSWorkspace sharedWorkspace] iconForFile:url.path]
             inRect:iconRect];
-        NSButton *button = [DockWidgetButton
+        DockWidgetButton *button = [DockWidgetButton
             buttonWithImage:image
             target:self
             action:@selector(persistentItemClick:)];
         button.translatesAutoresizingMaskIntoConstraints = NO;
         button.bordered = NO;
-        objc_setAssociatedObject(button, [DockWidget class], url, OBJC_ASSOCIATION_RETAIN);
+        button.url = url;
 
         switch (gravity)
         {
@@ -770,7 +858,7 @@ static const NSUInteger maxPersistentItemCount = 8;
 
 - (void)persistentItemClick:(id)sender
 {
-    NSURL *url = objc_getAssociatedObject(sender, [DockWidget class]);
+    NSURL *url = [sender url];
     if (nil != url)
     {
         NSNumber *value;
