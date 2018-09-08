@@ -16,6 +16,7 @@
 #import "DockWidget.h"
 #import "FSNotify.h"
 #import "LoginItem.h"
+#import "NowPlayingWidget.h"
 #import "TouchBarController.h"
 
 @interface AppController () <NSApplicationDelegate, NSWindowDelegate>
@@ -105,6 +106,7 @@ static void AppControllerFSNotify(const char *path, void *data)
         setPressTarget:self
         action:@selector(showMainWindow:)];
     [self updateDateFormat];
+    [self showsActiveAppOnTapAction:nil];
 
     if (![self.touchBarController present])
     {
@@ -337,6 +339,12 @@ static void AppControllerFSNotify(const char *path, void *data)
     // stop and start the clock to have it redraw itself
     [clock stop];
     [clock start];
+}
+
+- (IBAction)showsActiveAppOnTapAction:(id)sender
+{
+    NowPlayingWidget *widget = [self.touchBarController.touchBar itemForIdentifier:@"NowPlaying"];
+    widget.showsActiveAppOnTap = [[NSUserDefaults standardUserDefaults] boolForKey:@"showsActiveAppOnTap"];
 }
 
 - (void)updateToggleMacOSDockButton

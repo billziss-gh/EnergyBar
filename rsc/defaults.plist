@@ -131,6 +131,8 @@
 	<false/>
 	<key>shows24HourClock</key>
 	<false/>
+	<key>showsActiveAppOnTap</key>
+	<false/>
 	<key>showsFoldersInTouchBar</key>
 	<true/>
 	<key>showsRunningApps</key>
