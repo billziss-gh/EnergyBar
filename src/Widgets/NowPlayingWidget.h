@@ -15,4 +15,5 @@
 #import "CustomWidget.h"
 
 @interface NowPlayingWidget : CustomWidget
+@property (getter=showsActiveAppOnTap, setter=setShowsActiveAppOnTap:) BOOL showsActiveAppOnTap;
 @end
