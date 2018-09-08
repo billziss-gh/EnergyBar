@@ -17,6 +17,18 @@
 @end
 
 @implementation FixedSizeLabelCell
+- (NSFont *)font
+{
+    NSFont *systemFont = [NSFont systemFontOfSize:0];
+    NSSize fixedSize = [(id)self.controlView fixedSize];
+    NSSize titleSize = [self.stringValue sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+        systemFont, NSFontAttributeName,
+        nil]];
+    return fixedSize.width >= titleSize.width ?
+        systemFont :
+        [NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSControlSizeSmall]];
+}
+
 - (NSRect)drawingRectForBounds:(NSRect)rect
 {
     NSRect drawingRect = [super drawingRectForBounds:rect];
@@ -58,17 +70,5 @@
 - (NSSize)intrinsicContentSize
 {
     return self.fixedSize;
-}
-
-- (void)setStringValue:(NSString *)value
-{
-    [super setStringValue:value];
-
-    NSFont *systemFont = [NSFont systemFontOfSize:0];
-    self.font = systemFont;
-    NSSize size = [super intrinsicContentSize];
-    self.font = self.fixedSize.width >= size.width ?
-        systemFont :
-        [NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSControlSizeSmall]];
 }
 @end
