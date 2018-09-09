@@ -260,7 +260,7 @@ static const NSUInteger maxPersistentItemCount = 8;
     DragWindowControllerDelegate,
     FolderControllerDelegate
 >
-@property (retain) DragWindowController *windowController;
+@property (retain) DragWindowController *dragWindowController;
 @property (retain) FolderController *folderController;
 @property (retain) NSArray *defaultApps;
 @property (retain) NSArray *runningApps;    /* running apps other than default */
@@ -275,8 +275,7 @@ static const NSUInteger maxPersistentItemCount = 8;
 {
     _itemViews = [[NSMutableDictionary alloc] init];
 
-    self.windowController = [DragWindowController controller];
-    self.windowController.delegate = self;
+    [self resetDrag];
     self.folderController = [FolderController controller];
     self.folderController.delegate = self;
 
@@ -368,7 +367,7 @@ static const NSUInteger maxPersistentItemCount = 8;
     self.runningApps = nil;
 
     self.folderController = nil;
-    self.windowController = nil;
+    self.dragWindowController = nil;
 
     [_itemViews release];
 
@@ -710,8 +709,20 @@ static const NSUInteger maxPersistentItemCount = 8;
 
 - (void)reset
 {
+    [self resetDrag];
     [self resetPersistentItems];
     [self resetDefaultApps];
+}
+
+- (void)resetDrag
+{
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"acceptsDraggedItems"])
+    {
+        self.dragWindowController = [DragWindowController controller];
+        self.dragWindowController.delegate = self;
+    }
+    else
+        self.dragWindowController = nil;
 }
 
 - (void)resetDefaultApps

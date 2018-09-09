@@ -46,6 +46,7 @@ static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
     window.ignoresMouseEvents = NO;
     window.level = NSMainMenuWindowLevel;
     window.opaque = NO;
+    window.releasedWhenClosed = YES;
     [window registerForDraggedTypes:[NSArray arrayWithObjects:
         NSPasteboardTypeURL,
         (NSString *)kPasteboardTypeFileURLPromise,
@@ -76,6 +77,9 @@ static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
 {
     [[NSNotificationCenter defaultCenter]
         removeObserver:self];
+
+    [self.window close];
+    self.window = nil;
 
     [super dealloc];
 }

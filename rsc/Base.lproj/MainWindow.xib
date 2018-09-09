@@ -587,6 +587,7 @@ In general the folder should contain application aliases. The order of the folde
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                     <connections>
+                        <action selector="acceptsDraggedItemsAction:" target="Voe-Tx-rLC" id="Qif-BY-3rF"/>
                         <binding destination="pJh-SC-QEV" name="value" keyPath="values.acceptsDraggedItems" id="THw-rG-6mO"/>
                     </connections>
                 </button>

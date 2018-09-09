@@ -323,6 +323,11 @@ static void AppControllerFSNotify(const char *path, void *data)
     [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] reset];
 }
 
+- (IBAction)acceptsDraggedItemsAction:(id)sender
+{
+    [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] reset];
+}
+
 - (IBAction)shows24HourClockAction:(id)sender
 {
     [self updateDateFormat];
