@@ -275,7 +275,6 @@ static const NSUInteger maxPersistentItemCount = 8;
 {
     _itemViews = [[NSMutableDictionary alloc] init];
 
-    [self resetDrag];
     self.folderController = [FolderController controller];
     self.folderController.delegate = self;
 
@@ -327,8 +326,28 @@ static const NSUInteger maxPersistentItemCount = 8;
     view.orientation = NSUserInterfaceLayoutOrientationHorizontal;
     view.spacing = 0;
     self.view = view;
-    [self resetPersistentItems];
+}
 
+- (void)dealloc
+{
+    [[NSWorkspace sharedWorkspace]
+        removeTrashObserver:self];
+    [[[NSWorkspace sharedWorkspace] notificationCenter]
+        removeObserver:self];
+
+    self.defaultApps = nil;
+    self.runningApps = nil;
+
+    self.folderController = nil;
+    self.dragWindowController = nil;
+
+    [_itemViews release];
+
+    [super dealloc];
+}
+
+- (void)viewWillAppear
+{
     [[[NSWorkspace sharedWorkspace] notificationCenter]
         addObserver:self
         selector:@selector(resetRunningApps:)
@@ -349,29 +368,21 @@ static const NSUInteger maxPersistentItemCount = 8;
         selector:@selector(resetRunningApps:)
         name:NSWorkspaceDidTerminateApplicationNotification
         object:nil];
-
     [[NSWorkspace sharedWorkspace]
         addTrashObserver:self
         selector:@selector(trashNotify:)];
+
+    [self reset];
 }
 
-- (void)dealloc
+- (void)viewDidDisappear
 {
     [[NSWorkspace sharedWorkspace]
         removeTrashObserver:self];
-
     [[[NSWorkspace sharedWorkspace] notificationCenter]
         removeObserver:self];
 
-    self.defaultApps = nil;
-    self.runningApps = nil;
-
-    self.folderController = nil;
     self.dragWindowController = nil;
-
-    [_itemViews release];
-
-    [super dealloc];
 }
 
 - (NSInteger)numberOfItemsForScrubber:(NSScrubber *)scrubber
