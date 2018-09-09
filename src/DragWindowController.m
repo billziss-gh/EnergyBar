@@ -145,7 +145,7 @@ static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
 
 - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
 {
-    if ([self.delegate respondsToSelector:@selector(dragWindowController:acceptURLs:atPoint:)])
+    if ([self.delegate respondsToSelector:@selector(dragWindowController:acceptURLs:atPoint:operation:)])
     {
         NSArray *urls = [sender.draggingPasteboard
             readObjectsForClasses:[NSArray arrayWithObject:[NSURL class]]
@@ -154,7 +154,8 @@ static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
         return [self.delegate
             dragWindowController:self
             acceptURLs:urls
-            atPoint:point];
+            atPoint:point
+            operation:sender.draggingSourceOperationMask];
     }
 
     return NO;

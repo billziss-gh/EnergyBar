@@ -433,7 +433,7 @@ static const NSUInteger maxPersistentItemCount = 8;
 }
 
 - (BOOL)dragWindowController:(DragWindowController *)controller
-    acceptURLs:(NSArray *)urls atPoint:(NSPoint)point
+    acceptURLs:(NSArray *)urls atPoint:(NSPoint)point operation:(NSDragOperation)operation
 {
     BOOL res = NO;
 
@@ -457,6 +457,13 @@ static const NSUInteger maxPersistentItemCount = 8;
         NSURL *url = [(DockWidgetButton *)view url];
         if (nil != url)
         {
+            NSLog(@"DragOperation=0x%x %@ %@ %@ %@ %@",
+                (unsigned)operation,
+                operation & NSDragOperationCopy ? @"NSDragOperationCopy" : @"",
+                operation & NSDragOperationLink ? @"NSDragOperationLink" : @"",
+                operation & NSDragOperationGeneric ? @"NSDragOperationGeneric" : @"",
+                operation & NSDragOperationPrivate ? @"NSDragOperationPrivate" : @"",
+                operation & NSDragOperationDelete ? @"NSDragOperationDelete" : @"");
         }
         else
             [[NSWorkspace sharedWorkspace] recycleURLs:urls completionHandler:nil];

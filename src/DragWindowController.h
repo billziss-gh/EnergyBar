@@ -20,7 +20,7 @@
 - (BOOL)dragWindowController:(DragWindowController *)controller
     hoverURLs:(NSArray *)urls atPoint:(NSPoint)point;
 - (BOOL)dragWindowController:(DragWindowController *)controller
-    acceptURLs:(NSArray *)urls atPoint:(NSPoint)point;
+    acceptURLs:(NSArray *)urls atPoint:(NSPoint)point operation:(NSDragOperation)operation;
 @end
 
 @interface DragWindowController : NSWindowController
