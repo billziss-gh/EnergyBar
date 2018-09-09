@@ -58,7 +58,7 @@
     [self start];
 }
 
-- (void)viewWillDisappear
+- (void)viewDidDisappear
 {
     [self stop];
 }

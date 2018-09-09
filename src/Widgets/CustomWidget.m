@@ -22,9 +22,20 @@
 {
     [self.widget viewWillAppear];
 }
+
+- (void)viewDidAppear
+{
+    [self.widget viewDidAppear];
+}
+
 - (void)viewWillDisappear
 {
     [self.widget viewWillDisappear];
+}
+
+- (void)viewDidDisappear
+{
+    [self.widget viewDidDisappear];
 }
 @end
 
@@ -69,7 +80,15 @@
 {
 }
 
+- (void)viewDidAppear
+{
+}
+
 - (void)viewWillDisappear
+{
+}
+
+- (void)viewDidDisappear
 {
 }
 
