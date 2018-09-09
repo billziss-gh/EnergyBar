@@ -372,18 +372,7 @@
     self.customizationLabel = @"Control";
     self.view = view;
 
-    [[NSNotificationCenter defaultCenter]
-        addObserver:self
-        selector:@selector(nowPlayingNotification:)
-        name:NowPlayingStateNotification
-        object:nil];
     [NowPlaying sharedInstance];
-
-    [[NSNotificationCenter defaultCenter]
-        addObserver:self
-        selector:@selector(audioControlNotification:)
-        name:AudioControlNotification
-        object:nil];
     [AudioControl sharedInstance];
 }
 
@@ -396,6 +385,26 @@
     self.volumeBarController = nil;
 
     [super dealloc];
+}
+
+- (void)viewWillAppear
+{
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+        selector:@selector(nowPlayingNotification:)
+        name:NowPlayingStateNotification
+        object:nil];
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+        selector:@selector(audioControlNotification:)
+        name:AudioControlNotification
+        object:nil];
+}
+
+- (void)viewDidDisappear
+{
+    [[NSNotificationCenter defaultCenter]
+        removeObserver:self];
 }
 
 - (NSImage *)playPauseImage
