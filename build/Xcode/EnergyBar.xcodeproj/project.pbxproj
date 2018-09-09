@@ -29,7 +29,7 @@
 		3CA1DD86212D3DB200D95DE1 /* NowPlayingWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA1DD85212D3DB200D95DE1 /* NowPlayingWidget.m */; };
 		3CA1DD88212D3F7A00D95DE1 /* MediaRemote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CA1DD87212D3F7A00D95DE1 /* MediaRemote.framework */; };
 		3CA1DD8B212D3FC000D95DE1 /* NowPlaying.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA1DD89212D3FC000D95DE1 /* NowPlaying.m */; };
-		3CA8519D212B832100585D29 /* NSWorkspace+Trashcan.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA8519C212B832100585D29 /* NSWorkspace+Trashcan.m */; };
+		3CA8519D212B832100585D29 /* NSWorkspace+Finder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA8519C212B832100585D29 /* NSWorkspace+Finder.m */; };
 		3CA851A0212B84B000585D29 /* NSTouchBar+SystemModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA8519E212B84B000585D29 /* NSTouchBar+SystemModal.m */; };
 		3CAA9C6D2127B3E100D5B467 /* StringToUrlTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CAA9C6C2127B3E000D5B467 /* StringToUrlTransformer.m */; };
 		3CACC7632126772700662AB1 /* FSNotify.c in Sources */ = {isa = PBXBuildFile; fileRef = 3CACC7612126772700662AB1 /* FSNotify.c */; };
@@ -85,8 +85,8 @@
 		3CA1DD87212D3F7A00D95DE1 /* MediaRemote.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaRemote.framework; path = ../../../../../../System/Library/PrivateFrameworks/MediaRemote.framework; sourceTree = "<group>"; };
 		3CA1DD89212D3FC000D95DE1 /* NowPlaying.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NowPlaying.m; sourceTree = "<group>"; };
 		3CA1DD8A212D3FC000D95DE1 /* NowPlaying.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NowPlaying.h; sourceTree = "<group>"; };
-		3CA8519B212B832100585D29 /* NSWorkspace+Trashcan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWorkspace+Trashcan.h"; sourceTree = "<group>"; };
-		3CA8519C212B832100585D29 /* NSWorkspace+Trashcan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWorkspace+Trashcan.m"; sourceTree = "<group>"; };
+		3CA8519B212B832100585D29 /* NSWorkspace+Finder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWorkspace+Finder.h"; sourceTree = "<group>"; };
+		3CA8519C212B832100585D29 /* NSWorkspace+Finder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWorkspace+Finder.m"; sourceTree = "<group>"; };
 		3CA8519E212B84B000585D29 /* NSTouchBar+SystemModal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTouchBar+SystemModal.m"; sourceTree = "<group>"; };
 		3CA8519F212B84B000585D29 /* NSTouchBar+SystemModal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTouchBar+SystemModal.h"; sourceTree = "<group>"; };
 		3CAA9C6B2127B3E000D5B467 /* StringToUrlTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringToUrlTransformer.h; sourceTree = "<group>"; };
@@ -133,8 +133,8 @@
 				3CFECA102122611F00BB58E9 /* LoginItem.c */,
 				3CA8519F212B84B000585D29 /* NSTouchBar+SystemModal.h */,
 				3CA8519E212B84B000585D29 /* NSTouchBar+SystemModal.m */,
-				3CA8519B212B832100585D29 /* NSWorkspace+Trashcan.h */,
-				3CA8519C212B832100585D29 /* NSWorkspace+Trashcan.m */,
+				3CA8519B212B832100585D29 /* NSWorkspace+Finder.h */,
+				3CA8519C212B832100585D29 /* NSWorkspace+Finder.m */,
 				3CA1DD8A212D3FC000D95DE1 /* NowPlaying.h */,
 				3CA1DD89212D3FC000D95DE1 /* NowPlaying.m */,
 			);
@@ -340,7 +340,7 @@
 				3C080A4B2139EB0E00EED01D /* FolderController.m in Sources */,
 				3CAA9C6D2127B3E100D5B467 /* StringToUrlTransformer.m in Sources */,
 				3C1A5678211D6B7D008E1F9F /* AppBarController.m in Sources */,
-				3CA8519D212B832100585D29 /* NSWorkspace+Trashcan.m in Sources */,
+				3CA8519D212B832100585D29 /* NSWorkspace+Finder.m in Sources */,
 				3CA1DD8B212D3FC000D95DE1 /* NowPlaying.m in Sources */,
 				3C102D4E2119872800FFB2CF /* EscKeyWidget.m in Sources */,
 				3C8E4133212F81A60010C2B3 /* AudioControl.m in Sources */,

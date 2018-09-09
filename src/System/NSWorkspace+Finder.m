@@ -1,5 +1,5 @@
 /**
- * @file NSWorkspace+Trashcan.m
+ * @file NSWorkspace+Finder.m
  *
  * @copyright 2018 Bill Zissimopoulos
  */
@@ -11,33 +11,33 @@
  * Foundation.
  */
 
-#import "NSWorkspace+Trashcan.h"
+#import "NSWorkspace+Finder.h"
 #import <pthread.h>
 #import "FSNotify.h"
 
-static pthread_once_t NSWorkspaceTrashcanFSNotify_once = PTHREAD_ONCE_INIT;
-static void NSWorkspaceTrashcanFSNotify(const char *path, void *data);
+static pthread_once_t NSWorkspaceTrashFSNotify_once = PTHREAD_ONCE_INIT;
+static void NSWorkspaceTrashFSNotify(const char *path, void *data);
 
-static void NSWorkspaceTrashcanFSNotify_initonce(void)
+static void NSWorkspaceTrashFSNotify_initonce(void)
 {
     NSString *trash = [NSHomeDirectory() stringByAppendingPathComponent:@".Trash"];
-    FSNotifyStart([trash UTF8String], NSWorkspaceTrashcanFSNotify, 0);
+    FSNotifyStart([trash UTF8String], NSWorkspaceTrashFSNotify, 0);
 }
 
-static void NSWorkspaceTrashcanFSNotify(const char *path, void *data)
+static void NSWorkspaceTrashFSNotify(const char *path, void *data)
 {
     [[NSNotificationCenter defaultCenter]
-        postNotificationName:@"NSWorkspace+Trashcan"
+        postNotificationName:@"NSWorkspace+Trash"
         object:nil];
 }
 
-@implementation NSWorkspace (Trashcan)
-- (NSString *)trashcanPath
+@implementation NSWorkspace (Finder)
+- (NSString *)trashPath
 {
     return [NSHomeDirectory() stringByAppendingPathComponent:@".Trash"];
 }
 
-- (BOOL)openTrashcan
+- (BOOL)openTrash
 {
     BOOL res = NO;
 
@@ -77,14 +77,14 @@ static void NSWorkspaceTrashcanFSNotify(const char *path, void *data)
     return res;
 }
 
-- (BOOL)emptyTrashcan
+- (BOOL)emptyTrash
 {
     NSAppleScript *script = [[[NSAppleScript alloc]
         initWithSource:@"tell application \"Finder\"\nempty the trash\nend tell"] autorelease];
     return nil != [script executeAndReturnError:0];
 }
 
-- (BOOL)moveToTrashcan:(NSArray<NSURL *> *)urls
+- (BOOL)moveToTrash:(NSArray<NSURL *> *)urls
 {
     BOOL res = NO;
 
@@ -113,29 +113,41 @@ static void NSWorkspaceTrashcanFSNotify(const char *path, void *data)
     return res;
 }
 
-- (BOOL)isTrashcanFull
+- (BOOL)isTrashFull
 {
+    BOOL res = NO;
+
     NSDirectoryEnumerator *direnum = [[NSFileManager defaultManager]
-        enumeratorAtPath:[self trashcanPath]];
-    return nil != [direnum nextObject];
+        enumeratorAtPath:[self trashPath]];
+    NSString *name;
+    while (nil != (name = [direnum nextObject]))
+    {
+        if (![name isEqualToString:@".DS_Store"])
+        {
+            res = YES;
+            break;
+        }
+    }
+
+    return res;
 }
 
-- (void)addTrashcanObserver:(id)observer selector:(SEL)sel
+- (void)addTrashObserver:(id)observer selector:(SEL)sel
 {
-    pthread_once(&NSWorkspaceTrashcanFSNotify_once, NSWorkspaceTrashcanFSNotify_initonce);
+    pthread_once(&NSWorkspaceTrashFSNotify_once, NSWorkspaceTrashFSNotify_initonce);
 
     [[NSNotificationCenter defaultCenter]
         addObserver:observer
         selector:sel
-        name:@"NSWorkspace+Trashcan"
+        name:@"NSWorkspace+Trash"
         object:nil];
 }
 
-- (void)removeTrashcanObserver:(id)observer
+- (void)removeTrashObserver:(id)observer
 {
     [[NSNotificationCenter defaultCenter]
         removeObserver:observer
-        name:@"NSWorkspace+Trashcan"
+        name:@"NSWorkspace+Trash"
         object:nil];
 }
 @end

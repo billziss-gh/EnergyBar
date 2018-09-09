@@ -14,7 +14,7 @@
 #import "DockWidget.h"
 #import "DragWindowController.h"
 #import "FolderController.h"
-#import "NSWorkspace+Trashcan.h"
+#import "NSWorkspace+Finder.h"
 
 static NSSize dockItemSize = { 50, 30 };
 static CGFloat dockDotHeight = 4;
@@ -329,9 +329,9 @@ static const NSUInteger maxPersistentItemCount = 8;
     separator.tag = 'sep ';
 
     NSButton *button = [DockWidgetButton
-        buttonWithImage:[self trashcanImage]
+        buttonWithImage:[self trashImage]
         target:self
-        action:@selector(trashcanClick:)];
+        action:@selector(trashClick:)];
     button.translatesAutoresizingMaskIntoConstraints = NO;
     button.bordered = NO;
     button.tag = 'trsh';
@@ -371,14 +371,14 @@ static const NSUInteger maxPersistentItemCount = 8;
         object:nil];
 
     [[NSWorkspace sharedWorkspace]
-        addTrashcanObserver:self
-        selector:@selector(trashcanNotify:)];
+        addTrashObserver:self
+        selector:@selector(trashNotify:)];
 }
 
 - (void)dealloc
 {
     [[NSWorkspace sharedWorkspace]
-        removeTrashcanObserver:self];
+        removeTrashObserver:self];
 
     [[[NSWorkspace sharedWorkspace] notificationCenter]
         removeObserver:self];
@@ -466,7 +466,7 @@ static const NSUInteger maxPersistentItemCount = 8;
                 operation & NSDragOperationDelete ? @"NSDragOperationDelete" : @"");
         }
         else
-            [[NSWorkspace sharedWorkspace] moveToTrashcan:urls];
+            [[NSWorkspace sharedWorkspace] moveToTrash:urls];
 
         res = YES;
     }
@@ -476,7 +476,7 @@ static const NSUInteger maxPersistentItemCount = 8;
 
 - (void)folderController:(FolderController *)controller didSelectURL:(NSURL *)url
 {
-    if (![url.path hasPrefix:[[NSWorkspace sharedWorkspace] trashcanPath]])
+    if (![url.path hasPrefix:[[NSWorkspace sharedWorkspace] trashPath]])
     {
         [[NSWorkspace sharedWorkspace] openURL:url];
         [controller dismiss];
@@ -487,14 +487,14 @@ static const NSUInteger maxPersistentItemCount = 8;
 {
     if ([identifier isEqualToString:@"openButton"])
     {
-        if (![controller.url.path hasPrefix:[[NSWorkspace sharedWorkspace] trashcanPath]])
+        if (![controller.url.path hasPrefix:[[NSWorkspace sharedWorkspace] trashPath]])
             [[NSWorkspace sharedWorkspace] openURL:controller.url];
         else
-            [[NSWorkspace sharedWorkspace] openTrashcan];
+            [[NSWorkspace sharedWorkspace] openTrash];
     }
     else
     if ([identifier isEqualToString:@"emptyButton"])
-        [[NSWorkspace sharedWorkspace] emptyTrashcan];
+        [[NSWorkspace sharedWorkspace] emptyTrash];
     [controller dismiss];
 }
 
@@ -895,32 +895,32 @@ static const NSUInteger maxPersistentItemCount = 8;
     }
 }
 
-- (NSImage *)trashcanImage
+- (NSImage *)trashImage
 {
-    BOOL full = [[NSWorkspace sharedWorkspace] isTrashcanFull];
+    BOOL full = [[NSWorkspace sharedWorkspace] isTrashFull];
     return [NSImage imageNamed:full ? @"TrashFull" : @"TrashEmpty"];
 }
 
-- (void)trashcanNotify:(NSNotification *)notification
+- (void)trashNotify:(NSNotification *)notification
 {
     NSButton *button = [self.view viewWithTag:'trsh'];
-    button.image = [self trashcanImage];
+    button.image = [self trashImage];
 }
 
-- (void)trashcanClick:(id)sender
+- (void)trashClick:(id)sender
 {
     BOOL open = ![[NSUserDefaults standardUserDefaults] boolForKey:@"showsFoldersInTouchBar"];
     if (open)
-        [[NSWorkspace sharedWorkspace] openTrashcan];
+        [[NSWorkspace sharedWorkspace] openTrash];
     else
     {
         self.folderController.url = [NSURL
-            fileURLWithPath:[[NSWorkspace sharedWorkspace] trashcanPath]];
+            fileURLWithPath:[[NSWorkspace sharedWorkspace] trashPath]];
         self.folderController.includeDescendants = NO;
         self.folderController.sortKey = nil;
         self.folderController.imagePosition = NSImageLeft;
         self.folderController.showsEmptyButton = YES;
-        self.folderController.emptyButtonEnabled = [[NSWorkspace sharedWorkspace] isTrashcanFull];
+        self.folderController.emptyButtonEnabled = [[NSWorkspace sharedWorkspace] isTrashFull];
         [self.folderController present];
     }
 }
