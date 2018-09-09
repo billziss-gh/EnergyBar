@@ -41,6 +41,8 @@
     self.imageTitleView.subtitleFont = [NSFont systemFontOfSize:[NSFont
         systemFontSizeForControlSize:NSControlSizeSmall]];
     self.imageTitleView.subtitleLineBreakMode = NSLineBreakByTruncatingTail;
+    self.imageTitleView.layoutOptions = ImageTitleViewLayoutOptionTitle;
+    self.imageTitleView.title = @"♫";
 
     self.fixedSizeLabel = [FixedSizeLabel labelWithString:@""];
     self.fixedSizeLabel.frame = NSZeroRect;
