@@ -241,7 +241,7 @@ static const NSUInteger maxPersistentItemCount = 8;
     return NSMakeSize(NSViewNoIntrinsicMetric, NSViewNoIntrinsicMetric);
 }
 
-- (NSView *)viewAtPoint:(NSPoint)point
+- (NSView *)dragViewAtPoint:(NSPoint)point
 {
     NSView *view;
     point = [self convertPoint:point fromView:nil];
@@ -250,25 +250,6 @@ static const NSUInteger maxPersistentItemCount = 8;
             [view isKindOfClass:[DockWidgetButton class]])
             return view;
     return nil;
-}
-
-- (NSDragOperation)dragURLs:(NSArray *)urls atPoint:(NSPoint)point
-{
-    NSDragOperation res = NSDragOperationNone;
-
-    if (nil != urls)
-    {
-        NSView *view = [self viewAtPoint:point];
-        if (nil != view)
-        {
-            self.dragTargetView.frame = [self convertRect:view.visibleRect fromView:view];
-            res = NSDragOperationEvery;
-        }
-    }
-
-    self.dragTargetView.hidden = NSDragOperationNone == res;
-
-    return res;
 }
 @end
 
@@ -429,18 +410,55 @@ static const NSUInteger maxPersistentItemCount = 8;
 - (NSDragOperation)dragWindowController:(DragWindowController *)controller
     dragURLs:(NSArray *)urls atPoint:(NSPoint)point
 {
-    return [self.view dragURLs:urls atPoint:point];
+    NSDragOperation res = NSDragOperationNone;
+    DockWidgetView *view = self.view;
+
+    if (nil == urls)
+    {
+        view.dragTargetView.hidden = YES;
+        return NSDragOperationNone;
+    }
+
+    NSView *dragView = [view dragViewAtPoint:point];
+    if ([dragView isKindOfClass:[DockWidgetItemView class]])
+        res = NSDragOperationGeneric;
+    else
+    if ([dragView isKindOfClass:[DockWidgetButton class]])
+    {
+        NSURL *url = [(DockWidgetButton *)dragView url];
+        if (nil != url)
+        {
+            NSNumber *value;
+            BOOL isDir = [url getResourceValue:&value forKey:NSURLIsDirectoryKey error:0] &&
+                [value boolValue];
+            BOOL isApp = [url getResourceValue:&value forKey:NSURLIsApplicationKey error:0] &&
+                [value boolValue];
+            if (isApp)
+                res = NSDragOperationGeneric;
+            else if (isDir)
+                res = NSDragOperationMove | NSDragOperationCopy | NSDragOperationLink;
+        }
+        else
+            /* trash */
+            res = NSDragOperationGeneric;
+    }
+
+    view.dragTargetView.frame = [view convertRect:dragView.visibleRect fromView:dragView];
+    view.dragTargetView.hidden = NSDragOperationNone == res;
+
+    return res;
 }
 
 - (BOOL)dragWindowController:(DragWindowController *)controller
     dropURLs:(NSArray *)urls atPoint:(NSPoint)point operation:(NSDragOperation)operation
 {
     BOOL res = NO;
+    DockWidgetView *view = self.view;
 
-    NSView *view = [self.view viewAtPoint:point];
-    if ([view isKindOfClass:[DockWidgetItemView class]])
+    NSView *dragView = [view dragViewAtPoint:point];
+    if ([dragView isKindOfClass:[DockWidgetItemView class]])
     {
-        NSString *appPath = [(DockWidgetItemView *)view appPath];
+        NSString *appPath = [(DockWidgetItemView *)dragView appPath];
         if (nil != appPath)
             [[NSWorkspace sharedWorkspace]
                 openURLs:urls
@@ -452,9 +470,9 @@ static const NSUInteger maxPersistentItemCount = 8;
         res = YES;
     }
     else
-    if ([view isKindOfClass:[DockWidgetButton class]])
+    if ([dragView isKindOfClass:[DockWidgetButton class]])
     {
-        NSURL *url = [(DockWidgetButton *)view url];
+        NSURL *url = [(DockWidgetButton *)dragView url];
         if (nil != url)
         {
             if (operation & NSDragOperationGeneric)
@@ -467,6 +485,7 @@ static const NSUInteger maxPersistentItemCount = 8;
 #endif
         }
         else
+            /* trash */
             [[NSWorkspace sharedWorkspace] moveItemsToTrash:urls];
 
         res = YES;
