@@ -39,78 +39,40 @@ static void NSWorkspaceTrashcanFSNotify(const char *path, void *data)
 
 - (BOOL)openTrashcan
 {
-    static const char finder[] = "com.apple.finder";
-    static FourCharCode trash = kContainerTrashAliasType;
-    AEDesc finderTarget = { .descriptorType = typeNull };
-    AEDesc trashTarget = { .descriptorType = typeNull };
-    AppleEvent event = { .descriptorType = typeNull };
-    AEDesc container = { .descriptorType = typeNull };
-    AEDesc specifier = { .descriptorType = typeNull };
-    OSStatus status;
     BOOL res = NO;
 
-    status = AECreateDesc(
-        typeApplicationBundleID,
-        &finder,
-        sizeof finder,
-        &finderTarget);
-    if (noErr != status)
-        goto exit;
+    NSAppleEventDescriptor *finder = [NSAppleEventDescriptor
+        descriptorWithBundleIdentifier:@"com.apple.finder"];
+    NSAppleEventDescriptor *event = [NSAppleEventDescriptor
+        appleEventWithEventClass:kCoreEventClass
+        eventID:kAEOpenDocuments
+        targetDescriptor:finder
+        returnID:kAutoGenerateReturnID
+        transactionID:kAnyTransactionID];
+    NSAppleEventDescriptor *specifier = [NSAppleEventDescriptor recordDescriptor];
+    [specifier
+        setDescriptor:[NSAppleEventDescriptor descriptorWithTypeCode:typeProperty]
+        forKeyword:keyAEDesiredClass];
+    [specifier
+        setDescriptor:[NSAppleEventDescriptor nullDescriptor]
+        forKeyword:keyAEContainer];
+    [specifier
+        setDescriptor:[NSAppleEventDescriptor descriptorWithEnumCode:formPropertyID]
+        forKeyword:keyAEKeyForm];
+    [specifier
+        setDescriptor:[NSAppleEventDescriptor descriptorWithTypeCode:kContainerTrashAliasType]
+        forKeyword:keyAEKeyData];
+    specifier = [specifier coerceToDescriptorType:typeObjectSpecifier];
+    [event setParamDescriptor:specifier forKeyword:keyDirectObject];
+    NSError *error = nil;
+    [event sendEventWithOptions:NSAppleEventSendNoReply timeout:kAEDefaultTimeout error:&error];
 
-    status = AECreateDesc(
-        typeType,
-        &trash,
-        sizeof trash,
-        &trashTarget);
-    if (noErr != status)
-        goto exit;
-
-    status = AECreateAppleEvent(
-        kCoreEventClass,
-        kAEOpenDocuments,
-        &finderTarget,
-        kAutoGenerateReturnID,
-        kAnyTransactionID,
-        &event);
-    if (noErr != status)
-        goto exit;
-
-    status = CreateObjSpecifier(
-        typeProperty,
-        &container,
-        typeProperty,
-        &trashTarget,
-        NO,
-        &specifier);
-    if (noErr != status)
-        goto exit;
-
-    status = AEPutParamDesc(&event, keyDirectObject, &specifier);
-    if (noErr != status)
-        goto exit;
-
-    status = AESendMessage(&event, 0, kAENoReply, kAEDefaultTimeout);
-    if (noErr != status)
-        goto exit;
-
-    res = [self
-        launchAppWithBundleIdentifier:[NSString stringWithUTF8String:finder]
-        options:0
-        additionalEventParamDescriptor:nil
-        launchIdentifier:nil];
-
-exit:
-    if (typeNull != specifier.descriptorType)
-        AEDisposeDesc(&specifier);
-
-    if (typeNull != event.descriptorType)
-        AEDisposeDesc(&event);
-
-    if (typeNull != trashTarget.descriptorType)
-        AEDisposeDesc(&trashTarget);
-
-    if (typeNull != finderTarget.descriptorType)
-        AEDisposeDesc(&finderTarget);
+    res = nil == error &&
+        [self
+            launchAppWithBundleIdentifier:@"com.apple.finder"
+            options:0
+            additionalEventParamDescriptor:nil
+            launchIdentifier:nil];
 
     return res;
 }
@@ -120,6 +82,35 @@ exit:
     NSAppleScript *script = [[[NSAppleScript alloc]
         initWithSource:@"tell application \"Finder\"\nempty the trash\nend tell"] autorelease];
     return nil != [script executeAndReturnError:0];
+}
+
+- (BOOL)moveToTrashcan:(NSArray<NSURL *> *)urls
+{
+    BOOL res = NO;
+
+    NSAppleEventDescriptor *finder = [NSAppleEventDescriptor
+        descriptorWithBundleIdentifier:@"com.apple.finder"];
+    NSAppleEventDescriptor *event = [NSAppleEventDescriptor
+        appleEventWithEventClass:kAECoreSuite
+        eventID:kAEDelete
+        targetDescriptor:finder
+        returnID:kAutoGenerateReturnID
+        transactionID:kAnyTransactionID];
+    NSAppleEventDescriptor *list = [NSAppleEventDescriptor listDescriptor];
+    for (NSURL *url in urls)
+    {
+        NSAppleEventDescriptor *urldesc = [NSAppleEventDescriptor
+            descriptorWithDescriptorType:typeFileURL
+            data:[[url absoluteString] dataUsingEncoding:NSUTF8StringEncoding]];
+        [list insertDescriptor:urldesc atIndex:[list numberOfItems]];
+    }
+    [event setParamDescriptor:list forKeyword:keyDirectObject];
+    NSError *error = nil;
+    [event sendEventWithOptions:NSAppleEventSendNoReply timeout:kAEDefaultTimeout error:&error];
+
+    res = nil == error;
+
+    return res;
 }
 
 - (BOOL)isTrashcanFull

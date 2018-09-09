@@ -217,7 +217,7 @@ static const NSUInteger maxPersistentItemCount = 8;
     if (nil == self)
         return nil;
 
-    self.dragTargetView = [[NSView alloc] initWithFrame:NSZeroRect];
+    self.dragTargetView = [[[NSView alloc] initWithFrame:NSZeroRect] autorelease];
     self.dragTargetView.wantsLayer = YES;
     self.dragTargetView.layer.backgroundColor = [[NSColor colorWithWhite:1.0 alpha:0.5] CGColor];
     self.dragTargetView.layer.cornerRadius = 4;
@@ -466,7 +466,7 @@ static const NSUInteger maxPersistentItemCount = 8;
                 operation & NSDragOperationDelete ? @"NSDragOperationDelete" : @"");
         }
         else
-            [[NSWorkspace sharedWorkspace] recycleURLs:urls completionHandler:nil];
+            [[NSWorkspace sharedWorkspace] moveToTrashcan:urls];
 
         res = YES;
     }

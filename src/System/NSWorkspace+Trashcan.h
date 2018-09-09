@@ -17,6 +17,7 @@
 - (NSString *)trashcanPath;
 - (BOOL)openTrashcan;
 - (BOOL)emptyTrashcan;
+- (BOOL)moveToTrashcan:(NSArray<NSURL *> *)urls;
 - (BOOL)isTrashcanFull;
 - (void)addTrashcanObserver:(id)observer selector:(SEL)sel;
 - (void)removeTrashcanObserver:(id)observer;
