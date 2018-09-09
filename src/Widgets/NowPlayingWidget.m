@@ -92,10 +92,20 @@
     self.view = [[[NowPlayingWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
     [self.view addGestureRecognizer:clickRecognizer];
     [self.view addGestureRecognizer:pressRecognizer];
+}
 
-    [self resetNowPlaying];
-    [self resetActiveApp];
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter]
+        removeObserver:self];
+    [[[NSWorkspace sharedWorkspace] notificationCenter]
+        removeObserver:self];
 
+    [super dealloc];
+}
+
+- (void)viewWillAppear
+{
     [[NSNotificationCenter defaultCenter]
         addObserver:self
         selector:@selector(nowPlayingNotification:)
@@ -106,14 +116,17 @@
         selector:@selector(didActivateApplication:)
         name:NSWorkspaceDidActivateApplicationNotification
         object:nil];
+
+    [self resetNowPlaying];
+    [self resetActiveApp];
 }
 
-- (void)dealloc
+- (void)viewDidDisappear
 {
     [[NSNotificationCenter defaultCenter]
         removeObserver:self];
-
-    [super dealloc];
+    [[[NSWorkspace sharedWorkspace] notificationCenter]
+        removeObserver:self];
 }
 
 - (BOOL)showsActiveAppOnTap

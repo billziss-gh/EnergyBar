@@ -26,12 +26,6 @@
     label.alignment = NSTextAlignmentCenter;
     label.lineBreakMode = NSLineBreakByTruncatingTail;
     self.view = label;
-
-    [[[NSWorkspace sharedWorkspace] notificationCenter]
-        addObserver:self
-        selector:@selector(didActivateApplication:)
-        name:NSWorkspaceDidActivateApplicationNotification
-        object:nil];
 }
 
 - (void)dealloc
@@ -44,7 +38,19 @@
 
 - (void)viewWillAppear
 {
+    [[[NSWorkspace sharedWorkspace] notificationCenter]
+        addObserver:self
+        selector:@selector(didActivateApplication:)
+        name:NSWorkspaceDidActivateApplicationNotification
+        object:nil];
+
     [self reset];
+}
+
+- (void)viewDidDisappear
+{
+    [[[NSWorkspace sharedWorkspace] notificationCenter]
+        removeObserver:self];
 }
 
 - (void)didActivateApplication:(NSNotification *)notification
