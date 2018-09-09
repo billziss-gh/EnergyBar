@@ -90,11 +90,11 @@
 
 - (void)didExitCustomization:(NSNotification *)notification
 {
-    [[[NSWorkspace sharedWorkspace] notificationCenter]
+    [[NSNotificationCenter defaultCenter]
         removeObserver:self
         name:@"NSTouchBarWillEnterCustomization"
         object:nil];
-    [[[NSWorkspace sharedWorkspace] notificationCenter]
+    [[NSNotificationCenter defaultCenter]
         removeObserver:self
         name:@"NSTouchBarDidExitCustomization"
         object:nil];
