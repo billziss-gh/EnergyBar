@@ -408,7 +408,7 @@ static const NSUInteger maxPersistentItemCount = 8;
 }
 
 - (NSDragOperation)dragWindowController:(DragWindowController *)controller
-    dragURLs:(NSArray *)urls atPoint:(NSPoint)point
+    dragURLs:(NSArray *)urls atPoint:(NSPoint)point operation:(NSDragOperation)operation
 {
     NSDragOperation res = NSDragOperationNone;
     DockWidgetView *view = self.view;
@@ -436,7 +436,19 @@ static const NSUInteger maxPersistentItemCount = 8;
             if (isApp)
                 res = NSDragOperationGeneric;
             else if (isDir)
-                res = NSDragOperationMove | NSDragOperationCopy | NSDragOperationLink;
+                switch (operation)
+                {
+                case NSDragOperationCopy:
+                    res = NSDragOperationCopy;
+                    break;
+                case NSDragOperationCopy | NSDragOperationGeneric:
+                case NSDragOperationLink:
+                    res = NSDragOperationLink;
+                    break;
+                default:
+                    res = NSDragOperationGeneric;
+                    break;
+                }
         }
         else
             /* trash */
@@ -460,14 +472,13 @@ static const NSUInteger maxPersistentItemCount = 8;
     {
         NSString *appPath = [(DockWidgetItemView *)dragView appPath];
         if (nil != appPath)
-            [[NSWorkspace sharedWorkspace]
-                openURLs:urls
-                withApplicationAtURL:[NSURL fileURLWithPath:appPath]
-                options:NSWorkspaceLaunchAsync
-                configuration:[NSDictionary dictionary]
-                error:0];
-
-        res = YES;
+            res = nil !=
+                [[NSWorkspace sharedWorkspace]
+                    openURLs:urls
+                    withApplicationAtURL:[NSURL fileURLWithPath:appPath]
+                    options:NSWorkspaceLaunchAsync
+                    configuration:[NSDictionary dictionary]
+                    error:0];
     }
     else
     if ([dragView isKindOfClass:[DockWidgetButton class]])
@@ -475,20 +486,37 @@ static const NSUInteger maxPersistentItemCount = 8;
         NSURL *url = [(DockWidgetButton *)dragView url];
         if (nil != url)
         {
-            if (operation & NSDragOperationGeneric)
-                [[NSWorkspace sharedWorkspace] moveItemsAtURLs:urls toURL:url];
-            else if (operation & NSDragOperationCopy)
-                [[NSWorkspace sharedWorkspace] copyItemsAtURLs:urls toURL:url];
-#if 0
-            else if (operation & NSDragOperationLink)
-                [[NSWorkspace sharedWorkspace] linkItemsAtURLs:urls toURL:url];
-#endif
+            NSNumber *value;
+            BOOL isDir = [url getResourceValue:&value forKey:NSURLIsDirectoryKey error:0] &&
+                [value boolValue];
+            BOOL isApp = [url getResourceValue:&value forKey:NSURLIsApplicationKey error:0] &&
+                [value boolValue];
+            if (isApp)
+                res = nil !=
+                    [[NSWorkspace sharedWorkspace]
+                        openURLs:urls
+                        withApplicationAtURL:url
+                        options:NSWorkspaceLaunchAsync
+                        configuration:[NSDictionary dictionary]
+                        error:0];
+            else if (isDir)
+                switch (operation)
+                {
+                case NSDragOperationCopy:
+                    res = [[NSWorkspace sharedWorkspace] copyItemsAtURLs:urls toURL:url];
+                    break;
+                case NSDragOperationCopy | NSDragOperationGeneric:
+                case NSDragOperationLink:
+                    //res = [[NSWorkspace sharedWorkspace] aliasItemsAtURLs:urls toURL:url];
+                    break;
+                default:
+                    res = [[NSWorkspace sharedWorkspace] moveItemsAtURLs:urls toURL:url];
+                    break;
+                }
         }
         else
             /* trash */
-            [[NSWorkspace sharedWorkspace] moveItemsToTrash:urls];
-
-        res = YES;
+            res = [[NSWorkspace sharedWorkspace] moveItemsToTrash:urls];
     }
 
     return res;

@@ -18,7 +18,7 @@
 @protocol DragWindowControllerDelegate <NSObject>
 @optional
 - (NSDragOperation)dragWindowController:(DragWindowController *)controller
-    dragURLs:(NSArray *)urls atPoint:(NSPoint)point;
+    dragURLs:(NSArray *)urls atPoint:(NSPoint)point operation:(NSDragOperation)operation;
 - (BOOL)dragWindowController:(DragWindowController *)controller
     dropURLs:(NSArray *)urls atPoint:(NSPoint)point operation:(NSDragOperation)operation;
 @end
