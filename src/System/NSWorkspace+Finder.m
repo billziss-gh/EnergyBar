@@ -161,9 +161,19 @@ static void NSWorkspaceTrashFSNotify(const char *path, void *data)
 
 - (BOOL)emptyTrash
 {
-    NSAppleScript *script = [[[NSAppleScript alloc]
-        initWithSource:@"tell application \"Finder\"\nempty the trash\nend tell"] autorelease];
-    return nil != [script executeAndReturnError:0];
+    NSAppleEventDescriptor *finder = [NSAppleEventDescriptor
+        descriptorWithBundleIdentifier:@"com.apple.finder"];
+    NSAppleEventDescriptor *event = [NSAppleEventDescriptor
+        appleEventWithEventClass:'fndr'
+        eventID:kAEEmptyTrash
+        targetDescriptor:finder
+        returnID:kAutoGenerateReturnID
+        transactionID:kAnyTransactionID];
+
+    NSError *error = nil;
+    [event sendEventWithOptions:NSAppleEventSendNoReply timeout:kAEDefaultTimeout error:&error];
+
+    return nil == error;
 }
 
 - (BOOL)moveItemsToTrash:(NSArray<NSURL *> *)urls
