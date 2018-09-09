@@ -266,7 +266,7 @@ static const NSUInteger maxPersistentItemCount = 8;
         }
     }
 
-    self.dragTargetView.hidden = !res;
+    self.dragTargetView.hidden = NSDragOperationNone == res;
 
     return res;
 }
