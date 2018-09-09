@@ -15,9 +15,10 @@
 #define BRIGHTNESS_H_INCLUDED
 
 #include <stdbool.h>
+#include <stdint.h>
 
-double GetDisplayBrightness(void);
-bool SetDisplayBrightness(double brightness);
+double GetDisplayBrightness(uint32_t display);
+bool SetDisplayBrightness(uint32_t display, double brightness);
 
 double GetKeyboardBrightness(void);
 bool SetKeyboardBrightness(double brightness);

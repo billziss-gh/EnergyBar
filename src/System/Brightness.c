@@ -12,33 +12,34 @@
  */
 
 #include "Brightness.h"
-#include <IOKit/IOKitLib.h>
-#include <IOKit/graphics/IOGraphicsLib.h>
+#include <CoreGraphics/CoreGraphics.h>
 #include <pthread.h>
 #include "Log.h"
 
-static pthread_once_t disp_serv_once = PTHREAD_ONCE_INIT;
-static io_service_t disp_serv = 0;
-
-static void disp_serv_initonce(void)
+static io_service_t DisplayIOServicePort(CGDirectDisplayID display)
 {
-    mach_port_t master_port;
-    kern_return_t ret;
+    io_service_t disp_serv;
 
-    ret = IOMasterPort(bootstrap_port, &master_port);
-    if (KERN_SUCCESS != ret)
-        return;
+    if (0 == display)
+        display = CGMainDisplayID();
 
-    disp_serv = IOServiceGetMatchingService(master_port,
-        IOServiceMatching("IODisplayConnect")/* ref consumed by IOServiceGetMatchingService */);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    disp_serv = CGDisplayIOServicePort(display);
+#pragma clang diagnostic pop
+    if (0 == disp_serv)
+        LOG("CGDisplayIOServicePort = %u", (unsigned)disp_serv);
+
+    return disp_serv;
 }
 
-double GetDisplayBrightness(void)
+double GetDisplayBrightness(uint32_t display)
 {
+    io_service_t disp_serv;
     float brightness;
     kern_return_t ret;
 
-    pthread_once(&disp_serv_once, disp_serv_initonce);
+    disp_serv = DisplayIOServicePort(display);
     if (0 == disp_serv)
         return NAN;
 
@@ -53,13 +54,14 @@ double GetDisplayBrightness(void)
     return brightness;
 }
 
-bool SetDisplayBrightness(double brightness)
+bool SetDisplayBrightness(uint32_t display, double brightness)
 {
+    io_service_t disp_serv;
     kern_return_t ret;
 
-    pthread_once(&disp_serv_once, disp_serv_initonce);
+    disp_serv = DisplayIOServicePort(display);
     if (0 == disp_serv)
-        return false;
+        return NAN;
 
     ret = IODisplaySetFloatParameter(disp_serv, kNilOptions,
         CFSTR(kIODisplayBrightnessKey), brightness);

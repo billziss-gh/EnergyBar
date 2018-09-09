@@ -95,7 +95,7 @@
     NSSliderTouchBarItem *item;
     double value;
 
-    value = GetDisplayBrightness();
+    value = GetDisplayBrightness(0);
     if (isnan(value))
         value = 0.5;
 
@@ -135,7 +135,7 @@
 - (IBAction)brightnessSliderAction:(id)sender
 {
     NSSliderTouchBarItem *item = [self.touchBar itemForIdentifier:@"BrightnessSlider"];
-    SetDisplayBrightness(item.slider.doubleValue);
+    SetDisplayBrightness(0, item.slider.doubleValue);
 }
 
 - (void)resetNightShift
@@ -490,7 +490,7 @@
         break;
     case 1:
         _pressKind = 'brgt';
-        value = GetDisplayBrightness();
+        value = GetDisplayBrightness(0);
         break;
     case 2:
         _pressKind = 'audi';
@@ -537,7 +537,7 @@
         break;
     case 'brgt':
         level.value = isnan(value) ? 0.5 : value;
-        SetDisplayBrightness(value);
+        SetDisplayBrightness(0, value);
         break;
     case 'audi':
         level.value = isnan(value) ? 0.5 : value;
