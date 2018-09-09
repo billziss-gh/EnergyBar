@@ -13,11 +13,17 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface NSWorkspace (Finder)
+@interface NSWorkspace (FileOperations)
+- (BOOL)copyItemsAtURLs:(NSArray<NSURL *> *)urls toURL:(NSURL *)url;
+- (BOOL)moveItemsAtURLs:(NSArray<NSURL *> *)urls toURL:(NSURL *)url;
+- (BOOL)linkItemsAtURLs:(NSArray<NSURL *> *)urls toURL:(NSURL *)url;
+@end
+
+@interface NSWorkspace (Trash)
 - (NSString *)trashPath;
 - (BOOL)openTrash;
 - (BOOL)emptyTrash;
-- (BOOL)moveToTrash:(NSArray<NSURL *> *)urls;
+- (BOOL)moveItemsToTrash:(NSArray<NSURL *> *)urls;
 - (BOOL)isTrashFull;
 - (void)addTrashObserver:(id)observer selector:(SEL)sel;
 - (void)removeTrashObserver:(id)observer;

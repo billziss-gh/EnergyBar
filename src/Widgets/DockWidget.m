@@ -457,16 +457,17 @@ static const NSUInteger maxPersistentItemCount = 8;
         NSURL *url = [(DockWidgetButton *)view url];
         if (nil != url)
         {
-            NSLog(@"DragOperation=0x%x %@ %@ %@ %@ %@",
-                (unsigned)operation,
-                operation & NSDragOperationCopy ? @"NSDragOperationCopy" : @"",
-                operation & NSDragOperationLink ? @"NSDragOperationLink" : @"",
-                operation & NSDragOperationGeneric ? @"NSDragOperationGeneric" : @"",
-                operation & NSDragOperationPrivate ? @"NSDragOperationPrivate" : @"",
-                operation & NSDragOperationDelete ? @"NSDragOperationDelete" : @"");
+            if (operation & NSDragOperationGeneric)
+                [[NSWorkspace sharedWorkspace] moveItemsAtURLs:urls toURL:url];
+            else if (operation & NSDragOperationCopy)
+                [[NSWorkspace sharedWorkspace] copyItemsAtURLs:urls toURL:url];
+#if 0
+            else if (operation & NSDragOperationLink)
+                [[NSWorkspace sharedWorkspace] linkItemsAtURLs:urls toURL:url];
+#endif
         }
         else
-            [[NSWorkspace sharedWorkspace] moveToTrash:urls];
+            [[NSWorkspace sharedWorkspace] moveItemsToTrash:urls];
 
         res = YES;
     }

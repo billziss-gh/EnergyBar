@@ -15,6 +15,58 @@
 #import <pthread.h>
 #import "FSNotify.h"
 
+@implementation NSWorkspace (FileOperations)
+- (BOOL)performEventID:(AEEventID)eventID forItemsAtURLs:(NSArray<NSURL *> *)urls toURL:(NSURL *)url
+{
+    NSAppleEventDescriptor *finder = [NSAppleEventDescriptor
+        descriptorWithBundleIdentifier:@"com.apple.finder"];
+    NSAppleEventDescriptor *event = [NSAppleEventDescriptor
+        appleEventWithEventClass:kAECoreSuite
+        eventID:eventID
+        targetDescriptor:finder
+        returnID:kAutoGenerateReturnID
+        transactionID:kAnyTransactionID];
+
+    NSAppleEventDescriptor *list = [NSAppleEventDescriptor listDescriptor];
+    for (NSURL *url in urls)
+    {
+        NSAppleEventDescriptor *urldesc = [NSAppleEventDescriptor
+            descriptorWithDescriptorType:typeFileURL
+            data:[[url absoluteString] dataUsingEncoding:NSUTF8StringEncoding]];
+        [list insertDescriptor:urldesc atIndex:0];
+    }
+    [event setParamDescriptor:list forKeyword:keyDirectObject];
+
+    if (nil != url)
+    {
+        NSAppleEventDescriptor *urldesc = [NSAppleEventDescriptor
+            descriptorWithDescriptorType:typeFileURL
+            data:[[url absoluteString] dataUsingEncoding:NSUTF8StringEncoding]];
+        [event setParamDescriptor:urldesc forKeyword:keyAEInsertHere];
+    }
+
+    NSError *error = nil;
+    [event sendEventWithOptions:NSAppleEventSendNoReply timeout:kAEDefaultTimeout error:&error];
+
+    return nil == error;
+}
+
+- (BOOL)copyItemsAtURLs:(NSArray<NSURL *> *)urls toURL:(NSURL *)url
+{
+    return [self performEventID:kAEClone forItemsAtURLs:urls toURL:url];
+}
+
+- (BOOL)moveItemsAtURLs:(NSArray<NSURL *> *)urls toURL:(NSURL *)url
+{
+    return [self performEventID:kAEMove forItemsAtURLs:urls toURL:url];
+}
+
+- (BOOL)linkItemsAtURLs:(NSArray<NSURL *> *)urls toURL:(NSURL *)url
+{
+    return NO;
+}
+@end
+
 static pthread_once_t NSWorkspaceTrashFSNotify_once = PTHREAD_ONCE_INIT;
 static void NSWorkspaceTrashFSNotify(const char *path, void *data);
 
@@ -31,7 +83,7 @@ static void NSWorkspaceTrashFSNotify(const char *path, void *data)
         object:nil];
 }
 
-@implementation NSWorkspace (Finder)
+@implementation NSWorkspace (Trash)
 - (NSString *)trashPath
 {
     return [NSHomeDirectory() stringByAppendingPathComponent:@".Trash"];
@@ -84,33 +136,9 @@ static void NSWorkspaceTrashFSNotify(const char *path, void *data)
     return nil != [script executeAndReturnError:0];
 }
 
-- (BOOL)moveToTrash:(NSArray<NSURL *> *)urls
+- (BOOL)moveItemsToTrash:(NSArray<NSURL *> *)urls
 {
-    BOOL res = NO;
-
-    NSAppleEventDescriptor *finder = [NSAppleEventDescriptor
-        descriptorWithBundleIdentifier:@"com.apple.finder"];
-    NSAppleEventDescriptor *event = [NSAppleEventDescriptor
-        appleEventWithEventClass:kAECoreSuite
-        eventID:kAEDelete
-        targetDescriptor:finder
-        returnID:kAutoGenerateReturnID
-        transactionID:kAnyTransactionID];
-    NSAppleEventDescriptor *list = [NSAppleEventDescriptor listDescriptor];
-    for (NSURL *url in urls)
-    {
-        NSAppleEventDescriptor *urldesc = [NSAppleEventDescriptor
-            descriptorWithDescriptorType:typeFileURL
-            data:[[url absoluteString] dataUsingEncoding:NSUTF8StringEncoding]];
-        [list insertDescriptor:urldesc atIndex:[list numberOfItems]];
-    }
-    [event setParamDescriptor:list forKeyword:keyDirectObject];
-    NSError *error = nil;
-    [event sendEventWithOptions:NSAppleEventSendNoReply timeout:kAEDefaultTimeout error:&error];
-
-    res = nil == error;
-
-    return res;
+    return [self performEventID:kAEDelete forItemsAtURLs:urls toURL:nil];
 }
 
 - (BOOL)isTrashFull
