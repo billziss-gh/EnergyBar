@@ -129,6 +129,8 @@
 	<string>~/Library/EnergyBar/Applications</string>
 	<key>mainWindowHidden</key>
 	<false/>
+	<key>acceptsDraggedItems</key>
+	<false/>
 	<key>shows24HourClock</key>
 	<false/>
 	<key>showsActiveAppOnTap</key>

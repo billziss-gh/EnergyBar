@@ -410,6 +410,9 @@ static const NSUInteger maxPersistentItemCount = 8;
 - (NSDragOperation)dragWindowController:(DragWindowController *)controller
     dragURLs:(NSArray *)urls atPoint:(NSPoint)point operation:(NSDragOperation)operation
 {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"acceptsDraggedItems"])
+        return NSDragOperationNone;
+
     NSDragOperation res = NSDragOperationNone;
     DockWidgetView *view = self.view;
 
@@ -464,6 +467,9 @@ static const NSUInteger maxPersistentItemCount = 8;
 - (BOOL)dragWindowController:(DragWindowController *)controller
     dropURLs:(NSArray *)urls atPoint:(NSPoint)point operation:(NSDragOperation)operation
 {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"acceptsDraggedItems"])
+        return NO;
+
     BOOL res = NO;
     DockWidgetView *view = self.view;
 
