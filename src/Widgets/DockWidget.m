@@ -252,9 +252,9 @@ static const NSUInteger maxPersistentItemCount = 8;
     return nil;
 }
 
-- (BOOL)hoverURLs:(NSArray *)urls atPoint:(NSPoint)point
+- (NSDragOperation)dragURLs:(NSArray *)urls atPoint:(NSPoint)point
 {
-    BOOL res = NO;
+    NSDragOperation res = NSDragOperationNone;
 
     if (nil != urls)
     {
@@ -262,7 +262,7 @@ static const NSUInteger maxPersistentItemCount = 8;
         if (nil != view)
         {
             self.dragTargetView.frame = [self convertRect:view.visibleRect fromView:view];
-            res = YES;
+            res = NSDragOperationEvery;
         }
     }
 
@@ -426,14 +426,14 @@ static const NSUInteger maxPersistentItemCount = 8;
     scrubber.selectedIndex = -1;
 }
 
-- (BOOL)dragWindowController:(DragWindowController *)controller
-    hoverURLs:(NSArray *)urls atPoint:(NSPoint)point
+- (NSDragOperation)dragWindowController:(DragWindowController *)controller
+    dragURLs:(NSArray *)urls atPoint:(NSPoint)point
 {
-    return [self.view hoverURLs:urls atPoint:point];
+    return [self.view dragURLs:urls atPoint:point];
 }
 
 - (BOOL)dragWindowController:(DragWindowController *)controller
-    acceptURLs:(NSArray *)urls atPoint:(NSPoint)point operation:(NSDragOperation)operation
+    dropURLs:(NSArray *)urls atPoint:(NSPoint)point operation:(NSDragOperation)operation
 {
     BOOL res = NO;
 

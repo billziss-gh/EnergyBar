@@ -114,7 +114,7 @@ static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
 
 - (NSDragOperation)draggingUpdated:(id<NSDraggingInfo>)sender
 {
-    if ([self.delegate respondsToSelector:@selector(dragWindowController:hoverURLs:atPoint:)])
+    if ([self.delegate respondsToSelector:@selector(dragWindowController:dragURLs:atPoint:)])
     {
         NSArray *urls = [sender.draggingPasteboard
             readObjectsForClasses:[NSArray arrayWithObject:[NSURL class]]
@@ -122,8 +122,8 @@ static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
         NSPoint point = [self convertBaseToTouchBar:sender.draggingLocation];
         return [self.delegate
             dragWindowController:self
-            hoverURLs:urls
-            atPoint:point] ? NSDragOperationEvery : NSDragOperationNone;
+            dragURLs:urls
+            atPoint:point];
     }
 
     return NSDragOperationNone;
@@ -136,16 +136,16 @@ static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
 
 - (void)draggingExited:(id<NSDraggingInfo>)sender
 {
-    if ([self.delegate respondsToSelector:@selector(dragWindowController:hoverURLs:atPoint:)])
+    if ([self.delegate respondsToSelector:@selector(dragWindowController:dragURLs:atPoint:)])
         [self.delegate
             dragWindowController:self
-            hoverURLs:nil
+            dragURLs:nil
             atPoint:NSZeroPoint];
 }
 
 - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
 {
-    if ([self.delegate respondsToSelector:@selector(dragWindowController:acceptURLs:atPoint:operation:)])
+    if ([self.delegate respondsToSelector:@selector(dragWindowController:dropURLs:atPoint:operation:)])
     {
         NSArray *urls = [sender.draggingPasteboard
             readObjectsForClasses:[NSArray arrayWithObject:[NSURL class]]
@@ -153,7 +153,7 @@ static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
         NSPoint point = [self convertBaseToTouchBar:sender.draggingLocation];
         return [self.delegate
             dragWindowController:self
-            acceptURLs:urls
+            dropURLs:urls
             atPoint:point
             operation:sender.draggingSourceOperationMask];
     }
