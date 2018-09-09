@@ -61,9 +61,39 @@
     return [self performEventID:kAEMove forItemsAtURLs:urls toURL:url];
 }
 
-- (BOOL)linkItemsAtURLs:(NSArray<NSURL *> *)urls toURL:(NSURL *)url
+- (BOOL)aliasItemsAtURLs:(NSArray<NSURL *> *)urls toURL:(NSURL *)url
 {
-    return NO;
+    NSAppleEventDescriptor *finder = [NSAppleEventDescriptor
+        descriptorWithBundleIdentifier:@"com.apple.finder"];
+    NSAppleEventDescriptor *event = [NSAppleEventDescriptor
+        appleEventWithEventClass:kAECoreSuite
+        eventID:kAECreateElement
+        targetDescriptor:finder
+        returnID:kAutoGenerateReturnID
+        transactionID:kAnyTransactionID];
+
+    NSAppleEventDescriptor *cls = [NSAppleEventDescriptor descriptorWithTypeCode:'alia'];
+    [event setParamDescriptor:cls forKeyword:keyAEObjectClass];
+
+    NSAppleEventDescriptor *list = [NSAppleEventDescriptor listDescriptor];
+    for (NSURL *url in urls)
+    {
+        NSAppleEventDescriptor *urldesc = [NSAppleEventDescriptor
+            descriptorWithDescriptorType:typeFileURL
+            data:[[url absoluteString] dataUsingEncoding:NSUTF8StringEncoding]];
+        [list insertDescriptor:urldesc atIndex:0];
+    }
+    [event setParamDescriptor:list forKeyword:'to  '];
+
+    NSAppleEventDescriptor *urldesc = [NSAppleEventDescriptor
+        descriptorWithDescriptorType:typeFileURL
+        data:[[url absoluteString] dataUsingEncoding:NSUTF8StringEncoding]];
+    [event setParamDescriptor:urldesc forKeyword:keyAEInsertHere];
+
+    NSError *error = nil;
+    [event sendEventWithOptions:NSAppleEventSendNoReply timeout:kAEDefaultTimeout error:&error];
+
+    return nil == error;
 }
 @end
 

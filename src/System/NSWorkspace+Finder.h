@@ -16,7 +16,7 @@
 @interface NSWorkspace (FileOperations)
 - (BOOL)copyItemsAtURLs:(NSArray<NSURL *> *)urls toURL:(NSURL *)url;
 - (BOOL)moveItemsAtURLs:(NSArray<NSURL *> *)urls toURL:(NSURL *)url;
-- (BOOL)linkItemsAtURLs:(NSArray<NSURL *> *)urls toURL:(NSURL *)url;
+- (BOOL)aliasItemsAtURLs:(NSArray<NSURL *> *)urls toURL:(NSURL *)url;
 @end
 
 @interface NSWorkspace (Trash)

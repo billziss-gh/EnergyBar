@@ -507,7 +507,7 @@ static const NSUInteger maxPersistentItemCount = 8;
                     break;
                 case NSDragOperationCopy | NSDragOperationGeneric:
                 case NSDragOperationLink:
-                    //res = [[NSWorkspace sharedWorkspace] aliasItemsAtURLs:urls toURL:url];
+                    res = [[NSWorkspace sharedWorkspace] aliasItemsAtURLs:urls toURL:url];
                     break;
                 default:
                     res = [[NSWorkspace sharedWorkspace] moveItemsAtURLs:urls toURL:url];
