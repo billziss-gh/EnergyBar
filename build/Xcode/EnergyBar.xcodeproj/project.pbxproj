@@ -18,6 +18,8 @@
 		3C163BCA2118F33C00F015EC /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C163BC82118F33C00F015EC /* MainWindow.xib */; };
 		3C1A5678211D6B7D008E1F9F /* AppBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1A5677211D6B7D008E1F9F /* AppBarController.m */; };
 		3C200ECF212DFF390000B04D /* FixedSizeLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C200ECE212DFF390000B04D /* FixedSizeLabel.m */; };
+		3C3464BF21465319001F45BB /* WeatherWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C3464BE21465319001F45BB /* WeatherWidget.m */; };
+		3C3464C221471797001F45BB /* WeatherKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C3464C121471797001F45BB /* WeatherKit.framework */; };
 		3C4013C2211BBC8D00C47B66 /* ActiveAppWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C4013C1211BBC8D00C47B66 /* ActiveAppWidget.m */; };
 		3C5032E32139C8E900305593 /* ImageTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C5032E12139C8E900305593 /* ImageTitleView.m */; };
 		3C5D0FCE2119210000769A39 /* ClockWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C5D0FCD2119210000769A39 /* ClockWidget.m */; };
@@ -63,6 +65,10 @@
 		3C1A5677211D6B7D008E1F9F /* AppBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppBarController.m; sourceTree = "<group>"; };
 		3C200ECD212DFF390000B04D /* FixedSizeLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FixedSizeLabel.h; sourceTree = "<group>"; };
 		3C200ECE212DFF390000B04D /* FixedSizeLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FixedSizeLabel.m; sourceTree = "<group>"; };
+		3C3464BD21465319001F45BB /* WeatherWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeatherWidget.h; sourceTree = "<group>"; };
+		3C3464BE21465319001F45BB /* WeatherWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeatherWidget.m; sourceTree = "<group>"; };
+		3C3464C021470F65001F45BB /* WeatherKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeatherKit.h; sourceTree = "<group>"; };
+		3C3464C121471797001F45BB /* WeatherKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WeatherKit.framework; path = ../../../../../../System/Library/PrivateFrameworks/WeatherKit.framework; sourceTree = "<group>"; };
 		3C4013C0211BBC8D00C47B66 /* ActiveAppWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActiveAppWidget.h; sourceTree = "<group>"; };
 		3C4013C1211BBC8D00C47B66 /* ActiveAppWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActiveAppWidget.m; sourceTree = "<group>"; };
 		3C5032E12139C8E900305593 /* ImageTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageTitleView.m; sourceTree = "<group>"; };
@@ -110,6 +116,7 @@
 			files = (
 				3C83DB48211D851700FC2F53 /* CoreBrightness.framework in Frameworks */,
 				3CA1DD88212D3F7A00D95DE1 /* MediaRemote.framework in Frameworks */,
+				3C3464C221471797001F45BB /* WeatherKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,6 +144,7 @@
 				3CA8519C212B832100585D29 /* NSWorkspace+Finder.m */,
 				3CA1DD8A212D3FC000D95DE1 /* NowPlaying.h */,
 				3CA1DD89212D3FC000D95DE1 /* NowPlaying.m */,
+				3C3464C021470F65001F45BB /* WeatherKit.h */,
 			);
 			path = System;
 			sourceTree = "<group>";
@@ -218,6 +226,8 @@
 				3C102D4D2119872800FFB2CF /* EscKeyWidget.m */,
 				3CA1DD84212D3DB200D95DE1 /* NowPlayingWidget.h */,
 				3CA1DD85212D3DB200D95DE1 /* NowPlayingWidget.m */,
+				3C3464BD21465319001F45BB /* WeatherWidget.h */,
+				3C3464BE21465319001F45BB /* WeatherWidget.m */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -227,6 +237,7 @@
 			children = (
 				3C83DB47211D851700FC2F53 /* CoreBrightness.framework */,
 				3CA1DD87212D3F7A00D95DE1 /* MediaRemote.framework */,
+				3C3464C121471797001F45BB /* WeatherKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -332,6 +343,7 @@
 				3C4013C2211BBC8D00C47B66 /* ActiveAppWidget.m in Sources */,
 				3CACC7632126772700662AB1 /* FSNotify.c in Sources */,
 				3C102D482119641500FFB2CF /* CustomWidget.m in Sources */,
+				3C3464BF21465319001F45BB /* WeatherWidget.m in Sources */,
 				3CA851A0212B84B000585D29 /* NSTouchBar+SystemModal.m in Sources */,
 				3C5D0FCE2119210000769A39 /* ClockWidget.m in Sources */,
 				3C6CCA38211B824000D019F4 /* TouchBarController.m in Sources */,
