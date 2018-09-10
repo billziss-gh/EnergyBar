@@ -197,4 +197,13 @@
     view.subtitle = subtitle;
     view.layoutOptions = layoutOptions;
 }
+
+- (void)resetWeather
+{
+    if (nil == self.timer)
+        return;
+
+    [self stop];
+    [self start];
+}
 @end

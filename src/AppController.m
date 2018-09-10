@@ -341,7 +341,7 @@ static void AppControllerFSNotify(const char *path, void *data)
             @"HH:mm" :
             @"h:mm a";
     
-    [clock reset];
+    [clock resetClock];
 }
 
 - (IBAction)showsActiveAppOnTapAction:(id)sender

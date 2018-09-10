@@ -14,8 +14,10 @@
 #import <Cocoa/Cocoa.h>
 #import "CustomWidget.h"
 
-@interface ClockWidget : CustomWidget
-- (void)reset;
+@interface ClockWidget : CustomMultiWidget
+- (void)resetClock;
+- (void)resetWeather;
 - (void)setPressTarget:(id)target action:(SEL)action;
-@property (retain) IBOutlet NSDateFormatter *formatter;
+@property (retain, getter=formatter, setter=setFormatter:) NSDateFormatter *formatter;
+@property (getter=showsWeather, setter=setShowsWeather:) BOOL showsWeather;
 @end

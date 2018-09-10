@@ -13,25 +13,17 @@
 
 #import "ClockWidget.h"
 #import "FixedSizeLabel.h"
+#import "WeatherWidget.h"
 
-@interface ClockWidget ()
+@interface ClockInternalWidget : CustomWidget
+@property (retain) IBOutlet NSDateFormatter *formatter;
 @property (retain) NSTimer *timer;
 @end
 
-@implementation ClockWidget
-{
-    id _target;
-    SEL _action;
-}
-
+@implementation ClockInternalWidget
 - (void)commonInit
 {
     self.customizationLabel = @"Clock";
-
-    NSPressGestureRecognizer *recognizer = [[[NSPressGestureRecognizer alloc]
-        initWithTarget:self action:@selector(pressAction:)] autorelease];
-    recognizer.allowedTouchTypes = NSTouchTypeMaskDirect;
-    recognizer.minimumPressDuration = LongPressDuration;
 
     FixedSizeLabel *label = [FixedSizeLabel labelWithString:@"9:41 am"];
     label.wantsLayer = YES;
@@ -39,7 +31,6 @@
     label.layer.backgroundColor = [[NSColor colorWithWhite:0.0 alpha:0.5] CGColor];
     label.fixedSize = NSMakeSize(80, NSViewNoIntrinsicMetric);
     label.alignment = NSTextAlignmentCenter;
-    [label addGestureRecognizer:recognizer];
     self.view = label;
 
     self.formatter = [[[NSDateFormatter alloc] init] autorelease];
@@ -48,8 +39,9 @@
 
 - (void)dealloc
 {
-    self.timer = nil;
     self.formatter = nil;
+    self.timer = nil;
+
     [super dealloc];
 }
 
@@ -102,12 +94,68 @@
     view.stringValue = [self.formatter stringFromDate:[NSDate date]];
 }
 
-- (void)reset
+- (void)resetClock
 {
     if (nil == self.timer)
         return;
 
     [self tick:nil];
+}
+@end
+
+@implementation ClockWidget
+{
+    BOOL _showsWeather;
+    id _target;
+    SEL _action;
+}
+
+- (void)commonInit
+{
+    [self addWidget:[[[ClockInternalWidget alloc]
+        initWithIdentifier:@"_ClockInternal"] autorelease]];
+}
+
+- (void)resetClock
+{
+    ClockInternalWidget *widget = (id)[self.widgets objectAtIndex:0];
+    [widget resetClock];
+}
+
+- (void)resetWeather
+{
+    WeatherWidget *widget = 2 <= self.widgets.count ? (id)[self.widgets objectAtIndex:1] : nil;
+    [widget resetWeather];
+}
+
+- (NSDateFormatter *)formatter
+{
+    ClockInternalWidget *widget = (id)[self.widgets objectAtIndex:0];
+    return widget.formatter;
+}
+
+- (void)setFormatter:(NSDateFormatter *)value
+{
+    ClockInternalWidget *widget = (id)[self.widgets objectAtIndex:0];
+    widget.formatter = value;
+}
+
+- (BOOL)showsWeather
+{
+    return _showsWeather;
+}
+
+- (void)setShowsWeather:(BOOL)value
+{
+    if (_showsWeather == value)
+        return;
+
+    _showsWeather = value;
+    if (_showsWeather)
+        [self addWidget:[[[WeatherWidget alloc]
+            initWithIdentifier:@"_Weather"] autorelease]];
+    else
+        [self removeWidgetWithIdentifier:@"_Weather"];
 }
 
 - (void)setPressTarget:(id)target action:(SEL)action
@@ -116,11 +164,8 @@
     _action = action;
 }
 
-- (void)pressAction:(NSGestureRecognizer *)recognizer
+- (void)longPressAction:(id)sender
 {
-    if (NSGestureRecognizerStateBegan != recognizer.state)
-        return;
-
     [_target performSelector:_action withObject:self];
 }
 @end

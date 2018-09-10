@@ -15,5 +15,6 @@
 #import "CustomWidget.h"
 
 @interface WeatherWidget : CustomWidget
+- (void)resetWeather;
 @property (atomic, assign) NSUInteger temperatureUnit;
 @end
