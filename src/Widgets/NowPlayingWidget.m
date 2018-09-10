@@ -12,95 +12,47 @@
  */
 
 #import "NowPlayingWidget.h"
-#import "FixedSizeLabel.h"
+#import "ActiveAppWidget.h"
 #import "ImageTitleView.h"
 #import "NowPlaying.h"
 
-@interface NowPlayingWidgetView : NSView
-@property (retain) ImageTitleView *imageTitleView;
-@property (retain) FixedSizeLabel *fixedSizeLabel;
+@interface NowPlayingWidgetView : ImageTitleView
 @end
 
 @implementation NowPlayingWidgetView
-- (id)initWithFrame:(NSRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (nil == self)
-        return nil;
-
-    self.wantsLayer = YES;
-    self.layer.cornerRadius = 8.0;
-    self.layer.backgroundColor = [[NSColor colorWithWhite:0.0 alpha:0.5] CGColor];
-
-    self.imageTitleView = [[[ImageTitleView alloc] initWithFrame:NSZeroRect] autorelease];
-    self.imageTitleView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-    self.imageTitleView.imageSize = NSMakeSize(26, 26);
-    self.imageTitleView.titleFont = [NSFont boldSystemFontOfSize:[NSFont
-        systemFontSizeForControlSize:NSControlSizeSmall]];
-    self.imageTitleView.titleLineBreakMode = NSLineBreakByTruncatingTail;
-    self.imageTitleView.subtitleFont = [NSFont systemFontOfSize:[NSFont
-        systemFontSizeForControlSize:NSControlSizeSmall]];
-    self.imageTitleView.subtitleLineBreakMode = NSLineBreakByTruncatingTail;
-    self.imageTitleView.layoutOptions = ImageTitleViewLayoutOptionTitle;
-    self.imageTitleView.title = @"♫";
-
-    self.fixedSizeLabel = [FixedSizeLabel labelWithString:@""];
-    self.fixedSizeLabel.frame = NSZeroRect;
-    self.fixedSizeLabel.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-    self.fixedSizeLabel.alignment = NSTextAlignmentCenter;
-    self.fixedSizeLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-    self.fixedSizeLabel.fixedSize = [self intrinsicContentSize];
-    self.fixedSizeLabel.hidden = YES;
-
-    [self addSubview:self.imageTitleView];
-    [self addSubview:self.fixedSizeLabel];
-
-    return self;
-}
-
-- (void)dealloc
-{
-    self.imageTitleView = nil;
-    self.fixedSizeLabel = nil;
-
-    [super dealloc];
-}
-
 - (NSSize)intrinsicContentSize
 {
     return NSMakeSize(200, NSViewNoIntrinsicMetric);
 }
 @end
 
-@implementation NowPlayingWidget
-{
-    BOOL _showsActiveAppOnTap;
-    BOOL _showsActiveApp;
-}
+@interface NowPlayingInternalWidget : CustomWidget
+@end
 
+@implementation NowPlayingInternalWidget
 - (void)commonInit
 {
     self.customizationLabel = @"Now Playing";
 
-    NSClickGestureRecognizer *clickRecognizer = [[[NSClickGestureRecognizer alloc]
-        initWithTarget:self action:@selector(clickAction:)] autorelease];
-    clickRecognizer.allowedTouchTypes = NSTouchTypeMaskDirect;
-
-    NSPressGestureRecognizer *pressRecognizer = [[[NSPressGestureRecognizer alloc]
-        initWithTarget:self action:@selector(pressAction:)] autorelease];
-    pressRecognizer.allowedTouchTypes = NSTouchTypeMaskDirect;
-    pressRecognizer.minimumPressDuration = LongPressDuration;
-
-    self.view = [[[NowPlayingWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
-    [self.view addGestureRecognizer:clickRecognizer];
-    [self.view addGestureRecognizer:pressRecognizer];
+    ImageTitleView *imageTitleView = [[[NowPlayingWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
+    imageTitleView.wantsLayer = YES;
+    imageTitleView.layer.cornerRadius = 8.0;
+    imageTitleView.layer.backgroundColor = [[NSColor colorWithWhite:0.0 alpha:0.5] CGColor];
+    imageTitleView.imageSize = NSMakeSize(26, 26);
+    imageTitleView.titleFont = [NSFont boldSystemFontOfSize:[NSFont
+        systemFontSizeForControlSize:NSControlSizeSmall]];
+    imageTitleView.titleLineBreakMode = NSLineBreakByTruncatingTail;
+    imageTitleView.subtitleFont = [NSFont systemFontOfSize:[NSFont
+        systemFontSizeForControlSize:NSControlSizeSmall]];
+    imageTitleView.subtitleLineBreakMode = NSLineBreakByTruncatingTail;
+    imageTitleView.layoutOptions = ImageTitleViewLayoutOptionTitle;
+    imageTitleView.title = @"♫";
+    self.view = imageTitleView;
 }
 
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter]
-        removeObserver:self];
-    [[[NSWorkspace sharedWorkspace] notificationCenter]
         removeObserver:self];
 
     [super dealloc];
@@ -113,38 +65,14 @@
         selector:@selector(nowPlayingNotification:)
         name:NowPlayingInfoNotification
         object:nil];
-    [[[NSWorkspace sharedWorkspace] notificationCenter]
-        addObserver:self
-        selector:@selector(didActivateApplication:)
-        name:NSWorkspaceDidActivateApplicationNotification
-        object:nil];
 
     [self resetNowPlaying];
-    [self resetActiveApp];
 }
 
 - (void)viewDidDisappear
 {
     [[NSNotificationCenter defaultCenter]
         removeObserver:self];
-    [[[NSWorkspace sharedWorkspace] notificationCenter]
-        removeObserver:self];
-}
-
-- (BOOL)showsActiveAppOnTap
-{
-    return _showsActiveAppOnTap;
-}
-
-- (void)setShowsActiveAppOnTap:(BOOL)value
-{
-    if (_showsActiveAppOnTap == value)
-        return;
-
-    _showsActiveAppOnTap = value;
-    if (!_showsActiveAppOnTap)
-        _showsActiveApp = NO;
-    [self updateVisibleView];
 }
 
 - (void)resetNowPlaying
@@ -165,56 +93,49 @@
         layoutOptions = layoutOptions | ImageTitleViewLayoutOptionSubtitle;
 
     NowPlayingWidgetView *view = self.view;
-    view.imageTitleView.image = icon;
-    view.imageTitleView.title = title;
-    view.imageTitleView.subtitle = subtitle;
-    view.imageTitleView.layoutOptions = layoutOptions;
-}
-
-- (void)resetActiveApp
-{
-    NSRunningApplication *app = [[NSWorkspace sharedWorkspace] menuBarOwningApplication];
-    if (nil != app)
-    {
-        NowPlayingWidgetView *view = self.view;
-        view.fixedSizeLabel.stringValue = app.localizedName;
-    }
-}
-
-- (void)updateVisibleView
-{
-    NowPlayingWidgetView *view = self.view;
-    view.imageTitleView.hidden = _showsActiveApp;
-    view.fixedSizeLabel.hidden = !_showsActiveApp;
-}
-
-- (void)didActivateApplication:(NSNotification *)notification
-{
-    [self resetActiveApp];
+    view.image = icon;
+    view.title = title;
+    view.subtitle = subtitle;
+    view.layoutOptions = layoutOptions;
 }
 
 - (void)nowPlayingNotification:(NSNotification *)notification
 {
     [self resetNowPlaying];
 }
+@end
 
-- (void)clickAction:(NSGestureRecognizer *)recognizer
+@implementation NowPlayingWidget
 {
-    if (NSGestureRecognizerStateRecognized != recognizer.state)
-        return;
-
-    if (!_showsActiveAppOnTap)
-        return;
-
-    _showsActiveApp = !_showsActiveApp;
-    [self updateVisibleView];
+    BOOL _showsActiveAppOnTap;
 }
 
-- (void)pressAction:(NSGestureRecognizer *)recognizer
+- (void)commonInit
 {
-    if (NSGestureRecognizerStateBegan != recognizer.state)
+    [self addWidget:[[[NowPlayingInternalWidget alloc]
+        initWithIdentifier:@"_NowPlayingInternal"] autorelease]];
+}
+
+- (BOOL)showsActiveAppOnTap
+{
+    return _showsActiveAppOnTap;
+}
+
+- (void)setShowsActiveAppOnTap:(BOOL)value
+{
+    if (_showsActiveAppOnTap == value)
         return;
 
+    _showsActiveAppOnTap = value;
+    if (_showsActiveAppOnTap)
+        [self addWidget:[[[ActiveAppWidget alloc]
+            initWithIdentifier:@"_ActiveApp"] autorelease]];
+    else
+        [self removeWidgetWithIdentifier:@"_ActiveApp"];
+}
+
+- (void)longPressAction:(id)sender
+{
     NSString *appBundleIdentifier = [NowPlaying sharedInstance].appBundleIdentifier;
     if (nil != appBundleIdentifier)
     {

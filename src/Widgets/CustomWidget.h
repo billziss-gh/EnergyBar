@@ -23,3 +23,12 @@
 - (void)viewWillDisappear;
 - (void)viewDidDisappear;
 @end
+
+@interface CustomMultiWidget : CustomWidget
+@property (readonly, getter=widgets) NSArray<NSTouchBarItem *> *widgets;
+@property (getter=activeIndex, setter=setActiveIndex:) NSUInteger activeIndex;
+- (void)addWidget:(NSTouchBarItem *)widget;
+- (void)removeWidgetWithIdentifier:(NSString *)identifier;
+- (void)tapAction:(id)sender;
+- (void)longPressAction:(id)sender;
+@end

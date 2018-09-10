@@ -14,6 +14,6 @@
 #import <Cocoa/Cocoa.h>
 #import "CustomWidget.h"
 
-@interface NowPlayingWidget : CustomWidget
+@interface NowPlayingWidget : CustomMultiWidget
 @property (getter=showsActiveAppOnTap, setter=setShowsActiveAppOnTap:) BOOL showsActiveAppOnTap;
 @end
