@@ -15,8 +15,7 @@
 #import "CustomWidget.h"
 
 @interface ClockWidget : CustomWidget
-- (void)start;
-- (void)stop;
+- (void)reset;
 - (void)setPressTarget:(id)target action:(SEL)action;
 @property (retain) IBOutlet NSDateFormatter *formatter;
 @end

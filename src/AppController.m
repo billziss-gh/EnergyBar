@@ -341,9 +341,7 @@ static void AppControllerFSNotify(const char *path, void *data)
             @"HH:mm" :
             @"h:mm a";
     
-    // stop and start the clock to have it redraw itself
-    [clock stop];
-    [clock start];
+    [clock reset];
 }
 
 - (IBAction)showsActiveAppOnTapAction:(id)sender

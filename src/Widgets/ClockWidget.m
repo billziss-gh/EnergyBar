@@ -102,6 +102,14 @@
     view.stringValue = [self.formatter stringFromDate:[NSDate date]];
 }
 
+- (void)reset
+{
+    if (nil == self.timer)
+        return;
+
+    [self tick:nil];
+}
+
 - (void)setPressTarget:(id)target action:(SEL)action
 {
     _target = target;
