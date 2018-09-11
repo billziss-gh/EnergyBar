@@ -434,7 +434,7 @@ static const NSUInteger maxPersistentItemCount = 8;
 
     NSView *dragView = [view dragViewAtPoint:point];
     if ([dragView isKindOfClass:[DockWidgetItemView class]])
-        res = NSDragOperationGeneric;
+        res = 0 < urls.count ? NSDragOperationGeneric : NSDragOperationNone;
     else
     if ([dragView isKindOfClass:[DockWidgetButton class]])
     {
@@ -447,25 +447,29 @@ static const NSUInteger maxPersistentItemCount = 8;
             BOOL isApp = [url getResourceValue:&value forKey:NSURLIsApplicationKey error:0] &&
                 [value boolValue];
             if (isApp)
-                res = NSDragOperationGeneric;
+                res = 0 < urls.count ? NSDragOperationGeneric : NSDragOperationNone;
             else if (isDir)
-                switch (operation)
-                {
-                case NSDragOperationCopy:
-                    res = NSDragOperationCopy;
-                    break;
-                case NSDragOperationCopy | NSDragOperationGeneric:
-                case NSDragOperationLink:
-                    res = NSDragOperationLink;
-                    break;
-                default:
-                    res = NSDragOperationGeneric;
-                    break;
-                }
+            {
+                res = NSDragOperationCopy;
+                if (0 < urls.count)
+                    switch (operation)
+                    {
+                    case NSDragOperationCopy:
+                        res = NSDragOperationCopy;
+                        break;
+                    case NSDragOperationCopy | NSDragOperationGeneric:
+                    case NSDragOperationLink:
+                        res = NSDragOperationLink;
+                        break;
+                    default:
+                        res = NSDragOperationGeneric;
+                        break;
+                    }
+            }
         }
         else
             /* trash */
-            res = NSDragOperationGeneric;
+            res = 0 < urls.count ? NSDragOperationGeneric : NSDragOperationNone;
     }
 
     view.dragTargetView.frame = [view convertRect:dragView.visibleRect fromView:dragView];
@@ -476,6 +480,7 @@ static const NSUInteger maxPersistentItemCount = 8;
 
 - (BOOL)dragWindowController:(DragWindowController *)controller
     dropURLs:(NSArray *)urls atPoint:(NSPoint)point operation:(NSDragOperation)operation
+    destination:(NSURL **)destination
 {
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"acceptsDraggedItems"])
         return NO;
@@ -488,8 +493,8 @@ static const NSUInteger maxPersistentItemCount = 8;
     {
         NSString *appPath = [(DockWidgetItemView *)dragView appPath];
         if (nil != appPath)
-            res = nil !=
-                [[NSWorkspace sharedWorkspace]
+            res = 0 < urls.count &&
+                nil != [[NSWorkspace sharedWorkspace]
                     openURLs:urls
                     withApplicationAtURL:[NSURL fileURLWithPath:appPath]
                     options:NSWorkspaceLaunchAsync
@@ -508,32 +513,42 @@ static const NSUInteger maxPersistentItemCount = 8;
             BOOL isApp = [url getResourceValue:&value forKey:NSURLIsApplicationKey error:0] &&
                 [value boolValue];
             if (isApp)
-                res = nil !=
-                    [[NSWorkspace sharedWorkspace]
+                res = 0 < urls.count &&
+                    nil != [[NSWorkspace sharedWorkspace]
                         openURLs:urls
                         withApplicationAtURL:url
                         options:NSWorkspaceLaunchAsync
                         configuration:[NSDictionary dictionary]
                         error:0];
             else if (isDir)
-                switch (operation)
+            {
+                if (0 < urls.count)
+                    switch (operation)
+                    {
+                    case NSDragOperationCopy:
+                        res = [[NSWorkspace sharedWorkspace] copyItemsAtURLs:urls toURL:url];
+                        break;
+                    case NSDragOperationCopy | NSDragOperationGeneric:
+                    case NSDragOperationLink:
+                        res = [[NSWorkspace sharedWorkspace] aliasItemsAtURLs:urls toURL:url];
+                        break;
+                    default:
+                        res = [[NSWorkspace sharedWorkspace] moveItemsAtURLs:urls toURL:url];
+                        break;
+                    }
+                else if (0 != destination)
                 {
-                case NSDragOperationCopy:
-                    res = [[NSWorkspace sharedWorkspace] copyItemsAtURLs:urls toURL:url];
-                    break;
-                case NSDragOperationCopy | NSDragOperationGeneric:
-                case NSDragOperationLink:
-                    res = [[NSWorkspace sharedWorkspace] aliasItemsAtURLs:urls toURL:url];
-                    break;
-                default:
-                    res = [[NSWorkspace sharedWorkspace] moveItemsAtURLs:urls toURL:url];
-                    break;
+                    *destination = url;
+                    res = YES;
                 }
+            }
         }
         else
             /* trash */
-            res = [[NSWorkspace sharedWorkspace] moveItemsToTrash:urls];
+            res = 0 < urls.count && [[NSWorkspace sharedWorkspace] moveItemsToTrash:urls];
     }
+
+    view.dragTargetView.hidden = YES;
 
     return res;
 }

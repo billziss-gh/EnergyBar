@@ -20,7 +20,8 @@
 - (NSDragOperation)dragWindowController:(DragWindowController *)controller
     dragURLs:(NSArray *)urls atPoint:(NSPoint)point operation:(NSDragOperation)operation;
 - (BOOL)dragWindowController:(DragWindowController *)controller
-    dropURLs:(NSArray *)urls atPoint:(NSPoint)point operation:(NSDragOperation)operation;
+    dropURLs:(NSArray *)urls atPoint:(NSPoint)point operation:(NSDragOperation)operation
+    destination:(NSURL **)destination;
 @end
 
 @interface DragWindowController : NSWindowController

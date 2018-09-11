@@ -49,7 +49,7 @@ static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
     window.releasedWhenClosed = YES;
     [window registerForDraggedTypes:[NSArray arrayWithObjects:
         NSPasteboardTypeURL,
-        (NSString *)kPasteboardTypeFileURLPromise,
+        NSFilesPromisePboardType,
         nil]];
     //window.alphaValue = 1;
     //window.backgroundColor = [NSColor systemGreenColor];
@@ -120,9 +120,13 @@ static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
 {
     if ([self.delegate respondsToSelector:@selector(dragWindowController:dragURLs:atPoint:operation:)])
     {
-        NSArray *urls = [sender.draggingPasteboard
-            readObjectsForClasses:[NSArray arrayWithObject:[NSURL class]]
-            options:nil];
+        NSArray *urls;
+        if ([sender.draggingPasteboard.types containsObject:NSFilesPromisePboardType])
+            urls = [NSArray array];
+        else
+            urls = [sender.draggingPasteboard
+                readObjectsForClasses:[NSArray arrayWithObject:[NSURL class]]
+                options:nil];
         NSPoint point = [self convertBaseToTouchBar:sender.draggingLocation];
         return [self.delegate
             dragWindowController:self
@@ -151,17 +155,33 @@ static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
 
 - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
 {
-    if ([self.delegate respondsToSelector:@selector(dragWindowController:dropURLs:atPoint:operation:)])
+    if ([self.delegate
+        respondsToSelector:@selector(dragWindowController:dropURLs:atPoint:operation:destination:)])
     {
-        NSArray *urls = [sender.draggingPasteboard
-            readObjectsForClasses:[NSArray arrayWithObject:[NSURL class]]
-            options:nil];
+        NSURL *destination = nil, **pdestination = 0;
+        NSArray *urls;
+        if ([sender.draggingPasteboard.types containsObject:NSFilesPromisePboardType])
+        {
+            pdestination = &destination;
+            urls = [NSArray array];
+        }
+        else
+            urls = [sender.draggingPasteboard
+                readObjectsForClasses:[NSArray arrayWithObject:[NSURL class]]
+                options:nil];
         NSPoint point = [self convertBaseToTouchBar:sender.draggingLocation];
-        return [self.delegate
+        BOOL res = [self.delegate
             dragWindowController:self
             dropURLs:urls
             atPoint:point
-            operation:sender.draggingSourceOperationMask];
+            operation:sender.draggingSourceOperationMask
+            destination:pdestination];
+        if (res && nil != destination)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            [sender namesOfPromisedFilesDroppedAtDestination:destination];
+#pragma clang diagnostic pop
+        return res;
     }
 
     return NO;
