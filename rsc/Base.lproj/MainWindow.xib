@@ -430,14 +430,14 @@
                     </menu>
                 </menuItem>
             </items>
-            <point key="canvasLocation" x="33" y="-908"/>
+            <point key="canvasLocation" x="33" y="-1058"/>
         </menu>
         <window title="EnergyBar" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
-            <rect key="contentRect" x="335" y="390" width="480" height="320"/>
+            <rect key="contentRect" x="335" y="390" width="480" height="480"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
+                <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
                 <autoresizingMask key="autoresizingMask"/>
             </view>
             <toolbar key="toolbar" implicitIdentifier="40712263-09C9-4F53-9674-F3343CC2D1A4" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconAndLabel" sizeMode="regular" id="ZQG-Zm-WHH">
@@ -486,7 +486,7 @@
             <connections>
                 <outlet property="delegate" destination="Voe-Tx-rLC" id="Yhx-mI-vfG"/>
             </connections>
-            <point key="canvasLocation" x="85" y="-592"/>
+            <point key="canvasLocation" x="85" y="-665"/>
         </window>
         <touchBar customizationIdentifier="billziss.EnergyBar" id="7g7-Is-eP5">
             <nil name="touchBarItems"/>
