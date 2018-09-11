@@ -19,5 +19,6 @@
 - (void)resetWeather;
 - (void)setPressTarget:(id)target action:(SEL)action;
 @property (retain, getter=formatter, setter=setFormatter:) NSDateFormatter *formatter;
+@property (assign, getter=temperatureUnit, setter=setTemperatureUnit:) NSUInteger temperatureUnit;
 @property (getter=showsWeather, setter=setShowsWeather:) BOOL showsWeather;
 @end

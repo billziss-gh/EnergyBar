@@ -16,7 +16,7 @@
 #import "WeatherWidget.h"
 
 @interface ClockInternalWidget : CustomWidget
-@property (retain) IBOutlet NSDateFormatter *formatter;
+@property (retain) NSDateFormatter *formatter;
 @property (retain) NSTimer *timer;
 @end
 
@@ -105,6 +105,7 @@
 
 @implementation ClockWidget
 {
+    NSUInteger _temperatureUnit;
     BOOL _showsWeather;
     id _target;
     SEL _action;
@@ -140,6 +141,19 @@
     widget.formatter = value;
 }
 
+- (NSUInteger)temperatureUnit
+{
+    return _temperatureUnit;
+}
+
+- (void)setTemperatureUnit:(NSUInteger)value
+{
+    _temperatureUnit = value;
+
+    WeatherWidget *widget = 2 <= self.widgets.count ? (id)[self.widgets objectAtIndex:1] : nil;
+    widget.temperatureUnit = value;
+}
+
 - (BOOL)showsWeather
 {
     return _showsWeather;
@@ -152,8 +166,12 @@
 
     _showsWeather = value;
     if (_showsWeather)
-        [self addWidget:[[[WeatherWidget alloc]
-            initWithIdentifier:@"_Weather"] autorelease]];
+    {
+        WeatherWidget *widget = [[[WeatherWidget alloc]
+            initWithIdentifier:@"_Weather"] autorelease];
+        widget.temperatureUnit = _temperatureUnit;
+        [self addWidget:widget];
+    }
     else
         [self removeWidgetWithIdentifier:@"_Weather"];
 }

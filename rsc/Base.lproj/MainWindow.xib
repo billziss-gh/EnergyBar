@@ -496,11 +496,11 @@
             <point key="canvasLocation" x="31" y="-1362"/>
         </touchBar>
         <customView id="LNX-xt-gFC">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="384"/>
+            <rect key="frame" x="0.0" y="0.0" width="480" height="419"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RI6-LC-Dn0">
-                    <rect key="frame" x="18" y="345" width="142" height="17"/>
+                    <rect key="frame" x="18" y="380" width="142" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Applications Folder:" id="we4-MN-ZoZ">
                         <font key="font" metaFont="system"/>
@@ -509,7 +509,7 @@
                     </textFieldCell>
                 </textField>
                 <pathControl verticalHuggingPriority="750" fixedFrame="YES" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nd5-hn-yED">
-                    <rect key="frame" x="163" y="340" width="300" height="26"/>
+                    <rect key="frame" x="163" y="375" width="300" height="26"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <pathCell key="cell" selectable="YES" editable="YES" alignment="left" pathStyle="popUp" id="iGa-4q-LTE">
                         <font key="font" metaFont="system"/>
@@ -532,7 +532,7 @@
                     </connections>
                 </pathControl>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CXO-38-BKx">
-                    <rect key="frame" x="164" y="252" width="298" height="84"/>
+                    <rect key="frame" x="164" y="287" width="298" height="84"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="justified" id="1ol-1B-y4l">
                         <font key="font" metaFont="smallSystem"/>
@@ -544,55 +544,55 @@ In general the folder should contain application aliases. The order of the folde
                     </textFieldCell>
                 </textField>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a2a-cX-kjk">
-                    <rect key="frame" x="164" y="228" width="182" height="18"/>
+                    <rect key="frame" x="164" y="263" width="182" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Show running applications" bezelStyle="regularSquare" imagePosition="left" inset="2" id="F3l-pF-4z4">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                     <connections>
-                        <action selector="showsRunningAppsAction:" target="Voe-Tx-rLC" id="nL1-lU-cyI"/>
+                        <action selector="dockWidgetSettingsChange:" target="Voe-Tx-rLC" id="Flw-tt-ZTj"/>
                         <binding destination="pJh-SC-QEV" name="value" keyPath="values.showsRunningApps" id="Grg-py-OEW"/>
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aqA-xy-O2O">
-                    <rect key="frame" x="164" y="208" width="179" height="18"/>
+                    <rect key="frame" x="164" y="243" width="179" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Open folders in Touch Bar" bezelStyle="regularSquare" imagePosition="left" inset="2" id="MUe-xM-LBQ">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                     <connections>
-                        <action selector="showsFoldersInTouchBarAction:" target="Voe-Tx-rLC" id="Roe-8f-YlL"/>
+                        <action selector="dockWidgetSettingsChange:" target="Voe-Tx-rLC" id="t3q-7A-lVY"/>
                         <binding destination="pJh-SC-QEV" name="value" keyPath="values.showsFoldersInTouchBar" id="N9v-AC-XvI"/>
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uDG-IA-Ui4">
-                    <rect key="frame" x="164" y="188" width="90" height="18"/>
+                    <rect key="frame" x="164" y="223" width="90" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Show trash" bezelStyle="regularSquare" imagePosition="left" inset="2" id="JrQ-QJ-ade">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                     <connections>
-                        <action selector="showsTrashAction:" target="Voe-Tx-rLC" id="xkX-3x-8Ue"/>
+                        <action selector="dockWidgetSettingsChange:" target="Voe-Tx-rLC" id="lVt-6c-52G"/>
                         <binding destination="pJh-SC-QEV" name="value" keyPath="values.showsTrash" id="SJ7-MZ-0S1"/>
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DjH-vU-Mfw">
-                    <rect key="frame" x="164" y="168" width="148" height="18"/>
+                    <rect key="frame" x="164" y="203" width="148" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Accept dragged files" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ZwQ-ex-YBc">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                     <connections>
-                        <action selector="acceptsDraggedItemsAction:" target="Voe-Tx-rLC" id="Qif-BY-3rF"/>
+                        <action selector="dockWidgetSettingsChange:" target="Voe-Tx-rLC" id="TiR-zn-YeF"/>
                         <binding destination="pJh-SC-QEV" name="value" keyPath="values.acceptsDraggedItems" id="THw-rG-6mO"/>
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FlB-cq-KEg">
-                    <rect key="frame" x="160" y="134" width="153" height="32"/>
+                    <rect key="frame" x="160" y="169" width="153" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="push" title="From macOS Dock" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="PfM-cZ-x9j">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -603,7 +603,7 @@ In general the folder should contain application aliases. The order of the folde
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rgY-4i-8rq">
-                    <rect key="frame" x="313" y="134" width="153" height="32"/>
+                    <rect key="frame" x="313" y="169" width="153" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="push" title="Show Folder" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="YqK-L0-qea">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -614,11 +614,11 @@ In general the folder should contain application aliases. The order of the folde
                     </connections>
                 </button>
                 <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="JPj-0t-fwx">
-                    <rect key="frame" x="12" y="118" width="456" height="5"/>
+                    <rect key="frame" x="12" y="153" width="456" height="5"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                 </box>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JVQ-1d-WE0">
-                    <rect key="frame" x="18" y="95" width="142" height="17"/>
+                    <rect key="frame" x="18" y="130" width="142" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Clock:" id="ZQy-OV-XiW">
                         <font key="font" metaFont="system"/>
@@ -627,15 +627,48 @@ In general the folder should contain application aliases. The order of the folde
                     </textFieldCell>
                 </textField>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EM9-gH-EDe">
-                    <rect key="frame" x="164" y="94" width="145" height="18"/>
+                    <rect key="frame" x="164" y="129" width="145" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Show 24-hour clock" bezelStyle="regularSquare" imagePosition="left" inset="2" id="TM0-X1-Jg3">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                     <connections>
-                        <action selector="shows24HourClockAction:" target="Voe-Tx-rLC" id="ySG-F7-jKt"/>
+                        <action selector="clockWidgetSettingsChange:" target="Voe-Tx-rLC" id="8hz-QD-FeR"/>
                         <binding destination="pJh-SC-QEV" name="value" keyPath="values.shows24HourClock" id="VmF-Xd-RlH"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F6w-wo-guw">
+                    <rect key="frame" x="164" y="109" width="152" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Show Weather on tap" bezelStyle="regularSquare" imagePosition="left" inset="2" id="NRc-Fy-uT6">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="clockWidgetSettingsChange:" target="Voe-Tx-rLC" id="y4U-ak-NmM"/>
+                        <binding destination="pJh-SC-QEV" name="value" keyPath="values.clockShowsWeatherOnTap" id="4I9-lS-Zxv"/>
+                    </connections>
+                </button>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1cb-Rf-cgU">
+                    <rect key="frame" x="18" y="90" width="142" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Weather:" id="zMw-hH-mf4">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dfd-BH-vxz">
+                    <rect key="frame" x="164" y="89" width="176" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Show Fahrenheit degrees" bezelStyle="regularSquare" imagePosition="left" inset="2" id="2VW-9L-2RE">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="weatherWidgetSettingsChange:" target="Voe-Tx-rLC" id="EA3-Jj-0lB"/>
+                        <binding destination="pJh-SC-QEV" name="value" keyPath="values.weatherShowsFahrenheit" id="JF9-mP-Hri"/>
                     </connections>
                 </button>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bmU-xd-BYz">
@@ -655,8 +688,8 @@ In general the folder should contain application aliases. The order of the folde
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                     <connections>
-                        <action selector="showsActiveAppOnTapAction:" target="Voe-Tx-rLC" id="od1-lc-jQl"/>
-                        <binding destination="pJh-SC-QEV" name="value" keyPath="values.showsActiveAppOnTap" id="KkW-vL-2NV"/>
+                        <action selector="nowPlayingWidgetSettingsChange:" target="Voe-Tx-rLC" id="ndj-7m-c4n"/>
+                        <binding destination="pJh-SC-QEV" name="value" keyPath="values.showsActiveAppOnTap" id="nJx-hE-H6V"/>
                     </connections>
                 </button>
                 <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="Odg-GT-X9V">
@@ -675,7 +708,7 @@ In general the folder should contain application aliases. The order of the folde
                     </connections>
                 </button>
             </subviews>
-            <point key="canvasLocation" x="85" y="-158"/>
+            <point key="canvasLocation" x="85" y="-140.5"/>
         </customView>
         <customView id="oZG-ix-yVe">
             <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>

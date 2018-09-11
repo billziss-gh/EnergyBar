@@ -131,6 +131,8 @@
 	<false/>
 	<key>acceptsDraggedItems</key>
 	<false/>
+	<key>clockShowsWeatherOnTap</key>
+	<false/>
 	<key>shows24HourClock</key>
 	<false/>
 	<key>showsActiveAppOnTap</key>
@@ -141,5 +143,7 @@
 	<true/>
 	<key>showsTrash</key>
 	<true/>
+	<key>weatherShowsFahrenheit</key>
+	<false/>
 </dict>
 </plist>

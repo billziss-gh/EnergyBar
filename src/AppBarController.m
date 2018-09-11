@@ -46,7 +46,6 @@
         @"ActiveApp",
         @"Dock",
         @"Control",
-        @"Weather",
         @"Clock",
         nil];
     self.touchBar.customizationAllowedItemIdentifiers = [NSArray arrayWithObjects:

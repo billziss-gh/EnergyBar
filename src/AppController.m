@@ -18,6 +18,7 @@
 #import "LoginItem.h"
 #import "NowPlayingWidget.h"
 #import "TouchBarController.h"
+#import "WeatherWidget.h"
 
 @interface AppController () <NSApplicationDelegate, NSWindowDelegate>
 - (void)fsnotify:(const char *)path;
@@ -105,8 +106,9 @@ static void AppControllerFSNotify(const char *path, void *data)
     [[self.touchBarController.touchBar itemForIdentifier:@"Clock"]
         setPressTarget:self
         action:@selector(showMainWindow:)];
-    [self updateDateFormat];
-    [self showsActiveAppOnTapAction:nil];
+    [self clockWidgetSettingsChange:nil];
+    [self weatherWidgetSettingsChange:nil];
+    [self nowPlayingWidgetSettingsChange:nil];
 
     if (![self.touchBarController present])
     {
@@ -308,43 +310,37 @@ static void AppControllerFSNotify(const char *path, void *data)
     [[NSWorkspace sharedWorkspace] openFile:defaultAppsFolder];
 }
 
-- (IBAction)showsRunningAppsAction:(id)sender
+- (IBAction)dockWidgetSettingsChange:(id)sender
 {
     [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] reset];
 }
 
-- (IBAction)showsFoldersInTouchBarAction:(id)sender
-{
-    [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] reset];
-}
-
-- (IBAction)showsTrashAction:(id)sender
-{
-    [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] reset];
-}
-
-- (IBAction)acceptsDraggedItemsAction:(id)sender
-{
-    [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] reset];
-}
-
-- (IBAction)shows24HourClockAction:(id)sender
-{
-    [self updateDateFormat];
-}
-
-- (void)updateDateFormat
+- (IBAction)clockWidgetSettingsChange:(id)sender
 {
     ClockWidget *clock = [self.touchBarController.touchBar itemForIdentifier:@"Clock"];
     clock.formatter.dateFormat =
         [[NSUserDefaults standardUserDefaults] boolForKey:@"shows24HourClock"] ?
             @"HH:mm" :
             @"h:mm a";
-    
+    clock.showsWeather = [[NSUserDefaults standardUserDefaults] boolForKey:@"clockShowsWeatherOnTap"];
     [clock resetClock];
 }
 
-- (IBAction)showsActiveAppOnTapAction:(id)sender
+- (IBAction)weatherWidgetSettingsChange:(id)sender
+{
+    NSUInteger temperatureUnit =
+        [[NSUserDefaults standardUserDefaults] boolForKey:@"weatherShowsFahrenheit"] ? 'F' : 'C';
+
+    ClockWidget *clock = [self.touchBarController.touchBar itemForIdentifier:@"Clock"];
+    clock.temperatureUnit = temperatureUnit;
+    [clock resetWeather];
+
+    WeatherWidget *weather = [self.touchBarController.touchBar itemForIdentifier:@"Weather"];
+    weather.temperatureUnit = temperatureUnit;
+    [weather resetWeather];
+}
+
+- (IBAction)nowPlayingWidgetSettingsChange:(id)sender
 {
     NowPlayingWidget *widget = [self.touchBarController.touchBar itemForIdentifier:@"NowPlaying"];
     widget.showsActiveAppOnTap = [[NSUserDefaults standardUserDefaults] boolForKey:@"showsActiveAppOnTap"];
