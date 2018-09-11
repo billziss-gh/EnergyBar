@@ -16,6 +16,65 @@
 #import "ImageTitleView.h"
 #import "WeatherKit.h"
 
+static NSImage *weatherImage(uint64_t conditionCode)
+{
+    static NSImageName imageNames[] =
+    {
+        @"no-report",
+        @"tornado",
+        @"tropical-storm",
+        @"hurricane",
+        @"severe-thunderstorm",
+        @"severe-thunderstorm",
+        @"sleet",
+        @"sleet",
+        @"sleet",
+        @"hail",
+        @"drizzle",
+        @"blizzard",
+        @"heavy-rain",
+        @"flurry",
+        @"flurry-snow-snow-shower",
+        @"blowingsnow",
+        @"flurry",
+        @"hail",
+        @"sleet",
+        @"dust",
+        @"fog",
+        @"haze",
+        @"smoke",
+        @"breezy",
+        @"breezy",
+        @"ice",
+        @"mostly-cloudy",
+        @"mostly-cloudy-night",
+        @"mostly-cloudy",
+        @"partly-cloudy-night",
+        @"partly-cloudy-day",
+        @"clear-night",
+        @"mostly-sunny",
+        @"clear-night",
+        @"mostly-sunny",
+        @"hail",
+        @"hot",
+        @"scattered-thunderstorm",
+        @"scattered-thunderstorm",
+        @"scattered-showers",
+        @"flurry",
+        @"flurry",
+        @"partly-cloudy-day",
+        @"flurry",
+        @"scattered-thunderstorm",
+    };
+
+    if (conditionCode >= sizeof imageNames / sizeof imageNames[0])
+        conditionCode = 0;
+
+    NSBundle *bundle = [NSBundle
+        bundleWithPath:@"/System/Library/Frameworks/NotificationCenter.framework"];
+    return [bundle imageForResource:imageNames[conditionCode]];
+}
+
 @interface WeatherData : NSObject
 @property (retain) NSImage *icon;
 @property (copy) NSString *condition;
@@ -64,9 +123,9 @@
     view.subtitleFont = [NSFont systemFontOfSize:[NSFont
         systemFontSizeForControlSize:NSControlSizeSmall]];
     view.subtitleLineBreakMode = NSLineBreakByTruncatingTail;
-    view.layoutOptions = ImageTitleViewLayoutOptionTitle;
-    view.title = @"Weather";
     self.view = view;
+
+    [self updateWeather:nil];
 
     self.manager = [[[CLLocationManager alloc] init] autorelease];
 }
@@ -146,15 +205,18 @@
                 currentConditionsForCoordinate:location.coordinate
                 result:^(WMWeatherData *wmdata)
                 {
-                    data.icon = [[[NSImage alloc]
-                        initWithContentsOfURL:wmdata.imageSmallURL] autorelease];
-                    data.condition = [NSString stringWithFormat:@"%.0f%@",
-                        'F' == self.temperatureUnit ? wmdata.temperatureFahrenheit : wmdata.temperatureCelsius,
-                        'F' == self.temperatureUnit ? @"°F" : @"°C"];
-                    [self
-                        performSelectorOnMainThread:@selector(updateWeather:)
-                        withObject:data
-                        waitUntilDone:NO];
+                    [self performBlockOnMainThread:^
+                    {
+                        NSImage *icon = weatherImage(wmdata.conditionCode);
+                        if (nil == icon)
+                            icon = [[[NSImage alloc]
+                                initWithContentsOfURL:wmdata.imageSmallURL] autorelease];
+                        data.icon = icon;
+                        data.condition = [NSString stringWithFormat:@"%.0f%@",
+                            'F' == self.temperatureUnit ? wmdata.temperatureFahrenheit : wmdata.temperatureCelsius,
+                            'F' == self.temperatureUnit ? @"°F" : @"°C"];
+                        [self updateWeather:data];
+                    }];
                 }];
         }];
 }
@@ -181,7 +243,11 @@
     NSString *subtitle = data.placeName;
 
     if (nil == icon && nil == title && nil == subtitle)
-        title = @"?";
+    {
+        icon = weatherImage(0);
+        if (nil == icon)
+            title = @"--";
+    }
 
     ImageTitleViewLayoutOptions layoutOptions = 0;
     if (nil != icon)
@@ -205,5 +271,20 @@
 
     [self stop];
     [self start];
+}
+
+- (void)performBlockOnMainThread:(void (^)(void))block
+{
+    block = [block copy];
+    [self
+        performSelectorOnMainThread:@selector(performBlockOnMainThread_:)
+        withObject:block
+        waitUntilDone:NO];
+    [block release];
+}
+
+- (void)performBlockOnMainThread_:(void (^)(void))block
+{
+    block();
 }
 @end
