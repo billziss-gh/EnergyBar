@@ -39,7 +39,7 @@
 @implementation WeatherWidgetView
 - (NSSize)intrinsicContentSize
 {
-    return NSMakeSize(80, NSViewNoIntrinsicMetric);
+    return NSMakeSize(100, NSViewNoIntrinsicMetric);
 }
 @end
 

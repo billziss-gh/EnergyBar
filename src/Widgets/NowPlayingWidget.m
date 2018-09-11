@@ -22,7 +22,7 @@
 @implementation NowPlayingWidgetView
 - (NSSize)intrinsicContentSize
 {
-    return NSMakeSize(200, NSViewNoIntrinsicMetric);
+    return NSMakeSize(180, NSViewNoIntrinsicMetric);
 }
 @end
 
