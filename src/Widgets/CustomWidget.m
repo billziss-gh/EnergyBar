@@ -205,6 +205,7 @@
 - (void)addWidget:(NSTouchBarItem *)widget
 {
     [_widgets addObject:widget];
+    [self.view invalidateIntrinsicContentSize];
 
     if (NSNotFound == self.activeIndex)
         self.activeIndex = 0;
@@ -219,6 +220,7 @@
         {
             [widget.view removeFromSuperview];
             [_widgets removeObjectAtIndex:index];
+            [self.view invalidateIntrinsicContentSize];
             break;
         }
     }
