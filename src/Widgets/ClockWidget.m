@@ -14,6 +14,7 @@
 #import "ClockWidget.h"
 #import "FixedSizeLabel.h"
 #import "ImageTitleView.h"
+#import "PowerStatus.h"
 #import "WeatherWidget.h"
 
 @interface ClockWidgetView : ImageTitleView
@@ -51,6 +52,8 @@
 
     self.formatter = [[[NSDateFormatter alloc] init] autorelease];
     self.formatter.dateFormat = @"h:mm a";
+
+    [PowerStatus sharedInstance];
 }
 
 - (void)dealloc
@@ -117,11 +120,19 @@
     }
     else
     {
+        NSDictionary *info = [[PowerStatus sharedInstance] providingSourceInfoDictionary];
+        NSNumber *currentCapacity = [info objectForKey:PowerStatusCurrentCapacity];
+        NSNumber *maxCapacity = [info objectForKey:PowerStatusMaxCapacity];
+        double capacity = 100 * [currentCapacity doubleValue] / [maxCapacity doubleValue];
+        //BOOL charging = [[info objectForKey:PowerStatusIsCharging] boolValue];
+
         view.image = [NSImage imageNamed:@"ClockBattery"];
         view.titleFont = [NSFont systemFontOfSize:[NSFont
             systemFontSizeForControlSize:NSControlSizeSmall]];
         view.title = [self.formatter stringFromDate:[NSDate date]];
-        view.subtitle = @"80%";
+        view.subtitle = isnan(capacity) || isinf(capacity) ?
+            @"--" :
+            [NSString stringWithFormat:@"%.0f%%", capacity];
         view.layoutOptions =
             ImageTitleViewLayoutOptionImage |
             ImageTitleViewLayoutOptionTitle |

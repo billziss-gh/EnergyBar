@@ -20,6 +20,7 @@
 		3C200ECF212DFF390000B04D /* FixedSizeLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C200ECE212DFF390000B04D /* FixedSizeLabel.m */; };
 		3C3464BF21465319001F45BB /* WeatherWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C3464BE21465319001F45BB /* WeatherWidget.m */; };
 		3C3464C221471797001F45BB /* WeatherKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C3464C121471797001F45BB /* WeatherKit.framework */; };
+		3C38622A214989B500A8C37B /* PowerStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C386229214989B500A8C37B /* PowerStatus.m */; };
 		3C4013C2211BBC8D00C47B66 /* ActiveAppWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C4013C1211BBC8D00C47B66 /* ActiveAppWidget.m */; };
 		3C5032E32139C8E900305593 /* ImageTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C5032E12139C8E900305593 /* ImageTitleView.m */; };
 		3C5D0FCE2119210000769A39 /* ClockWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C5D0FCD2119210000769A39 /* ClockWidget.m */; };
@@ -69,6 +70,8 @@
 		3C3464BE21465319001F45BB /* WeatherWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeatherWidget.m; sourceTree = "<group>"; };
 		3C3464C021470F65001F45BB /* WeatherKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeatherKit.h; sourceTree = "<group>"; };
 		3C3464C121471797001F45BB /* WeatherKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WeatherKit.framework; path = ../../../../../../System/Library/PrivateFrameworks/WeatherKit.framework; sourceTree = "<group>"; };
+		3C386228214989B500A8C37B /* PowerStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerStatus.h; sourceTree = "<group>"; };
+		3C386229214989B500A8C37B /* PowerStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PowerStatus.m; sourceTree = "<group>"; };
 		3C4013C0211BBC8D00C47B66 /* ActiveAppWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActiveAppWidget.h; sourceTree = "<group>"; };
 		3C4013C1211BBC8D00C47B66 /* ActiveAppWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActiveAppWidget.m; sourceTree = "<group>"; };
 		3C5032E12139C8E900305593 /* ImageTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageTitleView.m; sourceTree = "<group>"; };
@@ -144,6 +147,8 @@
 				3CA8519C212B832100585D29 /* NSWorkspace+Finder.m */,
 				3CA1DD8A212D3FC000D95DE1 /* NowPlaying.h */,
 				3CA1DD89212D3FC000D95DE1 /* NowPlaying.m */,
+				3C386228214989B500A8C37B /* PowerStatus.h */,
+				3C386229214989B500A8C37B /* PowerStatus.m */,
 				3C3464C021470F65001F45BB /* WeatherKit.h */,
 			);
 			path = System;
@@ -337,6 +342,7 @@
 				3C9E264A211E2A9F0042C2E8 /* Brightness.c in Sources */,
 				3CDF1EB4211A3B9500739051 /* DockWidget.m in Sources */,
 				3C046013211D7C66003EB021 /* KeyEvent.c in Sources */,
+				3C38622A214989B500A8C37B /* PowerStatus.m in Sources */,
 				3C8ED9F4213E3974006C11A3 /* DragWindowController.m in Sources */,
 				3C200ECF212DFF390000B04D /* FixedSizeLabel.m in Sources */,
 				3CFECA122122611F00BB58E9 /* LoginItem.c in Sources */,
