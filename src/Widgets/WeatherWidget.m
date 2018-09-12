@@ -207,15 +207,20 @@ static NSImage *weatherImage(uint64_t conditionCode)
                 {
                     [self performBlockOnMainThread:^
                     {
-                        NSImage *icon = weatherImage(wmdata.conditionCode);
-                        if (nil == icon && nil != wmdata.imageSmallURL)
-                            icon = [[[NSImage alloc]
-                                initWithContentsOfURL:wmdata.imageSmallURL] autorelease];
-                        data.icon = icon;
-                        data.condition = [NSString stringWithFormat:@"%.0f%@",
-                            'F' == self.temperatureUnit ? wmdata.temperatureFahrenheit : wmdata.temperatureCelsius,
-                            'F' == self.temperatureUnit ? @"°F" : @"°C"];
-                        [self updateWeather:data];
+                        if (nil != wmdata)
+                        {
+                            NSImage *icon = weatherImage(wmdata.conditionCode);
+                            if (nil == icon && nil != wmdata.imageSmallURL)
+                                icon = [[[NSImage alloc]
+                                    initWithContentsOfURL:wmdata.imageSmallURL] autorelease];
+                            data.icon = icon;
+                            data.condition = [NSString stringWithFormat:@"%.0f%@",
+                                'F' == self.temperatureUnit ? wmdata.temperatureFahrenheit : wmdata.temperatureCelsius,
+                                'F' == self.temperatureUnit ? @"°F" : @"°C"];
+                            [self updateWeather:data];
+                        }
+                        else
+                            [self updateWeather:nil];
                     }];
                 }];
         }];
