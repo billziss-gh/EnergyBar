@@ -324,7 +324,7 @@ static void AppControllerFSNotify(const char *path, void *data)
     ClockWidget *clock = [self.touchBarController.touchBar itemForIdentifier:@"Clock"];
     clock.formatter.dateFormat =
         [[NSUserDefaults standardUserDefaults] boolForKey:@"shows24HourClock"] ?
-            @"HH:mm" :
+            @"H:mm" :
             @"h:mm a";
     clock.showsBatteryStatus = [[NSUserDefaults standardUserDefaults] boolForKey:@"clockShowsBatteryStatus"];
     clock.showsWeather = [[NSUserDefaults standardUserDefaults] boolForKey:@"clockShowsWeatherOnTap"];
