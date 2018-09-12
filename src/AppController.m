@@ -26,6 +26,7 @@
 @property (assign) IBOutlet TouchBarController *touchBarController;
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet NSView *generalView;
+@property (assign) IBOutlet NSView *widgetsView;
 @property (assign) IBOutlet NSView *advancedView;
 @property (assign) IBOutlet NSTextField *versionLabel;
 @property (assign) IBOutlet NSButton *toggleMacOSDockButton;
@@ -186,6 +187,9 @@ static void AppControllerFSNotify(const char *path, void *data)
         [self setContentView:self.generalView];
         break;
     case 1:
+        [self setContentView:self.widgetsView];
+        break;
+    case 2:
         [self setContentView:self.advancedView];
         break;
     }
