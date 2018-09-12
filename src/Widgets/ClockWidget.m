@@ -41,7 +41,7 @@
     view.wantsLayer = YES;
     view.layer.cornerRadius = 8.0;
     view.layer.backgroundColor = [[NSColor colorWithWhite:0.0 alpha:0.5] CGColor];
-    view.imageSize = NSMakeSize(20, 20);
+    view.imageSize = NSMakeSize(15, 30);
     view.titleLineBreakMode = NSLineBreakByTruncatingTail;
     view.subtitleFont = [NSFont systemFontOfSize:[NSFont
         systemFontSizeForControlSize:NSControlSizeSmall]];
@@ -110,17 +110,22 @@
 
     if (!self.showsBatteryStatus)
     {
+        view.image = nil;
         view.titleFont = [NSFont systemFontOfSize:0];
         view.title = [self.formatter stringFromDate:[NSDate date]];
         view.layoutOptions = ImageTitleViewLayoutOptionTitle;
     }
     else
     {
+        view.image = [NSImage imageNamed:@"ClockBattery"];
         view.titleFont = [NSFont systemFontOfSize:[NSFont
             systemFontSizeForControlSize:NSControlSizeSmall]];
         view.title = [self.formatter stringFromDate:[NSDate date]];
-        view.subtitle = @"80% 8:41";
-        view.layoutOptions = ImageTitleViewLayoutOptionTitle | ImageTitleViewLayoutOptionSubtitle;
+        view.subtitle = @"80%";
+        view.layoutOptions =
+            ImageTitleViewLayoutOptionImage |
+            ImageTitleViewLayoutOptionTitle |
+            ImageTitleViewLayoutOptionSubtitle;
     }
 }
 
