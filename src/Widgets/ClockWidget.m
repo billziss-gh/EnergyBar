@@ -28,11 +28,11 @@
 @end
 
 @interface ClockInternalWidget : CustomWidget
+@property (retain) NSImage *clockBatteryImage;
+@property (retain) NSImage *clockBatteryChargingImage;
 @property (retain) NSDateFormatter *formatter;
 @property (retain) NSTimer *timer;
 @property (assign) BOOL showsBatteryStatus;
-@property (retain) NSImage *clockBatteryImage;
-@property (retain) NSImage *clockBatteryChargingImage;
 @end
 
 @implementation ClockInternalWidget
@@ -40,6 +40,8 @@
 {
     self.clockBatteryImage = [NSImage imageNamed:@"ClockBattery"];
     self.clockBatteryChargingImage = [NSImage imageNamed:@"ClockBatteryCharging"];
+    self.formatter = [[[NSDateFormatter alloc] init] autorelease];
+    self.formatter.dateFormat = @"h:mm a";
 
     self.customizationLabel = @"Clock";
     ImageTitleView *view = [[[ClockWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
@@ -54,37 +56,31 @@
     view.layoutOptions = ImageTitleViewLayoutOptionTitle;
     self.view = view;
 
-    self.formatter = [[[NSDateFormatter alloc] init] autorelease];
-    self.formatter.dateFormat = @"h:mm a";
-
     [PowerStatus sharedInstance];
 }
 
 - (void)dealloc
 {
+    [self.timer invalidate];
+    self.timer = nil;
+
+    [[NSNotificationCenter defaultCenter]
+        removeObserver:self];
+
     self.clockBatteryImage = nil;
     self.clockBatteryChargingImage = nil;
-
     self.formatter = nil;
-    self.timer = nil;
 
     [super dealloc];
 }
 
 - (void)viewWillAppear
 {
-    [self start];
-}
-
-- (void)viewDidDisappear
-{
-    [self stop];
-}
-
-- (void)start
-{
-    if (nil != self.timer)
-        return;
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+        selector:@selector(powerStatusNotification:)
+        name:PowerStatusNotification
+        object:nil];
 
     NSDate *date = [[NSDate date] dateByAddingTimeInterval:60.0];
     NSDateComponents *comp = [[NSCalendar currentCalendar]
@@ -105,13 +101,18 @@
     [self tick:nil];
 }
 
-- (void)stop
+- (void)viewDidDisappear
 {
-    if (nil == self.timer)
-        return;
-
     [self.timer invalidate];
     self.timer = nil;
+
+    [[NSNotificationCenter defaultCenter]
+        removeObserver:self];
+}
+
+- (void)powerStatusNotification:(NSNotification *)notification
+{
+    [self tick:nil];
 }
 
 - (void)tick:(NSTimer *)sender

@@ -78,8 +78,8 @@ static void PowerStatusCallback(void *context)
         if (0 != list)
         {
             if (0 < CFArrayGetCount(list))
-                info = [(id)IOPSGetPowerSourceDescription(blob, CFArrayGetValueAtIndex(list, 0))
-                    retain];
+                info = [[(id)IOPSGetPowerSourceDescription(blob, CFArrayGetValueAtIndex(list, 0))
+                    retain] autorelease];
 
             CFRelease(list);
         }
