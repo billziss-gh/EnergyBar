@@ -31,13 +31,17 @@
 @property (retain) NSDateFormatter *formatter;
 @property (retain) NSTimer *timer;
 @property (assign) BOOL showsBatteryStatus;
+@property (retain) NSImage *clockBatteryImage;
+@property (retain) NSImage *clockBatteryChargingImage;
 @end
 
 @implementation ClockInternalWidget
 - (void)commonInit
 {
-    self.customizationLabel = @"Clock";
+    self.clockBatteryImage = [NSImage imageNamed:@"ClockBattery"];
+    self.clockBatteryChargingImage = [NSImage imageNamed:@"ClockBattery"];
 
+    self.customizationLabel = @"Clock";
     ImageTitleView *view = [[[ClockWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
     view.wantsLayer = YES;
     view.layer.cornerRadius = 8.0;
@@ -58,6 +62,9 @@
 
 - (void)dealloc
 {
+    self.clockBatteryImage = nil;
+    self.clockBatteryChargingImage = nil;
+
     self.formatter = nil;
     self.timer = nil;
 
@@ -124,9 +131,9 @@
         NSNumber *currentCapacity = [info objectForKey:PowerStatusCurrentCapacity];
         NSNumber *maxCapacity = [info objectForKey:PowerStatusMaxCapacity];
         double capacity = 100 * [currentCapacity doubleValue] / [maxCapacity doubleValue];
-        //BOOL charging = [[info objectForKey:PowerStatusIsCharging] boolValue];
+        BOOL charging = [[info objectForKey:PowerStatusIsCharging] boolValue];
 
-        view.image = [NSImage imageNamed:@"ClockBattery"];
+        view.image = charging ? self.clockBatteryChargingImage : self.clockBatteryImage;
         view.titleFont = [NSFont systemFontOfSize:[NSFont
             systemFontSizeForControlSize:NSControlSizeSmall]];
         view.title = [self.formatter stringFromDate:[NSDate date]];
