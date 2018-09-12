@@ -39,7 +39,7 @@
 - (void)commonInit
 {
     self.clockBatteryImage = [NSImage imageNamed:@"ClockBattery"];
-    self.clockBatteryChargingImage = [NSImage imageNamed:@"ClockBattery"];
+    self.clockBatteryChargingImage = [NSImage imageNamed:@"ClockBatteryCharging"];
 
     self.customizationLabel = @"Clock";
     ImageTitleView *view = [[[ClockWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
