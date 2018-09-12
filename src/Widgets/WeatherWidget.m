@@ -208,7 +208,7 @@ static NSImage *weatherImage(uint64_t conditionCode)
                     [self performBlockOnMainThread:^
                     {
                         NSImage *icon = weatherImage(wmdata.conditionCode);
-                        if (nil == icon)
+                        if (nil == icon && nil != wmdata.imageSmallURL)
                             icon = [[[NSImage alloc]
                                 initWithContentsOfURL:wmdata.imageSmallURL] autorelease];
                         data.icon = icon;
