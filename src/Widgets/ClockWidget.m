@@ -13,11 +13,23 @@
 
 #import "ClockWidget.h"
 #import "FixedSizeLabel.h"
+#import "ImageTitleView.h"
 #import "WeatherWidget.h"
+
+@interface ClockWidgetView : ImageTitleView
+@end
+
+@implementation ClockWidgetView
+- (NSSize)intrinsicContentSize
+{
+    return NSMakeSize(80, NSViewNoIntrinsicMetric);
+}
+@end
 
 @interface ClockInternalWidget : CustomWidget
 @property (retain) NSDateFormatter *formatter;
 @property (retain) NSTimer *timer;
+@property (assign) BOOL showsBatteryStatus;
 @end
 
 @implementation ClockInternalWidget
@@ -25,13 +37,17 @@
 {
     self.customizationLabel = @"Clock";
 
-    FixedSizeLabel *label = [FixedSizeLabel labelWithString:@"9:41 am"];
-    label.wantsLayer = YES;
-    label.layer.cornerRadius = 8.0;
-    label.layer.backgroundColor = [[NSColor colorWithWhite:0.0 alpha:0.5] CGColor];
-    label.fixedSize = NSMakeSize(80, NSViewNoIntrinsicMetric);
-    label.alignment = NSTextAlignmentCenter;
-    self.view = label;
+    ImageTitleView *view = [[[ClockWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
+    view.wantsLayer = YES;
+    view.layer.cornerRadius = 8.0;
+    view.layer.backgroundColor = [[NSColor colorWithWhite:0.0 alpha:0.5] CGColor];
+    view.imageSize = NSMakeSize(20, 20);
+    view.titleLineBreakMode = NSLineBreakByTruncatingTail;
+    view.subtitleFont = [NSFont systemFontOfSize:[NSFont
+        systemFontSizeForControlSize:NSControlSizeSmall]];
+    view.subtitleLineBreakMode = NSLineBreakByTruncatingTail;
+    view.layoutOptions = ImageTitleViewLayoutOptionTitle;
+    self.view = view;
 
     self.formatter = [[[NSDateFormatter alloc] init] autorelease];
     self.formatter.dateFormat = @"h:mm a";
@@ -90,8 +106,22 @@
 
 - (void)tick:(NSTimer *)sender
 {
-    NSTextField *view = self.view;
-    view.stringValue = [self.formatter stringFromDate:[NSDate date]];
+    ImageTitleView *view = self.view;
+
+    if (!self.showsBatteryStatus)
+    {
+        view.titleFont = [NSFont systemFontOfSize:0];
+        view.title = [self.formatter stringFromDate:[NSDate date]];
+        view.layoutOptions = ImageTitleViewLayoutOptionTitle;
+    }
+    else
+    {
+        view.titleFont = [NSFont systemFontOfSize:[NSFont
+            systemFontSizeForControlSize:NSControlSizeSmall]];
+        view.title = [self.formatter stringFromDate:[NSDate date]];
+        view.subtitle = @"80% 8:41";
+        view.layoutOptions = ImageTitleViewLayoutOptionTitle | ImageTitleViewLayoutOptionSubtitle;
+    }
 }
 
 - (void)resetClock
@@ -139,6 +169,18 @@
 {
     ClockInternalWidget *widget = (id)[self.widgets objectAtIndex:0];
     widget.formatter = value;
+}
+
+- (BOOL)showsBatteryStatus
+{
+    ClockInternalWidget *widget = (id)[self.widgets objectAtIndex:0];
+    return widget.showsBatteryStatus;
+}
+
+- (void)setShowsBatteryStatus:(BOOL)value
+{
+    ClockInternalWidget *widget = (id)[self.widgets objectAtIndex:0];
+    widget.showsBatteryStatus = value;
 }
 
 - (NSUInteger)temperatureUnit

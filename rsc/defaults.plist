@@ -131,6 +131,8 @@
 	<false/>
 	<key>acceptsDraggedItems</key>
 	<false/>
+	<key>clockShowsBatteryStatus</key>
+	<false/>
 	<key>clockShowsWeatherOnTap</key>
 	<false/>
 	<key>shows24HourClock</key>
