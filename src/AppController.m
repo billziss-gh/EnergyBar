@@ -372,6 +372,7 @@ static void AppControllerFSNotify(const char *path, void *data)
         initWithSuiteName:@"com.apple.dock"] autorelease];
     if (60 <= [dockDefaults integerForKey:@"autohide-delay"])
     {
+        [dockDefaults setBool:NO forKey:@"no-bouncing"];
         [dockDefaults setBool:NO forKey:@"autohide"];
         [dockDefaults removeObjectForKey:@"autohide-delay"];
     }
@@ -379,6 +380,7 @@ static void AppControllerFSNotify(const char *path, void *data)
     {
         [dockDefaults setInteger:1000000 forKey:@"autohide-delay"];
         [dockDefaults setBool:YES forKey:@"autohide"];
+        [dockDefaults setBool:YES forKey:@"no-bouncing"];
     }
     [dockDefaults synchronize];
 
