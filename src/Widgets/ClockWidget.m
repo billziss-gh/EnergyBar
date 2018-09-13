@@ -30,6 +30,7 @@
 @interface ClockInternalWidget : CustomWidget
 @property (retain) NSImage *clockBatteryImage;
 @property (retain) NSImage *clockBatteryChargingImage;
+@property (retain) NSImage *clockBatteryChargedImage;
 @property (retain) NSDateFormatter *formatter;
 @property (retain) NSTimer *timer;
 @property (assign) BOOL showsBatteryStatus;
@@ -40,6 +41,7 @@
 {
     self.clockBatteryImage = [NSImage imageNamed:@"ClockBattery"];
     self.clockBatteryChargingImage = [NSImage imageNamed:@"ClockBatteryCharging"];
+    self.clockBatteryChargedImage = [NSImage imageNamed:@"ClockBatteryCharged"];
     self.formatter = [[[NSDateFormatter alloc] init] autorelease];
     self.formatter.dateFormat = @"h:mm a";
 
@@ -133,8 +135,11 @@
         NSNumber *maxCapacity = [info objectForKey:PowerStatusMaxCapacity];
         double capacity = 100 * [currentCapacity doubleValue] / [maxCapacity doubleValue];
         BOOL charging = [[info objectForKey:PowerStatusIsCharging] boolValue];
+        BOOL charged = [[info objectForKey:PowerStatusIsCharged] boolValue];
 
-        view.image = charging ? self.clockBatteryChargingImage : self.clockBatteryImage;
+        view.image = charged ?
+            self.clockBatteryChargedImage :
+            (charging ? self.clockBatteryChargingImage : self.clockBatteryImage);
         view.titleFont = [NSFont systemFontOfSize:[NSFont
             systemFontSizeForControlSize:NSControlSizeSmall]];
         view.title = [self.formatter stringFromDate:[NSDate date]];

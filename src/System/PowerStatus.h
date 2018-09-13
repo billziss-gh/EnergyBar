@@ -23,5 +23,6 @@ extern NSString *PowerStatusSourceState;
 extern NSString *PowerStatusCurrentCapacity;
 extern NSString *PowerStatusMaxCapacity;
 extern NSString *PowerStatusIsCharging;
+extern NSString *PowerStatusIsCharged;
 
 extern NSString *PowerStatusNotification;

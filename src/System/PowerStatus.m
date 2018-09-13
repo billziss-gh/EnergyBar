@@ -95,5 +95,6 @@ NSString *PowerStatusSourceState = @kIOPSPowerSourceStateKey;
 NSString *PowerStatusCurrentCapacity = @kIOPSCurrentCapacityKey;
 NSString *PowerStatusMaxCapacity = @kIOPSMaxCapacityKey;
 NSString *PowerStatusIsCharging = @kIOPSIsChargingKey;
+NSString *PowerStatusIsCharged = @kIOPSIsChargedKey;
 
 NSString *PowerStatusNotification = @"PowerStatus";
