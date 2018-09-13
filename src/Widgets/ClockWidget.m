@@ -145,7 +145,7 @@
         view.title = [self.formatter stringFromDate:[NSDate date]];
         view.subtitle = isnan(capacity) || isinf(capacity) ?
             @"--" :
-            [NSString stringWithFormat:@"%.0f%%", capacity];
+            [NSString stringWithFormat:@"%@%.0f%%", charging ? @"⚡︎ " : @"", capacity];
         view.layoutOptions =
             ImageTitleViewLayoutOptionImage |
             ImageTitleViewLayoutOptionTitle |
