@@ -302,6 +302,7 @@ static void AppControllerFSNotify(const char *path, void *data)
 
     [[NSUserDefaults standardUserDefaults]
         setObject:self.standardDefaultAppsFolder forKey:@"defaultAppsFolder"];
+    [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] reset];
 }
 
 - (IBAction)showAppsFolderAction:(id)sender
