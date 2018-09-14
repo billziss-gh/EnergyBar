@@ -65,11 +65,13 @@ static const NSUInteger maxPersistentItemCount = 8;
 @property (retain, getter=getAppIcon, setter=setAppIcon:) NSImage *appIcon;
 @property (assign, getter=isAppRunning, setter=setAppRunning:) BOOL appRunning;
 @property (assign, getter=isAppLaunching, setter=setAppLaunching:) BOOL appLaunching;
+@property (assign, getter=isProminent, setter=setProminent:) BOOL prominent;
 @end
 
 @implementation DockWidgetItemView
 {
     BOOL _appLaunching;
+    BOOL _prominent;
 }
 
 - (id)initWithFrame:(NSRect)frame
@@ -140,6 +142,20 @@ static const NSUInteger maxPersistentItemCount = 8;
     [self bounce];
 }
 
+- (BOOL)isProminent
+{
+    return _prominent;
+}
+
+- (void)setProminent:(BOOL)value
+{
+    if (_prominent == value)
+        return;
+
+    _prominent = value;
+    [self resizeAppIconView];
+}
+
 - (void)bounce
 {
     if (!_appLaunching)
@@ -164,16 +180,25 @@ static const NSUInteger maxPersistentItemCount = 8;
     }];
 }
 
-- (void)resizeSubviewsWithOldSize:(NSSize)oldSize
+- (void)resizeAppIconView
 {
     NSRect iconRect = self.bounds;
     if (iconRect.size.height >= dockDotHeight)
     {
-        iconRect.origin.y += dockDotHeight;
-        iconRect.size.height -= dockDotHeight;
+        if (!_prominent)
+        {
+            iconRect.origin.y += dockDotHeight;
+            iconRect.size.height -= dockDotHeight;
+        }
+        else
+            iconRect.origin.y += dockDotHeight;
     }
     self.appIconView.frame = iconRect;
+}
 
+- (void)resizeSubviewsWithOldSize:(NSSize)oldSize
+{
+    [self resizeAppIconView];
     [super resizeSubviewsWithOldSize:oldSize];
 }
 @end
@@ -190,12 +215,22 @@ static const NSUInteger maxPersistentItemCount = 8;
 
 @interface DockWidgetButton : NSButton
 @property (retain) NSURL *url;
+@property (retain) NSImage *regularImage;
+@property (retain) NSImage *prominentImage;
+@property (assign, getter=isProminent, setter=setProminent:) BOOL prominent;
+- (void)resetImage;
 @end
 
 @implementation DockWidgetButton
+{
+    BOOL _prominent;
+}
+
 - (void)dealloc
 {
     self.url = nil;
+    self.regularImage = nil;
+    self.prominentImage = nil;
 
     [super dealloc];
 }
@@ -203,6 +238,28 @@ static const NSUInteger maxPersistentItemCount = 8;
 - (NSSize)intrinsicContentSize
 {
     return dockItemSize;
+}
+
+- (BOOL)isProminent
+{
+    return _prominent;
+}
+
+- (void)setProminent:(BOOL)value
+{
+    if (_prominent == value)
+        return;
+
+    _prominent = value;
+    [self resetImage];
+}
+
+- (void)resetImage
+{
+    if (!_prominent)
+        self.image = self.regularImage;
+    else
+        self.image = self.prominentImage;
 }
 @end
 
@@ -264,6 +321,7 @@ static const NSUInteger maxPersistentItemCount = 8;
 @property (retain) FolderController *folderController;
 @property (retain) NSArray *defaultApps;
 @property (retain) NSArray *runningApps;    /* running apps other than default */
+@property (retain) NSView *prominentView;
 @end
 
 @implementation DockWidget
@@ -307,13 +365,16 @@ static const NSUInteger maxPersistentItemCount = 8;
     separator.translatesAutoresizingMaskIntoConstraints = NO;
     separator.tag = 'sep ';
 
-    NSButton *button = [DockWidgetButton
-        buttonWithImage:[self trashImage]
+    DockWidgetButton *button = [DockWidgetButton
+        buttonWithTitle:@""
         target:self
         action:@selector(trashClick:)];
+    button.regularImage = [self trashImage];
+    button.prominentImage = [self trashProminentImage];
     button.translatesAutoresizingMaskIntoConstraints = NO;
     button.bordered = NO;
     button.tag = 'trsh';
+    [button resetImage];
 
     DockWidgetView *view = [DockWidgetView stackViewWithViews:[NSArray arrayWithObjects:
         leftItemView,
@@ -334,6 +395,8 @@ static const NSUInteger maxPersistentItemCount = 8;
         removeTrashObserver:self];
     [[[NSWorkspace sharedWorkspace] notificationCenter]
         removeObserver:self];
+
+    self.prominentView = nil;
 
     self.defaultApps = nil;
     self.runningApps = nil;
@@ -405,6 +468,7 @@ static const NSUInteger maxPersistentItemCount = 8;
     view.appIcon = app.icon;
     view.appRunning = showsRunningApps ? 0 != app.pid : NO;
     view.appLaunching = showsRunningApps ? app.launching : NO;
+    view.prominent = NO;
 
     return view;
 }
@@ -415,6 +479,53 @@ static const NSUInteger maxPersistentItemCount = 8;
     if (nil != app.path)
         [[NSWorkspace sharedWorkspace] openFile:app.path withApplication:nil andDeactivate:YES];
     scrubber.selectedIndex = -1;
+}
+
+- (void)edgeWindowController:(EdgeWindowController *)controller
+    mouseHoverAtPoint:(NSPoint)point
+{
+    [(id)self.prominentView setProminent:NO];
+
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"acceptsDraggedItems"])
+        return;
+
+    if (isnan(point.x))
+        return;
+
+    DockWidgetView *view = self.view;
+    NSView *dragView = [view dragViewAtPoint:point];
+    if ([dragView respondsToSelector:@selector(setProminent:)])
+    {
+        [(id)dragView setProminent:YES];
+        self.prominentView = dragView;
+    }
+}
+
+- (void)edgeWindowController:(EdgeWindowController *)controller
+    mouseClickAtPoint:(NSPoint)point
+{
+    [(id)self.prominentView setProminent:NO];
+
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"acceptsDraggedItems"])
+        return;
+
+    DockWidgetView *view = self.view;
+    NSView *dragView = [view dragViewAtPoint:point];
+    if ([dragView isKindOfClass:[DockWidgetItemView class]])
+    {
+        NSString *appPath = [(DockWidgetItemView *)dragView appPath];
+        if (nil != appPath)
+            [[NSWorkspace sharedWorkspace] openFile:appPath withApplication:nil andDeactivate:YES];
+    }
+    else
+    if ([dragView isKindOfClass:[DockWidgetButton class]])
+    {
+        NSURL *url = [(DockWidgetButton *)dragView url];
+        if (nil != url)
+            [[NSWorkspace sharedWorkspace] openURL:url];
+        else
+            [[NSWorkspace sharedWorkspace] openTrash];
+    }
 }
 
 - (NSDragOperation)edgeWindowController:(EdgeWindowController *)controller
@@ -687,6 +798,7 @@ static const NSUInteger maxPersistentItemCount = 8;
                 view.appIcon = nil;
                 view.appRunning = NO;
                 view.appLaunching = NO;
+                view.prominent = NO;
             }
 
         [itemViews release];
@@ -781,17 +893,26 @@ static const NSUInteger maxPersistentItemCount = 8;
         NSSize iconSize = NSMakeSize(dockItemSize.height, dockItemSize.height); // square!
         NSRect iconRect = NSMakeRect(dockDotHeight / 2, dockDotHeight,
             iconSize.height - dockDotHeight, iconSize.height - dockDotHeight);  // square!
+        NSRect prominentIconRect = NSMakeRect(0, dockDotHeight,
+            iconSize.height, iconSize.height);  // square!
         NSImage *image = [self
             makeImageWithSize:iconSize
             drawImage:[[NSWorkspace sharedWorkspace] iconForFile:url.path]
             inRect:iconRect];
+        NSImage *prominentImage = [self
+            makeImageWithSize:iconSize
+            drawImage:[[NSWorkspace sharedWorkspace] iconForFile:url.path]
+            inRect:prominentIconRect];
         DockWidgetButton *button = [DockWidgetButton
-            buttonWithImage:image
+            buttonWithTitle:@""
             target:self
             action:@selector(persistentItemClick:)];
+        button.regularImage = image;
+        button.prominentImage = prominentImage;
         button.translatesAutoresizingMaskIntoConstraints = NO;
         button.bordered = NO;
         button.url = url;
+        [button resetImage];
 
         switch (gravity)
         {
@@ -992,10 +1113,18 @@ static const NSUInteger maxPersistentItemCount = 8;
     return [NSImage imageNamed:full ? @"TrashFull" : @"TrashEmpty"];
 }
 
+- (NSImage *)trashProminentImage
+{
+    BOOL full = [[NSWorkspace sharedWorkspace] isTrashFull];
+    return [NSImage imageNamed:full ? @"TrashProminentFull" : @"TrashProminentEmpty"];
+}
+
 - (void)trashNotify:(NSNotification *)notification
 {
-    NSButton *button = [self.view viewWithTag:'trsh'];
-    button.image = [self trashImage];
+    DockWidgetButton *button = [self.view viewWithTag:'trsh'];
+    button.regularImage = [self trashImage];
+    button.prominentImage = [self trashProminentImage];
+    [button resetImage];
 }
 
 - (void)trashClick:(id)sender
