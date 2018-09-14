@@ -20,6 +20,12 @@ static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
 @end
 
 @implementation DragWindowController
+{
+    NSTrackingRectTag _trackTag;
+    NSTimer *_trackTimer;
+    BOOL _trackSentHover;
+}
+
 + (id)controller
 {
     return [[[DragWindowController alloc] init] autorelease];
@@ -67,7 +73,7 @@ static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
         object:nil];
 
     [self.window setDelegate:self];
-    [self.window setFrame:[self screenEdgeRect] display:YES animate:NO];
+    [self snapToScreenEdge];
     [self.window orderFrontRegardless];
 
     return self;
@@ -78,10 +84,31 @@ static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
     [[NSNotificationCenter defaultCenter]
         removeObserver:self];
 
+    [_trackTimer invalidate];
+    [_trackTimer release];
+    _trackTimer = nil;
+
+    if (0 != _trackTag)
+        [self.window.contentView removeTrackingRect:_trackTag];
+
     [self.window close];
     self.window = nil;
 
     [super dealloc];
+}
+
+- (void)snapToScreenEdge
+{
+    if (0 != _trackTag)
+        [self.window.contentView removeTrackingRect:_trackTag];
+
+    [self.window setFrame:[self screenEdgeRect] display:YES animate:NO];
+
+    _trackTag = [self.window.contentView
+        addTrackingRect:self.window.contentView.bounds
+        owner:self
+        userData:nil
+        assumeInside:NO];
 }
 
 - (NSRect)screenEdgeRect
@@ -103,7 +130,64 @@ static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
 
 - (void)screenChanged:(NSNotification *)notification
 {
-    [self.window setFrame:[self screenEdgeRect] display:YES animate:NO];
+    [self snapToScreenEdge];
+}
+
+- (void)mouseEntered:(NSEvent *)event
+{
+    if ([self.delegate respondsToSelector:@selector(dragWindowController:mouseHoverAtPoint:)])
+    {
+        [_trackTimer invalidate];
+        [_trackTimer release];
+        _trackTimer = [[NSTimer
+            scheduledTimerWithTimeInterval:0.05
+            target:self
+            selector:@selector(mouseUpdated:)
+            userInfo:nil
+            repeats:YES] retain];
+    }
+}
+
+- (void)mouseUpdated:(NSTimer *)timer
+{
+    if ([self.delegate respondsToSelector:@selector(dragWindowController:mouseHoverAtPoint:)])
+    {
+        if (nil == _trackTimer)
+            return;
+
+        _trackSentHover = YES;
+        NSPoint point = [self convertBaseToTouchBar:[self.window mouseLocationOutsideOfEventStream]];
+        [self.delegate dragWindowController:self mouseHoverAtPoint:point];
+    }
+}
+
+- (void)mouseExited:(NSEvent *)event
+{
+    if ([self.delegate respondsToSelector:@selector(dragWindowController:mouseHoverAtPoint:)])
+    {
+        if (nil == _trackTimer)
+            return;
+
+        [_trackTimer invalidate];
+        [_trackTimer release];
+        _trackTimer = nil;
+
+        _trackSentHover = NO;
+        NSPoint point = NSMakePoint(NAN, NAN);
+        [self.delegate dragWindowController:self mouseHoverAtPoint:point];
+    }
+}
+
+- (void)mouseUp:(NSEvent *)event
+{
+    if ([self.delegate respondsToSelector:@selector(dragWindowController:mouseClickAtPoint:)])
+    {
+        if (nil == _trackTimer)
+            return;
+
+        NSPoint point = [self convertBaseToTouchBar:[event locationInWindow]];
+        [self.delegate dragWindowController:self mouseClickAtPoint:point];
+    }
 }
 
 - (BOOL)wantsPeriodicDraggingUpdates
@@ -113,6 +197,17 @@ static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
 
 - (NSDragOperation)draggingEntered:(id<NSDraggingInfo>)sender
 {
+    [_trackTimer invalidate];
+    [_trackTimer release];
+    _trackTimer = nil;
+
+    if (_trackSentHover)
+    {
+        _trackSentHover = NO;
+        NSPoint point = NSMakePoint(NAN, NAN);
+        [self.delegate dragWindowController:self mouseHoverAtPoint:point];
+    }
+
     return [self draggingUpdated:sender];
 }
 
