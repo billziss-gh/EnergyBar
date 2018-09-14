@@ -27,7 +27,7 @@
 		3C6CCA38211B824000D019F4 /* TouchBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C6CCA37211B824000D019F4 /* TouchBarController.m */; };
 		3C83DB48211D851700FC2F53 /* CoreBrightness.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C83DB47211D851700FC2F53 /* CoreBrightness.framework */; };
 		3C8E4133212F81A60010C2B3 /* AudioControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C8E4132212F81A60010C2B3 /* AudioControl.m */; };
-		3C8ED9F4213E3974006C11A3 /* DragWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C8ED9F3213E3974006C11A3 /* DragWindowController.m */; };
+		3C8ED9F4213E3974006C11A3 /* EdgeWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C8ED9F3213E3974006C11A3 /* EdgeWindowController.m */; };
 		3C9E264A211E2A9F0042C2E8 /* Brightness.c in Sources */ = {isa = PBXBuildFile; fileRef = 3C9E2649211E2A9F0042C2E8 /* Brightness.c */; };
 		3CA1DD86212D3DB200D95DE1 /* NowPlayingWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA1DD85212D3DB200D95DE1 /* NowPlayingWidget.m */; };
 		3CA1DD88212D3F7A00D95DE1 /* MediaRemote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CA1DD87212D3F7A00D95DE1 /* MediaRemote.framework */; };
@@ -85,8 +85,8 @@
 		3C83DB47211D851700FC2F53 /* CoreBrightness.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBrightness.framework; path = ../../../../../../System/Library/PrivateFrameworks/CoreBrightness.framework; sourceTree = "<group>"; };
 		3C8E4131212F81A60010C2B3 /* AudioControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioControl.h; sourceTree = "<group>"; };
 		3C8E4132212F81A60010C2B3 /* AudioControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioControl.m; sourceTree = "<group>"; };
-		3C8ED9F2213E3974006C11A3 /* DragWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DragWindowController.h; sourceTree = "<group>"; };
-		3C8ED9F3213E3974006C11A3 /* DragWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DragWindowController.m; sourceTree = "<group>"; };
+		3C8ED9F2213E3974006C11A3 /* EdgeWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EdgeWindowController.h; sourceTree = "<group>"; };
+		3C8ED9F3213E3974006C11A3 /* EdgeWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EdgeWindowController.m; sourceTree = "<group>"; };
 		3C9E2648211E2A9F0042C2E8 /* Brightness.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Brightness.h; sourceTree = "<group>"; };
 		3C9E2649211E2A9F0042C2E8 /* Brightness.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Brightness.c; sourceTree = "<group>"; };
 		3CA1DD84212D3DB200D95DE1 /* NowPlayingWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NowPlayingWidget.h; sourceTree = "<group>"; };
@@ -196,8 +196,8 @@
 				3C1A5677211D6B7D008E1F9F /* AppBarController.m */,
 				3C163BC42118F1C500F015EC /* AppController.h */,
 				3C163BC32118F1C500F015EC /* AppController.m */,
-				3C8ED9F2213E3974006C11A3 /* DragWindowController.h */,
-				3C8ED9F3213E3974006C11A3 /* DragWindowController.m */,
+				3C8ED9F2213E3974006C11A3 /* EdgeWindowController.h */,
+				3C8ED9F3213E3974006C11A3 /* EdgeWindowController.m */,
 				3C200ECD212DFF390000B04D /* FixedSizeLabel.h */,
 				3C200ECE212DFF390000B04D /* FixedSizeLabel.m */,
 				3C080A492139EB0D00EED01D /* FolderController.h */,
@@ -343,7 +343,7 @@
 				3CDF1EB4211A3B9500739051 /* DockWidget.m in Sources */,
 				3C046013211D7C66003EB021 /* KeyEvent.c in Sources */,
 				3C38622A214989B500A8C37B /* PowerStatus.m in Sources */,
-				3C8ED9F4213E3974006C11A3 /* DragWindowController.m in Sources */,
+				3C8ED9F4213E3974006C11A3 /* EdgeWindowController.m in Sources */,
 				3C200ECF212DFF390000B04D /* FixedSizeLabel.m in Sources */,
 				3CFECA122122611F00BB58E9 /* LoginItem.c in Sources */,
 				3C4013C2211BBC8D00C47B66 /* ActiveAppWidget.m in Sources */,

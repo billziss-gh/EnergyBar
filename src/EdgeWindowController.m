@@ -1,5 +1,5 @@
 /**
- * @file DockWindowController.m
+ * @file EdgeWindowController.m
  *
  * @copyright 2018 Bill Zissimopoulos
  */
@@ -11,15 +11,15 @@
  * Foundation.
  */
 
-#import "DragWindowController.h"
+#import "EdgeWindowController.h"
 
 static const CGFloat ScreenWidthInTouchBarUnits = 1252;     /* don't ask! */
 static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
 
-@interface DragWindowController () <NSWindowDelegate>
+@interface EdgeWindowController () <NSWindowDelegate>
 @end
 
-@implementation DragWindowController
+@implementation EdgeWindowController
 {
     NSTrackingRectTag _trackTag;
     NSTimer *_trackTimer;
@@ -28,7 +28,7 @@ static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
 
 + (id)controller
 {
-    return [[[DragWindowController alloc] init] autorelease];
+    return [[[EdgeWindowController alloc] init] autorelease];
 }
 
 - (id)init
@@ -135,7 +135,7 @@ static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
 
 - (void)mouseEntered:(NSEvent *)event
 {
-    if ([self.delegate respondsToSelector:@selector(dragWindowController:mouseHoverAtPoint:)])
+    if ([self.delegate respondsToSelector:@selector(edgeWindowController:mouseHoverAtPoint:)])
     {
         [_trackTimer invalidate];
         [_trackTimer release];
@@ -150,20 +150,20 @@ static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
 
 - (void)mouseUpdated:(NSTimer *)timer
 {
-    if ([self.delegate respondsToSelector:@selector(dragWindowController:mouseHoverAtPoint:)])
+    if ([self.delegate respondsToSelector:@selector(edgeWindowController:mouseHoverAtPoint:)])
     {
         if (nil == _trackTimer)
             return;
 
         _trackSentHover = YES;
         NSPoint point = [self convertBaseToTouchBar:[self.window mouseLocationOutsideOfEventStream]];
-        [self.delegate dragWindowController:self mouseHoverAtPoint:point];
+        [self.delegate edgeWindowController:self mouseHoverAtPoint:point];
     }
 }
 
 - (void)mouseExited:(NSEvent *)event
 {
-    if ([self.delegate respondsToSelector:@selector(dragWindowController:mouseHoverAtPoint:)])
+    if ([self.delegate respondsToSelector:@selector(edgeWindowController:mouseHoverAtPoint:)])
     {
         if (nil == _trackTimer)
             return;
@@ -174,19 +174,19 @@ static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
 
         _trackSentHover = NO;
         NSPoint point = NSMakePoint(NAN, NAN);
-        [self.delegate dragWindowController:self mouseHoverAtPoint:point];
+        [self.delegate edgeWindowController:self mouseHoverAtPoint:point];
     }
 }
 
 - (void)mouseUp:(NSEvent *)event
 {
-    if ([self.delegate respondsToSelector:@selector(dragWindowController:mouseClickAtPoint:)])
+    if ([self.delegate respondsToSelector:@selector(edgeWindowController:mouseClickAtPoint:)])
     {
         if (nil == _trackTimer)
             return;
 
         NSPoint point = [self convertBaseToTouchBar:[event locationInWindow]];
-        [self.delegate dragWindowController:self mouseClickAtPoint:point];
+        [self.delegate edgeWindowController:self mouseClickAtPoint:point];
     }
 }
 
@@ -205,7 +205,7 @@ static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
     {
         _trackSentHover = NO;
         NSPoint point = NSMakePoint(NAN, NAN);
-        [self.delegate dragWindowController:self mouseHoverAtPoint:point];
+        [self.delegate edgeWindowController:self mouseHoverAtPoint:point];
     }
 
     return [self draggingUpdated:sender];
@@ -213,7 +213,7 @@ static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
 
 - (NSDragOperation)draggingUpdated:(id<NSDraggingInfo>)sender
 {
-    if ([self.delegate respondsToSelector:@selector(dragWindowController:dragURLs:atPoint:operation:)])
+    if ([self.delegate respondsToSelector:@selector(edgeWindowController:dragURLs:atPoint:operation:)])
     {
         NSArray *urls;
         if ([sender.draggingPasteboard.types containsObject:NSFilesPromisePboardType])
@@ -224,7 +224,7 @@ static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
                 options:nil];
         NSPoint point = [self convertBaseToTouchBar:sender.draggingLocation];
         return [self.delegate
-            dragWindowController:self
+            edgeWindowController:self
             dragURLs:urls
             atPoint:point
             operation:sender.draggingSourceOperationMask];
@@ -240,9 +240,9 @@ static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
 
 - (void)draggingExited:(id<NSDraggingInfo>)sender
 {
-    if ([self.delegate respondsToSelector:@selector(dragWindowController:dragURLs:atPoint:operation:)])
+    if ([self.delegate respondsToSelector:@selector(edgeWindowController:dragURLs:atPoint:operation:)])
         [self.delegate
-            dragWindowController:self
+            edgeWindowController:self
             dragURLs:nil
             atPoint:NSZeroPoint
             operation:sender.draggingSourceOperationMask];
@@ -251,7 +251,7 @@ static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
 - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
 {
     if ([self.delegate
-        respondsToSelector:@selector(dragWindowController:dropURLs:atPoint:operation:destination:)])
+        respondsToSelector:@selector(edgeWindowController:dropURLs:atPoint:operation:destination:)])
     {
         NSURL *destination = nil, **pdestination = 0;
         NSArray *urls;
@@ -266,7 +266,7 @@ static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
                 options:nil];
         NSPoint point = [self convertBaseToTouchBar:sender.draggingLocation];
         BOOL res = [self.delegate
-            dragWindowController:self
+            edgeWindowController:self
             dropURLs:urls
             atPoint:point
             operation:sender.draggingSourceOperationMask

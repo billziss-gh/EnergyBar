@@ -1,5 +1,5 @@
 /**
- * @file DockWindowController.h
+ * @file EdgeWindowController.h
  *
  * @copyright 2018 Bill Zissimopoulos
  */
@@ -13,22 +13,22 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class DragWindowController;
+@class EdgeWindowController;
 
-@protocol DragWindowControllerDelegate <NSObject>
+@protocol EdgeWindowControllerDelegate <NSObject>
 @optional
-- (void)dragWindowController:(DragWindowController *)controller
+- (void)edgeWindowController:(EdgeWindowController *)controller
     mouseHoverAtPoint:(NSPoint)point;
-- (void)dragWindowController:(DragWindowController *)controller
+- (void)edgeWindowController:(EdgeWindowController *)controller
     mouseClickAtPoint:(NSPoint)point;
-- (NSDragOperation)dragWindowController:(DragWindowController *)controller
+- (NSDragOperation)edgeWindowController:(EdgeWindowController *)controller
     dragURLs:(NSArray *)urls atPoint:(NSPoint)point operation:(NSDragOperation)operation;
-- (BOOL)dragWindowController:(DragWindowController *)controller
+- (BOOL)edgeWindowController:(EdgeWindowController *)controller
     dropURLs:(NSArray *)urls atPoint:(NSPoint)point operation:(NSDragOperation)operation
     destination:(NSURL **)destination;
 @end
 
-@interface DragWindowController : NSWindowController
+@interface EdgeWindowController : NSWindowController
 + (id)controller;
-@property (assign) id<DragWindowControllerDelegate> delegate;
+@property (assign) id<EdgeWindowControllerDelegate> delegate;
 @end

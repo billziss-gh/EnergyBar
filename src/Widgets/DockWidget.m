@@ -12,7 +12,7 @@
  */
 
 #import "DockWidget.h"
-#import "DragWindowController.h"
+#import "EdgeWindowController.h"
 #import "FolderController.h"
 #import "NSWorkspace+Finder.h"
 
@@ -257,10 +257,10 @@ static const NSUInteger maxPersistentItemCount = 8;
 <
     NSScrubberDataSource,
     NSScrubberDelegate,
-    DragWindowControllerDelegate,
+    EdgeWindowControllerDelegate,
     FolderControllerDelegate
 >
-@property (retain) DragWindowController *dragWindowController;
+@property (retain) EdgeWindowController *edgeWindowController;
 @property (retain) FolderController *folderController;
 @property (retain) NSArray *defaultApps;
 @property (retain) NSArray *runningApps;    /* running apps other than default */
@@ -339,7 +339,7 @@ static const NSUInteger maxPersistentItemCount = 8;
     self.runningApps = nil;
 
     self.folderController = nil;
-    self.dragWindowController = nil;
+    self.edgeWindowController = nil;
 
     [_itemViews release];
 
@@ -382,7 +382,7 @@ static const NSUInteger maxPersistentItemCount = 8;
     [[[NSWorkspace sharedWorkspace] notificationCenter]
         removeObserver:self];
 
-    self.dragWindowController = nil;
+    self.edgeWindowController = nil;
 }
 
 - (NSInteger)numberOfItemsForScrubber:(NSScrubber *)scrubber
@@ -417,7 +417,7 @@ static const NSUInteger maxPersistentItemCount = 8;
     scrubber.selectedIndex = -1;
 }
 
-- (NSDragOperation)dragWindowController:(DragWindowController *)controller
+- (NSDragOperation)edgeWindowController:(EdgeWindowController *)controller
     dragURLs:(NSArray *)urls atPoint:(NSPoint)point operation:(NSDragOperation)operation
 {
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"acceptsDraggedItems"])
@@ -478,7 +478,7 @@ static const NSUInteger maxPersistentItemCount = 8;
     return res;
 }
 
-- (BOOL)dragWindowController:(DragWindowController *)controller
+- (BOOL)edgeWindowController:(EdgeWindowController *)controller
     dropURLs:(NSArray *)urls atPoint:(NSPoint)point operation:(NSDragOperation)operation
     destination:(NSURL **)destination
 {
@@ -744,11 +744,11 @@ static const NSUInteger maxPersistentItemCount = 8;
 {
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"acceptsDraggedItems"])
     {
-        self.dragWindowController = [DragWindowController controller];
-        self.dragWindowController.delegate = self;
+        self.edgeWindowController = [EdgeWindowController controller];
+        self.edgeWindowController.delegate = self;
     }
     else
-        self.dragWindowController = nil;
+        self.edgeWindowController = nil;
 }
 
 - (void)resetDefaultApps
