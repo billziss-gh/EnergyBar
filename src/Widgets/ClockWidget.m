@@ -71,6 +71,7 @@
 
     self.clockBatteryImage = nil;
     self.clockBatteryChargingImage = nil;
+    self.clockBatteryChargedImage = nil;
     self.formatter = nil;
 
     [super dealloc];
