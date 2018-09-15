@@ -21,8 +21,9 @@ The default placement of EnergyBar widgets allows for consistency and memorizati
 
 ![Dock](doc/Dock.png)
 
-- Manage and launch your favorite applications from a Dock in your Touch Bar.
-- Access your Mac's trash can.
+- Shows your applications, folders and trash can.
+- Tap items on the Dock to launch your applications or access your folders and trash can.
+- Alternatively click items on the Dock using your mouse. You can even drag files to it and it will do the right thing!
 - Hide the system Dock to regain valuable screen real estate.
 
 ### Active App
@@ -37,7 +38,7 @@ The default placement of EnergyBar widgets allows for consistency and memorizati
 ![NowPlaying](doc/NowPlaying.png)
 
 - Shows the currently playing track and artist.
-- Tap to change the display between track and artist.
+- Can be configured to show the Active App on tap.
 - Long press to launch the current media player.
 
 ### Control
@@ -45,13 +46,23 @@ The default placement of EnergyBar widgets allows for consistency and memorizati
 ![Control](doc/Control.png)
 
 - Shows common keyboard controls: play/pause, brightness, volume, mute.
-- Long press the play/pause button to skip to the next song.
+- Press and hold the play/pause button to skip backward/forward.
+- Press and hold the brightness and volume buttons to change their value in one action.
+
+### Weather
+
+![Clock](doc/Weather.png)
+
+- Shows the current weather at your location (requires Location Services).
+- Uses Apple's private frameworks so you will get the same weather as the one in Notification Center.
 
 ### Clock
 
 ![Clock](doc/Clock.png)
+![ClockBattery](doc/ClockBattery.png)
 
-- Shows the current time.
+- Shows the current time and optionally the battery status.
+- Can be configured to show the weather on tap.
 - Long press to launch the EnergyBar Settings.
 - This is a display widget that is also used to occupy space that is often tapped inadvertently.
 
