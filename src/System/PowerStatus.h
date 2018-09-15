@@ -16,9 +16,13 @@
 @interface PowerStatus : NSObject
 + (PowerStatus *)sharedInstance;
 - (NSTimeInterval)remainingTime;
+- (NSString *)providingSource;
 - (NSDictionary *)providingSourceInfoDictionary;
 @end
 
+extern NSString *PowerStatusACPower;
+extern NSString *PowerStatusBatteryPower;
+extern NSString *PowerStatusUPSPower;
 extern NSString *PowerStatusSourceState;
 extern NSString *PowerStatusCurrentCapacity;
 extern NSString *PowerStatusMaxCapacity;

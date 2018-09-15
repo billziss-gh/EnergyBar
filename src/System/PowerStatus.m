@@ -67,6 +67,21 @@ static void PowerStatusCallback(void *context)
     return time;
 }
 
+- (NSString *)providingSource
+{
+    NSString *source = nil;
+
+    CFTypeRef blob = IOPSCopyPowerSourcesInfo();
+    if (0 != blob)
+    {
+        source = (NSString *)IOPSGetProvidingPowerSourceType(blob);
+
+        CFRelease(blob);
+    }
+
+    return source;
+}
+
 - (NSDictionary *)providingSourceInfoDictionary
 {
     NSDictionary *info = nil;
@@ -91,6 +106,9 @@ static void PowerStatusCallback(void *context)
 }
 @end
 
+NSString *PowerStatusACPower = @kIOPMACPowerKey;
+NSString *PowerStatusBatteryPower = @kIOPMBatteryPowerKey;
+NSString *PowerStatusUPSPower = @kIOPMUPSPowerKey;
 NSString *PowerStatusSourceState = @kIOPSPowerSourceStateKey;
 NSString *PowerStatusCurrentCapacity = @kIOPSCurrentCapacityKey;
 NSString *PowerStatusMaxCapacity = @kIOPSMaxCapacityKey;

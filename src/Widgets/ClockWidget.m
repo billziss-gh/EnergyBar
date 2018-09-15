@@ -135,7 +135,9 @@
         NSNumber *currentCapacity = [info objectForKey:PowerStatusCurrentCapacity];
         NSNumber *maxCapacity = [info objectForKey:PowerStatusMaxCapacity];
         double capacity = 100 * [currentCapacity doubleValue] / [maxCapacity doubleValue];
-        BOOL charging = [[info objectForKey:PowerStatusIsCharging] boolValue];
+        //BOOL charging = [[info objectForKey:PowerStatusIsCharging] boolValue];
+        BOOL charging = ![[[PowerStatus sharedInstance] providingSource]
+            isEqualToString:PowerStatusBatteryPower];
         BOOL charged = [[info objectForKey:PowerStatusIsCharged] boolValue];
 
         view.image = charged ?
