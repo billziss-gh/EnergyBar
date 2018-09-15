@@ -486,7 +486,8 @@ static const NSUInteger maxPersistentItemCount = 8;
 {
     [(id)self.prominentView setProminent:NO];
 
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"acceptsDraggedItems"])
+    if (self.folderController.presented ||
+        ![[NSUserDefaults standardUserDefaults] boolForKey:@"acceptsDraggedItems"])
         return;
 
     if (isnan(point.x))
@@ -506,7 +507,8 @@ static const NSUInteger maxPersistentItemCount = 8;
 {
     [(id)self.prominentView setProminent:NO];
 
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"acceptsDraggedItems"])
+    if (self.folderController.presented ||
+        ![[NSUserDefaults standardUserDefaults] boolForKey:@"acceptsDraggedItems"])
         return;
 
     DockWidgetView *view = self.view;
@@ -531,16 +533,20 @@ static const NSUInteger maxPersistentItemCount = 8;
 - (NSDragOperation)edgeWindowController:(EdgeWindowController *)controller
     dragURLs:(NSArray *)urls atPoint:(NSPoint)point operation:(NSDragOperation)operation
 {
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"acceptsDraggedItems"])
-        return NSDragOperationNone;
-
-    NSDragOperation res = NSDragOperationNone;
     DockWidgetView *view = self.view;
+    NSDragOperation res = NSDragOperationNone;
+
+    if (self.folderController.presented ||
+        ![[NSUserDefaults standardUserDefaults] boolForKey:@"acceptsDraggedItems"])
+    {
+        view.dragTargetView.hidden = YES;
+        return res;
+    }
 
     if (nil == urls)
     {
         view.dragTargetView.hidden = YES;
-        return NSDragOperationNone;
+        return res;
     }
 
     NSView *dragView = [view dragViewAtPoint:point];
@@ -593,11 +599,15 @@ static const NSUInteger maxPersistentItemCount = 8;
     dropURLs:(NSArray *)urls atPoint:(NSPoint)point operation:(NSDragOperation)operation
     destination:(NSURL **)destination
 {
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"acceptsDraggedItems"])
-        return NO;
-
-    BOOL res = NO;
     DockWidgetView *view = self.view;
+    BOOL res = NO;
+
+    if (self.folderController.presented ||
+        ![[NSUserDefaults standardUserDefaults] boolForKey:@"acceptsDraggedItems"])
+    {
+        view.dragTargetView.hidden = YES;
+        return res;
+    }
 
     NSView *dragView = [view dragViewAtPoint:point];
     if ([dragView isKindOfClass:[DockWidgetItemView class]])

@@ -44,16 +44,20 @@
 
 - (BOOL)presentWithPlacement:(NSInteger)placement
 {
-    return [NSTouchBar
+    BOOL res = [NSTouchBar
         presentSystemModal:self.touchBar
         placement:placement
         systemTrayItemIdentifier:nil];
+    if (res)
+        self.presented = YES;
+    return res;
 }
 
 - (void)dismiss
 {
-    return [NSTouchBar
+    [NSTouchBar
         dismissSystemModal:self.touchBar];
+    self.presented = NO;
 }
 
 - (IBAction)close:(id)sender

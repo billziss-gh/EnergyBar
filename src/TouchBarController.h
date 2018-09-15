@@ -21,4 +21,5 @@
 - (IBAction)close:(id)sender;
 - (IBAction)customize:(id)sender;
 @property (retain) IBOutlet NSTouchBar *touchBar;
+@property (assign) BOOL presented;
 @end
