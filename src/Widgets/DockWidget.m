@@ -21,6 +21,15 @@ static CGFloat dockDotHeight = 4;
 static CGFloat dockItemBounce = 10;
 static const NSUInteger maxPersistentItemCount = 8;
 
+static NSShadow *shadowWithOffset(NSSize shadowOffset)
+{
+    NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
+    shadow.shadowBlurRadius = hypot(shadowOffset.width, shadowOffset.height);
+    shadow.shadowOffset = shadowOffset;
+    shadow.shadowColor = [NSColor systemBlueColor];
+    return shadow;
+}
+
 @interface DockWidgetApplication : NSObject <NSCopying>
 @property (retain) NSString *name;
 @property (retain) NSString *path;
@@ -194,6 +203,11 @@ static const NSUInteger maxPersistentItemCount = 8;
             iconRect.origin.y += dockDotHeight;
     }
     self.appIconView.frame = iconRect;
+
+    if (!_prominent)
+        self.appIconView.shadow = nil;
+    else
+        self.appIconView.shadow = shadowWithOffset(NSMakeSize(0, -dockDotHeight));
 }
 
 - (void)resizeSubviewsWithOldSize:(NSSize)oldSize
@@ -260,6 +274,11 @@ static const NSUInteger maxPersistentItemCount = 8;
         self.image = self.regularImage;
     else
         self.image = self.prominentImage;
+
+    if (!_prominent)
+        self.shadow = nil;
+    else
+        self.shadow = shadowWithOffset(NSMakeSize(0, +dockDotHeight));
 }
 @end
 
@@ -1165,7 +1184,7 @@ static const NSUInteger maxPersistentItemCount = 8;
     [oldImage
         drawInRect:newRect
         fromRect:NSMakeRect(0, 0, oldSize.width, oldSize.height)
-        operation:NSCompositingOperationCopy
+        operation:NSCompositingOperationSourceOver
         fraction:1.0];
     [newImage unlockFocus];
     return newImage;
