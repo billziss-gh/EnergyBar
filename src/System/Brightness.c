@@ -16,6 +16,9 @@
 #include <pthread.h>
 #include "Log.h"
 
+int DisplayServicesSetBrightnessWithType( int, int, int, int); //now the compiler knows, what the signature looks like.
+
+
 static io_service_t DisplayIOServicePort(CGDirectDisplayID display)
 {
     io_service_t disp_serv;
@@ -35,36 +38,61 @@ static io_service_t DisplayIOServicePort(CGDirectDisplayID display)
 
 double GetDisplayBrightness(uint32_t display)
 {
+    CGError        err;
+    int            i;
+    CGDisplayCount    max;
+    CGDirectDisplayID    displayIDs[8];
+    
     io_service_t disp_serv;
-    float brightness;
-    kern_return_t ret;
-
-    disp_serv = DisplayIOServicePort(display);
-    if (0 == disp_serv)
+    float brightness = 0.0;
+    kern_return_t ret = KERN_RETURN_MAX;
+    
+    err = CGGetOnlineDisplayList(8, displayIDs, &max);
+    if(err != kCGErrorSuccess) {
         return NAN;
-
-    ret = IODisplayGetFloatParameter(disp_serv, kNilOptions,
-        CFSTR(kIODisplayBrightnessKey), &brightness);
+    }
+    for(i = 0; i < max; i++ ) {
+        CGDirectDisplayID display = displayIDs[ i ];
+        if ( CGDisplayIsBuiltin(display)) {
+            disp_serv = DisplayIOServicePort(display);
+            ret = IODisplayGetFloatParameter(disp_serv, kNilOptions,CFSTR(kIODisplayBrightnessKey), &brightness);
+        }
+    }
+    
     if (KERN_SUCCESS != ret)
     {
         LOG("IODisplayGetFloatParameter = %d", ret);
         return NAN;
     }
+    
 
     return brightness;
 }
 
 bool SetDisplayBrightness(uint32_t display, double brightness)
 {
+    
+    CGError        err;
+    int            i;
+    CGDisplayCount    max;
+    CGDirectDisplayID    displayIDs[8];
+    
+    err = CGGetOnlineDisplayList(8, displayIDs, &max);
+    if(err != kCGErrorSuccess) {
+        false;
+    }
+    
     io_service_t disp_serv;
-    kern_return_t ret;
-
-    disp_serv = DisplayIOServicePort(display);
-    if (0 == disp_serv)
-        return NAN;
-
-    ret = IODisplaySetFloatParameter(disp_serv, kNilOptions,
-        CFSTR(kIODisplayBrightnessKey), brightness);
+    kern_return_t ret = KERN_RETURN_MAX;
+    
+    for(i = 0; i < max; i++ ) {
+        CGDirectDisplayID display = displayIDs[ i ];
+        if ( CGDisplayIsBuiltin(display)) {
+            disp_serv = DisplayIOServicePort(display);
+            ret = IODisplaySetFloatParameter(disp_serv, kNilOptions, CFSTR(kIODisplayBrightnessKey), brightness);
+       }
+    }
+   
     if (KERN_SUCCESS != ret)
     {
         LOG("IODisplaySetFloatParameter = %d", ret);
