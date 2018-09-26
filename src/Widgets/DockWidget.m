@@ -26,7 +26,10 @@ static NSShadow *shadowWithOffset(NSSize shadowOffset)
     NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
     shadow.shadowBlurRadius = hypot(shadowOffset.width, shadowOffset.height);
     shadow.shadowOffset = shadowOffset;
-    shadow.shadowColor = [NSColor systemBlueColor];
+    if (@available(macOS 10.14, *))
+        shadow.shadowColor = [NSColor controlAccentColor];
+    else
+        shadow.shadowColor = [NSColor systemBlueColor];
     return shadow;
 }
 

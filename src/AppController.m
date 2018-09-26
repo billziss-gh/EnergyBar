@@ -83,7 +83,7 @@ static void AppControllerFSNotify(const char *path, void *data)
         mutableCopy] autorelease];
     sourceLinkPara.alignment = self.sourceLinkButton.alignment;
     NSDictionary *sourceLinkAttr = [NSDictionary dictionaryWithObjectsAndKeys:
-        [NSColor blueColor], NSForegroundColorAttributeName,
+        [NSColor linkColor], NSForegroundColorAttributeName,
         self.sourceLinkButton.font, NSFontAttributeName,
         sourceLinkPara, NSParagraphStyleAttributeName,
         nil];
