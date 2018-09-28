@@ -296,9 +296,10 @@ static NSShadow *shadowWithOffset(NSSize shadowOffset)
     if (nil == self)
         return nil;
 
-    self.dragTargetView = [[[NSView alloc] initWithFrame:NSZeroRect] autorelease];
+    self.dragTargetView = [NSImageView imageViewWithImage:[NSImage imageNamed:@"DragTarget"]];
     self.dragTargetView.wantsLayer = YES;
-    self.dragTargetView.layer.backgroundColor = [[NSColor colorWithWhite:1.0 alpha:0.5] CGColor];
+    self.dragTargetView.layer.opacity = 0.80;
+    //self.dragTargetView.layer.backgroundColor = [[NSColor colorWithWhite:1.0 alpha:0.5] CGColor];
     self.dragTargetView.layer.cornerRadius = 4;
     self.dragTargetView.translatesAutoresizingMaskIntoConstraints = NO;
     self.dragTargetView.autoresizingMask = 0;
