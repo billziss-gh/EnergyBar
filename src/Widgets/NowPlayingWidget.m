@@ -17,12 +17,13 @@
 #import "NowPlaying.h"
 
 @interface NowPlayingWidgetView : ImageTitleView
+@property (assign) BOOL showsSmallWidget;
 @end
 
 @implementation NowPlayingWidgetView
 - (NSSize)intrinsicContentSize
 {
-    return NSMakeSize(180, NSViewNoIntrinsicMetric);
+    return NSMakeSize(self.showsSmallWidget ? 130 : 180, NSViewNoIntrinsicMetric);
 }
 @end
 
@@ -103,6 +104,35 @@
 {
     [self resetNowPlaying];
 }
+
+- (BOOL)showsSmallWidget
+{
+    NowPlayingWidgetView *imageTitleView = self.view;
+    return imageTitleView.showsSmallWidget;
+}
+
+- (void)setShowsSmallWidget:(BOOL)value
+{
+    NowPlayingWidgetView *imageTitleView = self.view;
+    imageTitleView.showsSmallWidget = value;
+
+    if (!value)
+    {
+        imageTitleView.imageSize = NSMakeSize(26, 26);
+        imageTitleView.titleFont = [NSFont boldSystemFontOfSize:[NSFont
+            systemFontSizeForControlSize:NSControlSizeSmall]];
+        imageTitleView.subtitleFont = [NSFont systemFontOfSize:[NSFont
+            systemFontSizeForControlSize:NSControlSizeSmall]];
+    }
+    else
+    {
+        imageTitleView.imageSize = NSMakeSize(16, 16);
+        imageTitleView.titleFont = [NSFont boldSystemFontOfSize:[NSFont
+            systemFontSizeForControlSize:NSControlSizeMini]];
+        imageTitleView.subtitleFont = [NSFont systemFontOfSize:[NSFont
+            systemFontSizeForControlSize:NSControlSizeMini]];
+    }
+}
 @end
 
 @implementation NowPlayingWidget
@@ -132,6 +162,17 @@
             initWithIdentifier:@"_ActiveApp"] autorelease]];
     else
         [self removeWidgetWithIdentifier:@"_ActiveApp"];
+}
+
+- (BOOL)showsSmallWidget
+{
+    return [(id)[self.widgets objectAtIndex:0] showsSmallWidget];
+}
+
+- (void)setShowsSmallWidget:(BOOL)value
+{
+    [(id)[self.widgets objectAtIndex:0] setShowsSmallWidget:value];
+    [self.view invalidateIntrinsicContentSize];
 }
 
 - (void)longPressAction:(id)sender

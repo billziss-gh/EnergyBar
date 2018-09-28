@@ -137,6 +137,8 @@
 	<false/>
 	<key>clockShowsWeatherOnTap</key>
 	<false/>
+	<key>nowPlayingShowsSmallWidget</key>
+	<false/>
 	<key>shows24HourClock</key>
 	<false/>
 	<key>showsActiveAppOnTap</key>

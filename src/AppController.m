@@ -351,7 +351,10 @@ static void AppControllerFSNotify(const char *path, void *data)
 - (IBAction)nowPlayingWidgetSettingsChange:(id)sender
 {
     NowPlayingWidget *widget = [self.touchBarController.touchBar itemForIdentifier:@"NowPlaying"];
-    widget.showsActiveAppOnTap = [[NSUserDefaults standardUserDefaults] boolForKey:@"showsActiveAppOnTap"];
+    widget.showsActiveAppOnTap = [[NSUserDefaults standardUserDefaults]
+        boolForKey:@"showsActiveAppOnTap"];
+    widget.showsSmallWidget = [[NSUserDefaults standardUserDefaults]
+        boolForKey:@"nowPlayingShowsSmallWidget"];
 }
 
 - (void)updateToggleMacOSDockButton

@@ -20,6 +20,7 @@
     self.customizationLabel = @"Active App";
 
     FixedSizeLabel *label = [FixedSizeLabel labelWithString:@"Active App"];
+    label.fixedSize = NSMakeSize(130, NSViewNoIntrinsicMetric);
     label.wantsLayer = YES;
     label.layer.cornerRadius = 8.0;
     label.layer.backgroundColor = [[NSColor colorWithWhite:0.0 alpha:0.5] CGColor];
