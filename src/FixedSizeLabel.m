@@ -24,7 +24,7 @@
     NSSize titleSize = [self.stringValue sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
         systemFont, NSFontAttributeName,
         nil]];
-    return fixedSize.width >= titleSize.width ?
+    return fixedSize.width >= titleSize.width + 6 ?
         systemFont :
         [NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSControlSizeSmall]];
 }
