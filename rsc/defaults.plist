@@ -133,6 +133,8 @@
 	<false/>
 	<key>clockShowsBatteryStatus</key>
 	<false/>
+	<key>clockShowsBatteryTimeRemaining</key>
+	<false/>
 	<key>clockShowsWeatherOnTap</key>
 	<false/>
 	<key>shows24HourClock</key>

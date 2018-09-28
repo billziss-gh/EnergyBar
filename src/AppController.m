@@ -328,6 +328,8 @@ static void AppControllerFSNotify(const char *path, void *data)
             @"H:mm" :
             @"h:mm a";
     clock.showsBatteryStatus = [[NSUserDefaults standardUserDefaults] boolForKey:@"clockShowsBatteryStatus"];
+    clock.showsBatteryTimeRemaining = [[NSUserDefaults standardUserDefaults]
+        boolForKey:@"clockShowsBatteryTimeRemaining"];
     clock.showsWeather = [[NSUserDefaults standardUserDefaults] boolForKey:@"clockShowsWeatherOnTap"];
     [clock resetClock];
 }

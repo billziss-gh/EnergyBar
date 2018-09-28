@@ -23,7 +23,7 @@
 @implementation ClockWidgetView
 - (NSSize)intrinsicContentSize
 {
-    return NSMakeSize(80, NSViewNoIntrinsicMetric);
+    return NSMakeSize(100, NSViewNoIntrinsicMetric);
 }
 @end
 
@@ -34,6 +34,7 @@
 @property (retain) NSDateFormatter *formatter;
 @property (retain) NSTimer *timer;
 @property (assign) BOOL showsBatteryStatus;
+@property (assign) BOOL showsBatteryTimeRemaining;
 @end
 
 @implementation ClockInternalWidget
@@ -139,16 +140,23 @@
         BOOL charging = ![[[PowerStatus sharedInstance] providingSource]
             isEqualToString:PowerStatusBatteryPower];
         BOOL charged = [[info objectForKey:PowerStatusIsCharged] boolValue];
+        NSTimeInterval timeRemaining = [[PowerStatus sharedInstance] remainingTime];
+
+        NSString *clockString = [self.formatter stringFromDate:[NSDate date]];
+        NSString *batteryString = isnan(capacity) || isinf(capacity) ?
+            @"--" :
+            [NSString stringWithFormat:@"%@%.0f%%", charging ? @"⚡︎" : @"", capacity];
+        if (self.showsBatteryTimeRemaining)
+            batteryString = [batteryString stringByAppendingFormat:@" (%u:%02u)",
+                (unsigned)timeRemaining / 3600, (unsigned)timeRemaining / 60 % 60];
 
         view.image = charged ?
             self.clockBatteryChargedImage :
             (charging ? self.clockBatteryChargingImage : self.clockBatteryImage);
         view.titleFont = [NSFont systemFontOfSize:[NSFont
             systemFontSizeForControlSize:NSControlSizeSmall]];
-        view.title = [self.formatter stringFromDate:[NSDate date]];
-        view.subtitle = isnan(capacity) || isinf(capacity) ?
-            @"--" :
-            [NSString stringWithFormat:@"%@%.0f%%", charging ? @"⚡︎ " : @"", capacity];
+        view.title = clockString;
+        view.subtitle = batteryString;
         view.layoutOptions =
             ImageTitleViewLayoutOptionImage |
             ImageTitleViewLayoutOptionTitle |
@@ -213,6 +221,18 @@
 {
     ClockInternalWidget *widget = (id)[self.widgets objectAtIndex:0];
     widget.showsBatteryStatus = value;
+}
+
+- (BOOL)showsBatteryTimeRemaining
+{
+    ClockInternalWidget *widget = (id)[self.widgets objectAtIndex:0];
+    return widget.showsBatteryTimeRemaining;
+}
+
+- (void)setShowsBatteryTimeRemaining:(BOOL)value
+{
+    ClockInternalWidget *widget = (id)[self.widgets objectAtIndex:0];
+    widget.showsBatteryTimeRemaining = value;
 }
 
 - (NSUInteger)temperatureUnit
