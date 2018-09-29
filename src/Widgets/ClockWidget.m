@@ -147,8 +147,10 @@
             @"--" :
             [NSString stringWithFormat:@"%@%.0f%%", charging ? @"⚡︎" : @"", capacity];
         if (self.showsBatteryTimeRemaining)
-            batteryString = [batteryString stringByAppendingFormat:@" (%u:%02u)",
-                (unsigned)timeRemaining / 3600, (unsigned)timeRemaining / 60 % 60];
+            batteryString = isnan(timeRemaining) || isinf(timeRemaining) ?
+                batteryString :
+                [batteryString stringByAppendingFormat:@" (%u:%02u)",
+                    (unsigned)timeRemaining / 3600, (unsigned)timeRemaining / 60 % 60];
 
         view.image = charged ?
             self.clockBatteryChargedImage :
