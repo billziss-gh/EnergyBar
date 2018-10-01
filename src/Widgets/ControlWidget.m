@@ -22,6 +22,18 @@
 
 #define MaxPanDistance                  50.0
 
+@interface ControlWidgetPopoverBarScrubber : NSScrubber
+@end
+
+@implementation ControlWidgetPopoverBarScrubber
+- (NSSize)intrinsicContentSize
+{
+    NSSize size = [super intrinsicContentSize];
+    size.width = 90;
+    return size;
+}
+@end
+
 @interface ControlWidgetPopoverBarSlider : NSSlider
 @end
 
@@ -35,6 +47,7 @@
 @end
 
 @interface ControlWidgetBrightnessBarController : TouchBarController
+    <NSScrubberDataSource, NSScrubberDelegate>
 @property (retain) CBBlueLightClient *blueLightClient;
 @property (retain) IBOutlet NSButton *nightShiftButton;
 @end
@@ -42,7 +55,10 @@
 @implementation ControlWidgetBrightnessBarController
 + (id)controller
 {
-    return [self controllerWithNibNamed:@"BrightnessBar"];
+    if (@available(macOS 10.14, *))
+        return [self controllerWithNibNamed:@"BrightnessBar-Mojave"];
+    else
+        return [self controllerWithNibNamed:@"BrightnessBar"];
 }
 
 - (id)init
@@ -69,22 +85,29 @@
 
 - (void)awakeFromNib
 {
-    NSSliderTouchBarItem *item;
+    NSScrubber *scrubber = (id)[self.touchBar itemForIdentifier:@"AppearanceScrubber"].view;
+    [scrubber registerClass:[NSScrubberImageItemView class] forItemIdentifier:@""];
+    scrubber.dataSource = self;
+    scrubber.delegate = self;
+    scrubber.selectionOverlayStyle = [NSScrubberSelectionStyle outlineOverlayStyle];
+    scrubber.selectedIndex = 0;
 
-    item = [self.touchBar itemForIdentifier:@"BrightnessSlider"];
-    item.slider.minValue = 0;
-    item.slider.maxValue = 1;
-    item.slider.altIncrementValue = 1.0 / 16;
-    item.minimumValueAccessory.behavior = NSSliderAccessoryBehavior.valueStepBehavior;
-    item.maximumValueAccessory.behavior = NSSliderAccessoryBehavior.valueStepBehavior;
+    NSSliderTouchBarItem *sliderItem;
+
+    sliderItem = [self.touchBar itemForIdentifier:@"BrightnessSlider"];
+    sliderItem.slider.minValue = 0;
+    sliderItem.slider.maxValue = 1;
+    sliderItem.slider.altIncrementValue = 1.0 / 16;
+    sliderItem.minimumValueAccessory.behavior = NSSliderAccessoryBehavior.valueStepBehavior;
+    sliderItem.maximumValueAccessory.behavior = NSSliderAccessoryBehavior.valueStepBehavior;
 
 #if 0
-    item = [self.touchBar itemForIdentifier:@"KeyboardBrightnessSlider"];
-    item.slider.minValue = 0;
-    item.slider.maxValue = 1;
-    item.slider.altIncrementValue = 1.0 / 16;
-    item.minimumValueAccessory.behavior = NSSliderAccessoryBehavior.valueStepBehavior;
-    item.maximumValueAccessory.behavior = NSSliderAccessoryBehavior.valueStepBehavior;
+    sliderItem = [self.touchBar itemForIdentifier:@"KeyboardBrightnessSlider"];
+    sliderItem.slider.minValue = 0;
+    sliderItem.slider.maxValue = 1;
+    sliderItem.slider.altIncrementValue = 1.0 / 16;
+    sliderItem.minimumValueAccessory.behavior = NSSliderAccessoryBehavior.valueStepBehavior;
+    sliderItem.maximumValueAccessory.behavior = NSSliderAccessoryBehavior.valueStepBehavior;
 #endif
 
     [super awakeFromNib];
@@ -143,6 +166,23 @@
     CBBlueLightStatus status;
     if ([self.blueLightClient getBlueLightStatus:&status])
         self.nightShiftButton.state = status.enabled ? NSControlStateValueOn : NSControlStateValueOff;
+}
+
+- (NSInteger)numberOfItemsForScrubber:(NSScrubber *)scrubber
+{
+    return 2;
+}
+
+- (NSScrubberItemView *)scrubber:(NSScrubber *)scrubber viewForItemAtIndex:(NSInteger)index
+{
+    NSScrubberImageItemView *itemView = [scrubber makeItemWithIdentifier:@"" owner:nil];
+    itemView.image = [NSImage imageNamed:0 == index ? @"AppearanceLight" : @"AppearanceDark"];
+    return itemView;
+}
+
+- (void)scrubber:(NSScrubber *)scrubber didSelectItemAtIndex:(NSInteger)selectedIndex
+{
+    NSLog(@"%s %d", __FUNCTION__, (int)selectedIndex);
 }
 
 #if 0

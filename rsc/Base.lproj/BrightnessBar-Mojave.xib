@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaDFRPlugin" version="14215.3"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <capability name="the Touch Bar" minToolsVersion="8.1" minSystemVersion="10.12.2" requiredIntegratedClassName="NSTouchBar"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="ControlWidgetBrightnessBarController">
+            <connections>
+                <outlet property="nightShiftButton" destination="Wii-oG-Spw" id="QIN-Ac-0tc"/>
+                <outlet property="touchBar" destination="Jji-HM-5ln" id="aBx-5p-w0d"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <touchBar id="Jji-HM-5ln">
+            <touchBarItems>
+                <touchBarSpacerItem identifier="NSTouchBarItemIdentifierFlexibleSpace" id="SiF-q2-ilj"/>
+                <touchBarItem identifier="AppearanceScrubber" id="gPW-qw-P5W">
+                    <viewController key="viewController" id="s9c-8e-EAx">
+                        <scrubber key="view" translatesAutoresizingMaskIntoConstraints="NO" id="lYx-9U-GGE" customClass="ControlWidgetPopoverBarScrubber">
+                            <rect key="frame" x="0.0" y="0.0" width="187" height="30"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <scrubberFlowLayout key="scrubberLayout">
+                                <size key="itemSize" width="45" height="30"/>
+                            </scrubberFlowLayout>
+                        </scrubber>
+                    </viewController>
+                </touchBarItem>
+                <touchBarItem id="LdH-25-peR">
+                    <viewController key="viewController" id="jp3-Pe-SPd">
+                        <button key="view" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wii-oG-Spw">
+                            <rect key="frame" x="0.0" y="0.0" width="72" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="NightShift" imagePosition="only" alignment="center" alternateImage="NightShiftEnabled" imageScaling="proportionallyDown" inset="2" id="6oQ-OL-l5t">
+                                <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                <font key="font" usesAppearanceFont="YES"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="nightShiftButtonClick:" target="-2" id="1PB-sZ-8kl"/>
+                            </connections>
+                        </button>
+                    </viewController>
+                    <size key="designTimeSize" width="72" height="30"/>
+                </touchBarItem>
+                <sliderTouchBarItem identifier="BrightnessSlider" valueAccessoryWidth="64" id="qZO-3h-EjH">
+                    <sliderAccessory key="minimumValueAccessory" image="BrightnessDown" id="2gj-co-51v">
+                        <sliderAccessoryBehavior key="behavior" id="ikh-Hx-KNx"/>
+                    </sliderAccessory>
+                    <sliderAccessory key="maximumValueAccessory" image="BrightnessUp" id="MAG-95-Rmu">
+                        <sliderAccessoryBehavior key="behavior" id="CNq-gk-1cg"/>
+                    </sliderAccessory>
+                    <slider key="slider" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cBb-AM-4JX" customClass="ControlWidgetPopoverBarSlider">
+                        <rect key="frame" x="58" y="0.0" width="199" height="30"/>
+                        <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="Q7X-6V-iF8"/>
+                        <connections>
+                            <action selector="brightnessSliderAction:" target="-2" id="ghT-hc-LyN"/>
+                        </connections>
+                    </slider>
+                </sliderTouchBarItem>
+                <touchBarItem id="Hvm-Qc-E9l">
+                    <viewController key="viewController" id="0hd-sw-Bgt">
+                        <button key="view" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ApT-dU-Uv4">
+                            <rect key="frame" x="0.0" y="0.0" width="72" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="Close" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="Vj2-vu-Q4t">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" usesAppearanceFont="YES"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="close:" target="-2" id="gOu-EC-fTV"/>
+                            </connections>
+                        </button>
+                    </viewController>
+                    <size key="designTimeSize" width="72" height="60"/>
+                </touchBarItem>
+                <touchBarSpacerItem identifier="NSTouchBarItemIdentifierFlexibleSpace" id="WMM-Vl-3CP"/>
+            </touchBarItems>
+        </touchBar>
+    </objects>
+    <resources>
+        <image name="BrightnessDown" width="60" height="60"/>
+        <image name="BrightnessUp" width="60" height="60"/>
+        <image name="Close" width="60" height="60"/>
+        <image name="NightShift" width="60" height="60"/>
+        <image name="NightShiftEnabled" width="60" height="60"/>
+    </resources>
+</document>

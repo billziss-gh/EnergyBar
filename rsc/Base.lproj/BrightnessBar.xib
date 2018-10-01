@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14113" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaDFRPlugin" version="14019"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14113"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaDFRPlugin" version="14215.3"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
         <capability name="the Touch Bar" minToolsVersion="8.1" minSystemVersion="10.12.2" requiredIntegratedClassName="NSTouchBar"/>
     </dependencies>
@@ -20,8 +21,8 @@
                 <touchBarSpacerItem identifier="NSTouchBarItemIdentifierFlexibleSpace" id="rxs-ne-JLR"/>
                 <touchBarItem id="nUv-Ta-Hiq">
                     <viewController key="viewController" id="lKQ-CW-6SV">
-                        <button key="view" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1za-AR-uxo">
-                            <rect key="frame" x="0.0" y="0.0" width="144" height="30"/>
+                        <button key="view" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1za-AR-uxo">
+                            <rect key="frame" x="0.0" y="0.0" width="72" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="NightShift" imagePosition="only" alignment="center" alternateImage="NightShiftEnabled" imageScaling="proportionallyDown" inset="2" id="Heg-q2-Msq">
                                 <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
@@ -32,7 +33,7 @@
                             </connections>
                         </button>
                     </viewController>
-                    <size key="designTimeSize" width="144" height="30"/>
+                    <size key="designTimeSize" width="72" height="30"/>
                 </touchBarItem>
                 <sliderTouchBarItem identifier="BrightnessSlider" valueAccessoryWidth="64" id="LrQ-8k-jyv">
                     <sliderAccessory key="minimumValueAccessory" image="BrightnessDown" id="bFL-Fu-JKJ">
@@ -41,8 +42,8 @@
                     <sliderAccessory key="maximumValueAccessory" image="BrightnessUp" id="TdB-KR-Yh8">
                         <sliderAccessoryBehavior key="behavior" id="onn-Ej-qRH"/>
                     </sliderAccessory>
-                    <slider key="slider" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="d2j-Vf-2Jc" customClass="ControlWidgetPopoverBarSlider">
-                        <rect key="frame" x="-6" y="0.0" width="321" height="15"/>
+                    <slider key="slider" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d2j-Vf-2Jc" customClass="ControlWidgetPopoverBarSlider">
+                        <rect key="frame" x="58" y="0.0" width="393" height="30"/>
                         <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="v25-Eo-6Bn"/>
                     </slider>
                     <connections>
@@ -51,7 +52,7 @@
                 </sliderTouchBarItem>
                 <touchBarItem id="zcA-yb-ta9">
                     <viewController key="viewController" id="EOQ-dh-Y2L">
-                        <button key="view" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="HCo-6k-tf7">
+                        <button key="view" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HCo-6k-tf7">
                             <rect key="frame" x="0.0" y="0.0" width="72" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="Close" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="Vqu-Gm-D0U">
@@ -63,7 +64,7 @@
                             </connections>
                         </button>
                     </viewController>
-                    <size key="designTimeSize" width="72" height="30"/>
+                    <size key="designTimeSize" width="72" height="60"/>
                 </touchBarItem>
                 <touchBarSpacerItem identifier="NSTouchBarItemIdentifierFlexibleSpace" id="Lz8-OY-fmu"/>
             </touchBarItems>
