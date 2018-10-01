@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3C01F8EC2161B93000FFD2C6 /* BrightnessBar-Mojave.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C01F8EE2161B93000FFD2C6 /* BrightnessBar-Mojave.xib */; };
+		3C01F8F02161CE7400FFD2C6 /* SkyLight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C01F8EF2161CE7400FFD2C6 /* SkyLight.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		3C01F8F32161D07800FFD2C6 /* Appearance.c in Sources */ = {isa = PBXBuildFile; fileRef = 3C01F8F22161D07800FFD2C6 /* Appearance.c */; };
 		3C046013211D7C66003EB021 /* KeyEvent.c in Sources */ = {isa = PBXBuildFile; fileRef = 3C04600F211D7C66003EB021 /* KeyEvent.c */; };
 		3C080A4B2139EB0E00EED01D /* FolderController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C080A4A2139EB0D00EED01D /* FolderController.m */; };
 		3C102D482119641500FFB2CF /* CustomWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C102D462119641500FFB2CF /* CustomWidget.m */; };
@@ -65,6 +67,9 @@
 
 /* Begin PBXFileReference section */
 		3C01F8ED2161B93000FFD2C6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = "Base.lproj/BrightnessBar-Mojave.xib"; sourceTree = "<group>"; };
+		3C01F8EF2161CE7400FFD2C6 /* SkyLight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SkyLight.framework; path = ../../../../../../System/Library/PrivateFrameworks/SkyLight.framework; sourceTree = "<group>"; };
+		3C01F8F12161D07800FFD2C6 /* Appearance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Appearance.h; sourceTree = "<group>"; };
+		3C01F8F22161D07800FFD2C6 /* Appearance.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Appearance.c; sourceTree = "<group>"; };
 		3C04600F211D7C66003EB021 /* KeyEvent.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = KeyEvent.c; sourceTree = "<group>"; };
 		3C046010211D7C66003EB021 /* KeyEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyEvent.h; sourceTree = "<group>"; };
 		3C080A492139EB0D00EED01D /* FolderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderController.h; sourceTree = "<group>"; };
@@ -143,6 +148,7 @@
 			files = (
 				3C83DB48211D851700FC2F53 /* CoreBrightness.framework in Frameworks */,
 				3CA1DD88212D3F7A00D95DE1 /* MediaRemote.framework in Frameworks */,
+				3C01F8F02161CE7400FFD2C6 /* SkyLight.framework in Frameworks */,
 				3C3464C221471797001F45BB /* WeatherKit.framework in Frameworks */,
 				3C665D0221619E870004D9EC /* OctoFeed.framework in Frameworks */,
 			);
@@ -154,6 +160,8 @@
 		3C04600E211D7C43003EB021 /* System */ = {
 			isa = PBXGroup;
 			children = (
+				3C01F8F12161D07800FFD2C6 /* Appearance.h */,
+				3C01F8F22161D07800FFD2C6 /* Appearance.c */,
 				3C8E4131212F81A60010C2B3 /* AudioControl.h */,
 				3C8E4132212F81A60010C2B3 /* AudioControl.m */,
 				3C9E2648211E2A9F0042C2E8 /* Brightness.h */,
@@ -269,10 +277,11 @@
 		3C83DB46211D851600FC2F53 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3C665D0021619E7A0004D9EC /* OctoFeed.framework */,
 				3C83DB47211D851700FC2F53 /* CoreBrightness.framework */,
 				3CA1DD87212D3F7A00D95DE1 /* MediaRemote.framework */,
+				3C01F8EF2161CE7400FFD2C6 /* SkyLight.framework */,
 				3C3464C121471797001F45BB /* WeatherKit.framework */,
+				3C665D0021619E7A0004D9EC /* OctoFeed.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -394,6 +403,7 @@
 				3CAA9C6D2127B3E100D5B467 /* StringToUrlTransformer.m in Sources */,
 				3C1A5678211D6B7D008E1F9F /* AppBarController.m in Sources */,
 				3CA8519D212B832100585D29 /* NSWorkspace+Finder.m in Sources */,
+				3C01F8F32161D07800FFD2C6 /* Appearance.c in Sources */,
 				3CA1DD8B212D3FC000D95DE1 /* NowPlaying.m in Sources */,
 				3C102D4E2119872800FFB2CF /* EscKeyWidget.m in Sources */,
 				3C8E4133212F81A60010C2B3 /* AudioControl.m in Sources */,

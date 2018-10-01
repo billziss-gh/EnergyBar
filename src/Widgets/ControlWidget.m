@@ -12,6 +12,7 @@
  */
 
 #import "ControlWidget.h"
+#import "Appearance.h"
 #import "AudioControl.h"
 #import "Brightness.h"
 #import "CBBlueLightClient.h"
@@ -97,14 +98,14 @@
 
 - (void)awakeFromNib
 {
-    NSScrubber *scrubber = (id)[self.touchBar itemForIdentifier:@"AppearanceScrubber"].view;
+    NSScrubber *scrubber;
+    NSSliderTouchBarItem *sliderItem;
+
+    scrubber = (id)[self.touchBar itemForIdentifier:@"AppearanceScrubber"].view;
     [scrubber registerClass:[NSScrubberImageItemView class] forItemIdentifier:@""];
     scrubber.dataSource = self;
     scrubber.delegate = self;
     scrubber.selectionOverlayStyle = [NSScrubberSelectionStyle outlineOverlayStyle];
-    scrubber.selectedIndex = 0;
-
-    NSSliderTouchBarItem *sliderItem;
 
     sliderItem = [self.touchBar itemForIdentifier:@"BrightnessSlider"];
     sliderItem.slider.minValue = 0;
@@ -127,8 +128,12 @@
 
 - (BOOL)presentWithPlacement:(NSInteger)placement
 {
+    NSScrubber *scrubber;
     NSSliderTouchBarItem *item;
     double value;
+
+    scrubber = (id)[self.touchBar itemForIdentifier:@"AppearanceScrubber"].view;
+    scrubber.selectedIndex = (NSInteger)GetAppearance();
 
     value = GetDisplayBrightness(0);
     if (isnan(value))
@@ -194,7 +199,7 @@
 
 - (void)scrubber:(NSScrubber *)scrubber didSelectItemAtIndex:(NSInteger)selectedIndex
 {
-    NSLog(@"%s %d", __FUNCTION__, (int)selectedIndex);
+    SetAppearance((Appearance)selectedIndex);
 }
 
 #if 0
