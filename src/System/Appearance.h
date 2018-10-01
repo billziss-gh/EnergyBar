@@ -16,8 +16,8 @@
 
 typedef enum
 {
-    AppearanceAqua                      = 0,
-    AppearanceDarkAqua                  = 1,
+    AppearanceLight                     = 0,
+    AppearanceDark                      = 1,
 } Appearance;
 
 Appearance GetAppearance(void);

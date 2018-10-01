@@ -1,5 +1,5 @@
 /**
- * @file Appearance.c
+ * @file Appearance.m
  *
  * @copyright 2018 Bill Zissimopoulos
  */
@@ -11,23 +11,25 @@
  * Foundation.
  */
 
-#include "Appearance.h"
+#import "Appearance.h"
+#import "NSGlobalPreferenceTransition.h"
 
 extern int SLSGetAppearanceThemeLegacy(void) __attribute__((weak_import));
 extern void SLSSetAppearanceThemeLegacy(int) __attribute__((weak_import));
+extern void SLSSetAppearanceThemeNotifying(int, int) __attribute__((weak_import));
 
 Appearance GetAppearance(void)
 {
     if (0 == SLSGetAppearanceThemeLegacy)
-        return AppearanceAqua;
+        return AppearanceLight;
 
     switch (SLSGetAppearanceThemeLegacy())
     {
     default:
     case 0:
-        return AppearanceAqua;
+        return AppearanceLight;
     case 1:
-        return AppearanceDarkAqua;
+        return AppearanceDark;
     }
 }
 
@@ -36,14 +38,23 @@ void SetAppearance(Appearance appearance)
     if (0 == SLSSetAppearanceThemeLegacy)
         return;
 
+    int theme = 0;
     switch (appearance)
     {
     default:
-    case AppearanceAqua:
-        SLSSetAppearanceThemeLegacy(0);
+    case AppearanceLight:
+        theme = 0;
         break;
-    case AppearanceDarkAqua:
-        SLSSetAppearanceThemeLegacy(1);
+    case AppearanceDark:
+        theme = 1;
         break;
     }
+
+    Class cls = NSClassFromString(@"NSGlobalPreferenceTransition");
+    id transition = [cls transition];
+    SLSSetAppearanceThemeNotifying(theme, nil == transition);
+
+    [transition postChangeNotification:0 completionHandler:^
+    {
+    }];
 }
