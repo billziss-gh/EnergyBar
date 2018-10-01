@@ -19,6 +19,7 @@
 #import "LoginItem.h"
 #import "NowPlayingWidget.h"
 #import "TouchBarController.h"
+#import "VersionBarController.h"
 #import "WeatherWidget.h"
 
 @interface AppController () <NSApplicationDelegate, NSWindowDelegate>
@@ -123,6 +124,15 @@ static void AppControllerFSNotify(const char *path, void *data)
         alert.informativeText = @"The EnergyBar application will now exit.";
         [alert runModal];
         [NSApp terminate:nil];
+    }
+
+    NSString *lastVersion = [[NSUserDefaults standardUserDefaults] stringForKey:@"LastVersion"];
+    if (nil == lastVersion || ![version isEqualToString:lastVersion])
+    {
+        TouchBarController *controller = [VersionBarController controller];
+        [controller present];
+        [controller performSelector:@selector(dismiss) withObject:nil afterDelay:3];
+        [[NSUserDefaults standardUserDefaults] setObject:version forKey:@"LastVersion"];
     }
 }
 
