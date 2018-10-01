@@ -22,6 +22,18 @@
 
 #define MaxPanDistance                  50.0
 
+@interface ControlWidgetPopoverBarButton : NSButton
+@end
+
+@implementation ControlWidgetPopoverBarButton
+- (NSSize)intrinsicContentSize
+{
+    NSSize size = [super intrinsicContentSize];
+    size.width = 64;
+    return size;
+}
+@end
+
 @interface ControlWidgetPopoverBarScrubber : NSScrubber
 @end
 

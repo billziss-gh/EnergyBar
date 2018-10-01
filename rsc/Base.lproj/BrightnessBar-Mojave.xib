@@ -32,7 +32,7 @@
                 </touchBarItem>
                 <touchBarItem id="LdH-25-peR">
                     <viewController key="viewController" id="jp3-Pe-SPd">
-                        <button key="view" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wii-oG-Spw">
+                        <button key="view" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wii-oG-Spw" customClass="ControlWidgetPopoverBarButton">
                             <rect key="frame" x="0.0" y="0.0" width="72" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="NightShift" imagePosition="only" alignment="center" alternateImage="NightShiftEnabled" imageScaling="proportionallyDown" inset="2" id="6oQ-OL-l5t">
@@ -63,7 +63,7 @@
                 </sliderTouchBarItem>
                 <touchBarItem id="Hvm-Qc-E9l">
                     <viewController key="viewController" id="0hd-sw-Bgt">
-                        <button key="view" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ApT-dU-Uv4">
+                        <button key="view" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ApT-dU-Uv4" customClass="ControlWidgetPopoverBarButton">
                             <rect key="frame" x="0.0" y="0.0" width="72" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="Close" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="Vj2-vu-Q4t">
