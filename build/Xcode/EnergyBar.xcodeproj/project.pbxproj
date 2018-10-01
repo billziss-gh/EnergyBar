@@ -24,6 +24,8 @@
 		3C4013C2211BBC8D00C47B66 /* ActiveAppWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C4013C1211BBC8D00C47B66 /* ActiveAppWidget.m */; };
 		3C5032E32139C8E900305593 /* ImageTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C5032E12139C8E900305593 /* ImageTitleView.m */; };
 		3C5D0FCE2119210000769A39 /* ClockWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C5D0FCD2119210000769A39 /* ClockWidget.m */; };
+		3C665D0221619E870004D9EC /* OctoFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C665D0021619E7A0004D9EC /* OctoFeed.framework */; };
+		3C665D0321619E870004D9EC /* OctoFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3C665D0021619E7A0004D9EC /* OctoFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3C6CCA38211B824000D019F4 /* TouchBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C6CCA37211B824000D019F4 /* TouchBarController.m */; };
 		3C83DB48211D851700FC2F53 /* CoreBrightness.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C83DB47211D851700FC2F53 /* CoreBrightness.framework */; };
 		3C8E4133212F81A60010C2B3 /* AudioControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C8E4132212F81A60010C2B3 /* AudioControl.m */; };
@@ -43,6 +45,20 @@
 		3CF113942138769D005B1350 /* FolderBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3CF113962138769D005B1350 /* FolderBar.xib */; };
 		3CFECA122122611F00BB58E9 /* LoginItem.c in Sources */ = {isa = PBXBuildFile; fileRef = 3CFECA102122611F00BB58E9 /* LoginItem.c */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		3C665D0421619E880004D9EC /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				3C665D0321619E870004D9EC /* OctoFeed.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		3C04600F211D7C66003EB021 /* KeyEvent.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = KeyEvent.c; sourceTree = "<group>"; };
@@ -78,6 +94,7 @@
 		3C5032E22139C8E900305593 /* ImageTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageTitleView.h; sourceTree = "<group>"; };
 		3C5D0FCC2119210000769A39 /* ClockWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClockWidget.h; sourceTree = "<group>"; };
 		3C5D0FCD2119210000769A39 /* ClockWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClockWidget.m; sourceTree = "<group>"; };
+		3C665D0021619E7A0004D9EC /* OctoFeed.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OctoFeed.framework; sourceTree = "<group>"; };
 		3C6944CE212E922F0082E3BF /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
 		3C6CCA36211B824000D019F4 /* TouchBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchBarController.h; sourceTree = "<group>"; };
 		3C6CCA37211B824000D019F4 /* TouchBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchBarController.m; sourceTree = "<group>"; };
@@ -120,6 +137,7 @@
 				3C83DB48211D851700FC2F53 /* CoreBrightness.framework in Frameworks */,
 				3CA1DD88212D3F7A00D95DE1 /* MediaRemote.framework in Frameworks */,
 				3C3464C221471797001F45BB /* WeatherKit.framework in Frameworks */,
+				3C665D0221619E870004D9EC /* OctoFeed.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +258,7 @@
 		3C83DB46211D851600FC2F53 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3C665D0021619E7A0004D9EC /* OctoFeed.framework */,
 				3C83DB47211D851700FC2F53 /* CoreBrightness.framework */,
 				3CA1DD87212D3F7A00D95DE1 /* MediaRemote.framework */,
 				3C3464C121471797001F45BB /* WeatherKit.framework */,
@@ -258,6 +277,7 @@
 				3C163B922118EF2900F015EC /* Frameworks */,
 				3C163B932118EF2900F015EC /* Resources */,
 				3C3545AD212A990500C476AB /* Set Build Number */,
+				3C665D0421619E880004D9EC /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -525,6 +545,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1.5;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/../../rsc/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -549,6 +573,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1.5;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/../../rsc/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

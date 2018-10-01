@@ -1,0 +1,6 @@
+framework module OctoFeed {
+  umbrella header "OctoFeed.h"
+
+  export *
+  module * { export * }
+}

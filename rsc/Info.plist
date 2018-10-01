@@ -34,5 +34,9 @@
 	<string>NSApplication</string>
 	<key>NSAppleEventsUsageDescription</key>
 	<string>EnergyBar uses Automation to control various Finder actions.</string>
+	<key>OctoRepository</key>
+	<string>github.com/billziss-gh/EnergyBar</string>
+	<key>OctoCheckPeriod</key>
+	<integer>86400</integer>
 </dict>
 </plist>

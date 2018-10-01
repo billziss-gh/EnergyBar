@@ -12,6 +12,7 @@
  */
 
 #import "AppController.h"
+#import <OctoFeed/OctoFeed.h>
 #import "ClockWidget.h"
 #import "DockWidget.h"
 #import "FSNotify.h"
@@ -63,6 +64,9 @@ static void AppControllerFSNotify(const char *path, void *data)
         stringByExpandingTildeInPath];
     [defaults setObject:self.standardDefaultAppsFolder forKey:@"defaultAppsFolder"];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"automaticUpdates"])
+        [[OctoFeed mainBundleFeed] activateWithInstallPolicy:OctoFeedInstallAtActivation];
 
     NSString *defaultAppsFolder = [[NSUserDefaults standardUserDefaults]
         stringForKey:@"defaultAppsFolder"];
@@ -403,5 +407,13 @@ static void AppControllerFSNotify(const char *path, void *data)
 {
     SetLoginItem([[NSBundle mainBundle] bundleURL],
         NSControlStateValueOff != self.loginItemButton.state);
+}
+
+- (IBAction)automaticUpdatesAction:(id)sender
+{
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"automaticUpdates"])
+        [[OctoFeed mainBundleFeed] activateWithInstallPolicy:OctoFeedInstallAtActivation];
+    else
+        [[OctoFeed mainBundleFeed] deactivate];
 }
 @end
