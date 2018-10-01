@@ -20,7 +20,9 @@
 double GetDisplayBrightness(uint32_t display);
 bool SetDisplayBrightness(uint32_t display, double brightness);
 
+#if 0
 double GetKeyboardBrightness(void);
 bool SetKeyboardBrightness(double brightness);
+#endif
 
 #endif

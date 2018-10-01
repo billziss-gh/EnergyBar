@@ -13,67 +13,35 @@
 
 #include "Brightness.h"
 #include <CoreGraphics/CoreGraphics.h>
-#include <pthread.h>
-#include "Log.h"
 
-static io_service_t DisplayIOServicePort(CGDirectDisplayID display)
+void DisplayServicesGetBrightness(CGDirectDisplayID display, float *brightness);
+void DisplayServicesSetBrightnessWithType(CGDirectDisplayID display, float brightness, long type);
+
+double GetDisplayBrightness(uint32_t display0)
 {
-    io_service_t disp_serv;
+    CGDirectDisplayID display = display0;
+    float brightness;
 
     if (0 == display)
         display = CGMainDisplayID();
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    disp_serv = CGDisplayIOServicePort(display);
-#pragma clang diagnostic pop
-    if (0 == disp_serv)
-        LOG("CGDisplayIOServicePort = %u", (unsigned)disp_serv);
-
-    return disp_serv;
-}
-
-double GetDisplayBrightness(uint32_t display)
-{
-    io_service_t disp_serv;
-    float brightness;
-    kern_return_t ret;
-
-    disp_serv = DisplayIOServicePort(display);
-    if (0 == disp_serv)
-        return NAN;
-
-    ret = IODisplayGetFloatParameter(disp_serv, kNilOptions,
-        CFSTR(kIODisplayBrightnessKey), &brightness);
-    if (KERN_SUCCESS != ret)
-    {
-        LOG("IODisplayGetFloatParameter = %d", ret);
-        return NAN;
-    }
-
+    brightness = NAN;
+    DisplayServicesGetBrightness(display, &brightness);
     return brightness;
 }
 
-bool SetDisplayBrightness(uint32_t display, double brightness)
+bool SetDisplayBrightness(uint32_t display0, double brightness)
 {
-    io_service_t disp_serv;
-    kern_return_t ret;
+    CGDirectDisplayID display = display0;
 
-    disp_serv = DisplayIOServicePort(display);
-    if (0 == disp_serv)
-        return NAN;
+    if (0 == display)
+        display = CGMainDisplayID();
 
-    ret = IODisplaySetFloatParameter(disp_serv, kNilOptions,
-        CFSTR(kIODisplayBrightnessKey), brightness);
-    if (KERN_SUCCESS != ret)
-    {
-        LOG("IODisplaySetFloatParameter = %d", ret);
-        return false;
-    }
-
+    DisplayServicesSetBrightnessWithType(display, brightness, 1);
     return true;
 }
 
+#if 0
 static pthread_once_t lmu_serv_once = PTHREAD_ONCE_INIT;
 static io_connect_t lmu_serv = 0;
 
@@ -156,3 +124,4 @@ exit:
 
     return res;
 }
+#endif

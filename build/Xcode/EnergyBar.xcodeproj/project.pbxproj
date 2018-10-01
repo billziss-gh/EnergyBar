@@ -44,6 +44,7 @@
 		3CD1EBBE211D680A001DC22F /* VolumeBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3CD1EBC0211D680A001DC22F /* VolumeBar.xib */; };
 		3CDF1EB4211A3B9500739051 /* DockWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CDF1EB2211A3B9400739051 /* DockWidget.m */; };
 		3CDF1EB6211A650700739051 /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3CDF1EB5211A650700739051 /* defaults.plist */; };
+		3CE58CE72162B79700633D5D /* DisplayServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CE58CE62162B79700633D5D /* DisplayServices.framework */; };
 		3CEE0C29211D599400CFD6B2 /* BrightnessBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3CEE0C2B211D599400CFD6B2 /* BrightnessBar.xib */; };
 		3CF113942138769D005B1350 /* FolderBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3CF113962138769D005B1350 /* FolderBar.xib */; };
 		3CFECA122122611F00BB58E9 /* LoginItem.c in Sources */ = {isa = PBXBuildFile; fileRef = 3CFECA102122611F00BB58E9 /* LoginItem.c */; };
@@ -130,6 +131,7 @@
 		3CDF1EB2211A3B9400739051 /* DockWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DockWidget.m; sourceTree = "<group>"; };
 		3CDF1EB3211A3B9500739051 /* DockWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DockWidget.h; sourceTree = "<group>"; };
 		3CDF1EB5211A650700739051 /* defaults.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = defaults.plist; sourceTree = "<group>"; };
+		3CE58CE62162B79700633D5D /* DisplayServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DisplayServices.framework; path = ../../../../../../System/Library/PrivateFrameworks/DisplayServices.framework; sourceTree = "<group>"; };
 		3CEE0C2A211D599400CFD6B2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/BrightnessBar.xib; sourceTree = "<group>"; };
 		3CF113952138769D005B1350 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/FolderBar.xib; sourceTree = "<group>"; };
 		3CFECA102122611F00BB58E9 /* LoginItem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = LoginItem.c; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C83DB48211D851700FC2F53 /* CoreBrightness.framework in Frameworks */,
+				3CE58CE72162B79700633D5D /* DisplayServices.framework in Frameworks */,
 				3CA1DD88212D3F7A00D95DE1 /* MediaRemote.framework in Frameworks */,
 				3C01F8F02161CE7400FFD2C6 /* SkyLight.framework in Frameworks */,
 				3C3464C221471797001F45BB /* WeatherKit.framework in Frameworks */,
@@ -270,6 +273,7 @@
 			isa = PBXGroup;
 			children = (
 				3C83DB47211D851700FC2F53 /* CoreBrightness.framework */,
+				3CE58CE62162B79700633D5D /* DisplayServices.framework */,
 				3CA1DD87212D3F7A00D95DE1 /* MediaRemote.framework */,
 				3C01F8EF2161CE7400FFD2C6 /* SkyLight.framework */,
 				3C3464C121471797001F45BB /* WeatherKit.framework */,
