@@ -63,6 +63,7 @@
     <NSScrubberDataSource, NSScrubberDelegate>
 @property (retain) CBBlueLightClient *blueLightClient;
 @property (retain) IBOutlet NSButton *nightShiftButton;
+@property (retain) NSTimer *timer;
 @end
 
 @implementation ControlWidgetBrightnessBarController
@@ -92,6 +93,7 @@
 {
     self.blueLightClient = nil;
     self.nightShiftButton = nil;
+    self.timer = nil;
 
     [super dealloc];
 }
@@ -153,11 +155,34 @@
     item.slider.doubleValue = value;
 #endif
 
+    [self resetTimer];
+
     return [super presentWithPlacement:placement];
+}
+
+- (void)dismiss
+{
+    [self.timer invalidate];
+    self.timer = nil;
+
+    [super dismiss];
+}
+
+- (void)resetTimer
+{
+    [self.timer invalidate];
+    self.timer = [NSTimer
+        scheduledTimerWithTimeInterval:3
+        target:self
+        selector:@selector(dismiss)
+        userInfo:nil
+        repeats:NO];
 }
 
 - (IBAction)nightShiftButtonClick:(id)sender
 {
+    [self resetTimer];
+
     switch ([sender state])
     {
     case NSControlStateValueOn:
@@ -174,6 +199,8 @@
 
 - (IBAction)brightnessSliderAction:(id)sender
 {
+    [self resetTimer];
+
     NSSliderTouchBarItem *item = [self.touchBar itemForIdentifier:@"BrightnessSlider"];
     SetDisplayBrightness(0, item.slider.doubleValue);
 }
@@ -199,12 +226,16 @@
 
 - (void)scrubber:(NSScrubber *)scrubber didSelectItemAtIndex:(NSInteger)selectedIndex
 {
+    [self resetTimer];
+
     SetAppearance((Appearance)selectedIndex);
 }
 
 #if 0
 - (IBAction)keyboardBrightnessSliderAction:(id)sender
 {
+    [self resetTimer];
+
     NSSliderTouchBarItem *item = [self.touchBar itemForIdentifier:@"KeyboardBrightnessSlider"];
     SetKeyboardBrightness(item.slider.doubleValue);
 }
@@ -212,12 +243,20 @@
 @end
 
 @interface ControlWidgetVolumeBarController : TouchBarController
+@property (retain) NSTimer *timer;
 @end
 
 @implementation ControlWidgetVolumeBarController
 + (id)controller
 {
     return [self controllerWithNibNamed:@"VolumeBar"];
+}
+
+- (void)dealloc
+{
+    self.timer = nil;
+
+    [super dealloc];
 }
 
 - (void)awakeFromNib
@@ -241,11 +280,34 @@
     NSSliderTouchBarItem *item = [self.touchBar itemForIdentifier:@"VolumeSlider"];
     item.slider.doubleValue = value;
 
+    [self resetTimer];
+
     return [super presentWithPlacement:placement];
+}
+
+- (void)dismiss
+{
+    [self.timer invalidate];
+    self.timer = nil;
+
+    [super dismiss];
+}
+
+- (void)resetTimer
+{
+    [self.timer invalidate];
+    self.timer = [NSTimer
+        scheduledTimerWithTimeInterval:3
+        target:self
+        selector:@selector(dismiss)
+        userInfo:nil
+        repeats:NO];
 }
 
 - (IBAction)volumeSliderAction:(id)sender
 {
+    [self resetTimer];
+
     NSSliderTouchBarItem *item = [self.touchBar itemForIdentifier:@"VolumeSlider"];
     [AudioControl sharedInstance].volume = item.slider.doubleValue;
     [AudioControl sharedInstance].mute = item.slider.doubleValue < 1.0 / (16 * 4);

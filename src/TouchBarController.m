@@ -44,6 +44,8 @@
 
 - (BOOL)presentWithPlacement:(NSInteger)placement
 {
+    if (self.presented)
+        return NO;
     BOOL res = [NSTouchBar
         presentSystemModal:self.touchBar
         placement:placement
@@ -55,6 +57,8 @@
 
 - (void)dismiss
 {
+    if (!self.presented)
+        return;
     [NSTouchBar
         dismissSystemModal:self.touchBar];
     self.presented = NO;
