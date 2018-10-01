@@ -98,12 +98,13 @@ static void AppControllerFSNotify(const char *path, void *data)
     self.loginItemButton.state = IsLoginItem([[NSBundle mainBundle] bundleURL]) ?
         NSControlStateValueOn : NSControlStateValueOff;
     NSString *version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
-    if (nil != version)
-        version = [self.versionLabel.stringValue
+    NSString *versionString = version;
+    if (nil != versionString)
+        versionString = [self.versionLabel.stringValue
             stringByReplacingOccurrencesOfString:@"0.0" withString:version];
     else
-        version = @"";
-    self.versionLabel.stringValue = version;
+        versionString = @"";
+    self.versionLabel.stringValue = versionString;
 
     [self setContentView:self.generalView];
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"mainWindowHidden"])
