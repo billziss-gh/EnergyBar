@@ -19,7 +19,6 @@
 #import "LoginItem.h"
 #import "NowPlayingWidget.h"
 #import "TouchBarController.h"
-#import "VersionBarController.h"
 #import "WeatherWidget.h"
 
 @interface AppController () <NSApplicationDelegate, NSWindowDelegate>
@@ -31,6 +30,7 @@
 @property (assign) IBOutlet NSView *widgetsView;
 @property (assign) IBOutlet NSView *advancedView;
 @property (assign) IBOutlet NSTextField *versionLabel;
+@property (assign) IBOutlet NSButton *versionButton;
 @property (assign) IBOutlet NSButton *toggleMacOSDockButton;
 @property (assign) IBOutlet NSButton *loginItemButton;
 @property (assign) IBOutlet NSButton *sourceLinkButton;
@@ -106,6 +106,10 @@ static void AppControllerFSNotify(const char *path, void *data)
         versionString = @"";
     self.versionLabel.stringValue = versionString;
 
+    NSString *lastVersion = [[NSUserDefaults standardUserDefaults] stringForKey:@"LastVersion"];
+    if (nil == lastVersion || ![version isEqualToString:lastVersion])
+        self.versionButton.hidden = NO;
+
     [self setContentView:self.generalView];
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"mainWindowHidden"])
         [self showMainWindow:nil];
@@ -125,15 +129,6 @@ static void AppControllerFSNotify(const char *path, void *data)
         alert.informativeText = @"The EnergyBar application will now exit.";
         [alert runModal];
         [NSApp terminate:nil];
-    }
-
-    NSString *lastVersion = [[NSUserDefaults standardUserDefaults] stringForKey:@"LastVersion"];
-    if (nil == lastVersion || ![version isEqualToString:lastVersion])
-    {
-        TouchBarController *controller = [VersionBarController controller];
-        [controller present];
-        [controller performSelector:@selector(dismiss) withObject:nil afterDelay:3];
-        [[NSUserDefaults standardUserDefaults] setObject:version forKey:@"LastVersion"];
     }
 }
 
@@ -426,5 +421,12 @@ static void AppControllerFSNotify(const char *path, void *data)
         [[OctoFeed mainBundleFeed] activateWithInstallPolicy:OctoFeedInstallAtActivation];
     else
         [[OctoFeed mainBundleFeed] deactivate];
+}
+
+- (IBAction)versionAction:(id)sender
+{
+    self.versionButton.hidden = YES;
+    NSString *version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+    [[NSUserDefaults standardUserDefaults] setObject:version forKey:@"LastVersion"];
 }
 @end
