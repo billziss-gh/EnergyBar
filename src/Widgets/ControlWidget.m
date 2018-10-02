@@ -345,7 +345,12 @@
     if (nil == backgroundColor)
         backgroundColor = [NSColor clearColor];
     if (nil == foregroundColor)
-        foregroundColor = [NSColor systemBlueColor];
+    {
+        if (@available(macOS 10.14, *))
+            foregroundColor = [NSColor controlAccentColor];
+        else
+            foregroundColor = [NSColor systemBlueColor];
+    }
 
     rect = self.bounds;
 
