@@ -1,9 +1,15 @@
 <h1 align="center">
     EnergyBar &middot; Supercharge your Mac's Touch Bar<br/>
+</h1>
+
+<p align="center">
     <a href="https://github.com/billziss-gh/EnergyBar/releases">
         <img src="https://img.shields.io/github/release/billziss-gh/EnergyBar/all.svg?label=download&style=for-the-badge"/>
     </a>
-</h1>
+    <a href="https://github.com/Homebrew/homebrew-cask/blob/master/Casks/energybar.rb">
+        <img src="https://img.shields.io/badge/brew%20cask-install%20energybar-black.svg?style=for-the-badge"/>
+    </a>
+</p>
 
 <p align="center">
     <img src="rsc/Assets.xcassets/AppIcon.appiconset/EnergyBar_128.png"/>
