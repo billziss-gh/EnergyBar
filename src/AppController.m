@@ -48,6 +48,8 @@ static void AppControllerFSNotify(const char *path, void *data)
 
 - (void)dealloc
 {
+    [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
+
     FSNotifyStop(_stream);
 
     self.standardDefaultAppsFolder = nil;
@@ -83,6 +85,12 @@ static void AppControllerFSNotify(const char *path, void *data)
     FSNotifyStop(_stream);
     _stream = FSNotifyStart([defaultAppsFolder UTF8String], AppControllerFSNotify, self);
 
+    [[[NSWorkspace sharedWorkspace] notificationCenter]
+        addObserver:self
+        selector:@selector(settingsChange:)
+        name:NSWorkspaceDidWakeNotification
+        object:nil];
+
     self.window.toolbar.selectedItemIdentifier = @"General";
     NSMutableParagraphStyle *sourceLinkPara = [[[NSParagraphStyle defaultParagraphStyle]
         mutableCopy] autorelease];
@@ -117,9 +125,7 @@ static void AppControllerFSNotify(const char *path, void *data)
     [[self.touchBarController.touchBar itemForIdentifier:@"Clock"]
         setPressTarget:self
         action:@selector(showMainWindow:)];
-    [self clockWidgetSettingsChange:nil];
-    [self weatherWidgetSettingsChange:nil];
-    [self nowPlayingWidgetSettingsChange:nil];
+    [self settingsChange:nil];
 
     if (![self.touchBarController present])
     {
@@ -187,6 +193,13 @@ static void AppControllerFSNotify(const char *path, void *data)
 - (void)fsnotify:(const char *)path
 {
     [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] reset];
+}
+
+- (void)settingsChange:(NSNotification *)notification
+{
+    [self clockWidgetSettingsChange:nil];
+    [self weatherWidgetSettingsChange:nil];
+    [self nowPlayingWidgetSettingsChange:nil];
 }
 
 - (IBAction)toolbarItemAction:(id)sender
