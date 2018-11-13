@@ -59,6 +59,7 @@
 @implementation NetWidget
 - (void)commonInit
 {
+    self.customizationLabel = @"WiFi Network";
     NetWidgetLabel *textField = [ NetWidgetLabel labelWithString:@"---" ];
     [textField setAlignment:NSTextAlignmentCenter];
     [textField setTextColor:NSColor.lightGrayColor];
@@ -77,7 +78,6 @@
 
 - (void)dealloc
 {
-    // SPB TODO Clean up here
     CWWiFiClient *wfc = CWWiFiClient.sharedWiFiClient;
     if (wfc) {
         [wfc stopMonitoringEventWithType:CWEventTypeSSIDDidChange error:nil];
