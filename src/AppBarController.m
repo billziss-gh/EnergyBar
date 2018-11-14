@@ -56,6 +56,7 @@
         @"Control",
         @"Weather",
         @"Clock",
+        @"Lock",
         NSTouchBarItemIdentifierFlexibleSpace,
         nil];
 

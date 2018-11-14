@@ -48,6 +48,8 @@
 		3CEE0C29211D599400CFD6B2 /* BrightnessBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3CEE0C2B211D599400CFD6B2 /* BrightnessBar.xib */; };
 		3CF113942138769D005B1350 /* FolderBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3CF113962138769D005B1350 /* FolderBar.xib */; };
 		3CFECA122122611F00BB58E9 /* LoginItem.c in Sources */ = {isa = PBXBuildFile; fileRef = 3CFECA102122611F00BB58E9 /* LoginItem.c */; };
+		405B467A219A3CCA0006DC16 /* LockWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 405B4678219A3CCA0006DC16 /* LockWidget.m */; };
+		405B467C219A3D2D0006DC16 /* login.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 405B467B219A3D2D0006DC16 /* login.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -137,6 +139,9 @@
 		3CF113952138769D005B1350 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/FolderBar.xib; sourceTree = "<group>"; };
 		3CFECA102122611F00BB58E9 /* LoginItem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = LoginItem.c; sourceTree = "<group>"; };
 		3CFECA112122611F00BB58E9 /* LoginItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginItem.h; sourceTree = "<group>"; };
+		405B4678219A3CCA0006DC16 /* LockWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LockWidget.m; sourceTree = "<group>"; };
+		405B4679219A3CCA0006DC16 /* LockWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LockWidget.h; sourceTree = "<group>"; };
+		405B467B219A3D2D0006DC16 /* login.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = login.framework; path = ../../../../../../System/Library/PrivateFrameworks/login.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +149,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				405B467C219A3D2D0006DC16 /* login.framework in Frameworks */,
 				3C83DB48211D851700FC2F53 /* CoreBrightness.framework in Frameworks */,
 				3CE58CE72162B79700633D5D /* DisplayServices.framework in Frameworks */,
 				3CA1DD88212D3F7A00D95DE1 /* MediaRemote.framework in Frameworks */,
@@ -251,6 +257,8 @@
 		3C5D0FCB211920E500769A39 /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
+				405B4679219A3CCA0006DC16 /* LockWidget.h */,
+				405B4678219A3CCA0006DC16 /* LockWidget.m */,
 				3C4013C0211BBC8D00C47B66 /* ActiveAppWidget.h */,
 				3C4013C1211BBC8D00C47B66 /* ActiveAppWidget.m */,
 				3C5D0FCC2119210000769A39 /* ClockWidget.h */,
@@ -274,6 +282,7 @@
 		3C83DB46211D851600FC2F53 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				405B467B219A3D2D0006DC16 /* login.framework */,
 				3C83DB47211D851700FC2F53 /* CoreBrightness.framework */,
 				3CE58CE62162B79700633D5D /* DisplayServices.framework */,
 				3CA1DD87212D3F7A00D95DE1 /* MediaRemote.framework */,
@@ -395,6 +404,7 @@
 				3C6CCA38211B824000D019F4 /* TouchBarController.m in Sources */,
 				3C5032E32139C8E900305593 /* ImageTitleView.m in Sources */,
 				3C163BC72118F1C500F015EC /* main.m in Sources */,
+				405B467A219A3CCA0006DC16 /* LockWidget.m in Sources */,
 				3C080A4B2139EB0E00EED01D /* FolderController.m in Sources */,
 				3CAA9C6D2127B3E100D5B467 /* StringToUrlTransformer.m in Sources */,
 				3C1A5678211D6B7D008E1F9F /* AppBarController.m in Sources */,
