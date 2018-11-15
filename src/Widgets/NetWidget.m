@@ -12,76 +12,102 @@
  */
 
 #import "NetWidget.h"
-#import "KeyEvent.h"
+#import "ImageTitleView.h"
 
-@interface NetWidgetLabel : NSTextField <CWEventDelegate>
-
+@interface NetWidgetView : ImageTitleView
 @end
 
-@implementation NetWidgetLabel
+@implementation NetWidgetView
 - (NSSize)intrinsicContentSize
 {
-    NSSize size = [super intrinsicContentSize];
-    size.width = 64;
-    return size;
+    return NSMakeSize(64, NSViewNoIntrinsicMetric);
 }
+@end
 
-- (void) setStringValue:(NSString *)aString
-{
-    NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithString:aString
-                                                        attributes:@{}];
-    // SPB Possibly useful for showing the connection state as a strike-out
-    //[as addAttribute:NSStrikethroughStyleAttributeName value:(NSNumber *)kCFBooleanTrue range:NSMakeRange(0, [as length])];
-    //[as addAttribute:NSStrikethroughColorAttributeName value:(NSColor *)[NSColor redColor] range:NSMakeRange(0, [as length])];
-    //[as addAttribute:NSStrokeWidthAttributeName value:[NSNumber numberWithFloat:5.0] range:NSMakeRange(0, as.length)];
-    [as addAttribute:NSFontAttributeName value:[NSFont systemFontOfSize:12] range:NSMakeRange(0, as.length)];
-    [self setAttributedStringValue:[as autorelease]];
-}
-
-- (void)ssidDidChangeForWiFiInterfaceWithName:(NSString *)interfaceName;
-{
-    CWWiFiClient *wfc = CWWiFiClient.sharedWiFiClient;
-    if (wfc) {
-        CWInterface *wif = [wfc interfaceWithName:interfaceName];
-        if (wif) {
-            NSString *ssid = [wif ssid];
-            if (!ssid) {
-                ssid = @"---";
-            }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self setStringValue:ssid];
-            });
-        }
-    }
-}
+@interface NetWidget () <CWEventDelegate>
+@property (retain) CWWiFiClient *wfc;
 @end
 
 @implementation NetWidget
+
 - (void)commonInit
 {
     self.customizationLabel = @"WiFi Network";
-    NetWidgetLabel *textField = [ NetWidgetLabel labelWithString:@"---" ];
-    [textField setAlignment:NSTextAlignmentCenter];
-    [textField setTextColor:NSColor.lightGrayColor];
-    self.view = textField;
+    ImageTitleView *view = [[[NetWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
+    view.wantsLayer = YES;
+    view.layer.cornerRadius = 8.0;
+    view.layer.backgroundColor = [[NSColor colorWithWhite:0.0 alpha:0.5] CGColor];
+    view.imageSize = NSMakeSize(20, 20);
+    view.titleFont = [NSFont systemFontOfSize:[NSFont
+                                                   systemFontSizeForControlSize:NSControlSizeSmall]];
+    view.titleLineBreakMode = NSLineBreakByTruncatingTail;
+    view.subtitleFont = [NSFont systemFontOfSize:[NSFont
+                                                  systemFontSizeForControlSize:NSControlSizeSmall]];
+    view.subtitleLineBreakMode = NSLineBreakByTruncatingTail;
+    self.view = view;
     
-    CWWiFiClient *wfc = CWWiFiClient.sharedWiFiClient;
-    if (wfc) {
-        [wfc setDelegate:textField];
-        CWInterface *wif = wfc.interface;
-        if (wif) {
-            [textField ssidDidChangeForWiFiInterfaceWithName:wif.interfaceName];
+    self.wfc = [CWWiFiClient.sharedWiFiClient autorelease];
+    if (self.wfc)
+    {
+        [self.wfc setDelegate:self];
+        CWInterface *wif = self.wfc.interface;
+        if (wif)
+        {
+            [self updateNetworkName:[wif ssid]];
         }
-        [wfc startMonitoringEventWithType:CWEventTypeSSIDDidChange error:nil];
+        [self.wfc startMonitoringEventWithType:CWEventTypeSSIDDidChange error:nil];
     }
 }
 
 - (void)dealloc
 {
-    CWWiFiClient *wfc = CWWiFiClient.sharedWiFiClient;
-    if (wfc) {
-        [wfc stopMonitoringEventWithType:CWEventTypeSSIDDidChange error:nil];
+    if (self.wfc)
+    {
+        [self.wfc stopMonitoringEventWithType:CWEventTypeSSIDDidChange error:nil];
     }
+    self.wfc = nil;
     [super dealloc];
+}
+
+- (void)ssidDidChangeForWiFiInterfaceWithName:(NSString *)interfaceName;
+{
+    if (self.wfc)
+    {
+        CWInterface *wif = [self.wfc interfaceWithName:interfaceName];
+        if (wif)
+        {
+            [self updateNetworkName:[wif ssid]];
+        }
+    }
+}
+
+- (void)updateNetworkName:(NSString *)networkName
+{
+    [self performBlockOnMainThread:^
+    {
+        ImageTitleViewLayoutOptions layoutOptions = 0;
+        layoutOptions |= ImageTitleViewLayoutOptionTitle;
+        //layoutOptions |= ImageTitleViewLayoutOptionSubtitle;
+    
+        ImageTitleView *view = self.view;
+        view.title = networkName?networkName:@"---";
+        //view.subtitle = @"subtitle";
+        view.layoutOptions = layoutOptions;
+    }];
+}
+
+- (void)performBlockOnMainThread:(void (^)(void))block
+{
+    block = [block copy];
+    [self
+     performSelectorOnMainThread:@selector(performBlockOnMainThread_:)
+     withObject:block
+     waitUntilDone:NO];
+    [block release];
+}
+
+- (void)performBlockOnMainThread_:(void (^)(void))block
+{
+    block();
 }
 @end
