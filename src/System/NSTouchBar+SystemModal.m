@@ -33,11 +33,6 @@
 + (void)minimizeSystemModalTouchBar:(NSTouchBar *)touchBar;
 @end
 
-@interface NSTouchBarItem ()
-+ (void)addSystemTrayItem:(NSTouchBarItem *)item;
-+ (void)removeSystemTrayItem:(NSTouchBarItem *)item;
-@end
-
 @implementation NSTouchBar (SystemModal)
 + (BOOL)presentSystemModal:(NSTouchBar *)touchBar
     placement:(long long)placement
@@ -78,6 +73,22 @@
     {
         [NSTouchBar
             dismissSystemModalTouchBar:touchBar];
+    }
+}
+
++ (void)minimizeSystemModal:(NSTouchBar *)touchBar
+{
+    if ([NSTouchBar respondsToSelector:
+         @selector(minimizeSystemModalFunctionBar:)])
+    {
+        [NSTouchBar
+         minimizeSystemModalFunctionBar:touchBar];
+    }
+    else if ([NSTouchBar respondsToSelector:
+              @selector(minimizeSystemModalTouchBar:)])
+    {
+        [NSTouchBar
+         minimizeSystemModalTouchBar:touchBar];
     }
 }
 @end

@@ -14,6 +14,8 @@
 #import "TouchBarController.h"
 #import "NSTouchBar+SystemModal.h"
 
+static const NSTouchBarItemIdentifier kBarIdentifier = @"billziss.energybar";
+
 @implementation TouchBarController
 + (id)controllerWithNibNamed:(NSString *)name
 {
@@ -23,6 +25,8 @@
     if (![[NSBundle mainBundle]
         loadNibNamed:name owner:controller topLevelObjects:&objects])
         return nil;
+    
+    [controller setPlacement:1];
 
     return controller;
 }
@@ -37,31 +41,34 @@
     [super dealloc];
 }
 
+- (BOOL)isPresented
+{
+    return [self.touchBar isVisible];
+}
+
 - (BOOL)present
 {
-    return [self presentWithPlacement:1];
+    return [self presentWithPlacement:self.placement];
 }
 
 - (BOOL)presentWithPlacement:(NSInteger)placement
 {
-    if (self.presented)
-        return NO;
     BOOL res = [NSTouchBar
         presentSystemModal:self.touchBar
         placement:placement
-        systemTrayItemIdentifier:nil];
-    if (res)
-        self.presented = YES;
+        systemTrayItemIdentifier:kBarIdentifier];
     return res;
 }
 
 - (void)dismiss
 {
-    if (!self.presented)
-        return;
     [NSTouchBar
         dismissSystemModal:self.touchBar];
-    self.presented = NO;
+}
+
+- (void)minimize
+{
+    [NSTouchBar minimizeSystemModal:self.touchBar];
 }
 
 - (IBAction)close:(id)sender

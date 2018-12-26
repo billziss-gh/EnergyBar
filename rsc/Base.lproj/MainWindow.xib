@@ -505,11 +505,19 @@
             <point key="canvasLocation" x="31" y="-1362"/>
         </touchBar>
         <customView id="LNX-xt-gFC">
+<<<<<<< HEAD
             <rect key="frame" x="0.0" y="0.0" width="480" height="387"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RI6-LC-Dn0">
                     <rect key="frame" x="18" y="348" width="142" height="17"/>
+=======
+            <rect key="frame" x="0.0" y="0.0" width="480" height="407"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RI6-LC-Dn0">
+                    <rect key="frame" x="18" y="368" width="142" height="17"/>
+>>>>>>> Implementation of system control tray option
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Applications Folder:" id="we4-MN-ZoZ">
                         <font key="font" metaFont="system"/>
@@ -517,8 +525,21 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="soe-7k-cyu">
+                    <rect key="frame" x="18" y="70" width="142" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Touchbar Options:" id="ImS-pQ-oCf">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
                 <pathControl verticalHuggingPriority="750" fixedFrame="YES" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nd5-hn-yED">
+<<<<<<< HEAD
                     <rect key="frame" x="163" y="343" width="300" height="26"/>
+=======
+                    <rect key="frame" x="163" y="363" width="300" height="26"/>
+>>>>>>> Implementation of system control tray option
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <pathCell key="cell" selectable="YES" editable="YES" alignment="left" pathStyle="popUp" id="iGa-4q-LTE">
                         <font key="font" metaFont="system"/>
@@ -541,7 +562,11 @@
                     </connections>
                 </pathControl>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CXO-38-BKx">
+<<<<<<< HEAD
                     <rect key="frame" x="164" y="255" width="298" height="84"/>
+=======
+                    <rect key="frame" x="164" y="275" width="298" height="84"/>
+>>>>>>> Implementation of system control tray option
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="justified" id="1ol-1B-y4l">
                         <font key="font" metaFont="smallSystem"/>
@@ -553,7 +578,11 @@ In general the folder should contain application aliases. The order of the folde
                     </textFieldCell>
                 </textField>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FlB-cq-KEg">
+<<<<<<< HEAD
                     <rect key="frame" x="160" y="207" width="153" height="32"/>
+=======
+                    <rect key="frame" x="160" y="227" width="153" height="32"/>
+>>>>>>> Implementation of system control tray option
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="push" title="From macOS Dock" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="PfM-cZ-x9j">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -564,7 +593,11 @@ In general the folder should contain application aliases. The order of the folde
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rgY-4i-8rq">
+<<<<<<< HEAD
                     <rect key="frame" x="313" y="207" width="153" height="32"/>
+=======
+                    <rect key="frame" x="313" y="227" width="153" height="32"/>
+>>>>>>> Implementation of system control tray option
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="push" title="Show Folder" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="YqK-L0-qea">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -592,7 +625,11 @@ In general the folder should contain application aliases. The order of the folde
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a2a-cX-kjk">
+<<<<<<< HEAD
                     <rect key="frame" x="164" y="182" width="182" height="18"/>
+=======
+                    <rect key="frame" x="164" y="198" width="182" height="18"/>
+>>>>>>> Implementation of system control tray option
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Show running applications" bezelStyle="regularSquare" imagePosition="left" inset="2" id="F3l-pF-4z4">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -603,8 +640,24 @@ In general the folder should contain application aliases. The order of the folde
                         <binding destination="pJh-SC-QEV" name="value" keyPath="values.showsRunningApps" id="Grg-py-OEW"/>
                     </connections>
                 </button>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lxC-eX-4QQ">
+                    <rect key="frame" x="164" y="69" width="155" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Show system controls" bezelStyle="regularSquare" imagePosition="left" inset="2" id="wfZ-Sp-Kj0">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="touchbarSettingsChange:" target="Voe-Tx-rLC" id="vtQ-iY-iBv"/>
+                        <binding destination="pJh-SC-QEV" name="value" keyPath="values.showsSystemControl" id="rWg-yw-IbH"/>
+                    </connections>
+                </button>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aqA-xy-O2O">
+<<<<<<< HEAD
                     <rect key="frame" x="164" y="162" width="179" height="18"/>
+=======
+                    <rect key="frame" x="164" y="178" width="179" height="18"/>
+>>>>>>> Implementation of system control tray option
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Open folders in Touch Bar" bezelStyle="regularSquare" imagePosition="left" inset="2" id="MUe-xM-LBQ">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -629,6 +682,7 @@ In general the folder should contain application aliases. The order of the folde
                 </button>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DjH-vU-Mfw">
                     <rect key="frame" x="164" y="122" width="212" height="18"/>
+                    <rect key="frame" x="164" y="138" width="212" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Accept clicks and dragged files" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ZwQ-ex-YBc">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -640,7 +694,7 @@ In general the folder should contain application aliases. The order of the folde
                     </connections>
                 </button>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FJg-AN-1Yz">
-                    <rect key="frame" x="164" y="70" width="298" height="28"/>
+                    <rect key="frame" x="164" y="104" width="298" height="28"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="justified" title="If enabled you can use the mouse to click items on the EnergyBar Dock or drag files to it." id="e6r-G4-i53">
                         <font key="font" metaFont="smallSystem"/>
@@ -648,6 +702,14 @@ In general the folder should contain application aliases. The order of the folde
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="Odg-GT-X9V">
+                    <rect key="frame" x="12" y="93" width="456" height="5"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                </box>
+                <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="QUe-cG-zRT">
+                    <rect key="frame" x="12" y="59" width="456" height="5"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                </box>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CDM-Fi-GkF">
                     <rect key="frame" x="160" y="13" width="306" height="32"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -780,6 +842,7 @@ In general the folder should contain application aliases. The order of the folde
                 </button>
             </subviews>
             <point key="canvasLocation" x="85" y="-468"/>
+            <point key="canvasLocation" x="85" y="-412"/>
         </customView>
         <customView id="oZG-ix-yVe">
             <rect key="frame" x="0.0" y="0.0" width="480" height="380"/>
@@ -914,7 +977,7 @@ Click to acknowledge.</string>
                     </connections>
                 </button>
             </subviews>
-            <point key="canvasLocation" x="85" y="-156"/>
+            <point key="canvasLocation" x="85" y="-77"/>
         </customView>
     </objects>
     <resources>

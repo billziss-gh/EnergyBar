@@ -50,6 +50,7 @@
 		3CFECA122122611F00BB58E9 /* LoginItem.c in Sources */ = {isa = PBXBuildFile; fileRef = 3CFECA102122611F00BB58E9 /* LoginItem.c */; };
 		405B467A219A3CCA0006DC16 /* LockWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 405B4678219A3CCA0006DC16 /* LockWidget.m */; };
 		405B467C219A3D2D0006DC16 /* login.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 405B467B219A3D2D0006DC16 /* login.framework */; };
+		50DD6DFE21D26AEC007697A1 /* DFRFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50DD6DFD21D26AEC007697A1 /* DFRFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -142,6 +143,7 @@
 		405B4678219A3CCA0006DC16 /* LockWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LockWidget.m; sourceTree = "<group>"; };
 		405B4679219A3CCA0006DC16 /* LockWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LockWidget.h; sourceTree = "<group>"; };
 		405B467B219A3D2D0006DC16 /* login.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = login.framework; path = ../../../../../../System/Library/PrivateFrameworks/login.framework; sourceTree = "<group>"; };
+		50DD6DFD21D26AEC007697A1 /* DFRFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DFRFoundation.framework; path = ../../../../../../System/Library/PrivateFrameworks/DFRFoundation.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +151,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50DD6DFE21D26AEC007697A1 /* DFRFoundation.framework in Frameworks */,
 				405B467C219A3D2D0006DC16 /* login.framework in Frameworks */,
 				3C83DB48211D851700FC2F53 /* CoreBrightness.framework in Frameworks */,
 				3CE58CE72162B79700633D5D /* DisplayServices.framework in Frameworks */,
@@ -282,6 +285,7 @@
 		3C83DB46211D851600FC2F53 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				50DD6DFD21D26AEC007697A1 /* DFRFoundation.framework */,
 				405B467B219A3D2D0006DC16 /* login.framework */,
 				3C83DB47211D851700FC2F53 /* CoreBrightness.framework */,
 				3CE58CE62162B79700633D5D /* DisplayServices.framework */,
