@@ -13,6 +13,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+static const NSTouchBarItemIdentifier kControlButtonIdentifier = @"billziss.energybar.controlbutton";
+
 @interface TouchBarController : NSObject
 + (id)controllerWithNibNamed:(NSString *)name;
 - (BOOL)isPresented;

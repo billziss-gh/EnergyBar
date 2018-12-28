@@ -20,7 +20,6 @@
 #import "NowPlayingWidget.h"
 #import "TouchBarController.h"
 #import "WeatherWidget.h"
-#import "System/NSTouchBar+SystemModal.h"
 
 @interface AppController () <NSApplicationDelegate, NSWindowDelegate>
 - (void)fsnotify:(const char *)path;
@@ -128,30 +127,17 @@ static void AppControllerFSNotify(const char *path, void *data)
         action:@selector(showMainWindow:)];
     [self settingsChange:nil];
 
-    DFRSystemModalShowsCloseBoxWhenFrontMost(YES);
-    BOOL showSystemControl = [[NSUserDefaults standardUserDefaults] boolForKey:@"showsSystemControl"];
-    [self.touchBarController setPlacement:(!showSystemControl)];
-    [self addControlButton];
-    if (!showSystemControl) {
-        if (![self.touchBarController present])
-        {
-            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-            alert.alertStyle = NSAlertStyleCritical;
-            alert.messageText = @"Touch Bar API not found!";
-            alert.informativeText = @"The EnergyBar application will now exit.";
-            [alert runModal];
-            [NSApp terminate:nil];
-        }
+    [self.touchBarController setPlacement:(
+        ![[NSUserDefaults standardUserDefaults] boolForKey:@"showsSystemControl"])];
+    if (![self.touchBarController present])
+    {
+        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+        alert.alertStyle = NSAlertStyleCritical;
+        alert.messageText = @"Touch Bar API not found!";
+        alert.informativeText = @"The EnergyBar application will now exit.";
+        [alert runModal];
+        [NSApp terminate:nil];
     }
-}
-
-- (void)addControlButton {
-    NSTouchBarItemIdentifier identifier = @"blissziss.energybar.controlbutton";
-    NSCustomTouchBarItem *button = [[NSCustomTouchBarItem alloc] initWithIdentifier:identifier];
-    NSImage *icon = [NSImage imageNamed:@"AppIcon"];
-    button.view = [NSButton buttonWithImage:icon target:self.touchBarController action:@selector(present)];
-    [NSTouchBarItem addSystemTrayItem:button];
-    DFRElementSetControlStripPresenceForIdentifier(identifier, YES);
 }
 
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)sender hasVisibleWindows:(BOOL)flag

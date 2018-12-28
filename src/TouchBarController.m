@@ -14,9 +14,10 @@
 #import "TouchBarController.h"
 #import "NSTouchBar+SystemModal.h"
 
-static const NSTouchBarItemIdentifier kBarIdentifier = @"billziss.energybar";
-
 @implementation TouchBarController
+{
+    NSCustomTouchBarItem *_button;
+}
 + (id)controllerWithNibNamed:(NSString *)name
 {
     id controller = [[[[self class] alloc] init] autorelease];
@@ -26,9 +27,19 @@ static const NSTouchBarItemIdentifier kBarIdentifier = @"billziss.energybar";
         loadNibNamed:name owner:controller topLevelObjects:&objects])
         return nil;
     
+    DFRSystemModalShowsCloseBoxWhenFrontMost(YES);
     [controller setPlacement:1];
 
     return controller;
+}
+
+- (id)init
+{
+    if (self = [super init]) {
+        _button = [[[NSCustomTouchBarItem alloc] initWithIdentifier:kControlButtonIdentifier] autorelease];
+        [self setControlButton:self action:@selector(present)];
+    }
+    return self;
 }
 
 - (void)dealloc
@@ -39,6 +50,13 @@ static const NSTouchBarItemIdentifier kBarIdentifier = @"billziss.energybar";
     self.touchBar = nil;
 
     [super dealloc];
+}
+
+- (void)setControlButton:(id)target action:(SEL)action
+{
+    _button.view = [NSButton buttonWithImage:[NSImage imageNamed:@"AppIcon"] target:target action:action];
+    [NSTouchBarItem addSystemTrayItem:_button];
+    DFRElementSetControlStripPresenceForIdentifier(kControlButtonIdentifier, YES);
 }
 
 - (BOOL)isPresented
@@ -56,7 +74,7 @@ static const NSTouchBarItemIdentifier kBarIdentifier = @"billziss.energybar";
     BOOL res = [NSTouchBar
         presentSystemModal:self.touchBar
         placement:placement
-        systemTrayItemIdentifier:kBarIdentifier];
+        systemTrayItemIdentifier:kControlButtonIdentifier];
     return res;
 }
 
