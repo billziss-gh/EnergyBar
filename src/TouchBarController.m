@@ -36,7 +36,7 @@
 - (id)init
 {
     if (self = [super init]) {
-        _button = [[[NSCustomTouchBarItem alloc] initWithIdentifier:kControlButtonIdentifier] autorelease];
+        _button = [[NSCustomTouchBarItem alloc] initWithIdentifier:kControlButtonIdentifier];
         [self setControlButton:self action:@selector(present)];
     }
     return self;
@@ -49,6 +49,7 @@
 
     self.touchBar = nil;
 
+    [_button dealloc];
     [super dealloc];
 }
 
