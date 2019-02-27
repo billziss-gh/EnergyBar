@@ -19,6 +19,7 @@
 @property (retain) NSString *appName;
 @property (retain) NSImage *appIcon;
 @property (retain) NSString *album;
+@property (retain) NSImage *albumArt;
 @property (retain) NSString *artist;
 @property (retain) NSString *title;
 @property (assign) BOOL playing;

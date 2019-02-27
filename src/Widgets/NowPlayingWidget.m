@@ -78,19 +78,20 @@
 
 - (void)resetNowPlaying
 {
-    NSImage *icon = [NowPlaying sharedInstance].appIcon;
+    NSImage *appIcon = [NowPlaying sharedInstance].appIcon;
     NSString *appName = [NowPlaying sharedInstance].appName;
     NSString *title = [NowPlaying sharedInstance].title;
     NSString *subtitle = [NowPlaying sharedInstance].artist;
+    NSImage *albumArt = [NowPlaying sharedInstance].albumArt;
 
-    if (nil == icon && nil == title && nil == subtitle) {
+    if (nil == appIcon && nil == title && nil == subtitle) {
         title = @"♫";
     } else if (nil == title && nil == subtitle) {
         title = appName;
     }
     
     ImageTitleViewLayoutOptions layoutOptions = 0;
-    if (nil != icon)
+    if (nil != appIcon || nil != albumArt)
         layoutOptions = layoutOptions | ImageTitleViewLayoutOptionImage;
     if (nil != title)
         layoutOptions = layoutOptions | ImageTitleViewLayoutOptionTitle;
@@ -98,7 +99,11 @@
         layoutOptions = layoutOptions | ImageTitleViewLayoutOptionSubtitle;
 
     NowPlayingWidgetView *view = self.view;
-    view.image = icon;
+    if (nil != albumArt) {
+        view.image = albumArt;
+    } else if (nil != appIcon) {
+        view.image = appIcon;
+    }
     view.title = title;
     view.subtitle = subtitle;
     view.layoutOptions = layoutOptions;

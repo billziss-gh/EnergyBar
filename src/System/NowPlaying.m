@@ -38,6 +38,7 @@ extern NSString *kMRMediaRemoteNowPlayingApplicationDidChangeNotification;
 extern NSString *kMRMediaRemoteNowPlayingInfoAlbum;
 extern NSString *kMRMediaRemoteNowPlayingInfoArtist;
 extern NSString *kMRMediaRemoteNowPlayingInfoTitle;
+extern NSString *kMRMediaRemoteNowPlayingInfoArtworkData;
 
 @implementation NowPlaying
 + (void)load
@@ -101,6 +102,7 @@ extern NSString *kMRMediaRemoteNowPlayingInfoTitle;
     self.appName = nil;
     self.appIcon = nil;
     self.album = nil;
+    self.albumArt = nil;
     self.artist = nil;
     self.title = nil;
 
@@ -165,12 +167,19 @@ extern NSString *kMRMediaRemoteNowPlayingInfoTitle;
             NSString *album = [info objectForKey:kMRMediaRemoteNowPlayingInfoAlbum];
             NSString *artist = [info objectForKey:kMRMediaRemoteNowPlayingInfoArtist];
             NSString *title = [info objectForKey:kMRMediaRemoteNowPlayingInfoTitle];
-
-            if (self.album != album || self.artist != artist || self.title != title)
+            NSData *artworkData = [info objectForKey:kMRMediaRemoteNowPlayingInfoArtworkData];
+            
+            NSImage *albumart = nil;
+            if (![artworkData isEqual:[NSNull null]]) {
+                albumart = [[NSImage alloc] initWithData:artworkData];
+            }
+            
+            if (self.album != album || self.artist != artist || self.title != title || self.albumArt != albumart)
             {
                 self.album = album;
                 self.artist = artist;
                 self.title = title;
+                self.albumArt = albumart;
 
                 [[NSNotificationCenter defaultCenter]
                     postNotificationName:NowPlayingInfoNotification
