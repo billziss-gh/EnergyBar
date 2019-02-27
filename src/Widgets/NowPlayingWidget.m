@@ -84,9 +84,12 @@
     NSString *subtitle = [NowPlaying sharedInstance].artist;
     NSImage *albumArt = [NowPlaying sharedInstance].albumArt;
 
-    if (nil == appIcon && nil == title && nil == subtitle) {
+    if (nil == appIcon && nil == title && nil == subtitle)
+    {
         title = @"♫";
-    } else if (nil == title && nil == subtitle) {
+    }
+    else if (nil == title && nil == subtitle)
+    {
         title = appName;
     }
     
@@ -99,9 +102,12 @@
         layoutOptions = layoutOptions | ImageTitleViewLayoutOptionSubtitle;
 
     NowPlayingWidgetView *view = self.view;
-    if (nil != albumArt) {
+    if (nil != albumArt)
+    {
         view.image = albumArt;
-    } else if (nil != appIcon) {
+    }
+    else if (nil != appIcon)
+    {
         view.image = appIcon;
     }
     view.title = title;

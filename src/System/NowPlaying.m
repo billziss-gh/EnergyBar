@@ -125,7 +125,9 @@ extern NSString *kMRMediaRemoteNowPlayingInfoArtworkData;
                 appBundleIdentifier = MRNowPlayingClientGetBundleIdentifier(clientObj);
                 if (nil == appBundleIdentifier)
                     appBundleIdentifier = MRNowPlayingClientGetParentAppBundleIdentifier(clientObj);
-            } else {
+            }
+            else
+            {
                 appBundleIdentifier = [defaults objectForKey:LastAppBundleIdentifier];
             }
             if (nil != appBundleIdentifier)
@@ -151,7 +153,8 @@ extern NSString *kMRMediaRemoteNowPlayingInfoArtworkData;
                     postNotificationName:NowPlayingInfoNotification
                     object:self];
                 
-                if (nil != self.appBundleIdentifier) {
+                if (nil != self.appBundleIdentifier)
+                {
                     [defaults setObject:self.appBundleIdentifier forKey:LastAppBundleIdentifier];
                     [defaults synchronize];
                 }
@@ -170,7 +173,8 @@ extern NSString *kMRMediaRemoteNowPlayingInfoArtworkData;
             NSData *artworkData = [info objectForKey:kMRMediaRemoteNowPlayingInfoArtworkData];
             
             NSImage *albumart = nil;
-            if (![artworkData isEqual:[NSNull null]]) {
+            if (![artworkData isEqual:[NSNull null]])
+            {
                 albumart = [[NSImage alloc] initWithData:artworkData];
             }
             
