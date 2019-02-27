@@ -79,12 +79,16 @@
 - (void)resetNowPlaying
 {
     NSImage *icon = [NowPlaying sharedInstance].appIcon;
+    NSString *appName = [NowPlaying sharedInstance].appName;
     NSString *title = [NowPlaying sharedInstance].title;
     NSString *subtitle = [NowPlaying sharedInstance].artist;
 
-    if (nil == icon && nil == title && nil == subtitle)
+    if (nil == icon && nil == title && nil == subtitle) {
         title = @"♫";
-
+    } else if (nil == title && nil == subtitle) {
+        title = appName;
+    }
+    
     ImageTitleViewLayoutOptions layoutOptions = 0;
     if (nil != icon)
         layoutOptions = layoutOptions | ImageTitleViewLayoutOptionImage;

@@ -13,6 +13,8 @@
 
 #import "NowPlaying.h"
 
+#define LastAppBundleIdentifier @"LastAppBundleIdentifier"
+
 typedef void (^MRMediaRemoteGetNowPlayingInfoBlock)(NSDictionary *info);
 typedef void (^MRMediaRemoteGetNowPlayingClientBlock)(id clientObj);
 typedef void (^MRMediaRemoteGetNowPlayingApplicationIsPlayingBlock)(BOOL playing);
@@ -113,22 +115,25 @@ extern NSString *kMRMediaRemoteNowPlayingInfoTitle;
             NSString *appBundleIdentifier = nil;
             NSString *appName = nil;
             NSImage *appIcon = nil;
+            
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
             if (nil != clientObj)
             {
                 appBundleIdentifier = MRNowPlayingClientGetBundleIdentifier(clientObj);
                 if (nil == appBundleIdentifier)
                     appBundleIdentifier = MRNowPlayingClientGetParentAppBundleIdentifier(clientObj);
-
-                if (nil != appBundleIdentifier)
+            } else {
+                appBundleIdentifier = [defaults objectForKey:LastAppBundleIdentifier];
+            }
+            if (nil != appBundleIdentifier)
+            {
+                NSString *path = [[NSWorkspace sharedWorkspace]
+                                  absolutePathForAppBundleWithIdentifier:appBundleIdentifier];
+                if (nil != path)
                 {
-                    NSString *path = [[NSWorkspace sharedWorkspace]
-                        absolutePathForAppBundleWithIdentifier:appBundleIdentifier];
-                    if (nil != path)
-                    {
-                        appName = [[NSFileManager defaultManager] displayNameAtPath:path];
-                        appIcon = [[NSWorkspace sharedWorkspace] iconForFile:path];
-                    }
+                    appName = [[NSFileManager defaultManager] displayNameAtPath:path];
+                    appIcon = [[NSWorkspace sharedWorkspace] iconForFile:path];
                 }
             }
 
@@ -139,10 +144,15 @@ extern NSString *kMRMediaRemoteNowPlayingInfoTitle;
                 self.appBundleIdentifier = appBundleIdentifier;
                 self.appName = appName;
                 self.appIcon = appIcon;
-
+                
                 [[NSNotificationCenter defaultCenter]
                     postNotificationName:NowPlayingInfoNotification
                     object:self];
+                
+                if (nil != self.appBundleIdentifier) {
+                    [defaults setObject:self.appBundleIdentifier forKey:LastAppBundleIdentifier];
+                    [defaults synchronize];
+                }
             }
         });
 }
