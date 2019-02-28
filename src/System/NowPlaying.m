@@ -85,7 +85,7 @@ extern NSString *kMRMediaRemoteNowPlayingInfoArtworkData;
         selector:@selector(playingDidChange:)
         name:kMRMediaRemoteNowPlayingApplicationIsPlayingDidChangeNotification
         object:nil];
-
+    
     [self updateApp];
     [self updateInfo];
     [self updateState];
@@ -118,7 +118,7 @@ extern NSString *kMRMediaRemoteNowPlayingInfoArtworkData;
             NSString *appName = nil;
             NSImage *appIcon = nil;
             
-            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            
 
             if (nil != clientObj)
             {
@@ -128,7 +128,7 @@ extern NSString *kMRMediaRemoteNowPlayingInfoArtworkData;
             }
             else
             {
-                appBundleIdentifier = [defaults objectForKey:LastAppBundleIdentifier];
+                appBundleIdentifier = [[NSUserDefaults standardUserDefaults] objectForKey:LastAppBundleIdentifier];
             }
             if (nil != appBundleIdentifier)
             {
@@ -155,8 +155,8 @@ extern NSString *kMRMediaRemoteNowPlayingInfoArtworkData;
                 
                 if (nil != self.appBundleIdentifier)
                 {
-                    [defaults setObject:self.appBundleIdentifier forKey:LastAppBundleIdentifier];
-                    [defaults synchronize];
+                    [[NSUserDefaults standardUserDefaults] setObject:self.appBundleIdentifier forKey:LastAppBundleIdentifier];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
                 }
             }
         });
@@ -173,7 +173,7 @@ extern NSString *kMRMediaRemoteNowPlayingInfoArtworkData;
             NSData *artworkData = [info objectForKey:kMRMediaRemoteNowPlayingInfoArtworkData];
             
             NSImage *albumart = nil;
-            if (![artworkData isEqual:[NSNull null]])
+            if (nil != artworkData && ![artworkData isEqual:[NSNull null]])
             {
                 albumart = [[NSImage alloc] initWithData:artworkData];
             }
