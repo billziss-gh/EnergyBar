@@ -12,11 +12,13 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import "Widgets/ControlTrayWidget.h"
 
 static const NSTouchBarItemIdentifier kControlButtonIdentifier = @"billziss.energybar.controlbutton";
 
 @interface TouchBarController : NSObject
 + (id)controllerWithNibNamed:(NSString *)name;
+- (void)setControlButtonLongPress:(id)target action:(SEL)action;
 - (BOOL)isPresented;
 - (BOOL)present;
 - (BOOL)presentWithPlacement:(NSInteger)placement;
@@ -24,6 +26,7 @@ static const NSTouchBarItemIdentifier kControlButtonIdentifier = @"billziss.ener
 - (void)minimize;
 - (IBAction)close:(id)sender;
 - (IBAction)customize:(id)sender;
+@property (retain) ControlTrayWidget *button;
 @property (retain) IBOutlet NSTouchBar *touchBar;
 @property (assign) NSInteger placement;
 @end

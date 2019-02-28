@@ -15,9 +15,6 @@
 #import "NSTouchBar+SystemModal.h"
 
 @implementation TouchBarController
-{
-    NSCustomTouchBarItem *_button;
-}
 + (id)controllerWithNibNamed:(NSString *)name
 {
     id controller = [[[[self class] alloc] init] autorelease];
@@ -36,8 +33,10 @@
 - (id)init
 {
     if (self = [super init]) {
-        _button = [[NSCustomTouchBarItem alloc] initWithIdentifier:kControlButtonIdentifier];
-        [self setControlButton:self action:@selector(present)];
+        self.button = [[ControlTrayWidget alloc] initWithIdentifier:kControlButtonIdentifier];
+        [self.button.widget setShortPress:self action:@selector(present)];
+        [NSTouchBarItem addSystemTrayItem:self.button];
+        DFRElementSetControlStripPresenceForIdentifier(kControlButtonIdentifier, YES);
     }
     return self;
 }
@@ -49,15 +48,13 @@
 
     self.touchBar = nil;
 
-    [_button dealloc];
+    [self.button dealloc];
     [super dealloc];
 }
 
-- (void)setControlButton:(id)target action:(SEL)action
+- (void)setControlButtonLongPress:(id)target action:(SEL)action
 {
-    _button.view = [NSButton buttonWithImage:[NSImage imageNamed:@"AppIcon"] target:target action:action];
-    [NSTouchBarItem addSystemTrayItem:_button];
-    DFRElementSetControlStripPresenceForIdentifier(kControlButtonIdentifier, YES);
+    [self.button.widget setLongPress:target action:action];
 }
 
 - (BOOL)isPresented

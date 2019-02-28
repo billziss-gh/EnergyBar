@@ -129,6 +129,8 @@ static void AppControllerFSNotify(const char *path, void *data)
 
     [self.touchBarController setPlacement:(
         ![[NSUserDefaults standardUserDefaults] boolForKey:@"showsSystemControl"])];
+    
+    [self.touchBarController setControlButtonLongPress:self action:@selector(showMainWindow:)];
     if (![self.touchBarController present])
     {
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
