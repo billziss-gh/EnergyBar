@@ -3,61 +3,61 @@
     {
       "size" : "16x16",
       "idiom" : "mac",
-      "filename" : "EnergyBar_16.png",
+      "filename" : "EnergyBar-16.png",
       "scale" : "1x"
     },
     {
       "size" : "16x16",
       "idiom" : "mac",
-      "filename" : "EnergyBar_16@2x.png",
+      "filename" : "EnergyBar-32.png",
       "scale" : "2x"
     },
     {
       "size" : "32x32",
       "idiom" : "mac",
-      "filename" : "EnergyBar_32.png",
+      "filename" : "EnergyBar-32.png",
       "scale" : "1x"
     },
     {
       "size" : "32x32",
       "idiom" : "mac",
-      "filename" : "EnergyBar_32@2x.png",
+      "filename" : "EnergyBar-64.png",
       "scale" : "2x"
     },
     {
       "size" : "128x128",
       "idiom" : "mac",
-      "filename" : "EnergyBar_128.png",
+      "filename" : "EnergyBar-128.png",
       "scale" : "1x"
     },
     {
       "size" : "128x128",
       "idiom" : "mac",
-      "filename" : "EnergyBar_128@2x.png",
+      "filename" : "EnergyBar-256.png",
       "scale" : "2x"
     },
     {
       "size" : "256x256",
       "idiom" : "mac",
-      "filename" : "EnergyBar_256.png",
+      "filename" : "EnergyBar-256.png",
       "scale" : "1x"
     },
     {
       "size" : "256x256",
       "idiom" : "mac",
-      "filename" : "EnergyBar_256@2x.png",
+      "filename" : "EnergyBar-512.png",
       "scale" : "2x"
     },
     {
       "size" : "512x512",
       "idiom" : "mac",
-      "filename" : "EnergyBar_512.png",
+      "filename" : "EnergyBar-512.png",
       "scale" : "1x"
     },
     {
       "size" : "512x512",
       "idiom" : "mac",
-      "filename" : "EnergyBar_512@2x.png",
+      "filename" : "EnergyBar-1024.png",
       "scale" : "2x"
     }
   ],
