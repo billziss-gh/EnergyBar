@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-    <img src="rsc/Assets.xcassets/AppIcon.appiconset/EnergyBar_128.png"/>
+    <img src="rsc/Assets.xcassets/AppIcon.appiconset/EnergyBar-128.png"/>
 </p>
 
 EnergyBar replaces your Mac's Touch Bar with a collection of widgets, such as a Dock or a "Now Playing" widget. The goal of EnergyBar is to maximize the Touch Bar's usability, while minimizing some of its flaws such as inadvertent tapping.
