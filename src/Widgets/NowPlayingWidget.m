@@ -18,6 +18,7 @@
 
 @interface NowPlayingWidgetView : ImageTitleView
 @property (assign) BOOL showsSmallWidget;
+@property (assign) BOOL showsAlbumArt;
 @end
 
 @implementation NowPlayingWidgetView
@@ -78,15 +79,23 @@
 
 - (void)resetNowPlaying
 {
-    NSImage *icon = [NowPlaying sharedInstance].appIcon;
+    NSImage *appIcon = [NowPlaying sharedInstance].appIcon;
+    NSString *appName = [NowPlaying sharedInstance].appName;
     NSString *title = [NowPlaying sharedInstance].title;
     NSString *subtitle = [NowPlaying sharedInstance].artist;
+    NSImage *albumArt = [NowPlaying sharedInstance].albumArt;
 
-    if (nil == icon && nil == title && nil == subtitle)
+    if (nil == appIcon && nil == title && nil == subtitle)
+    {
         title = @"♫";
-
+    }
+    else if (nil == title && nil == subtitle)
+    {
+        title = appName;
+    }
+    
     ImageTitleViewLayoutOptions layoutOptions = 0;
-    if (nil != icon)
+    if (nil != appIcon || nil != albumArt)
         layoutOptions = layoutOptions | ImageTitleViewLayoutOptionImage;
     if (nil != title)
         layoutOptions = layoutOptions | ImageTitleViewLayoutOptionTitle;
@@ -94,7 +103,14 @@
         layoutOptions = layoutOptions | ImageTitleViewLayoutOptionSubtitle;
 
     NowPlayingWidgetView *view = self.view;
-    view.image = icon;
+    if (view.showsAlbumArt && nil != albumArt)
+    {
+        view.image = albumArt;
+    }
+    else if (nil != appIcon)
+    {
+        view.image = appIcon;
+    }
     view.title = title;
     view.subtitle = subtitle;
     view.layoutOptions = layoutOptions;
@@ -115,23 +131,35 @@
 {
     NowPlayingWidgetView *imageTitleView = self.view;
     imageTitleView.showsSmallWidget = value;
-
+    
     if (!value)
     {
         imageTitleView.imageSize = NSMakeSize(26, 26);
         imageTitleView.titleFont = [NSFont boldSystemFontOfSize:[NSFont
-            systemFontSizeForControlSize:NSControlSizeSmall]];
+                                                                 systemFontSizeForControlSize:NSControlSizeSmall]];
         imageTitleView.subtitleFont = [NSFont systemFontOfSize:[NSFont
-            systemFontSizeForControlSize:NSControlSizeSmall]];
+                                                                systemFontSizeForControlSize:NSControlSizeSmall]];
     }
     else
     {
         imageTitleView.imageSize = NSMakeSize(16, 16);
         imageTitleView.titleFont = [NSFont boldSystemFontOfSize:[NSFont
-            systemFontSizeForControlSize:NSControlSizeMini]];
+                                                                 systemFontSizeForControlSize:NSControlSizeMini]];
         imageTitleView.subtitleFont = [NSFont systemFontOfSize:[NSFont
-            systemFontSizeForControlSize:NSControlSizeMini]];
+                                                                systemFontSizeForControlSize:NSControlSizeMini]];
     }
+}
+
+- (BOOL)showsAlbumArt
+{
+    NowPlayingWidgetView *imageTitleView = self.view;
+    return imageTitleView.showsAlbumArt;
+}
+
+- (void)setShowsAlbumArt:(BOOL)value
+{
+    NowPlayingWidgetView *imageTitleView = self.view;
+    imageTitleView.showsAlbumArt = value;
 }
 @end
 
@@ -173,6 +201,17 @@
 {
     [(id)[self.widgets objectAtIndex:0] setShowsSmallWidget:value];
     [self.view invalidateIntrinsicContentSize];
+}
+
+- (BOOL)showsAlbumArt
+{
+    return [(id)[self.widgets objectAtIndex:0] showsAlbumArt];
+}
+
+- (void)setShowsAlbumArt:(BOOL)value
+{
+    [(id)[self.widgets objectAtIndex:0] setShowsAlbumArt:value];
+    [(id)[self.widgets objectAtIndex:0] resetNowPlaying];
 }
 
 - (void)longPressAction:(id)sender

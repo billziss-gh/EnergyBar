@@ -378,6 +378,8 @@ static void AppControllerFSNotify(const char *path, void *data)
         boolForKey:@"showsActiveAppOnTap"];
     widget.showsSmallWidget = [[NSUserDefaults standardUserDefaults]
         boolForKey:@"nowPlayingShowsSmallWidget"];
+    widget.showsAlbumArt = [[NSUserDefaults standardUserDefaults]
+        boolForKey:@"nowPlayingShowsAlbumArt"];
 }
 
 - (void)updateToggleMacOSDockButton

@@ -17,4 +17,5 @@
 @interface NowPlayingWidget : CustomMultiWidget
 @property (getter=showsActiveAppOnTap, setter=setShowsActiveAppOnTap:) BOOL showsActiveAppOnTap;
 @property (getter=showsSmallWidget, setter=setShowsSmallWidget:) BOOL showsSmallWidget;
+@property (getter=showsAlbumArt, setter=setShowsAlbumArt:) BOOL showsAlbumArt;
 @end
