@@ -78,6 +78,7 @@ static NSShadow *shadowWithOffset(NSSize shadowOffset)
 @property (assign, getter=isAppRunning, setter=setAppRunning:) BOOL appRunning;
 @property (assign, getter=isAppLaunching, setter=setAppLaunching:) BOOL appLaunching;
 @property (assign, getter=isProminent, setter=setProminent:) BOOL prominent;
+@property (assign, getter=getDockMagnification, setter=setDockMagnification:) BOOL dockMagnification;
 @end
 
 @implementation DockWidgetItemView
@@ -197,7 +198,7 @@ static NSShadow *shadowWithOffset(NSSize shadowOffset)
     NSRect iconRect = self.bounds;
     if (iconRect.size.height >= dockDotHeight)
     {
-        if (!_prominent)
+        if (!_prominent || !self.dockMagnification)
         {
             iconRect.origin.y += dockDotHeight;
             iconRect.size.height -= dockDotHeight;
@@ -487,11 +488,13 @@ static NSShadow *shadowWithOffset(NSSize shadowOffset)
     }
 
     BOOL showsRunningApps = [[NSUserDefaults standardUserDefaults] boolForKey:@"showsRunningApps"];
+    BOOL dockMagnification = [[NSUserDefaults standardUserDefaults] boolForKey:@"dockMagnification"];
     view.appPath = app.path;
     view.appIcon = app.icon;
     view.appRunning = showsRunningApps ? 0 != app.pid : NO;
     view.appLaunching = showsRunningApps ? app.launching : NO;
     view.prominent = NO;
+    view.dockMagnification = dockMagnification;
 
     return view;
 }
@@ -832,6 +835,7 @@ static NSShadow *shadowWithOffset(NSSize shadowOffset)
                 view.appRunning = NO;
                 view.appLaunching = NO;
                 view.prominent = NO;
+                view.dockMagnification = NO;
             }
 
         [itemViews release];

@@ -139,6 +139,8 @@
 	<false/>
 	<key>clockShowsWeatherOnTap</key>
 	<false/>
+	<key>dockMagnification</key>
+	<true/>
 	<key>nowPlayingShowsSmallWidget</key>
 	<false/>
 	<key>shows24HourClock</key>
