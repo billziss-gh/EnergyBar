@@ -127,6 +127,10 @@ static void AppControllerFSNotify(const char *path, void *data)
         action:@selector(showMainWindow:)];
     [self settingsChange:nil];
 
+    [self.touchBarController setPlacement:(
+        ![[NSUserDefaults standardUserDefaults] boolForKey:@"showsSystemControl"])];
+    
+    [self.touchBarController setControlButtonLongPress:self action:@selector(showMainWindow:)];
     if (![self.touchBarController present])
     {
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
@@ -341,6 +345,11 @@ static void AppControllerFSNotify(const char *path, void *data)
 - (IBAction)dockWidgetSettingsChange:(id)sender
 {
     [[self.touchBarController.touchBar itemForIdentifier:@"Dock"] reset];
+}
+
+- (IBAction)touchbarSettingsChange:(id)sender {
+    BOOL showSystemControl = [[NSUserDefaults standardUserDefaults] boolForKey:@"showsSystemControl"];
+    [self.touchBarController setSystemControlVisible:(showSystemControl)];
 }
 
 - (IBAction)clockWidgetSettingsChange:(id)sender

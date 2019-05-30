@@ -23,8 +23,22 @@
     if (![[NSBundle mainBundle]
         loadNibNamed:name owner:controller topLevelObjects:&objects])
         return nil;
+    
+    DFRSystemModalShowsCloseBoxWhenFrontMost(YES);
+    [controller setPlacement:1];
 
     return controller;
+}
+
+- (id)init
+{
+    if (self = [super init]) {
+        self.button = [[ControlTrayWidget alloc] initWithIdentifier:kControlButtonIdentifier];
+        [self.button.widget setShortPress:self action:@selector(present)];
+        [NSTouchBarItem addSystemTrayItem:self.button];
+        DFRElementSetControlStripPresenceForIdentifier(kControlButtonIdentifier, YES);
+    }
+    return self;
 }
 
 - (void)dealloc
@@ -34,34 +48,50 @@
 
     self.touchBar = nil;
 
+    [self.button dealloc];
     [super dealloc];
+}
+
+- (void)setControlButtonLongPress:(id)target action:(SEL)action
+{
+    [self.button.widget setLongPress:target action:action];
+}
+
+- (void)setSystemControlVisible:(bool)visible
+{
+    [self setPlacement:!visible];
+    [self dismiss];
+    [self present];
+}
+
+- (BOOL)isPresented
+{
+    return [self.touchBar isVisible];
 }
 
 - (BOOL)present
 {
-    return [self presentWithPlacement:1];
+    return [self presentWithPlacement:self.placement];
 }
 
 - (BOOL)presentWithPlacement:(NSInteger)placement
 {
-    if (self.presented)
-        return NO;
     BOOL res = [NSTouchBar
         presentSystemModal:self.touchBar
         placement:placement
-        systemTrayItemIdentifier:nil];
-    if (res)
-        self.presented = YES;
+        systemTrayItemIdentifier:kControlButtonIdentifier];
     return res;
 }
 
 - (void)dismiss
 {
-    if (!self.presented)
-        return;
     [NSTouchBar
         dismissSystemModal:self.touchBar];
-    self.presented = NO;
+}
+
+- (void)minimize
+{
+    [NSTouchBar minimizeSystemModal:self.touchBar];
 }
 
 - (IBAction)close:(id)sender

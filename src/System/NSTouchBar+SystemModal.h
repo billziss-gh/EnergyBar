@@ -13,9 +13,18 @@
 
 #import <Cocoa/Cocoa.h>
 
+extern void DFRElementSetControlStripPresenceForIdentifier(NSTouchBarItemIdentifier, BOOL);
+extern void DFRSystemModalShowsCloseBoxWhenFrontMost(BOOL);
+
 @interface NSTouchBar (SystemModal)
 + (BOOL)presentSystemModal:(NSTouchBar *)touchBar
     placement:(long long)placement
     systemTrayItemIdentifier:(NSTouchBarItemIdentifier)identifier;
 + (void)dismissSystemModal:(NSTouchBar *)touchBar;
++ (void)minimizeSystemModal:(NSTouchBar *)touchBar;
+@end
+
+@interface NSTouchBarItem ()
++ (void)addSystemTrayItem:(NSTouchBarItem *)item;
++ (void)removeSystemTrayItem:(NSTouchBarItem *)item;
 @end
