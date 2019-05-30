@@ -50,6 +50,7 @@
 		3CFECA122122611F00BB58E9 /* LoginItem.c in Sources */ = {isa = PBXBuildFile; fileRef = 3CFECA102122611F00BB58E9 /* LoginItem.c */; };
 		405B467A219A3CCA0006DC16 /* LockWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 405B4678219A3CCA0006DC16 /* LockWidget.m */; };
 		405B467C219A3D2D0006DC16 /* login.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 405B467B219A3D2D0006DC16 /* login.framework */; };
+		50BF3A31229FEB6A004356B6 /* ControlTrayWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BF3A2F229FEB6A004356B6 /* ControlTrayWidget.m */; };
 		50DD6DFE21D26AEC007697A1 /* DFRFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50DD6DFD21D26AEC007697A1 /* DFRFoundation.framework */; };
 /* End PBXBuildFile section */
 
@@ -143,6 +144,8 @@
 		405B4678219A3CCA0006DC16 /* LockWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LockWidget.m; sourceTree = "<group>"; };
 		405B4679219A3CCA0006DC16 /* LockWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LockWidget.h; sourceTree = "<group>"; };
 		405B467B219A3D2D0006DC16 /* login.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = login.framework; path = ../../../../../../System/Library/PrivateFrameworks/login.framework; sourceTree = "<group>"; };
+		50BF3A2F229FEB6A004356B6 /* ControlTrayWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ControlTrayWidget.m; sourceTree = "<group>"; };
+		50BF3A30229FEB6A004356B6 /* ControlTrayWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControlTrayWidget.h; sourceTree = "<group>"; };
 		50DD6DFD21D26AEC007697A1 /* DFRFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DFRFoundation.framework; path = ../../../../../../System/Library/PrivateFrameworks/DFRFoundation.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -260,6 +263,8 @@
 		3C5D0FCB211920E500769A39 /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
+				50BF3A30229FEB6A004356B6 /* ControlTrayWidget.h */,
+				50BF3A2F229FEB6A004356B6 /* ControlTrayWidget.m */,
 				405B4679219A3CCA0006DC16 /* LockWidget.h */,
 				405B4678219A3CCA0006DC16 /* LockWidget.m */,
 				3C4013C0211BBC8D00C47B66 /* ActiveAppWidget.h */,
@@ -413,6 +418,7 @@
 				3CAA9C6D2127B3E100D5B467 /* StringToUrlTransformer.m in Sources */,
 				3C1A5678211D6B7D008E1F9F /* AppBarController.m in Sources */,
 				3CA8519D212B832100585D29 /* NSWorkspace+Finder.m in Sources */,
+				50BF3A31229FEB6A004356B6 /* ControlTrayWidget.m in Sources */,
 				3C01F8F32161D07800FFD2C6 /* Appearance.m in Sources */,
 				3CA1DD8B212D3FC000D95DE1 /* NowPlaying.m in Sources */,
 				3C102D4E2119872800FFB2CF /* EscKeyWidget.m in Sources */,

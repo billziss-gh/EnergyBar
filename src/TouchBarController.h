@@ -19,6 +19,7 @@ static const NSTouchBarItemIdentifier kControlButtonIdentifier = @"billziss.ener
 @interface TouchBarController : NSObject
 + (id)controllerWithNibNamed:(NSString *)name;
 - (void)setControlButtonLongPress:(id)target action:(SEL)action;
+- (void)setSystemControlVisible:(bool)visible;
 - (BOOL)isPresented;
 - (BOOL)present;
 - (BOOL)presentWithPlacement:(NSInteger)placement;

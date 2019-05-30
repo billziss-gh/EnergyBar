@@ -349,12 +349,7 @@ static void AppControllerFSNotify(const char *path, void *data)
 
 - (IBAction)touchbarSettingsChange:(id)sender {
     BOOL showSystemControl = [[NSUserDefaults standardUserDefaults] boolForKey:@"showsSystemControl"];
-    [self.touchBarController setPlacement:(!showSystemControl)];
-    if (showSystemControl) {
-        [self.touchBarController dismiss];
-    } else {
-        [self.touchBarController present];
-    }
+    [self.touchBarController setSystemControlVisible:(showSystemControl)];
 }
 
 - (IBAction)clockWidgetSettingsChange:(id)sender

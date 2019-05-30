@@ -11,6 +11,7 @@
 @interface ControlButtonWidget : CustomWidget
 - (void)longPressAction:(id)sender;
 - (void)setLongPress:(id)target action:(SEL)action;
+- (void)setShortPress:(id)target action:(SEL)action;
 @end
 
 @interface ControlTrayWidget : CustomMultiWidget

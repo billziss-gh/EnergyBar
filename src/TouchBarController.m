@@ -57,6 +57,13 @@
     [self.button.widget setLongPress:target action:action];
 }
 
+- (void)setSystemControlVisible:(bool)visible
+{
+    [self setPlacement:!visible];
+    [self dismiss];
+    [self present];
+}
+
 - (BOOL)isPresented
 {
     return [self.touchBar isVisible];
