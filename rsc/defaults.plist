@@ -141,6 +141,8 @@
 	<false/>
 	<key>dockMagnification</key>
 	<true/>
+	<key>ignoresAccidentalTouches</key>
+	<false/>
 	<key>nowPlayingShowsSmallWidget</key>
 	<false/>
 	<key>shows24HourClock</key>

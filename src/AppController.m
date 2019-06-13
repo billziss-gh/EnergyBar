@@ -18,8 +18,11 @@
 #import "FSNotify.h"
 #import "LoginItem.h"
 #import "NowPlayingWidget.h"
+#import "NSView+TouchBarHitTest.h"
 #import "TouchBarController.h"
 #import "WeatherWidget.h"
+
+static const NSTimeInterval IgnoresAccidentalTouchesDuration = 0.3;
 
 @interface AppController () <NSApplicationDelegate, NSWindowDelegate>
 - (void)fsnotify:(const char *)path;
@@ -44,6 +47,7 @@ static void AppControllerFSNotify(const char *path, void *data)
 @implementation AppController
 {
     void *_stream;
+    id _keyEventMonitor;
 }
 
 - (void)dealloc
@@ -126,6 +130,9 @@ static void AppControllerFSNotify(const char *path, void *data)
         setPressTarget:self
         action:@selector(showMainWindow:)];
     [self settingsChange:nil];
+
+    [NSView loadTouchBarHitTest];
+    [self ignoresAccidentalTouchesChange:nil];
 
     if (![self.touchBarController present])
     {
@@ -336,6 +343,34 @@ static void AppControllerFSNotify(const char *path, void *data)
         return;
 
     [[NSWorkspace sharedWorkspace] openFile:defaultAppsFolder];
+}
+
+- (IBAction)ignoresAccidentalTouchesChange:(id)sender
+{
+    BOOL ignoresAccidentalTouches = [[NSUserDefaults standardUserDefaults]
+        boolForKey:@"ignoresAccidentalTouches"];
+    if (ignoresAccidentalTouches)
+    {
+        if (nil != _keyEventMonitor)
+            [NSEvent removeMonitor:_keyEventMonitor];
+        _keyEventMonitor = [NSEvent
+            addGlobalMonitorForEventsMatchingMask:NSEventMaskKeyDown
+            handler:^(NSEvent *event)
+            {
+                //NSLog(@"monitor: %@", event);
+                [NSView enableTouchBarHitTest:nil];
+                [NSView
+                    performSelector:@selector(enableTouchBarHitTest:)
+                    withObject:self
+                    afterDelay:IgnoresAccidentalTouchesDuration];
+            }];
+    }
+    else
+    {
+        if (nil != _keyEventMonitor)
+            [NSEvent removeMonitor:_keyEventMonitor];
+        _keyEventMonitor = nil;
+    }
 }
 
 - (IBAction)dockWidgetSettingsChange:(id)sender

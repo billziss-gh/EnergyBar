@@ -20,6 +20,8 @@
 		3C163BC72118F1C500F015EC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C163BC52118F1C500F015EC /* main.m */; };
 		3C163BCA2118F33C00F015EC /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C163BC82118F33C00F015EC /* MainWindow.xib */; };
 		3C1A5678211D6B7D008E1F9F /* AppBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1A5677211D6B7D008E1F9F /* AppBarController.m */; };
+		3C1F652122B1BF4E00F795D3 /* NSObject+MethodSwizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1F652022B1BF4E00F795D3 /* NSObject+MethodSwizzling.m */; };
+		3C1F652722B1CCA900F795D3 /* NSView+TouchBarHitTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1F652522B1CCA800F795D3 /* NSView+TouchBarHitTest.m */; };
 		3C200ECF212DFF390000B04D /* FixedSizeLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C200ECE212DFF390000B04D /* FixedSizeLabel.m */; };
 		3C3464BF21465319001F45BB /* WeatherWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C3464BE21465319001F45BB /* WeatherWidget.m */; };
 		3C3464C221471797001F45BB /* WeatherKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C3464C121471797001F45BB /* WeatherKit.framework */; };
@@ -91,6 +93,10 @@
 		3C1A5676211D6B7D008E1F9F /* AppBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppBarController.h; sourceTree = "<group>"; };
 		3C1A5677211D6B7D008E1F9F /* AppBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppBarController.m; sourceTree = "<group>"; };
 		3C1DF6BA2162D83B006A1EBF /* NSGlobalPreferenceTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSGlobalPreferenceTransition.h; sourceTree = "<group>"; };
+		3C1F651F22B1BF4E00F795D3 /* NSObject+MethodSwizzling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MethodSwizzling.h"; sourceTree = "<group>"; };
+		3C1F652022B1BF4E00F795D3 /* NSObject+MethodSwizzling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MethodSwizzling.m"; sourceTree = "<group>"; };
+		3C1F652522B1CCA800F795D3 /* NSView+TouchBarHitTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+TouchBarHitTest.m"; sourceTree = "<group>"; };
+		3C1F652622B1CCA900F795D3 /* NSView+TouchBarHitTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSView+TouchBarHitTest.h"; sourceTree = "<group>"; };
 		3C200ECD212DFF390000B04D /* FixedSizeLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FixedSizeLabel.h; sourceTree = "<group>"; };
 		3C200ECE212DFF390000B04D /* FixedSizeLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FixedSizeLabel.m; sourceTree = "<group>"; };
 		3C3464BD21465319001F45BB /* WeatherWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeatherWidget.h; sourceTree = "<group>"; };
@@ -165,6 +171,8 @@
 		3C04600E211D7C43003EB021 /* System */ = {
 			isa = PBXGroup;
 			children = (
+				3C1F651F22B1BF4E00F795D3 /* NSObject+MethodSwizzling.h */,
+				3C1F652022B1BF4E00F795D3 /* NSObject+MethodSwizzling.m */,
 				3C01F8F12161D07800FFD2C6 /* Appearance.h */,
 				3C01F8F22161D07800FFD2C6 /* Appearance.m */,
 				3C8E4131212F81A60010C2B3 /* AudioControl.h */,
@@ -244,6 +252,8 @@
 				3C080A4A2139EB0D00EED01D /* FolderController.m */,
 				3C5032E22139C8E900305593 /* ImageTitleView.h */,
 				3C5032E12139C8E900305593 /* ImageTitleView.m */,
+				3C1F652622B1CCA900F795D3 /* NSView+TouchBarHitTest.h */,
+				3C1F652522B1CCA800F795D3 /* NSView+TouchBarHitTest.m */,
 				3CAA9C6B2127B3E000D5B467 /* StringToUrlTransformer.h */,
 				3CAA9C6C2127B3E000D5B467 /* StringToUrlTransformer.m */,
 				3C6CCA36211B824000D019F4 /* TouchBarController.h */,
@@ -392,6 +402,7 @@
 				3CDF1EB4211A3B9500739051 /* DockWidget.m in Sources */,
 				3C046013211D7C66003EB021 /* KeyEvent.c in Sources */,
 				3C38622A214989B500A8C37B /* PowerStatus.m in Sources */,
+				3C1F652122B1BF4E00F795D3 /* NSObject+MethodSwizzling.m in Sources */,
 				3C8ED9F4213E3974006C11A3 /* EdgeWindowController.m in Sources */,
 				3C200ECF212DFF390000B04D /* FixedSizeLabel.m in Sources */,
 				3CFECA122122611F00BB58E9 /* LoginItem.c in Sources */,
@@ -404,6 +415,7 @@
 				3C6CCA38211B824000D019F4 /* TouchBarController.m in Sources */,
 				3C5032E32139C8E900305593 /* ImageTitleView.m in Sources */,
 				3C163BC72118F1C500F015EC /* main.m in Sources */,
+				3C1F652722B1CCA900F795D3 /* NSView+TouchBarHitTest.m in Sources */,
 				405B467A219A3CCA0006DC16 /* LockWidget.m in Sources */,
 				3C080A4B2139EB0E00EED01D /* FolderController.m in Sources */,
 				3CAA9C6D2127B3E100D5B467 /* StringToUrlTransformer.m in Sources */,

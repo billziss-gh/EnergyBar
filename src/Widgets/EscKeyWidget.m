@@ -24,6 +24,11 @@
     size.width = MIN(size.width, 64);
     return size;
 }
+
+- (BOOL)isHitTestAlwaysEnabled_
+{
+    return YES;
+}
 @end
 
 @implementation EscKeyWidget
