@@ -74,6 +74,7 @@ static NSShadow *shadowWithOffset(NSSize shadowOffset)
 @property (retain) NSImageView *appIconView;
 @property (retain) NSImageView *appRunningView;
 @property (retain) NSString *appPath;
+@property (assign) pid_t appPid;
 @property (retain, getter=getAppIcon, setter=setAppIcon:) NSImage *appIcon;
 @property (assign, getter=isAppRunning, setter=setAppRunning:) BOOL appRunning;
 @property (assign, getter=isAppLaunching, setter=setAppLaunching:) BOOL appLaunching;
@@ -490,6 +491,7 @@ static NSShadow *shadowWithOffset(NSSize shadowOffset)
     BOOL showsRunningApps = [[NSUserDefaults standardUserDefaults] boolForKey:@"showsRunningApps"];
     BOOL dockMagnification = [[NSUserDefaults standardUserDefaults] boolForKey:@"dockMagnification"];
     view.appPath = app.path;
+    view.appPid = app.pid;
     view.appIcon = app.icon;
     view.appRunning = showsRunningApps ? 0 != app.pid : NO;
     view.appLaunching = showsRunningApps ? app.launching : NO;
@@ -502,8 +504,7 @@ static NSShadow *shadowWithOffset(NSSize shadowOffset)
 - (void)scrubber:(NSScrubber *)scrubber didSelectItemAtIndex:(NSInteger)index
 {
     DockWidgetApplication *app = [self.apps objectAtIndex:index];
-    if (nil != app.path)
-        [[NSWorkspace sharedWorkspace] openFile:app.path withApplication:nil andDeactivate:YES];
+    [self launchApp:app.path pid:app.pid];
     scrubber.selectedIndex = -1;
 }
 
@@ -542,8 +543,8 @@ static NSShadow *shadowWithOffset(NSSize shadowOffset)
     if ([dragView isKindOfClass:[DockWidgetItemView class]])
     {
         NSString *appPath = [(DockWidgetItemView *)dragView appPath];
-        if (nil != appPath)
-            [[NSWorkspace sharedWorkspace] openFile:appPath withApplication:nil andDeactivate:YES];
+        pid_t appPid = [(DockWidgetItemView *)dragView appPid];
+        [self launchApp:appPath pid:appPid];
     }
     else
     if ([dragView isKindOfClass:[DockWidgetButton class]])
@@ -831,6 +832,7 @@ static NSShadow *shadowWithOffset(NSSize shadowOffset)
             {
                 DockWidgetItemView *view = [itemViews objectForKey:key];
                 view.appPath = nil;
+                view.appPid = 0;
                 view.appIcon = nil;
                 view.appRunning = NO;
                 view.appLaunching = NO;
@@ -1110,6 +1112,19 @@ static NSShadow *shadowWithOffset(NSSize shadowOffset)
         self.runningApps = nil;
         [scrubber reloadData];
     }
+}
+
+- (void)launchApp:(NSString *)path pid:(pid_t)pid
+{
+    BOOL activated = FALSE;
+    if (0 != pid)
+    {
+        NSRunningApplication *runningApp = [NSRunningApplication
+            runningApplicationWithProcessIdentifier:pid];
+        activated = [runningApp activateWithOptions:NSApplicationActivateIgnoringOtherApps];
+    }
+    if (!activated && nil != path)
+        [[NSWorkspace sharedWorkspace] openFile:path withApplication:nil andDeactivate:YES];
 }
 
 - (void)persistentItemClick:(id)sender
