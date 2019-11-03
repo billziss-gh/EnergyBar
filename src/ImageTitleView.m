@@ -113,6 +113,17 @@ static const CGFloat DefaultSpacerWidth = 4;
     [self setNeedsLayout:YES];
 }
 
+- (NSColor *)titleColor
+{
+    return self.titleView.textColor;
+}
+
+- (void)setTitleColor:(NSColor *)value
+{
+    self.titleView.textColor = value;
+    [self setNeedsLayout:YES];
+}
+
 - (NSLineBreakMode)titleLineBreakMode
 {
     return self.titleView.lineBreakMode;
@@ -145,6 +156,17 @@ static const CGFloat DefaultSpacerWidth = 4;
 - (void)setSubtitleFont:(NSFont *)value
 {
     self.subtitleView.font = value;
+    [self setNeedsLayout:YES];
+}
+
+- (NSColor *)subtitleColor
+{
+    return self.subtitleView.textColor;
+}
+
+- (void)setSubtitleColor:(NSColor *)value
+{
+    self.subtitleView.textColor = value;
     [self setNeedsLayout:YES];
 }
 

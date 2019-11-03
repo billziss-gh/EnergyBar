@@ -232,6 +232,7 @@ static EKEventStore *eventStore;
     ImageTitleView *view = self.view;
     view.layoutOptions = ImageTitleViewLayoutOptionImage | ImageTitleViewLayoutOptionTitle;
     view.image = image;
+    view.titleColor = [NSColor labelColor];
     view.title = event.title;
 }
 
@@ -245,27 +246,25 @@ static EKEventStore *eventStore;
         absolutePathForAppBundleWithIdentifier:self.calendarAppIdentifier];
     NSImage *image = [[NSWorkspace sharedWorkspace] iconForFile:path];
 
-    NSString *bangs;
-    switch (reminder.priority)
-    {
-    case EKReminderPriorityHigh:
-        bangs = @"!!! ";
-        break;
-    case EKReminderPriorityMedium:
-        bangs = @"!! ";
-        break;
-    case EKReminderPriorityLow:
-        bangs = @"! ";
-        break;
-    default:
-        bangs = @"";
-        break;
-    }
-
     ImageTitleView *view = self.view;
     view.layoutOptions = ImageTitleViewLayoutOptionImage | ImageTitleViewLayoutOptionTitle;
     view.image = image;
-    view.title = [NSString stringWithFormat:@"%@%@", bangs, reminder.title];
+    switch (reminder.priority)
+    {
+    case EKReminderPriorityHigh:
+        view.titleColor = [NSColor colorWithRed:0.94 green:0.23 blue:0.13 alpha:1.0];
+        break;
+    case EKReminderPriorityMedium:
+        view.titleColor = [NSColor colorWithRed:1.0 green:0.7 blue:0.3 alpha:1.0];
+        break;
+    case EKReminderPriorityLow:
+        view.titleColor = [NSColor colorWithRed:1.0 green:0.93 blue:0.63 alpha:1.0];
+        break;
+    default:
+        view.titleColor = [NSColor labelColor];
+        break;
+    }
+    view.title = reminder.title;
 }
 
 - (void)resetWithNil
@@ -277,6 +276,7 @@ static EKEventStore *eventStore;
     ImageTitleView *view = self.view;
     view.layoutOptions = ImageTitleViewLayoutOptionTitle;
     view.image = nil;
+    view.titleColor = [NSColor labelColor];
     view.title = @"--";
 }
 
