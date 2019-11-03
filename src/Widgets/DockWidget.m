@@ -1119,9 +1119,16 @@ static NSShadow *shadowWithOffset(NSSize shadowOffset)
     BOOL activated = FALSE;
     if (0 != pid)
     {
-        NSRunningApplication *runningApp = [NSRunningApplication
-            runningApplicationWithProcessIdentifier:pid];
-        activated = [runningApp activateWithOptions:NSApplicationActivateIgnoringOtherApps];
+        int count = 0;
+        for (DockWidgetApplication *app in self.apps)
+            if (nil != app.path && [path isEqualToString:app.path])
+                count++;
+        if (1 < count)
+        {
+            NSRunningApplication *runningApp = [NSRunningApplication
+                runningApplicationWithProcessIdentifier:pid];
+            activated = [runningApp activateWithOptions:NSApplicationActivateIgnoringOtherApps];
+        }
     }
     if (!activated && nil != path)
         [[NSWorkspace sharedWorkspace] openFile:path withApplication:nil andDeactivate:YES];
