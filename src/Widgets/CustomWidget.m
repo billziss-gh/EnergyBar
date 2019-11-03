@@ -229,6 +229,18 @@
         self.activeIndex = 0;
 }
 
+- (NSTouchBarItem *)widgetWithIdentifier:(NSString *)identifier
+{
+    for (NSUInteger index = 0, count = _widgets.count; count > index; index++)
+    {
+        NSTouchBarItem *widget = [_widgets objectAtIndex:index];
+        if ([widget.identifier isEqualToString:identifier])
+            return widget;
+    }
+
+    return nil;
+}
+
 - (void)tapAction_:(NSGestureRecognizer *)recognizer
 {
     if (NSGestureRecognizerStateRecognized != recognizer.state)
@@ -247,7 +259,11 @@
     if (NSGestureRecognizerStateBegan != recognizer.state)
         return;
 
-    [self longPressAction:self];
+    NSUInteger index = self.activeIndex;
+    if (NSNotFound != index && [_widgets[index] respondsToSelector:@selector(longPressAction:)])
+        [(id)_widgets[index] longPressAction:self];
+    else
+        [self longPressAction:self];
 }
 
 - (void)longPressAction:(id)sender

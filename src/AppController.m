@@ -19,6 +19,7 @@
 #import "LoginItem.h"
 #import "NowPlayingWidget.h"
 #import "NSView+TouchBarHitTest.h"
+#import "TodoWidget.h"
 #import "TouchBarController.h"
 #import "WeatherWidget.h"
 
@@ -207,6 +208,7 @@ static void AppControllerFSNotify(const char *path, void *data)
     [self clockWidgetSettingsChange:nil];
     [self weatherWidgetSettingsChange:nil];
     [self nowPlayingWidgetSettingsChange:nil];
+    [self todoWidgetSettingsChange:nil];
 }
 
 - (IBAction)toolbarItemAction:(id)sender
@@ -411,8 +413,27 @@ static void AppControllerFSNotify(const char *path, void *data)
     NowPlayingWidget *widget = [self.touchBarController.touchBar itemForIdentifier:@"NowPlaying"];
     widget.showsActiveAppOnTap = [[NSUserDefaults standardUserDefaults]
         boolForKey:@"showsActiveAppOnTap"];
+    widget.showsTodoOnTap = [[NSUserDefaults standardUserDefaults]
+        boolForKey:@"showsTodoOnTap"];
     widget.showsSmallWidget = [[NSUserDefaults standardUserDefaults]
         boolForKey:@"nowPlayingShowsSmallWidget"];
+}
+
+- (IBAction)todoWidgetSettingsChange:(id)sender
+{
+    double showsEventsHours = [[NSUserDefaults standardUserDefaults] boolForKey:@"todoShowsEvents"] ?
+        [[NSUserDefaults standardUserDefaults] doubleForKey:@"todoShowsEventsHours"] : 0;
+    bool showsReminders = [[NSUserDefaults standardUserDefaults] boolForKey:@"todoShowsReminders"];
+
+    NowPlayingWidget *nowPlaying = [self.touchBarController.touchBar itemForIdentifier:@"NowPlaying"];
+    nowPlaying.todoShowsEventsInterval = 60 * 60 * showsEventsHours;
+    nowPlaying.todoShowsReminders = showsReminders;
+    [nowPlaying todoReset];
+
+    TodoWidget *todo = [self.touchBarController.touchBar itemForIdentifier:@"Todo"];
+    todo.showsEventsInterval = 60 * 60 * showsEventsHours;
+    todo.showsReminders = showsReminders;
+    [todo reset];
 }
 
 - (void)updateToggleMacOSDockButton

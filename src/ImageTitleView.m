@@ -184,10 +184,10 @@ static const CGFloat DefaultSpacerWidth = 4;
     CGFloat spacerWidth = 0 != imageSize.width && (0 != titleSize.width || 0 != subtitleSize.width) ?
         DefaultSpacerWidth : 0;
     CGFloat imageSpacerWidth = imageSize.width + spacerWidth;
-    
-    /* stop the labels from going out of bounds */
-    titleSize.width = MIN(titleSize.width, bounds.size.width - imageSpacerWidth);
-    subtitleSize.width = MIN(subtitleSize.width, bounds.size.width - imageSpacerWidth);
+
+    NSRect adjusted = bounds; adjusted.size.width -= imageSpacerWidth;
+    titleSize = showsTitle ? [self.titleView.cell cellSizeForBounds:adjusted] : NSZeroSize;
+    subtitleSize = showsSubtitle ? [self.subtitleView.cell cellSizeForBounds:adjusted] : NSZeroSize;
 
     CGFloat totalWidth = imageSpacerWidth + MAX(titleSize.width, subtitleSize.width);
     NSRect imageRect = NSMakeRect(

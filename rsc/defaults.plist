@@ -149,11 +149,19 @@
 	<false/>
 	<key>showsActiveAppOnTap</key>
 	<false/>
+	<key>showsTodoOnTap</key>
+	<false/>
 	<key>showsFoldersInTouchBar</key>
 	<true/>
 	<key>showsRunningApps</key>
 	<true/>
 	<key>showsTrash</key>
+	<true/>
+	<key>todoShowsEvents</key>
+	<false/>
+	<key>todoShowsEventsHours</key>
+	<integer>2</integer>
+	<key>todoShowsReminders</key>
 	<true/>
 	<key>weatherShowsFahrenheit</key>
 	<false/>

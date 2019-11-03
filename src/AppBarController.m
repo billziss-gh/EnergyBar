@@ -53,6 +53,7 @@
         @"EscKey",
         @"ActiveApp",
         @"NowPlaying",
+        @"Todo",
         @"Control",
         @"Weather",
         @"Clock",

@@ -33,7 +33,11 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>NSAppleEventsUsageDescription</key>
-	<string>EnergyBar uses Automation to control various Finder actions.</string>
+	<string>EnergyBar uses Automation to control various Finder and Calendar actions.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>EnergyBar needs access to your Calendar to get the next TODO item.</string>
+	<key>NSRemindersUsageDescription</key>
+	<string>EnergyBar needs access to your Reminders to get the next TODO item.</string>
 	<key>OctoRepository</key>
 	<string>github.com/billziss-gh/EnergyBar</string>
 	<key>OctoCheckPeriod</key>

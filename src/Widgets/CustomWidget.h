@@ -29,6 +29,7 @@
 @property (getter=activeIndex, setter=setActiveIndex:) NSUInteger activeIndex;
 - (void)addWidget:(NSTouchBarItem *)widget;
 - (void)removeWidgetWithIdentifier:(NSString *)identifier;
+- (NSTouchBarItem *)widgetWithIdentifier:(NSString *)identifier;
 - (void)tapAction:(id)sender;
 - (void)longPressAction:(id)sender;
 @end

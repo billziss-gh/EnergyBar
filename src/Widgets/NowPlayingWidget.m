@@ -15,6 +15,7 @@
 #import "ActiveAppWidget.h"
 #import "ImageTitleView.h"
 #import "NowPlaying.h"
+#import "TodoWidget.h"
 
 @interface NowPlayingWidgetView : ImageTitleView
 @property (assign) BOOL showsSmallWidget;
@@ -138,6 +139,9 @@
 @implementation NowPlayingWidget
 {
     BOOL _showsActiveAppOnTap;
+    BOOL _showsTodoOnTap;
+    double _todoShowsEventsInterval;
+    BOOL _todoShowsReminders;
 }
 
 - (void)commonInit
@@ -164,6 +168,28 @@
         [self removeWidgetWithIdentifier:@"_ActiveApp"];
 }
 
+- (BOOL)showsTodoOnTap
+{
+    return _showsTodoOnTap;
+}
+
+- (void)setShowsTodoOnTap:(BOOL)value
+{
+    if (_showsTodoOnTap == value)
+        return;
+
+    _showsTodoOnTap = value;
+    if (_showsTodoOnTap)
+    {
+        TodoWidget *todo = [[[TodoWidget alloc] initWithIdentifier:@"_Todo"] autorelease];
+        todo.showsEventsInterval = _todoShowsEventsInterval;
+        todo.showsReminders = _todoShowsReminders;
+        [self addWidget:todo];
+    }
+    else
+        [self removeWidgetWithIdentifier:@"_Todo"];
+}
+
 - (BOOL)showsSmallWidget
 {
     return [(id)[self.widgets objectAtIndex:0] showsSmallWidget];
@@ -173,6 +199,38 @@
 {
     [(id)[self.widgets objectAtIndex:0] setShowsSmallWidget:value];
     [self.view invalidateIntrinsicContentSize];
+}
+
+- (double)todoShowsEventsInterval
+{
+    return _todoShowsEventsInterval;
+}
+
+- (void)todoSetShowsEventsInterval:(double)value
+{
+    _todoShowsEventsInterval = value;
+
+    TodoWidget *todo = (id)[self widgetWithIdentifier:@"_Todo"];
+    todo.showsEventsInterval = value;
+}
+
+- (BOOL)todoShowsReminders
+{
+    return _todoShowsReminders;
+}
+
+- (void)todoSetShowsReminders:(BOOL)value
+{
+    _todoShowsReminders = value;
+
+    TodoWidget *todo = (id)[self widgetWithIdentifier:@"_Todo"];
+    todo.showsReminders = value;
+}
+
+- (void)todoReset
+{
+    TodoWidget *todo = (id)[self widgetWithIdentifier:@"_Todo"];
+    [todo reset];
 }
 
 - (void)longPressAction:(id)sender
