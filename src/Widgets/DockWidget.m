@@ -786,6 +786,8 @@ static NSShadow *shadowWithOffset(NSSize shadowOffset)
 
             DockWidgetApplication *app;
             NSString *path = a.bundleURL.path;
+            if (nil == path)
+                continue;
             if (nil != (app = [defaultAppsDict objectForKey:path]) && 0 == app.pid)
             {
                 app.icon = a.icon;
@@ -796,7 +798,7 @@ static NSShadow *shadowWithOffset(NSSize shadowOffset)
 
             app = [[[DockWidgetApplication alloc] init] autorelease];
             app.name = a.localizedName;
-            app.path = a.bundleURL.path;
+            app.path = path;
             app.icon = a.icon;
             app.pid = a.processIdentifier;
             app.launching = !a.finishedLaunching;
@@ -825,20 +827,6 @@ static NSShadow *shadowWithOffset(NSSize shadowOffset)
             if (nil != obj)
                 [_itemViews setObject:obj forKey:key];
         }
-
-        /* work around a problem in NSScrubber(?) */
-        for (id key in itemViews)
-            if (nil == [_itemViews objectForKey:key])
-            {
-                DockWidgetItemView *view = [itemViews objectForKey:key];
-                view.appPath = nil;
-                view.appPid = 0;
-                view.appIcon = nil;
-                view.appRunning = NO;
-                view.appLaunching = NO;
-                view.prominent = NO;
-                view.dockMagnification = NO;
-            }
 
         [itemViews release];
     }
@@ -1103,10 +1091,40 @@ static NSShadow *shadowWithOffset(NSSize shadowOffset)
                     [scrubber reloadItemsAtIndexes:[NSIndexSet indexSetWithIndex:i]];
             }
         }];
+
+        /* double check that the scrubber looks ok; work around a problem in NSScrubber */
+        NSArray *apps = self.apps;
+        if (scrubber.numberOfItems != apps.count)
+        {
+            NSLog(@"%s: reloadData", __func__);
+            [scrubber reloadData];
+        }
+        else
+            [scrubber performSequentialBatchUpdates:^(void)
+            {
+                for (NSUInteger i = 0, count = self.apps.count; count > i; i++)
+                {
+                    DockWidgetApplication *app = [apps objectAtIndex:i];
+                    DockWidgetItemView *itemView = [scrubber itemViewForItemAtIndex:i];
+                    if (nil != itemView &&
+                        (![app.path isEqualToString:itemView.appPath] || app.pid != itemView.appPid))
+                    {
+                        NSLog(@"%s: reloadItemsAtIndexes:%u; \"%@\"%c=\"%@\" %d%c=%d",
+                            __func__, (unsigned)i,
+                            app.path,
+                            [app.path isEqualToString:itemView.appPath] ? '=' : '!',
+                            itemView.appPath,
+                            (int)app.pid,
+                            app.pid == itemView.appPid ? '=' : '!',
+                            (int)itemView.appPid);
+                        [scrubber reloadItemsAtIndexes:[NSIndexSet indexSetWithIndex:i]];
+                    }
+                }
+            }];
     }
     @catch (NSException *ex)
     {
-        NSLog(@"%@", ex);
+        NSLog(@"%s: %@", __func__, ex);
 
         NSScrubber *scrubber = [self.view viewWithTag:'dock'];
         self.runningApps = nil;
