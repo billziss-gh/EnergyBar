@@ -43,10 +43,14 @@ static const CGFloat DefaultSpacerWidth = 4;
     self.titleView = [NSTextField labelWithString:@""];
     self.titleView.autoresizingMask = 0;
     self.titleView.alignment = NSTextAlignmentLeft;
-    
+    self.titleView.maximumNumberOfLines = 2;
+    self.titleView.cell.truncatesLastVisibleLine = YES;
+
     self.subtitleView = [NSTextField labelWithString:@""];
     self.subtitleView.autoresizingMask = 0;
     self.subtitleView.alignment = NSTextAlignmentLeft;
+    self.subtitleView.maximumNumberOfLines = 2;
+    self.subtitleView.cell.truncatesLastVisibleLine = YES;
 
     [self addSubview:self.imageView];
     [self addSubview:self.titleView];
