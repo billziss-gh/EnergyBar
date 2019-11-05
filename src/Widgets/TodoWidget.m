@@ -48,12 +48,9 @@ static EKEventStore *eventStore;
     imageTitleView.layer.cornerRadius = 8.0;
     imageTitleView.layer.backgroundColor = [[NSColor colorWithWhite:0.0 alpha:0.5] CGColor];
     imageTitleView.imageSize = NSMakeSize(16, 16);
-    imageTitleView.titleFont = [NSFont boldSystemFontOfSize:[NSFont
-        systemFontSizeForControlSize:NSControlSizeMini]];
+    imageTitleView.titleFont = [NSFont systemFontOfSize:[NSFont
+        systemFontSizeForControlSize:NSControlSizeSmall]];
     imageTitleView.titleLineBreakMode = NSLineBreakByWordWrapping;
-    imageTitleView.subtitleFont = [NSFont systemFontOfSize:[NSFont
-        systemFontSizeForControlSize:NSControlSizeMini]];
-    imageTitleView.subtitleLineBreakMode = NSLineBreakByTruncatingTail;
     imageTitleView.layoutOptions = ImageTitleViewLayoutOptionTitle;
     imageTitleView.title = @"--";
     self.view = imageTitleView;
