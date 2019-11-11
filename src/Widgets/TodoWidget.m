@@ -77,43 +77,12 @@ static EKEventStore *eventStore;
 
 - (void)viewWillAppear
 {
-    _viewAppears = YES;
-
-    [self resetWithNil];
-
     if (nil == eventStore)
         eventStore = [[EKEventStore alloc] init];
 
-    if (0 < self.showsEventsInterval)
-    {
-        [eventStore
-            requestAccessToEntityType:EKEntityTypeEvent
-            completion:^(BOOL granted1, NSError *error)
-            {
-                if (self.showsReminders)
-                {
-                    [eventStore
-                        requestAccessToEntityType:EKEntityTypeReminder
-                        completion:^(BOOL granted2, NSError *error)
-                        {
-                            if (granted1 || granted2)
-                                [self reset];
-                        }];
-                }
-                else
-                    [self reset];
-            }];
-    }
-    else if (self.showsReminders)
-    {
-        [eventStore
-            requestAccessToEntityType:EKEntityTypeReminder
-            completion:^(BOOL granted, NSError *error)
-            {
-                if (granted)
-                    [self reset];
-            }];
-    }
+    _viewAppears = YES;
+    [self resetWithNil];
+    [self reset];
 
     [[NSNotificationCenter defaultCenter]
         addObserver:self
@@ -132,7 +101,7 @@ static EKEventStore *eventStore;
 
 - (void)eventStoreChanged:(NSNotification *)notification
 {
-    [self reset];
+    [self resetFromArbitraryThread];
 }
 
 - (void)reset
@@ -140,6 +109,45 @@ static EKEventStore *eventStore;
     if (!_viewAppears)
         return;
 
+    double showsEventsInterval = self.showsEventsInterval;
+    BOOL showsReminders = self.showsReminders;
+
+    if (0 < showsEventsInterval)
+    {
+        [eventStore
+            requestAccessToEntityType:EKEntityTypeEvent
+            completion:^(BOOL granted1, NSError *error)
+            {
+                if (showsReminders)
+                {
+                    [eventStore
+                        requestAccessToEntityType:EKEntityTypeReminder
+                        completion:^(BOOL granted2, NSError *error)
+                        {
+                            if (granted1 || granted2)
+                                [self resetFromArbitraryThread];
+                        }];
+                }
+                else if (granted1)
+                    [self resetFromArbitraryThread];
+            }];
+    }
+    else if (showsReminders)
+    {
+        [eventStore
+            requestAccessToEntityType:EKEntityTypeReminder
+            completion:^(BOOL granted, NSError *error)
+            {
+                if (granted)
+                    [self resetFromArbitraryThread];
+            }];
+    }
+    else
+        [self resetWithNil];
+}
+
+- (void)resetFromArbitraryThread
+{
     double showsEventsInterval = self.showsEventsInterval;
     BOOL showsReminders = self.showsReminders;
 
