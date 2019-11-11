@@ -17,5 +17,6 @@
 @interface TodoWidget : CustomWidget
 @property (atomic, assign) double showsEventsInterval;
 @property (atomic, assign) BOOL showsReminders;
+@property (getter=showsSmallWidget, setter=setShowsSmallWidget:) BOOL showsSmallWidget;
 - (void)reset;
 @end

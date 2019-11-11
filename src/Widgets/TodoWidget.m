@@ -17,12 +17,13 @@
 #include <pthread.h>
 
 @interface TodoWidgetView : ImageTitleView
+@property (assign) BOOL showsSmallWidget;
 @end
 
 @implementation TodoWidgetView
 - (NSSize)intrinsicContentSize
 {
-    return NSMakeSize(130, NSViewNoIntrinsicMetric);
+    return NSMakeSize(self.showsSmallWidget ? 130 : 180, NSViewNoIntrinsicMetric);
 }
 @end
 
@@ -47,7 +48,7 @@ static EKEventStore *eventStore;
     imageTitleView.wantsLayer = YES;
     imageTitleView.layer.cornerRadius = 8.0;
     imageTitleView.layer.backgroundColor = [[NSColor colorWithWhite:0.0 alpha:0.5] CGColor];
-    imageTitleView.imageSize = NSMakeSize(16, 16);
+    imageTitleView.imageSize = NSMakeSize(26, 26);
     imageTitleView.titleFont = [NSFont systemFontOfSize:[NSFont
         systemFontSizeForControlSize:NSControlSizeSmall]];
     imageTitleView.titleLineBreakMode = NSLineBreakByWordWrapping;
@@ -313,5 +314,30 @@ static EKEventStore *eventStore;
     NSAppleScript *script = [[[NSAppleScript alloc] initWithSource:source] autorelease];
     NSDictionary *errorInfo = nil;
     [script executeAndReturnError:&errorInfo];
+}
+
+- (BOOL)showsSmallWidget
+{
+    TodoWidgetView *imageTitleView = self.view;
+    return imageTitleView.showsSmallWidget;
+}
+
+- (void)setShowsSmallWidget:(BOOL)value
+{
+    TodoWidgetView *imageTitleView = self.view;
+    imageTitleView.showsSmallWidget = value;
+
+    if (!value)
+    {
+        imageTitleView.imageSize = NSMakeSize(26, 26);
+        imageTitleView.titleFont = [NSFont systemFontOfSize:[NSFont
+            systemFontSizeForControlSize:NSControlSizeSmall]];
+    }
+    else
+    {
+        imageTitleView.imageSize = NSMakeSize(16, 16);
+        imageTitleView.titleFont = [NSFont systemFontOfSize:[NSFont
+            systemFontSizeForControlSize:NSControlSizeMini]];
+    }
 }
 @end

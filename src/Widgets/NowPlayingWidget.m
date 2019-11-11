@@ -198,6 +198,7 @@
 - (void)setShowsSmallWidget:(BOOL)value
 {
     [(id)[self.widgets objectAtIndex:0] setShowsSmallWidget:value];
+    [(id)[self widgetWithIdentifier:@"_Todo"] setShowsSmallWidget:value];
     [self.view invalidateIntrinsicContentSize];
 }
 
