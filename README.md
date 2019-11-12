@@ -46,7 +46,16 @@ The default placement of EnergyBar widgets allows for consistency and memorizati
 
 - Shows the currently playing track and artist.
 - Can be configured to show the Active App on tap.
+- Can be configured to show the TODO widget on tap.
 - Long press to launch the current media player.
+
+### TODO
+
+![TODO](doc/Todo.png)
+
+- Shows the next TODO item from your reminders or calendar events.
+- Can be incorporated into the Now Playing widget to preserve space.
+- Long press to launch the Reminders or Calendar app.
 
 ### Control
 
