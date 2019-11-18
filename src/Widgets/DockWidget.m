@@ -172,7 +172,7 @@ static NSShadow *shadowWithOffset(NSSize shadowOffset)
 
 - (void)bounce
 {
-    if (!_appLaunching)
+    if (!_appLaunching || nil == self.superview)
         return;
 
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context)
@@ -1137,15 +1137,25 @@ static NSShadow *shadowWithOffset(NSSize shadowOffset)
     BOOL activated = FALSE;
     if (0 != pid)
     {
+        NSRunningApplication *runningApp = [NSRunningApplication
+            runningApplicationWithProcessIdentifier:pid];
         int count = 0;
         for (DockWidgetApplication *app in self.apps)
             if (nil != app.path && [path isEqualToString:app.path])
                 count++;
         if (1 < count)
-        {
-            NSRunningApplication *runningApp = [NSRunningApplication
-                runningApplicationWithProcessIdentifier:pid];
             activated = [runningApp activateWithOptions:NSApplicationActivateIgnoringOtherApps];
+        else
+        {
+            NSNumber *value;
+            BOOL isApp =
+                [runningApp.bundleURL getResourceValue:&value forKey:NSURLIsApplicationKey error:0] &&
+                [value boolValue];
+            if (!isApp)
+                activated = [[NSWorkspace sharedWorkspace] launchAppWithBundleIdentifier:runningApp.bundleIdentifier
+                    options:NSWorkspaceLaunchDefault
+                    additionalEventParamDescriptor:nil
+                    launchIdentifier:0];
         }
     }
     if (!activated && nil != path)
