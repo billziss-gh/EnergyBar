@@ -6,6 +6,30 @@ This version of the app revamps the look of certain widgets to achieve a more mi
 
 ![Touchbar](doc/TouchbarExample.png)
 
+## Changes
+### To-Do Widget
+- Removed calendar icon
+- Realigned to the right (instead of the centre)
+
+### Now Playing Widget
+- Added album art support (credit to iamslan, but still buggy)
+- Realigned to the left (instead of the centre)
+- Removed long tap function
+
+### Weather Widget
+- Removed area information
+- Changed font size and spacing
+
+### Lock Widget
+- Made widget smaller
+
+### Control Widget
+- Increased responsiveness
+- Removed long touch function
+
+### Dock
+- Reduced size of icon and changed spacing
+
 ## Developer Notes
 
 The project source code is organised as follows:
