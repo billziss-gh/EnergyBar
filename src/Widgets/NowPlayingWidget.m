@@ -32,7 +32,7 @@
 
     LeftImageTitleView *imageTitleView = [[[NowPlayingWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
     imageTitleView.wantsLayer = YES;
-    imageTitleView.layer.cornerRadius = 8.0;
+    imageTitleView.layer.cornerRadius = 0;
     imageTitleView.layer.backgroundColor = [[NSColor colorWithWhite:0.0 alpha:0.5] CGColor];
     imageTitleView.imageSize = NSMakeSize(28, 28);
     imageTitleView.titleFont = [NSFont boldSystemFontOfSize:[NSFont
