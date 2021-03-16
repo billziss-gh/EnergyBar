@@ -104,7 +104,7 @@
         layoutOptions = layoutOptions | ImageTitleViewLayoutOptionSubtitle;
 
     NowPlayingWidgetView *view = self.view;
-    if (view.showsAlbumArt && nil != albumArt)
+    if (nil != albumArt)
     {
         view.image = albumArt;
     }
