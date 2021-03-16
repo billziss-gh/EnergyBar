@@ -2,7 +2,7 @@
     A customized (personalised) fork of EnergyBar<br/>
 </h1>
 
-This version of the app redoes the look of certain widgets to achieve a more minimal design.
+This version of the app revamps the look of certain widgets to achieve a more minimal design.
 
 ![Touchbar](doc/TouchbarExample.png)
 
