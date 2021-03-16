@@ -165,5 +165,7 @@
 	<true/>
 	<key>weatherShowsFahrenheit</key>
 	<false/>
+	<key>showsAlbumArt</key>
+	<true/>
 </dict>
 </plist>

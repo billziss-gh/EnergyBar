@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaDFRPlugin" version="14215.3"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaDFRPlugin" version="16002"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097.3"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
         <capability name="the Touch Bar" minToolsVersion="8.1" minSystemVersion="10.12.2" requiredIntegratedClassName="NSTouchBar"/>
     </dependencies>
@@ -25,7 +25,7 @@
                     <sliderAccessory key="maximumValueAccessory" image="NSTouchBarVolumeUpTemplate" id="bNZ-Vu-WVx">
                         <sliderAccessoryBehavior key="behavior" id="qhB-Ei-ZrX"/>
                     </sliderAccessory>
-                    <slider key="slider" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9RF-6F-Kbc" customClass="ControlWidgetPopoverBarSlider">
+                    <slider key="slider" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9RF-6F-Kbc" customClass="ControlWidgetPopoverBarSlider">
                         <rect key="frame" x="58" y="0.0" width="473" height="30"/>
                         <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="vE2-IH-7rT"/>
                     </slider>
@@ -35,9 +35,8 @@
                 </sliderTouchBarItem>
                 <touchBarItem id="9VX-Yh-FVV">
                     <viewController key="viewController" id="oTT-W4-2XR">
-                        <button key="view" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5IR-u2-Ny7" customClass="ControlWidgetPopoverBarButton">
+                        <button key="view" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5IR-u2-Ny7" customClass="ControlWidgetPopoverBarButton">
                             <rect key="frame" x="0.0" y="0.0" width="72" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="Close" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="oME-fB-zQ1">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" usesAppearanceFont="YES"/>
@@ -55,7 +54,7 @@
         </touchBar>
     </objects>
     <resources>
-        <image name="Close" width="60" height="60"/>
+        <image name="Close" width="30" height="30"/>
         <image name="NSTouchBarVolumeDownTemplate" width="15" height="30"/>
         <image name="NSTouchBarVolumeUpTemplate" width="23" height="30"/>
     </resources>

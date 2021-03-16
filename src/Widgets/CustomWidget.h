@@ -13,8 +13,9 @@
 
 #import <Cocoa/Cocoa.h>
 
-#define ShortPressDuration              0.25
-#define LongPressDuration               0.75
+#define ShortPressDuration              0.1
+#define LongPressDuration               0.1
+#define SuperLongPressDuration          0.2
 
 @interface CustomWidget : NSCustomTouchBarItem
 - (void)commonInit;
@@ -32,4 +33,5 @@
 - (NSTouchBarItem *)widgetWithIdentifier:(NSString *)identifier;
 - (void)tapAction:(id)sender;
 - (void)longPressAction:(id)sender;
+- (void)superLongPressAction:(id)sender;
 @end

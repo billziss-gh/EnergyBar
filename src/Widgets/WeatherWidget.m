@@ -78,7 +78,6 @@ static NSImage *weatherImage(uint64_t conditionCode)
 @interface WeatherData : NSObject
 @property (retain) NSImage *icon;
 @property (copy) NSString *condition;
-@property (copy) NSString *placeName;
 @end
 
 @implementation WeatherData
@@ -86,7 +85,6 @@ static NSImage *weatherImage(uint64_t conditionCode)
 {
     self.icon = nil;
     self.condition = nil;
-    self.placeName = nil;
 
     [super dealloc];
 }
@@ -98,7 +96,7 @@ static NSImage *weatherImage(uint64_t conditionCode)
 @implementation WeatherWidgetView
 - (NSSize)intrinsicContentSize
 {
-    return NSMakeSize(100, NSViewNoIntrinsicMetric);
+    return NSMakeSize(73, NSViewNoIntrinsicMetric);
 }
 @end
 
@@ -117,8 +115,8 @@ static NSImage *weatherImage(uint64_t conditionCode)
     view.layer.cornerRadius = 8.0;
     view.layer.backgroundColor = [[NSColor colorWithWhite:0.0 alpha:0.5] CGColor];
     view.imageSize = NSMakeSize(20, 20);
-    view.titleFont = [NSFont boldSystemFontOfSize:[NSFont
-        systemFontSizeForControlSize:NSControlSizeSmall]];
+    view.titleFont = [NSFont systemFontOfSize:[NSFont
+        systemFontSizeForControlSize:NSControlSizeRegular]];
     view.titleLineBreakMode = NSLineBreakByTruncatingTail;
     view.subtitleFont = [NSFont systemFontOfSize:[NSFont
         systemFontSizeForControlSize:NSControlSizeSmall]];
@@ -200,7 +198,6 @@ static NSImage *weatherImage(uint64_t conditionCode)
         completionHandler:^(NSArray<CLPlacemark *> *placemarks, NSError *error)
         {
             WeatherData *data = [[[WeatherData alloc] init] autorelease];
-            data.placeName = [[placemarks firstObject] locality];
             [[WMWeatherStore sharedWeatherStore]
                 currentConditionsForCoordinate:location.coordinate
                 result:^(WMWeatherData *wmdata)
@@ -245,9 +242,8 @@ static NSImage *weatherImage(uint64_t conditionCode)
 {
     NSImage *icon = data.icon;
     NSString *title = data.condition;
-    NSString *subtitle = data.placeName;
 
-    if (nil == icon && nil == title && nil == subtitle)
+    if (nil == icon && nil == title)
     {
         icon = weatherImage(0);
         if (nil == icon)
@@ -259,13 +255,10 @@ static NSImage *weatherImage(uint64_t conditionCode)
         layoutOptions = layoutOptions | ImageTitleViewLayoutOptionImage;
     if (nil != title)
         layoutOptions = layoutOptions | ImageTitleViewLayoutOptionTitle;
-    if (nil != subtitle)
-        layoutOptions = layoutOptions | ImageTitleViewLayoutOptionSubtitle;
 
     ImageTitleView *view = self.view;
     view.image = icon;
     view.title = title;
-    view.subtitle = subtitle;
     view.layoutOptions = layoutOptions;
 }
 
