@@ -16,7 +16,7 @@
 #import "FolderController.h"
 #import "NSWorkspace+Finder.h"
 
-static NSSize dockItemSize = { 40, 25 };
+static NSSize dockItemSize = { 45, 28 };
 static CGFloat dockDotHeight = 1;
 static CGFloat dockItemBounce = 5;
 static const NSUInteger maxPersistentItemCount = 8;
@@ -26,10 +26,7 @@ static NSShadow *shadowWithOffset(NSSize shadowOffset)
     NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
     shadow.shadowBlurRadius = hypot(shadowOffset.width, shadowOffset.height);
     shadow.shadowOffset = shadowOffset;
-    if (@available(macOS 10.14, *))
-        shadow.shadowColor = [NSColor controlAccentColor];
-    else
-        shadow.shadowColor = [NSColor systemBlueColor];
+    shadow.shadowColor = [NSColor whiteColor];
     return shadow;
 }
 
