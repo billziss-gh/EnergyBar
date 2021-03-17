@@ -23,7 +23,7 @@
 @implementation TodoWidgetView
 - (NSSize)intrinsicContentSize
 {
-    return NSMakeSize(self.showsSmallWidget ? 130 : 170, NSViewNoIntrinsicMetric);
+    return NSMakeSize(self.showsSmallWidget ? 130 : 140, NSViewNoIntrinsicMetric);
 }
 @end
 
