@@ -159,6 +159,11 @@ extern NSString *kMRMediaRemoteNowPlayingInfoArtworkData;
                     [[NSUserDefaults standardUserDefaults] synchronize];
                 }
             }
+        self.safariIcon = [NSImage imageNamed:@"Safari"];
+        if ([self.appBundleIdentifier isEqualToString:@"com.apple.WebKit.WebContent"])
+            {
+                self.appIcon = self.safariIcon;
+            }
         });
 }
 
@@ -189,6 +194,7 @@ extern NSString *kMRMediaRemoteNowPlayingInfoArtworkData;
                     postNotificationName:NowPlayingInfoNotification
                     object:self];
             }
+        
         });
 }
 
