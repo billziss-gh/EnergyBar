@@ -158,10 +158,17 @@
         initWithTarget:self action:@selector(longPressAction_:)] autorelease];
     longPressRecognizer.allowedTouchTypes = NSTouchTypeMaskDirect;
     longPressRecognizer.minimumPressDuration = LongPressDuration;
+/* for super long press
+    NSPressGestureRecognizer *superLongPressRecognizer = [[[NSPressGestureRecognizer alloc]
+        initWithTarget:self action:@selector(superLongPressAction_:)] autorelease];
+    superLongPressRecognizer.allowedTouchTypes = NSTouchTypeMaskDirect;
+    superLongPressRecognizer.minimumPressDuration = SuperLongPressDuration;
     [view addGestureRecognizer:tapRecognizer];
     [view addGestureRecognizer:longPressRecognizer];
+    [view addGestureRecognizer:superLongPressRecognizer];
+ */
     self.view = view;
-
+    
     [self commonInit];
 
     NSTouchBarItem *primaryWidget = [_widgets firstObject];
@@ -272,4 +279,24 @@
     if ([primaryWidget respondsToSelector:@selector(longPressAction:)])
         [(id)primaryWidget longPressAction:sender];
 }
+/* possible extra definition for touch length
+- (void)superLongPressAction_:(NSGestureRecognizer *)recognizer
+{
+    if (NSGestureRecognizerStateBegan != recognizer.state)
+        return;
+
+    NSUInteger index = self.activeIndex;
+    if (NSNotFound != index && [_widgets[index] respondsToSelector:@selector(superLongPressAction:)])
+        [(id)_widgets[index] superLongPressAction:self];
+    else
+        [self superLongPressAction:self];
+}
+
+- (void)superLongPressAction:(id)sender
+{
+    NSTouchBarItem *primaryWidget = [_widgets firstObject];
+    if ([primaryWidget respondsToSelector:@selector(superLongPressAction:)])
+        [(id)primaryWidget superLongPressAction:sender];
+}
+ */
 @end

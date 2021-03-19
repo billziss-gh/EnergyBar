@@ -417,6 +417,8 @@ static void AppControllerFSNotify(const char *path, void *data)
         boolForKey:@"showsTodoOnTap"];
     widget.showsSmallWidget = [[NSUserDefaults standardUserDefaults]
         boolForKey:@"nowPlayingShowsSmallWidget"];
+    widget.showsAlbumArt = [[NSUserDefaults standardUserDefaults]
+        boolForKey:@"nowPlayingShowsAlbumArt"];
 }
 
 - (IBAction)todoWidgetSettingsChange:(id)sender

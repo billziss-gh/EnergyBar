@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaDFRPlugin" version="14490.12"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaDFRPlugin" version="17008"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
         <capability name="the Touch Bar" minToolsVersion="8.1" minSystemVersion="10.12.2" requiredIntegratedClassName="NSTouchBar"/>
     </dependencies>
@@ -688,11 +688,11 @@ In general the folder should contain application aliases. The order of the folde
             <point key="canvasLocation" x="85" y="-750.5"/>
         </customView>
         <customView id="th2-os-EZ4">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="280"/>
+            <rect key="frame" x="0.0" y="0.0" width="480" height="294"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3AN-6g-R3A">
-                    <rect key="frame" x="18" y="243" width="142" height="17"/>
+                    <rect key="frame" x="18" y="257" width="142" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Clock:" id="NnM-it-hT6">
                         <font key="font" metaFont="system"/>
@@ -701,7 +701,7 @@ In general the folder should contain application aliases. The order of the folde
                     </textFieldCell>
                 </textField>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oNf-Lg-afs">
-                    <rect key="frame" x="164" y="242" width="145" height="18"/>
+                    <rect key="frame" x="164" y="256" width="145" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Show 24-hour clock" bezelStyle="regularSquare" imagePosition="left" inset="2" id="uhm-Cd-4yr">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -713,7 +713,7 @@ In general the folder should contain application aliases. The order of the folde
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bGo-2c-vUc">
-                    <rect key="frame" x="164" y="222" width="144" height="18"/>
+                    <rect key="frame" x="164" y="236" width="144" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Show battery status" bezelStyle="regularSquare" imagePosition="left" inset="2" id="UB5-QM-a6y">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -725,7 +725,7 @@ In general the folder should contain application aliases. The order of the folde
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dcS-av-i8x">
-                    <rect key="frame" x="180" y="202" width="149" height="18"/>
+                    <rect key="frame" x="180" y="216" width="149" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Show remaining time" bezelStyle="regularSquare" imagePosition="left" inset="2" id="2Gu-J5-ToS">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -738,7 +738,7 @@ In general the folder should contain application aliases. The order of the folde
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8PH-bF-9qF">
-                    <rect key="frame" x="164" y="180" width="150" height="18"/>
+                    <rect key="frame" x="164" y="194" width="150" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Show weather on tap" bezelStyle="regularSquare" imagePosition="left" inset="2" id="t1E-dT-KGT">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -750,11 +750,11 @@ In general the folder should contain application aliases. The order of the folde
                     </connections>
                 </button>
                 <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="hiI-1R-AHa">
-                    <rect key="frame" x="12" y="171" width="456" height="5"/>
+                    <rect key="frame" x="12" y="185" width="456" height="5"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </box>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KcL-eW-UhJ">
-                    <rect key="frame" x="18" y="148" width="142" height="17"/>
+                    <rect key="frame" x="18" y="162" width="142" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Weather:" id="Nts-QT-qCg">
                         <font key="font" metaFont="system"/>
@@ -763,7 +763,7 @@ In general the folder should contain application aliases. The order of the folde
                     </textFieldCell>
                 </textField>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wTf-Nv-Cvq">
-                    <rect key="frame" x="164" y="147" width="176" height="18"/>
+                    <rect key="frame" x="164" y="161" width="176" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Show Fahrenheit degrees" bezelStyle="regularSquare" imagePosition="left" inset="2" id="55e-xt-ZZb">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -775,11 +775,11 @@ In general the folder should contain application aliases. The order of the folde
                     </connections>
                 </button>
                 <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="I6E-4E-Yjy">
-                    <rect key="frame" x="12" y="137" width="456" height="5"/>
+                    <rect key="frame" x="12" y="151" width="456" height="5"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </box>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fiq-GT-v0s">
-                    <rect key="frame" x="18" y="114" width="142" height="17"/>
+                    <rect key="frame" x="18" y="128" width="142" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Now Playing:" id="L02-hZ-zyI">
                         <font key="font" metaFont="system"/>
@@ -788,7 +788,7 @@ In general the folder should contain application aliases. The order of the folde
                     </textFieldCell>
                 </textField>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eqO-VX-2bv">
-                    <rect key="frame" x="164" y="113" width="167" height="18"/>
+                    <rect key="frame" x="164" y="127" width="167" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Show Active App on tap" bezelStyle="regularSquare" imagePosition="left" inset="2" id="uz8-aB-xYU">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -800,7 +800,7 @@ In general the folder should contain application aliases. The order of the folde
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="USC-AH-45D">
-                    <rect key="frame" x="164" y="93" width="138" height="18"/>
+                    <rect key="frame" x="164" y="107" width="138" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Show TODO on tap" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Mto-BT-G8j">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -812,7 +812,7 @@ In general the folder should contain application aliases. The order of the folde
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RyZ-fr-A00">
-                    <rect key="frame" x="164" y="73" width="135" height="18"/>
+                    <rect key="frame" x="164" y="87" width="135" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Show small widget" bezelStyle="regularSquare" imagePosition="left" inset="2" id="UGf-rj-KDL">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -823,8 +823,20 @@ In general the folder should contain application aliases. The order of the folde
                         <binding destination="pJh-SC-QEV" name="value" keyPath="values.nowPlayingShowsSmallWidget" id="Dkh-Ho-azL"/>
                     </connections>
                 </button>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CyB-mC-LuD" userLabel="Show album art">
+                    <rect key="frame" x="164" y="67" width="117" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Show album art" bezelStyle="regularSquare" imagePosition="left" inset="2" id="OFz-tM-5o2" userLabel="Show album art">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="nowPlayingWidgetSettingsChange:" target="Voe-Tx-rLC" id="BW9-Ds-FDd"/>
+                        <binding destination="pJh-SC-QEV" name="value" keyPath="values.nowPlayingShowsAlbumArt" id="Hn9-4I-KUa"/>
+                    </connections>
+                </button>
                 <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="LoK-QN-C3r">
-                    <rect key="frame" x="10" y="64" width="456" height="5"/>
+                    <rect key="frame" x="10" y="60" width="456" height="5"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </box>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pk9-0C-mnW">
@@ -880,7 +892,7 @@ In general the folder should contain application aliases. The order of the folde
                     </connections>
                 </button>
             </subviews>
-            <point key="canvasLocation" x="85" y="-442"/>
+            <point key="canvasLocation" x="85" y="-435"/>
         </customView>
         <customView id="oZG-ix-yVe">
             <rect key="frame" x="0.0" y="0.0" width="480" height="380"/>

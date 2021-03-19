@@ -1,15 +1,7 @@
 /**
  * @file NowPlayingWidget.m
- *
- * @copyright 2018-2019 Bill Zissimopoulos
  */
-/*
- * This file is part of EnergyBar.
- *
- * You can redistribute it and/or modify it under the terms of the GNU
- * General Public License version 3 as published by the Free Software
- * Foundation.
- */
+
 
 #import "NowPlayingWidget.h"
 #import "ActiveAppWidget.h"
@@ -17,14 +9,16 @@
 #import "NowPlaying.h"
 #import "TodoWidget.h"
 
-@interface NowPlayingWidgetView : ImageTitleView
+@interface NowPlayingWidgetView : LeftImageTitleView
 @property (assign) BOOL showsSmallWidget;
+@property (assign) BOOL showsAlbumArt;
 @end
 
 @implementation NowPlayingWidgetView
+
 - (NSSize)intrinsicContentSize
 {
-    return NSMakeSize(self.showsSmallWidget ? 130 : 180, NSViewNoIntrinsicMetric);
+    return NSMakeSize(self.showsSmallWidget ? 130 : 240, NSViewNoInstrinsicMetric);
 }
 @end
 
@@ -36,11 +30,11 @@
 {
     self.customizationLabel = @"Now Playing";
 
-    ImageTitleView *imageTitleView = [[[NowPlayingWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
+    LeftImageTitleView *imageTitleView = [[[NowPlayingWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
     imageTitleView.wantsLayer = YES;
-    imageTitleView.layer.cornerRadius = 8.0;
+    imageTitleView.layer.cornerRadius = 0;
     imageTitleView.layer.backgroundColor = [[NSColor colorWithWhite:0.0 alpha:0.5] CGColor];
-    imageTitleView.imageSize = NSMakeSize(26, 26);
+    imageTitleView.imageSize = NSMakeSize(28, 28);
     imageTitleView.titleFont = [NSFont boldSystemFontOfSize:[NSFont
         systemFontSizeForControlSize:NSControlSizeSmall]];
     imageTitleView.titleLineBreakMode = NSLineBreakByTruncatingTail;
@@ -50,6 +44,13 @@
     imageTitleView.layoutOptions = ImageTitleViewLayoutOptionTitle;
     imageTitleView.title = @"♫";
     self.view = imageTitleView;
+    /* this can possibly be here as well, similar to the one in todo widget...
+    NSPressGestureRecognizer *longPressRecognizer = [[[NSPressGestureRecognizer alloc]
+        initWithTarget:self action:@selector(longPressAction_:)] autorelease];
+    longPressRecognizer.allowedTouchTypes = NSTouchTypeMaskDirect;
+    longPressRecognizer.minimumPressDuration = SuperLongPressDuration;
+    [self.view addGestureRecognizer:longPressRecognizer];
+     */
 }
 
 - (void)dealloc
@@ -80,14 +81,22 @@
 - (void)resetNowPlaying
 {
     NSImage *icon = [NowPlaying sharedInstance].appIcon;
+    NSString *appName = [NowPlaying sharedInstance].appName;
     NSString *title = [NowPlaying sharedInstance].title;
     NSString *subtitle = [NowPlaying sharedInstance].artist;
-
+    NSImage *albumArt = [NowPlaying sharedInstance].albumArt;
+    
     if (nil == icon && nil == title && nil == subtitle)
-        title = @"♫";
-
+    {
+        title = @"";
+    }
+       else if (nil == title && nil == subtitle)
+       {
+           title = appName;
+       }
+        
     ImageTitleViewLayoutOptions layoutOptions = 0;
-    if (nil != icon)
+    if (nil != icon || nil != albumArt)
         layoutOptions = layoutOptions | ImageTitleViewLayoutOptionImage;
     if (nil != title)
         layoutOptions = layoutOptions | ImageTitleViewLayoutOptionTitle;
@@ -95,7 +104,14 @@
         layoutOptions = layoutOptions | ImageTitleViewLayoutOptionSubtitle;
 
     NowPlayingWidgetView *view = self.view;
-    view.image = icon;
+    if (view.showsAlbumArt && nil != albumArt)
+    {
+        view.image = albumArt;
+    }
+    else if (nil != icon)
+    {
+        view.image = icon;
+    }
     view.title = title;
     view.subtitle = subtitle;
     view.layoutOptions = layoutOptions;
@@ -119,7 +135,7 @@
 
     if (!value)
     {
-        imageTitleView.imageSize = NSMakeSize(26, 26);
+        imageTitleView.imageSize = NSMakeSize(28, 28);
         imageTitleView.titleFont = [NSFont boldSystemFontOfSize:[NSFont
             systemFontSizeForControlSize:NSControlSizeSmall]];
         imageTitleView.subtitleFont = [NSFont systemFontOfSize:[NSFont
@@ -133,6 +149,16 @@
         imageTitleView.subtitleFont = [NSFont systemFontOfSize:[NSFont
             systemFontSizeForControlSize:NSControlSizeMini]];
     }
+}
+- (BOOL)showsAlbumArt
+{
+    NowPlayingWidgetView *imageTitleView = self.view;
+    return imageTitleView.showsAlbumArt;
+}
+- (void)setShowsAlbumArt:(BOOL)value
+{
+    NowPlayingWidgetView *imageTitleView = self.view;
+    imageTitleView.showsAlbumArt = value;
 }
 @end
 
@@ -233,8 +259,31 @@
     TodoWidget *todo = (id)[self widgetWithIdentifier:@"_Todo"];
     [todo reset];
 }
+/* this can possibly be placed here
+- (void)longPressAction_:(NSGestureRecognizer *)recognizer
+{
+    if (NSGestureRecognizerStateBegan != recognizer.state)
+        return;
 
-- (void)longPressAction:(id)sender
+    [self longPressAction:self];
+}
+*/
+
+/*
+ this should be longpressaction to have an effect, but due to previous changes that would make the tap action way too reactive.
+*/
+
+- (BOOL)showsAlbumArt
+{
+    return [(id)[self.widgets objectAtIndex:0] showsAlbumArt];
+}
+- (void)setShowsAlbumArt:(BOOL)value
+{
+    [(id)[self.widgets objectAtIndex:0] setShowsAlbumArt:value];
+    [(id)[self.widgets objectAtIndex:0] resetNowPlaying];
+}
+
+- (void)superLongPressAction:(id)sender
 {
     NSString *appBundleIdentifier = [NowPlaying sharedInstance].appBundleIdentifier;
     if (nil != appBundleIdentifier)

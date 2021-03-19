@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14113" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaDFRPlugin" version="14019"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14113"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaDFRPlugin" version="17008"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
         <capability name="the Touch Bar" minToolsVersion="8.1" minSystemVersion="10.12.2" requiredIntegratedClassName="NSTouchBar"/>
     </dependencies>
@@ -24,7 +25,6 @@
                     <viewController key="viewController" id="SaV-eI-sYh">
                         <scrubber key="view" mode="1" showsAdditionalContentIndicators="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uFd-JH-maz">
                             <rect key="frame" x="0.0" y="0.0" width="361" height="30"/>
-                            <autoresizingMask key="autoresizingMask"/>
                             <scrubberFlowLayout key="scrubberLayout"/>
                             <connections>
                                 <outlet property="dataSource" destination="-2" id="jVW-47-LzJ"/>
@@ -35,9 +35,8 @@
                 </touchBarItem>
                 <touchBarItem identifier="label" id="DnJ-3j-uex">
                     <viewController key="viewController" id="Suz-cv-n0I">
-                        <textField key="view" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="t0v-Eu-9iL">
+                        <textField key="view" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="t0v-Eu-9iL">
                             <rect key="frame" x="0.0" y="0.0" width="76" height="24"/>
-                            <autoresizingMask key="autoresizingMask"/>
                             <textFieldCell key="cell" borderStyle="bezel" alignment="left" title="100+ files" drawsBackground="YES" id="7gF-dz-Ywu">
                                 <font key="font" usesAppearanceFont="YES"/>
                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -51,7 +50,6 @@
                     <viewController key="viewController" id="k8I-lu-ixc">
                         <button key="view" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IP7-jX-LxD">
                             <rect key="frame" x="0.0" y="0.0" width="72" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="push" title="Empty" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="DsA-Pc-ENe">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" usesAppearanceFont="YES"/>
@@ -68,7 +66,6 @@
                     <viewController key="viewController" id="Hoy-l6-Nbt">
                         <button key="view" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ukb-8N-WOM">
                             <rect key="frame" x="0.0" y="0.0" width="72" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="push" title="Open" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7j4-Qq-0kP">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" usesAppearanceFont="YES"/>
@@ -85,7 +82,6 @@
                     <viewController key="viewController" id="BeH-mh-8NO">
                         <button key="view" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ga6-PK-qXk">
                             <rect key="frame" x="0.0" y="0.0" width="72" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="Close" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="pe2-h4-zf6">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" usesAppearanceFont="YES"/>
@@ -102,6 +98,6 @@
         </touchBar>
     </objects>
     <resources>
-        <image name="Close" width="60" height="60"/>
+        <image name="Close" width="30" height="30"/>
     </resources>
 </document>

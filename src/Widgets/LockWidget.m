@@ -22,7 +22,7 @@ void SACLockScreenImmediate(void);
 @implementation LockWidgetView
 - (NSSize)intrinsicContentSize
 {
-    return NSMakeSize(36, NSViewNoIntrinsicMetric);
+    return NSMakeSize(15, NSViewNoIntrinsicMetric);
 }
 @end
 
@@ -35,7 +35,7 @@ void SACLockScreenImmediate(void);
     view.wantsLayer = YES;
     view.layer.cornerRadius = 8.0;
     view.layer.backgroundColor = [[NSColor colorWithWhite:0.0 alpha:0.5] CGColor];
-    view.imageSize = NSMakeSize(15, 30);
+    view.imageSize = NSMakeSize(15, 15);
     view.layoutOptions = ImageTitleViewLayoutOptionImage;
     view.image = self.lockImage;
     

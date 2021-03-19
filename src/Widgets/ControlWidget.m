@@ -453,8 +453,9 @@
 
 - (void)commonInit
 {
-    self.brightnessBarController = [ControlWidgetBrightnessBarController controller];
+/*    self.brightnessBarController = [ControlWidgetBrightnessBarController controller];
     self.volumeBarController = [ControlWidgetVolumeBarController controller];
+ */
 
     NSPressGestureRecognizer *shortPress = [[[NSPressGestureRecognizer alloc]
         initWithTarget:self action:@selector(shortPressAction:)] autorelease];

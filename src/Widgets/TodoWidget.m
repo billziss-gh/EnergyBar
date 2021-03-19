@@ -16,19 +16,18 @@
 #import <EventKit/EventKit.h>
 #include <pthread.h>
 
-@interface TodoWidgetView : ImageTitleView
+@interface TodoWidgetView : RightImageTitleView
 @property (assign) BOOL showsSmallWidget;
 @end
 
 @implementation TodoWidgetView
 - (NSSize)intrinsicContentSize
 {
-    return NSMakeSize(self.showsSmallWidget ? 130 : 180, NSViewNoIntrinsicMetric);
+    return NSMakeSize(self.showsSmallWidget ? 130 : 140, NSViewNoIntrinsicMetric);
 }
 @end
 
 @interface TodoWidget ()
-@property (copy) NSString *calendarAppIdentifier;
 @property (copy) NSString *calendarIdentifier;
 @property (copy) NSString *calendarItemIdentifier;
 @end
@@ -44,7 +43,7 @@ static EKEventStore *eventStore;
 {
     self.customizationLabel = @"TODO";
 
-    ImageTitleView *imageTitleView = [[[TodoWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
+    RightImageTitleView *imageTitleView = [[[TodoWidgetView alloc] initWithFrame:NSZeroRect] autorelease];
     imageTitleView.wantsLayer = YES;
     imageTitleView.layer.cornerRadius = 8.0;
     imageTitleView.layer.backgroundColor = [[NSColor colorWithWhite:0.0 alpha:0.5] CGColor];
@@ -59,8 +58,9 @@ static EKEventStore *eventStore;
     NSPressGestureRecognizer *longPressRecognizer = [[[NSPressGestureRecognizer alloc]
         initWithTarget:self action:@selector(longPressAction_:)] autorelease];
     longPressRecognizer.allowedTouchTypes = NSTouchTypeMaskDirect;
-    longPressRecognizer.minimumPressDuration = LongPressDuration;
+    longPressRecognizer.minimumPressDuration = SuperLongPressDuration;
     [self.view addGestureRecognizer:longPressRecognizer];
+
 }
 
 - (void)dealloc
@@ -68,7 +68,6 @@ static EKEventStore *eventStore;
     [[NSNotificationCenter defaultCenter]
         removeObserver:self];
 
-    self.calendarAppIdentifier = nil;
     self.calendarIdentifier = nil;
     self.calendarItemIdentifier = nil;
 
@@ -227,34 +226,22 @@ static EKEventStore *eventStore;
 
 - (void)resetWithEvent:(EKEvent *)event
 {
-    self.calendarAppIdentifier = @"com.apple.iCal";
     self.calendarIdentifier = event.calendar.calendarIdentifier;
     self.calendarItemIdentifier = event.calendarItemExternalIdentifier;
 
-    NSString *path = [[NSWorkspace sharedWorkspace]
-        absolutePathForAppBundleWithIdentifier:self.calendarAppIdentifier];
-    NSImage *image = [[NSWorkspace sharedWorkspace] iconForFile:path];
-
     ImageTitleView *view = self.view;
     view.layoutOptions = ImageTitleViewLayoutOptionImage | ImageTitleViewLayoutOptionTitle;
-    view.image = image;
     view.titleColor = [NSColor labelColor];
     view.title = event.title;
 }
 
 - (void)resetWithReminder:(EKReminder *)reminder
 {
-    self.calendarAppIdentifier = @"com.apple.reminders";
     self.calendarIdentifier = reminder.calendar.calendarIdentifier;
     self.calendarItemIdentifier = reminder.calendarItemIdentifier;
 
-    NSString *path = [[NSWorkspace sharedWorkspace]
-        absolutePathForAppBundleWithIdentifier:self.calendarAppIdentifier];
-    NSImage *image = [[NSWorkspace sharedWorkspace] iconForFile:path];
-
     ImageTitleView *view = self.view;
     view.layoutOptions = ImageTitleViewLayoutOptionImage | ImageTitleViewLayoutOptionTitle;
-    view.image = image;
     switch (reminder.priority)
     {
     case EKReminderPriorityHigh:
@@ -275,7 +262,6 @@ static EKEventStore *eventStore;
 
 - (void)resetWithNil
 {
-    self.calendarAppIdentifier = nil;
     self.calendarIdentifier = nil;
     self.calendarItemIdentifier = nil;
 
@@ -283,7 +269,7 @@ static EKEventStore *eventStore;
     view.layoutOptions = ImageTitleViewLayoutOptionTitle;
     view.image = nil;
     view.titleColor = [NSColor labelColor];
-    view.title = @"--";
+    view.title = @"";
 }
 
 - (void)longPressAction_:(NSGestureRecognizer *)recognizer
@@ -297,7 +283,7 @@ static EKEventStore *eventStore;
 - (void)longPressAction:(id)sender
 {
     NSString *source;
-    if ([self.calendarAppIdentifier isEqualToString:@"com.apple.iCal"])
+    if (1 == 1)
         source = [NSString stringWithFormat:@""
             "tell application \"Calendar\"\n"
             "    activate\n"
@@ -308,14 +294,6 @@ static EKEventStore *eventStore;
             "    end tell\n"
             "end tell\n",
             self.calendarIdentifier, self.calendarItemIdentifier];
-    else if ([self.calendarAppIdentifier isEqualToString:@"com.apple.reminders"])
-        source = [NSString stringWithFormat:@""
-            "tell application \"Reminders\"\n"
-            "    activate\n"
-            "    set theReminder to first reminder whose id = \"x-apple-reminder://%@\"\n"
-            "    show theReminder\n"
-            "end tell\n",
-            self.calendarItemIdentifier];
     else
         return;
 
