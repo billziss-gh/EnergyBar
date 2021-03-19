@@ -20,7 +20,6 @@
                 <outlet property="advancedView" destination="oZG-ix-yVe" id="3z9-fm-EUd"/>
                 <outlet property="generalView" destination="LNX-xt-gFC" id="b0m-l1-kLf"/>
                 <outlet property="loginItemButton" destination="RWM-KH-Fhd" id="Oo9-Kl-2aa"/>
-                <outlet property="sourceLinkButton" destination="nK8-ls-cQK" id="g3a-cL-3hj"/>
                 <outlet property="toggleMacOSDockButton" destination="z4v-MZ-bcj" id="c73-ft-KUz"/>
                 <outlet property="touchBarController" destination="K6h-9q-8nk" id="7Zg-VL-ES5"/>
                 <outlet property="versionButton" destination="Kc9-lK-7Lx" id="U4x-KZ-gpp"/>
@@ -461,35 +460,12 @@
                         </connections>
                     </toolbarItem>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="SwY-rr-Cj9"/>
-                    <toolbarItem implicitItemIdentifier="9C19E899-99FD-4F5F-B77B-E01FE4D47B55" label="" paletteLabel="" tag="-1" id="gEB-TW-tfq">
-                        <nil key="toolTip"/>
-                        <size key="minSize" width="80" height="20"/>
-                        <size key="maxSize" width="80" height="20"/>
-                        <customView key="view" id="GHg-an-yv5">
-                            <rect key="frame" x="0.0" y="14" width="80" height="20"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <subviews>
-                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nK8-ls-cQK">
-                                    <rect key="frame" x="11" y="1" width="69" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                    <buttonCell key="cell" type="bevel" title="GitHub" bezelStyle="rounded" alignment="center" controlSize="small" imageScaling="proportionallyDown" inset="2" id="YQB-Vz-BDf">
-                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <action selector="sourceItemAction:" target="Voe-Tx-rLC" id="Vyc-8y-ubr"/>
-                                    </connections>
-                                </button>
-                            </subviews>
-                        </customView>
-                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="k0U-oH-tgo"/>
                     <toolbarItem reference="VlL-5g-N0g"/>
                     <toolbarItem reference="Aue-HY-u60"/>
                     <toolbarItem reference="SwY-rr-Cj9"/>
-                    <toolbarItem reference="gEB-TW-tfq"/>
                 </defaultToolbarItems>
             </toolbar>
             <connections>
