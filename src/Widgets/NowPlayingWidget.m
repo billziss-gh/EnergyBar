@@ -85,6 +85,7 @@
     NSString *title = [NowPlaying sharedInstance].title;
     NSString *subtitle = [NowPlaying sharedInstance].artist;
     NSImage *albumArt = [NowPlaying sharedInstance].albumArt;
+    NSString *appBundleIdentifier = [NowPlaying sharedInstance].appBundleIdentifier;
     
     if (nil == icon && nil == title && nil == subtitle)
     {
@@ -94,6 +95,15 @@
        {
            title = appName;
        }
+    
+       else if (nil == subtitle && nil != icon && nil != title)
+        {
+            subtitle = appName;
+            if (appName == nil)
+            {
+                subtitle = appBundleIdentifier;
+            }
+        }
         
     ImageTitleViewLayoutOptions layoutOptions = 0;
     if (nil != icon || nil != albumArt)
