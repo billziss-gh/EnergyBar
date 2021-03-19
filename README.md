@@ -13,6 +13,7 @@ This version of the app revamps the look of certain widgets to achieve a more mi
 
 ### Now Playing Widget
 - Added album art support (credit to iamslan, but still buggy)
+    - The bug seems to be within NowPlaying.m, issue where updateInfo and updateState will conflict and will return appIcon instead of albumArt.
 - Realigned to the left (instead of the centre)
 - Removed long tap function
 
