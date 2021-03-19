@@ -109,7 +109,7 @@ extern NSString *kMRMediaRemoteNowPlayingInfoArtworkData;
     [super dealloc];
 }
 
-- (void)updateApp
+- (void)updateApp /* to change icon/title when changing between applications */
 {
     MRMediaRemoteGetNowPlayingClient(dispatch_get_main_queue(),
         ^(id clientObj)
@@ -159,7 +159,8 @@ extern NSString *kMRMediaRemoteNowPlayingInfoArtworkData;
                     [[NSUserDefaults standardUserDefaults] synchronize];
                 }
             }
-        self.safariIcon = [NSImage imageNamed:@"Safari"];
+        /* for Safari icon*/
+        self.safariIcon = [[NSWorkspace sharedWorkspace] iconForFile:@"/Applications/Safari.app"];
         if ([self.appBundleIdentifier isEqualToString:@"com.apple.WebKit.WebContent"])
             {
                 self.appIcon = self.safariIcon;
@@ -167,7 +168,7 @@ extern NSString *kMRMediaRemoteNowPlayingInfoArtworkData;
         });
 }
 
-- (void)updateInfo
+- (void)updateInfo /* for changing between songs/tracks/media within an application */
 {
     MRMediaRemoteGetNowPlayingInfo(dispatch_get_main_queue(),
         ^(NSDictionary *info)
@@ -198,7 +199,7 @@ extern NSString *kMRMediaRemoteNowPlayingInfoArtworkData;
         });
 }
 
-- (void)updateState
+- (void)updateState /* pause/play */
 {
     MRMediaRemoteGetNowPlayingApplicationIsPlaying(dispatch_get_main_queue(),
         ^(BOOL playing)
