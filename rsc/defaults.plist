@@ -152,17 +152,17 @@
 	<key>showsTodoOnTap</key>
 	<false/>
 	<key>showsFoldersInTouchBar</key>
-	<true/>
-	<key>showsRunningApps</key>
-	<true/>
-	<key>showsTrash</key>
-	<true/>
-	<key>todoShowsEvents</key>
 	<false/>
+	<key>showsRunningApps</key>
+	<false/>
+	<key>showsTrash</key>
+	<false/>
+	<key>todoShowsEvents</key>
+	<true/>
 	<key>todoShowsEventsHours</key>
 	<integer>2</integer>
 	<key>todoShowsReminders</key>
-	<true/>
+	<false/>
 	<key>weatherShowsFahrenheit</key>
 	<false/>
 	<key>showsAlbumArt</key>
