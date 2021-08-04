@@ -190,6 +190,19 @@ static const CGFloat TouchBarWidthInTouchBarUnits = 1085;
     }
 }
 
+- (void)scrollWheel:(NSEvent *)event
+{
+    if ([self.delegate respondsToSelector:@selector(edgeWindowController:scrollWheelHorizontally:atPoint:)])
+    {
+        if (nil == _trackTimer)
+            return;
+
+        CGFloat deltaX = [event deltaX];
+        NSPoint point = [self convertBaseToTouchBar:[event locationInWindow]];
+        [self.delegate edgeWindowController:self scrollWheelHorizontally:deltaX atPoint:point];
+    }
+}
+
 - (BOOL)wantsPeriodicDraggingUpdates
 {
     return YES;
