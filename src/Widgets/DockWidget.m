@@ -567,8 +567,12 @@ static NSShadow *shadowWithOffset(NSSize shadowOffset)
     if ([dragView isKindOfClass:[DockWidgetItemView class]]){
         NSRect r = [self.scrubber frame];
         NSInteger visibleItemLength = floor(r.size.width / dockItemSize.width);
+        NSInteger partiallyVisibleItemWidth = fmod(r.size.width, dockItemSize.width);
         CGFloat scrollDiff = [[[self.scrubber subviews][0] subviews][0] bounds].origin.x;
-        NSInteger index = floor((scrollDiff + 9) / dockItemSize.width);
+        // Padding partially visible width for the case of vitual right-side aligned items which often occurs while scrolling.
+        // note: `partiallyVisibleItemWidth` is always shorter than item width,
+        // thus, index won't skip by this padding.
+        NSInteger index = floor((scrollDiff + partiallyVisibleItemWidth) / dockItemSize.width);
         
         NSRange currentRange = NSMakeRange(index, visibleItemLength);
         NSInteger n = [self.scrubber numberOfItems];
