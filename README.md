@@ -1,3 +1,10 @@
+<p align="center">
+    <b>THIS PROJECT IS NOW ARCHIVED. SEE <a href="https://github.com/billziss-gh/EnergyBar/network">FORKS</a> OF THIS PROJECT.</b>
+    <br/>
+    <br/>
+    <br/>
+</p>
+
 <h1 align="center">
     EnergyBar &middot; Supercharge your Mac's Touch Bar<br/>
 </h1>
