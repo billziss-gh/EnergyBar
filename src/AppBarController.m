@@ -47,6 +47,7 @@
         @"Dock",
         @"Control",
         @"Clock",
+        @"Net",
         nil];
     self.touchBar.customizationAllowedItemIdentifiers = [NSArray arrayWithObjects:
         @"Dock",
@@ -58,6 +59,7 @@
         @"Weather",
         @"Clock",
         @"Lock",
+        @"Net",
         NSTouchBarItemIdentifierFlexibleSpace,
         nil];
 
