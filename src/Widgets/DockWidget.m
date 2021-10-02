@@ -344,6 +344,7 @@ static NSShadow *shadowWithOffset(NSSize shadowOffset)
 >
 @property (retain) EdgeWindowController *edgeWindowController;
 @property (retain) FolderController *folderController;
+@property (retain) NSScrubber *scrubber;
 @property (retain) NSArray *defaultApps;
 @property (retain) NSArray *runningApps;    /* running apps other than default */
 @property (retain) NSView *prominentView;
@@ -375,6 +376,7 @@ static NSShadow *shadowWithOffset(NSSize shadowOffset)
     scrubber.continuous = NO;
     scrubber.itemAlignment = NSScrubberAlignmentNone;
     scrubber.scrubberLayout = layout;
+    self.scrubber = scrubber;
 
     NSStackView *leftItemView = [NSStackView stackViewWithViews:[NSArray array]];
     leftItemView.userInterfaceLayoutDirection = NSUserInterfaceLayoutDirectionLeftToRight;
@@ -554,6 +556,35 @@ static NSShadow *shadowWithOffset(NSSize shadowOffset)
             [[NSWorkspace sharedWorkspace] openURL:url];
         else
             [[NSWorkspace sharedWorkspace] openTrash];
+    }
+}
+
+- (void)edgeWindowController:(EdgeWindowController *)controller
+     scrollWheelHorizontally:(CGFloat)deltaX atPoint:(NSPoint)point
+{
+    DockWidgetView *view = self.view;
+    NSView *dragView = [view dragViewAtPoint:point];
+    if ([dragView isKindOfClass:[DockWidgetItemView class]]){
+        NSRect r = [self.scrubber frame];
+        NSInteger visibleItemLength = floor(r.size.width / dockItemSize.width);
+        NSInteger partiallyVisibleItemWidth = fmod(r.size.width, dockItemSize.width);
+        CGFloat scrollDiff = [[[self.scrubber subviews][0] subviews][0] bounds].origin.x;
+        // Padding partially visible width for the case of vitual right-side aligned items which often occurs while scrolling.
+        // note: `partiallyVisibleItemWidth` is always shorter than item width,
+        // thus, index won't skip by this padding.
+        NSInteger index = floor((scrollDiff + partiallyVisibleItemWidth) / dockItemSize.width);
+        
+        NSRange currentRange = NSMakeRange(index, visibleItemLength);
+        NSInteger n = [self.scrubber numberOfItems];
+        if(deltaX < -0.5)
+            [[self.scrubber animator] scrollItemAtIndex:
+             currentRange.location+currentRange.length>=n?n-1:
+             currentRange.location+currentRange.length
+                                            toAlignment:NSScrubberAlignmentNone];
+        else if (deltaX > 0.5)
+            [[self.scrubber animator] scrollItemAtIndex:
+             currentRange.location < 1?0:
+             currentRange.location-1 toAlignment:NSScrubberAlignmentNone];
     }
 }
 

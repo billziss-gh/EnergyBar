@@ -20,6 +20,8 @@
 - (void)edgeWindowController:(EdgeWindowController *)controller
     mouseHoverAtPoint:(NSPoint)point;
 - (void)edgeWindowController:(EdgeWindowController *)controller
+    scrollWheelHorizontally:(CGFloat)deltaX atPoint:(NSPoint)point;
+- (void)edgeWindowController:(EdgeWindowController *)controller
     mouseClickAtPoint:(NSPoint)point;
 - (NSDragOperation)edgeWindowController:(EdgeWindowController *)controller
     dragURLs:(NSArray *)urls atPoint:(NSPoint)point operation:(NSDragOperation)operation;
